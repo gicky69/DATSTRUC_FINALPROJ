@@ -16,6 +16,9 @@ public class Main implements Runnable {
         GamePanel = new GamePanel();
         GamePanel.setSize(1920, 1080);
 
+        frame.add(GamePanel);
+        frame.setVisible(true);
+
         start();
     }
 
@@ -25,7 +28,7 @@ public class Main implements Runnable {
     }
     public void run() {
         while (true){
-
+            GamePanel.repaint();
             try {
                 Thread.sleep(1000/60);
             } catch (InterruptedException e) {
