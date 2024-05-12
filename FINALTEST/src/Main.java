@@ -1,10 +1,13 @@
 import javax.swing.*;
-import java.awt.*;
 
-public class Main implements Runnable {
+public class Main {
     JFrame frame;
-    Thread GameThread;
+
+    JButton StartButton;
+    JButton ExitButton;
+
     GamePanel GamePanel;
+
     public Main() {
         frame = new JFrame("Final Test");
         frame.setSize(1920, 1080);
@@ -13,29 +16,28 @@ public class Main implements Runnable {
         frame.setLayout(null);
         frame.setResizable(false);
 
-        GamePanel = new GamePanel();
-        GamePanel.setSize(1920, 1080);
+        StartButton = new JButton("Start");
+        StartButton.setBounds(860, 500, 100, 50);
+        frame.add(StartButton);
 
-        frame.add(GamePanel);
+        ExitButton = new JButton("Exit");
+        ExitButton.setBounds(860, 600, 100, 50);
+        frame.add(ExitButton);
+
+        GamePanel = new GamePanel();
+
         frame.setVisible(true);
 
-        start();
+        StartButton.addActionListener(e -> {
+            frame.getContentPane().removeAll();
+            GamePanel.setBounds(0, 0, frame.getWidth(), frame.getHeight());
+            frame.add(GamePanel);
+            GamePanel.requestFocusInWindow();
+            frame.revalidate();
+            frame.repaint();
+        });
     }
 
-    public void start() {
-        GameThread = new Thread(this);
-        GameThread.start();
-    }
-    public void run() {
-        while (true){
-            GamePanel.repaint();
-            try {
-                Thread.sleep(1000/60);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
     public static void main(String[] args) {
         new Main();
     }
