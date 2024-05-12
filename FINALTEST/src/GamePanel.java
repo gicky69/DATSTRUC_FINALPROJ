@@ -37,6 +37,8 @@ public class GamePanel extends JPanel implements Runnable {
     int playerX = 100;
     int playerY = 100;
 
+    enemyTEST enemy = new enemyTEST();
+
     public GamePanel() {
 
         this.setLayout(null);
@@ -87,6 +89,7 @@ public class GamePanel extends JPanel implements Runnable {
             if (delta >= 1) {
                 update();
                 this.repaint();
+
                 delta--;
                 drawCount++;
             }
@@ -105,8 +108,11 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D g2d = (Graphics2D) g;
 
         // Eto yung player
-        g2d.setColor(Color.RED);
+        g2d.setColor(Color.GREEN);
         g2d.fillRect(playerX, playerY, 50, 50);
+
+        // Eto yung enemy
+        enemy.update(g);
     }
 
 }
