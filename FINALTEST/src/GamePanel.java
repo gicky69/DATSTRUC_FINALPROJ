@@ -114,5 +114,4 @@ public class GamePanel extends JPanel implements Runnable {
         // Eto yung enemy
         enemy.update(g);
     }
-
 }
