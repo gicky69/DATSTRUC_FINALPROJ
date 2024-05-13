@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
 class KeyHandler implements KeyListener {
 
     public boolean up, down, left, right;
+    public boolean lastDirectionRight = true; // Assuming the default direction is right
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -14,10 +15,22 @@ class KeyHandler implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_W) up = true;
-        if (e.getKeyCode() == KeyEvent.VK_S) down = true;
-        if (e.getKeyCode() == KeyEvent.VK_A) left = true;
-        if (e.getKeyCode() == KeyEvent.VK_D) right = true;
+        if (e.getKeyCode() == KeyEvent.VK_W){
+            up = true;
+            lastDirectionRight = false; // Reset the last direction when a new direction is pressed
+        }
+        if (e.getKeyCode() == KeyEvent.VK_S){
+            down = true;
+            lastDirectionRight = true;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_A){
+            left = true;
+            lastDirectionRight = false;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_D){
+            right = true;
+            lastDirectionRight = true;
+        }
     }
 
     @Override
@@ -39,12 +52,22 @@ public class GamePanel extends JPanel implements Runnable {
 
     enemyTEST enemy = new enemyTEST();
 
+    // initialize moving object (Ame)
+    ImageIcon myAmeL, myAmeR, myAmeU, myAmeD, myAmeDefaultR, myAmeDefaultL;
+
     public GamePanel() {
+
+        myAmeDefaultR = new ImageIcon("FINALTEST/images/GamePanel/MC_Default_Right-GamePanel.gif");
+        myAmeDefaultL = new ImageIcon("FINALTEST/images/GamePanel/MC_Default_Left-GamePanel.gif");
+        myAmeL = new ImageIcon("FINALTEST/images/GamePanel/MC_Left-GamePanel.gif");
+        myAmeR = new ImageIcon("FINALTEST/images/GamePanel/MC_Right-GamePanel.gif");
+        myAmeU = new ImageIcon("FINALTEST/images/GamePanel/MC_UP-GamePanel.gif");
+        myAmeD = new ImageIcon("FINALTEST/images/GamePanel/MC_Down-GamePanel.gif");
 
         this.setLayout(null);
         this.setPreferredSize(new Dimension(1920, 1080));
         this.setDoubleBuffered(true);
-        this.setBackground(Color.BLACK);
+        this.setBackground(Color.GRAY);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
 
@@ -57,6 +80,8 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
+
+
         if (keyHandler.up) {
             playerY -= playerSpeed;
         }
@@ -107,9 +132,29 @@ public class GamePanel extends JPanel implements Runnable {
 
         Graphics2D g2d = (Graphics2D) g;
 
-        // Eto yung player
-        g2d.setColor(Color.GREEN);
-        g2d.fillRect(playerX, playerY, 50, 50);
+        // Eto yung player for green square
+        /*g2d.setColor(Color.GREEN);
+        g2d.fillRect(playerX, playerY, 50, 50);*/
+
+        //Ame on Idle:
+        if (!keyHandler.up && !keyHandler.down && !keyHandler.left && !keyHandler.right){
+            if (keyHandler.lastDirectionRight) {
+                g2d.drawImage(myAmeDefaultR.getImage(), playerX, playerY, null);
+            } else {
+                g2d.drawImage(myAmeDefaultL.getImage(), playerX, playerY, null);
+            }
+        } else {
+            // Implementing movingAme:
+            if (keyHandler.up){
+                g2d.drawImage(myAmeU.getImage(), playerX, playerY, null);
+            } else if (keyHandler.down) {
+                g2d.drawImage(myAmeD.getImage(), playerX, playerY, null);
+            } else if (keyHandler.left) {
+                g2d.drawImage(myAmeL.getImage(), playerX, playerY, null);
+            } else if (keyHandler.right) {
+                g2d.drawImage(myAmeR.getImage(), playerX, playerY, null);
+            }
+        }
 
         // Eto yung enemy
         enemy.update(g);
