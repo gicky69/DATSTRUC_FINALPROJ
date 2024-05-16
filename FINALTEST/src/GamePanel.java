@@ -80,8 +80,6 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-
-
         if (keyHandler.up) {
             playerY -= playerSpeed;
         }
@@ -157,6 +155,6 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
         // Eto yung enemy
-        enemy.update(g);
+        enemy.update(g, this);
     }
 }
