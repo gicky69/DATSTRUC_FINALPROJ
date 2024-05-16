@@ -1,7 +1,5 @@
 import javax.swing.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.sql.SQLOutput;
 
 public class LoginPanel extends JPanel {
@@ -9,13 +7,12 @@ public class LoginPanel extends JPanel {
     GamePanel gamePanel;
     UserValidation userValidation;
     Frame mainFrame;
-    JButton resetButton, loginButton;
+    JButton resetButton, loginButton, registerButton;
     JTextField usernameField, passwordField;
-    Boolean isValid = true;
 
     public LoginPanel(Frame mainFrame) {
         this.mainFrame = mainFrame;
-        mainFrame.frame.setVisible(false);
+        mainFrame.frame.setVisible(true);
         gamePanel = new GamePanel();
         userValidation = new UserValidation();
 
@@ -38,6 +35,10 @@ public class LoginPanel extends JPanel {
         resetButton.setBounds(860, 500, 100, 50);
         this.add(resetButton);
 
+        registerButton = new JButton("Register");
+        registerButton.setBounds(860, 700, 100, 50);
+        this.add(registerButton);
+
         loginButton.addActionListener(e -> {
             // will store true/false
             boolean isLoginSuccessful = userValidation.login(usernameField.getText(), passwordField.getText());
@@ -54,6 +55,19 @@ public class LoginPanel extends JPanel {
                 System.out.println("Login failed.");
             }
         });
+
+        registerButton.addActionListener(e -> {
+            boolean isRegisterSuccessful = userValidation.register(usernameField.getText(), passwordField.getText());
+            if (isRegisterSuccessful) {
+                System.out.println("Registration Successful");
+                JOptionPane.showMessageDialog(null, "Registration Successful.");
+            } else {
+                System.out.println("Registration failed.");
+            }
+        });
+
+
+
 
     }
 
@@ -76,6 +90,43 @@ public class LoginPanel extends JPanel {
             }
 
             return false;
+        }
+
+        public boolean register(String username, String password) {
+
+            if (username.isEmpty() || password.isEmpty()) {
+                return false;
+
+            } else if (username.contains(",") || password.contains(",")) {
+                return false;
+            }
+            else {
+                try (BufferedReader reader = new BufferedReader(new FileReader(DB_UserCredentials))) {
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        String[] user = line.split(",");
+                        if (user[0].equals(username)) {
+                            System.out.println("Username already exists.");
+                            JOptionPane.showMessageDialog(null, "Username already exists.");
+                            return false;
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(DB_UserCredentials, true))) {
+                    writer.write(username + "," + password); //add credentials to db
+                    writer.newLine(); //new line
+                    return true;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return false;
+
+            }
+
         }
 
 
