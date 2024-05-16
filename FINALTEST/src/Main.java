@@ -1,39 +1,43 @@
 import javax.swing.*;
 
-public class Main implements Runnable {
-    JFrame Frame;
-    TestPanel TestPanel;
-    Thread GameThread;
+public class Main {
+    JFrame frame;
+
+    JButton StartButton;
+    JButton ExitButton;
+
+    GamePanel GamePanel;
 
     public Main() {
-        Frame = new JFrame("DATSTRUC_FINALPROJ");
-        Frame.setSize(1920,1080);
-        Frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame = new JFrame("Final Test");
+        frame.setSize(1920, 1080);
+        frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(null);
+        frame.setResizable(false);
 
-        TestPanel = new TestPanel();
+        StartButton = new JButton("Start");
+        StartButton.setBounds(860, 500, 100, 50);
+        frame.add(StartButton);
 
-        Frame.setVisible(true);
-        Frame.add(TestPanel);
+        ExitButton = new JButton("Exit");
+        ExitButton.setBounds(860, 600, 100, 50);
+        frame.add(ExitButton);
 
-        start();
+        GamePanel = new GamePanel();
+
+        frame.setVisible(true);
+
+        StartButton.addActionListener(e -> {
+            frame.getContentPane().removeAll();
+            GamePanel.setBounds(0, 0, frame.getWidth(), frame.getHeight());
+            frame.add(GamePanel);
+            GamePanel.requestFocusInWindow();
+            frame.revalidate();
+            frame.repaint();
+        });
     }
 
-    public void start() {
-        GameThread = new Thread(this);
-        GameThread.start();
-    }
-
-    public void run() {
-        while(true) {
-            TestPanel.moveCars();
-            try {
-                Thread.sleep(1000/60);
-            }
-            catch(InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
     public static void main(String[] args) {
         new Main();
     }
