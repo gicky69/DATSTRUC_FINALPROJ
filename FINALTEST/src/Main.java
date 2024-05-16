@@ -1,40 +1,40 @@
 import javax.swing.*;
 
 public class Main {
-    JFrame frame;
-
-    JButton StartButton;
-    JButton ExitButton;
-
-    GamePanel GamePanel;
+    Frame mainFrame;
+    JButton startButton;
+    JButton exitButton;
+    GamePanel gamePanel;
+    LoginPanel loginPanel;
+    MenuPanel menuPanel;
 
     public Main() {
-        frame = new JFrame("Final Test");
-        frame.setSize(1920, 1080);
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(null);
-        frame.setResizable(false);
+        mainFrame = new Frame();
+        startButton = new JButton("Start");
+        startButton.setBounds(860, 500, 100, 50);
+        mainFrame.frame.add(startButton);
 
-        StartButton = new JButton("Start");
-        StartButton.setBounds(860, 500, 100, 50);
-        frame.add(StartButton);
+        exitButton = new JButton("Exit");
+        exitButton.setBounds(860, 600, 100, 50);
+        mainFrame.frame.add(exitButton);
 
-        ExitButton = new JButton("Exit");
-        ExitButton.setBounds(860, 600, 100, 50);
-        frame.add(ExitButton);
+        gamePanel = new GamePanel();
+        loginPanel = new LoginPanel(mainFrame);
+        menuPanel = new MenuPanel(mainFrame);
 
-        GamePanel = new GamePanel();
+        mainFrame.frame.setVisible(true);
 
-        frame.setVisible(true);
+        startButton.addActionListener(e -> {
+            mainFrame.frame.getContentPane().removeAll();
+            mainFrame.frame.add(loginPanel);
+            loginPanel.requestFocusInWindow();
+            mainFrame.frame.revalidate();
+            mainFrame.frame.repaint();
 
-        StartButton.addActionListener(e -> {
-            frame.getContentPane().removeAll();
-            GamePanel.setBounds(0, 0, frame.getWidth(), frame.getHeight());
-            frame.add(GamePanel);
-            GamePanel.requestFocusInWindow();
-            frame.revalidate();
-            frame.repaint();
+        });
+
+        exitButton.addActionListener(e -> {
+            System.exit(0);
         });
     }
 
