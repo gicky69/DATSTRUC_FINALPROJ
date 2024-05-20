@@ -85,31 +85,63 @@ public class MenuPanel extends JPanel {
 
 class ShopPanel extends JPanel {
     Frame mainFrame;
+    JButton backButton;
     JLabel temp = new JLabel("Shop Panel");
     public ShopPanel(Frame mainFrame) {
         this.mainFrame = mainFrame;
         this.add(temp);
 
+        backButton = new JButton("Back");
+        backButton.setBounds(860, 700, 200, 50);
+        this.add(backButton);
 
+        backButton.addActionListener(e -> {
+            mainFrame.frame.getContentPane().removeAll();
+            mainFrame.frame.add(new MenuPanel(mainFrame));
+            mainFrame.frame.revalidate();
+            mainFrame.frame.repaint();
+        });
     }
 }
 
 class SettingsPanel extends JPanel {
     Frame mainFrame;
+    JButton backButton;
     JLabel temp = new JLabel("Settings Panel");
     public SettingsPanel(Frame mainFrame) {
         this.mainFrame = mainFrame;
         this.add(temp);
+
+        backButton = new JButton("Back");
+        backButton.setBounds(860, 700, 200, 50);
+        this.add(backButton);
+
+        backButton.addActionListener(e -> {
+            mainFrame.frame.getContentPane().removeAll();
+            mainFrame.frame.add(new MenuPanel(mainFrame));
+            mainFrame.frame.revalidate();
+            mainFrame.frame.repaint();
+        });
     }
 }
 
 class HTPPanel extends JPanel {
     Frame mainFrame;
+    JButton backButton;
     JLabel temp = new JLabel("How to Play Panel");
     public HTPPanel(Frame mainFrame) {
         this.mainFrame = mainFrame;
         this.add(temp);
+
+        backButton = new JButton("Back");
+        backButton.setBounds(860, 700, 200, 50);
+        this.add(backButton);
+
+        backButton.addActionListener(e -> {
+            mainFrame.frame.getContentPane().removeAll();
+            mainFrame.frame.add(new MenuPanel(mainFrame));
+            mainFrame.frame.revalidate();
+            mainFrame.frame.repaint();
+        });
     }
 }
-
-
