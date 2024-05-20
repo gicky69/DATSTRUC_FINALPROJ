@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.io.*;
-import java.sql.SQLOutput;
 
 public class LoginPanel extends JPanel {
 
@@ -9,6 +8,7 @@ public class LoginPanel extends JPanel {
     Frame mainFrame;
     MenuPanel menuPanel;
     JButton resetButton, loginButton, registerButton;
+    JLabel usernameLabel, passwordLabel;
     JTextField usernameField; JPasswordField passwordField;
 
     public LoginPanel(Frame mainFrame) {
@@ -21,10 +21,16 @@ public class LoginPanel extends JPanel {
         this.setSize(mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
         this.setLayout(null);
 
+        usernameLabel = new JLabel("Username");
+        usernameLabel.setBounds(860, 250, 200, 50);
+        this.add(usernameLabel);
         usernameField = new JTextField("admin");
         usernameField.setBounds(860, 300, 200, 50);
         this.add(usernameField);
 
+        passwordLabel = new JLabel("Password");
+        passwordLabel.setBounds(860, 350, 200, 50);
+        this.add(passwordLabel);
         passwordField = new JPasswordField("admin");
         passwordField.setBounds(860, 400, 200, 50);
         this.add(passwordField);
@@ -77,11 +83,6 @@ public class LoginPanel extends JPanel {
                 System.out.println("Registration failed.");
             }
         });
-
-
-
-
-
     }
 
     static class UserValidation {
