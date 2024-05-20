@@ -7,49 +7,61 @@ public class LoginPanel extends JPanel {
     GamePanel gamePanel;
     UserValidation userValidation;
     Frame mainFrame;
+    MenuPanel menuPanel;
     JButton resetButton, loginButton, registerButton;
-    JTextField usernameField, passwordField;
+    JTextField usernameField; JPasswordField passwordField;
 
     public LoginPanel(Frame mainFrame) {
         this.mainFrame = mainFrame;
         mainFrame.frame.setVisible(true);
         gamePanel = new GamePanel();
         userValidation = new UserValidation();
+        menuPanel = new MenuPanel(mainFrame);
 
         this.setSize(mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
         this.setLayout(null);
 
-        usernameField = new JTextField("Username");
+        usernameField = new JTextField("admin");
         usernameField.setBounds(860, 300, 200, 50);
         this.add(usernameField);
 
-        passwordField = new JTextField("Password");
+        passwordField = new JPasswordField("admin");
         passwordField.setBounds(860, 400, 200, 50);
         this.add(passwordField);
 
         loginButton = new JButton("Login");
-        loginButton.setBounds(860, 600, 100, 50);
+        loginButton.setBounds(860, 500, 100, 50);
         this.add(loginButton);
 
-        resetButton = new JButton("Reset");
-        resetButton.setBounds(860, 500, 100, 50);
-        this.add(resetButton);
-
         registerButton = new JButton("Register");
-        registerButton.setBounds(860, 700, 100, 50);
+        registerButton.setBounds(860, 600, 100, 50);
         this.add(registerButton);
+
+        resetButton = new JButton("Reset");
+        resetButton.setBounds(860, 700, 100, 50);
+        this.add(resetButton);
 
         loginButton.addActionListener(e -> {
             // will store true/false
             boolean isLoginSuccessful = userValidation.login(usernameField.getText(), passwordField.getText());
 
             if (isLoginSuccessful) {
+
+                // comment if diretso na sa game mismo
                 mainFrame.frame.getContentPane().removeAll();
-                gamePanel.setBounds(0, 0, mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
-                mainFrame.frame.add(gamePanel);
-                gamePanel.requestFocusInWindow();
+                menuPanel.setBounds(0, 0, mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
+                mainFrame.frame.add(menuPanel);
+                menuPanel.requestFocusInWindow();
                 mainFrame.frame.revalidate();
                 mainFrame.frame.repaint();
+
+//                // for debugging purposes only, will be removed after.
+//                mainFrame.frame.getContentPane().removeAll();
+//                gamePanel.setBounds(0, 0, mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
+//                mainFrame.frame.add(gamePanel);
+//                gamePanel.requestFocusInWindow();
+//                mainFrame.frame.revalidate();
+//                mainFrame.frame.repaint();
                 System.out.println("Login Successful");
             } else {
                 System.out.println("Login failed.");
@@ -69,6 +81,7 @@ public class LoginPanel extends JPanel {
 
 
 
+
     }
 
     static class UserValidation {
@@ -80,6 +93,7 @@ public class LoginPanel extends JPanel {
             try (BufferedReader reader = new BufferedReader(new FileReader(DB_UserCredentials))) {
                 String line;
                 while ((line = reader.readLine()) != null) {
+                    System.out.println("Print");
                     String[] user = line.split(",");
                     if (user[0].equals(username) && user[1].equals(password)) {
                         return true;
