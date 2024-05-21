@@ -69,6 +69,9 @@ public class LoginPanel extends JPanel {
 //                mainFrame.frame.revalidate();
 //                mainFrame.frame.repaint();
                 System.out.println("Login Successful");
+
+                // Start the Timer
+                new Thread(new GameLoop()).start();
             } else {
                 System.out.println("Login failed.");
             }
