@@ -5,6 +5,8 @@ import core.Size;
 
 import java.awt.*;
 
+
+// Abstract class GameObject, so bale iniinherit ng Player at enemy or any other entities pa yung gameobject which is kung nainherit na nila meron na silang attributes kung ano mang attributes nasa GameObject.
 public abstract class GameObject {
     protected Position position;
     protected Size size;

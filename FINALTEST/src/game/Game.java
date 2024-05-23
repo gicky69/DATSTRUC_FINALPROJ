@@ -26,14 +26,17 @@ public class Game {
         gameObjects.add(new Enemy(new Position(500, 500)));
     }
 
+    // Getters para mabigay ng class nato yung gameObjects na list.
     public List<GameObject> getGameObjects() {
         return gameObjects;
     }
 
+    // Updates each elements ng gameObjects list.
     public void update() {
         gameObjects.forEach(gameObject -> gameObject.update());
     }
 
+    // Renders yung frame which is yung GamePanel.
     public void render() {
         frame.render(this);
     }

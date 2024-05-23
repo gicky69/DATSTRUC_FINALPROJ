@@ -13,6 +13,7 @@ public class Player extends GameObject {
     private int PlayerSpeed = 5;
 
     public Player(Controller controller) {
+
         super();
         this.controller = controller;
         myAmeDefaultR = new ImageIcon("FINALTEST/images/GamePanel/MC_Default_Right-GamePanel.gif");
@@ -49,6 +50,8 @@ public class Player extends GameObject {
     public Image getSprite() {
         Image image = myAmeDefaultR.getImage();
 
+
+        // Change sprite lng
         if (controller.isRequestingUp()){
             image = myAmeU.getImage();
         }

@@ -15,6 +15,8 @@ public class GameLoop implements Runnable {
     }
 
     // Count in milliseconds
+    // Nakuha ko lang to sa stackoverflow e, since eto yung puro recommendations ng ibang java game developer e.
+    // Mali pala yung nagawa ko nung una na nanoseconds nagbabasa, mas accurate pala yung pag milliseconds.
     @Override
     public void run() {
         running = true;
@@ -22,10 +24,15 @@ public class GameLoop implements Runnable {
         long currentTime, lastUpdate = System.currentTimeMillis();
         nextStatTime = System.currentTimeMillis() + 1000;
 
+        // Game Loop
         while (running) {
             currentTime = System.currentTimeMillis();
+
+            // Time in seconds
             double lastRenderTimeInSeconds = (currentTime - lastUpdate) / 1000d;
+            // Accumulating the time
             accumulator += lastRenderTimeInSeconds;
+            // Updating the lastUpdate
             lastUpdate = currentTime;
 
             while (accumulator >= updateRate) {

@@ -11,6 +11,7 @@ public class PlayerController implements Controller {
         this.input = input;
     }
 
+    // Methods para sa controller, nirreturn kung anong key napindot
     @Override
     public boolean isRequestingUp() {
         return input.isPressed(KeyEvent.VK_UP);

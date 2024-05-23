@@ -31,6 +31,7 @@ public class GamePanel extends JFrame {
         Graphics g = bufferStrategy.getDrawGraphics();
 
         g.clearRect(0,0, getWidth(), getHeight());
+        // Drawing the game object's sprites.
         for (GameObject gameObject : game.getGameObjects()) {
             g.drawImage(gameObject.getSprite(), gameObject.getPosition().getX(), gameObject.getPosition().getY(), null);
         }
