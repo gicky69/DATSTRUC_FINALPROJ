@@ -1,6 +1,8 @@
 package game;
 
 import controller.PlayerController;
+import core.Position;
+import entity.Enemy;
 import entity.GameObject;
 import entity.Player;
 import input.KeyInputs;
@@ -21,6 +23,7 @@ public class Game {
         frame = new GamePanel(width, height, input);
         gameObjects = new ArrayList<>();
         gameObjects.add(new Player(new PlayerController(input)));
+        gameObjects.add(new Enemy(new Position(500, 500)));
     }
 
     public List<GameObject> getGameObjects() {
