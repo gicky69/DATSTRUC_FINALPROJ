@@ -1,9 +1,11 @@
+import game.Game;
+import game.GameLoop;
+
 import javax.swing.*;
 
 public class MenuPanel extends JPanel {
 
     Frame mainFrame;
-    GamePanel gamePanel;
     ShopPanel shopPanel;
     SettingsPanel settingsPanel;
     HTPPanel htpPanel;
@@ -13,8 +15,6 @@ public class MenuPanel extends JPanel {
         this.mainFrame = mainFrame;
         this.setSize(mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
         this.setLayout(null);
-
-        gamePanel = new GamePanel();
 
         playButton = new JButton("Play");
         playButton.setBounds(860, 300, 200, 50);
@@ -37,12 +37,12 @@ public class MenuPanel extends JPanel {
         this.add(exitButton);
 
         playButton.addActionListener(e -> {
-            mainFrame.frame.getContentPane().removeAll();
-            mainFrame.frame.add(gamePanel);
-            gamePanel.setBounds(0, 0, mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
-            gamePanel.requestFocusInWindow();
-            mainFrame.frame.revalidate();
-            mainFrame.frame.repaint();
+
+            // Close mainFrame
+            mainFrame.frame.setVisible(false);
+
+            // Start the Timer
+            new Thread(new GameLoop(new Game(1600, 900))).start();
         });
 
         shopButton.addActionListener(e -> {

@@ -2,8 +2,6 @@ import javax.swing.*;
 import java.io.*;
 
 public class LoginPanel extends JPanel {
-
-    GamePanel gamePanel;
     UserValidation userValidation;
     Frame mainFrame;
     MenuPanel menuPanel;
@@ -14,7 +12,6 @@ public class LoginPanel extends JPanel {
     public LoginPanel(Frame mainFrame) {
         this.mainFrame = mainFrame;
         mainFrame.frame.setVisible(true);
-        gamePanel = new GamePanel();
         userValidation = new UserValidation();
         menuPanel = new MenuPanel(mainFrame);
 
@@ -69,9 +66,6 @@ public class LoginPanel extends JPanel {
 //                mainFrame.frame.revalidate();
 //                mainFrame.frame.repaint();
                 System.out.println("Login Successful");
-
-                // Start the Timer
-                new Thread(new GameLoop()).start();
             } else {
                 System.out.println("Login failed.");
             }

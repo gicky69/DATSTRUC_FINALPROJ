@@ -4,7 +4,6 @@ public class Main {
     Frame mainFrame;
     JButton startButton;
     JButton exitButton;
-    GamePanel gamePanel;
     LoginPanel loginPanel;
     MenuPanel menuPanel;
     ShopPanel shopPanel;
@@ -13,8 +12,7 @@ public class Main {
 
 
     public Main() {
-        mainFrame = new Frame();
-        gamePanel = new GamePanel();
+        mainFrame = new Frame(1600,900);
         loginPanel = new LoginPanel(mainFrame);
         menuPanel = new MenuPanel(mainFrame);
         shopPanel = new ShopPanel(mainFrame);
