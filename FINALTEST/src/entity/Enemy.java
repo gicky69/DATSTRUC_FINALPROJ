@@ -27,6 +27,7 @@ public class Enemy extends GameObject {
     @Override
     public void update() {
         Pursue(); // Pursuing the player
+        System.out.println("enemy x: " + position.getfX() + " enemy y: " + position.getfY());
     }
 
     //#region Enemy Behavior
@@ -73,8 +74,8 @@ public class Enemy extends GameObject {
         // This is to normalize the speed to be more precise
         // Without this, enemy can sometimes go 10% faster or slower
         float nspd = Math.abs(xvel)+Math.abs(yvel);
-        xvel = xvel/nspd;
-        yvel = yvel/nspd;
+        if (xvel!=0) { xvel = xvel/nspd; }
+        if (yvel!=0) { yvel = yvel/nspd; }
 
         // Move towards the target with relative velocity times speed
         position = new Position(position.getfX() - xvel*(float)EnemySpeed, position.getfY() - yvel*(float)EnemySpeed);
@@ -106,8 +107,8 @@ public class Enemy extends GameObject {
         // This is to normalize the speed to be more precise
         // Without this, enemy can sometimes go 10% faster or slower
         float nspd = Math.abs(xvel)+Math.abs(yvel);
-        xvel = xvel/nspd;
-        yvel = yvel/nspd;
+        if (xvel!=0) { xvel = xvel/nspd; }
+        if (xvel!=0) { yvel = yvel/nspd; }
 
         // Move away from the target with relative velocity times speed
         position = new Position(position.getfX() + xvel*(float)EnemySpeed, position.getfY() + yvel*(float)EnemySpeed);
