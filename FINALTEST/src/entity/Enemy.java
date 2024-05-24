@@ -15,25 +15,56 @@ import java.util.TimerTask;
 public class Enemy extends GameObject {
 
     //#region Enemy Init
-
     private int EnemySpeed = 3;
+
+    private double fov = Math.toRadians(90);
+    private double viewDistance = 400;
 
     public Enemy(Position position) {
         this.position = position;
+
     }
 
     //#endregion
 
     @Override
     public void update() {
-        Pursue(); // Pursuing the player
+        Seeking();
         //System.out.println("enemy x: " + position.getfX() + " enemy y: " + position.getfY());
     }
 
     //#region Enemy Behavior
 
-    public void Seeking() {
+    public void updateFOV(double angle) {
+        GameObject target = game.getGameObjects().get(0);
 
+        double distance = Math.sqrt(Math.pow(target.position.getX() - position.getX(), 2) + Math.pow(target.position.getY() - position.getY(), 2));
+
+        System.out.println("Distance: " + distance);
+        System.out.println("Angle: " + angle);
+        for (GameObject gameObject : game.getGameObjects()) {
+            if (gameObject instanceof Player) {
+                if (distance <= viewDistance) {
+                    if (angle >= Math.toRadians(90) && angle <= Math.toRadians(180)) {
+                        Pursue();
+                    }
+                }
+            }
+        }
+    }
+
+    public void Seeking() {
+        GameObject target = game.getGameObjects().get(0); // Get Player
+        int px = position.getX();
+        int py = position.getY();
+
+        double oscillaitonSpeed = 0.05;
+        double oscillationAmplitude = 50;
+        double oscillationOffset = 0;
+
+        oscillationOffset += oscillaitonSpeed;
+        double dy = oscillationAmplitude * Math.sin(oscillationOffset);
+        position = new Position(position.getfX(), position.getfY() + (float) dy);
     }
 
     public void Pursue() {
@@ -54,11 +85,11 @@ public class Enemy extends GameObject {
         // Gets the target position in x and y
         int px = pos.getX();
         int py = pos.getY();
-        
+
         // Gets the relative target position in x and y
         int tx = position.getX() - Math.abs(px);
         int ty = position.getY() - Math.abs(py);
-        
+
         // Initiates "X velocity" and "Y velocity"
         float xvel = 0f;
         float yvel = 0f;
