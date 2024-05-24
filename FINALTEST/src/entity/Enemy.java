@@ -73,13 +73,21 @@ public class Enemy extends GameObject {
 
         // This is to normalize the speed to be more precise
         // Without this, enemy can sometimes go 10% faster or slower
+        // it checks if nspd is infinite, This is to avoid infinite calculation
         float nspd = Math.abs(xvel)+Math.abs(yvel);
-        System.out.println("enemy nspd: " + nspd);
-        if (xvel!=0 && Float.isFinite(nspd)) { xvel = xvel/nspd; }
-        if (yvel!=0 && Float.isFinite(nspd)) { yvel = yvel/nspd; }
+        if (xvel!=0 && nspd!=0) { xvel = xvel/nspd; }
+        if (yvel!=0 && nspd!=0) { yvel = yvel/nspd; }
 
         // Move towards the target with relative velocity times speed
-        position = new Position(position.getfX() - xvel*(float)EnemySpeed, position.getfY() - yvel*(float)EnemySpeed);
+        if (tx+ty!=0) { // This is to avoid infinite calculation
+            position = new Position(position.getfX() - xvel * (float) EnemySpeed, position.getfY() - yvel * (float) EnemySpeed);
+        } else { //if the number is an exact 45 degrees, do this instead:
+            if (tx>0) { xvel=-0.5f; }
+            if (ty>0) { yvel=-0.5f; }
+            if (tx<0) { xvel=0.5f; }
+            if (ty<0) { yvel=0.5f; }
+            position = new Position(position.getfX() + xvel * (float) EnemySpeed, position.getfY() + yvel * (float) EnemySpeed);
+        }
 
     }
 
@@ -107,12 +115,21 @@ public class Enemy extends GameObject {
 
         // This is to normalize the speed to be more precise
         // Without this, enemy can sometimes go 10% faster or slower
+        // it checks if nspd is infinite, This is to avoid infinite calculation
         float nspd = Math.abs(xvel)+Math.abs(yvel);
         if (xvel!=0 && Float.isFinite(nspd)) { xvel = xvel/nspd; }
         if (yvel!=0 && Float.isFinite(nspd)) { yvel = yvel/nspd; }
 
         // Move away from the target with relative velocity times speed
-        position = new Position(position.getfX() + xvel*(float)EnemySpeed, position.getfY() + yvel*(float)EnemySpeed);
+        if (tx+ty!=0) { // This is to avoid infinite calculation
+            position = new Position(position.getfX() + xvel * (float) EnemySpeed, position.getfY() + yvel * (float) EnemySpeed);
+        } else { //if the number is an exact 45 degrees, do this instead:
+            if (tx>0) { xvel=-0.5f; }
+            if (ty>0) { yvel=-0.5f; }
+            if (tx<0) { xvel=0.5f; }
+            if (ty<0) { yvel=0.5f; }
+            position = new Position(position.getfX() + xvel * (float) EnemySpeed, position.getfY() + yvel * (float) EnemySpeed);
+        }
 
     }
 
