@@ -8,6 +8,7 @@ import entity.Player;
 import input.KeyInputs;
 
 import display.GamePanel;
+import tile.TileManager;
 
 import java.awt.*;
 import java.util.List;
@@ -20,6 +21,7 @@ public class Game {
     private GamePanel frame;
     private List<GameObject> gameObjects;
     private KeyInputs input;
+    private TileManager tilemanager;
 
     //#endregion
 
@@ -66,6 +68,7 @@ public class Game {
     // Renders yung frame which is yung GamePanel.
     public void render() {
         frame.render(this);
+
     }
 
     //#endregion
