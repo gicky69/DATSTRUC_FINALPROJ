@@ -1,19 +1,29 @@
 package core;
 
 public class Position {
-    private int x;
-    private int y;
+    private float x;
+    private float y;
 
-    public Position(int x, int y) {
+    public Position(float x, float y) {
         this.x = x;
         this.y = y;
     }
 
     public int getX() {
-        return x;
+        int intx = (int)Math.round(x);
+        return intx;
     }
 
     public int getY() {
+        int inty = (int)Math.round(y);
+        return inty;
+    }
+
+    public float getfX() {
+        return x;
+    }
+
+    public float getfY() {
         return y;
     }
 }

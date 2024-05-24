@@ -2,6 +2,7 @@ package entity;
 
 import core.Position;
 import core.Size;
+import game.Game;
 
 import java.awt.*;
 
@@ -10,6 +11,7 @@ import java.awt.*;
 public abstract class GameObject {
     protected Position position;
     protected Size size;
+    public Game game;
 
     public GameObject() {
         position = new Position(50,50);

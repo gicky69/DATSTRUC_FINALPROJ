@@ -1,6 +1,8 @@
 package entity;
 
+import controller.Controller;
 import core.Position;
+import game.Game;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,14 +14,89 @@ import java.util.TimerTask;
 
 public class Enemy extends GameObject {
 
+    //#region Enemy Init
+
+    private int EnemySpeed = 3;
+
     public Enemy(Position position) {
         this.position = position;
     }
 
+    //#endregion
+
     @Override
     public void update() {
-        Pursue(100, 200);
+        Pursue();
     }
+
+    //#region Enemy Behavior
+
+    public void Seeking() {
+
+    }
+
+    public void Pursue() {
+        GameObject target = game.getGameObjects().get(0); // Get Player
+        MoveTowards(target.position); // Move towards the player's position
+    }
+
+    public void Flee() {
+        GameObject target = game.getGameObjects().get(0); // Get Player
+        MoveAwayFrom(target.position); // Move towards the player's position
+    }
+    //#endregion
+
+    //#region Enemy Actions
+
+    public void MoveTowards(Position pos) {
+
+        int mx = pos.getX();
+        int my = pos.getY();
+
+        int tx = position.getX() - Math.abs(mx);
+        int ty = position.getY() - Math.abs(my);
+        float nx = 0f;
+        float ny = 0f;
+        if (tx != 0 && Math.abs(tx) > EnemySpeed) {
+            nx = (float) tx / Math.abs(tx + ty);
+        }
+        if (ty != 0 && Math.abs(ty) > EnemySpeed) {
+            ny = (float) ty / Math.abs(tx + ty);
+        }
+        float nspd = Math.abs(nx)+Math.abs(ny);
+        nx = nx/nspd;
+        ny = ny/nspd;
+        System.out.println("nx: " + nx + ", ny: " + ny + ", speed: " + (Math.abs(nx)+Math.abs(ny)));
+        position = new Position(position.getfX() - nx*(float)EnemySpeed, position.getfY() - ny*(float)EnemySpeed);
+
+    }
+
+    public void MoveAwayFrom(Position pos) {
+
+        int mx = pos.getX();
+        int my = pos.getY();
+
+        int tx = position.getX() - Math.abs(mx);
+        int ty = position.getY() - Math.abs(my);
+        float nx = 0f;
+        float ny = 0f;
+        if (tx != 0 && Math.abs(tx) > EnemySpeed) {
+            nx = (float) tx / Math.abs(tx + ty);
+        }
+        if (ty != 0 && Math.abs(ty) > EnemySpeed) {
+            ny = (float) ty / Math.abs(tx + ty);
+        }
+        float nspd = Math.abs(nx)+Math.abs(ny);
+        nx = nx/nspd;
+        ny = ny/nspd;
+        System.out.println("nx: " + nx + ", ny: " + ny + ", speed: " + (Math.abs(nx)+Math.abs(ny)));
+        position = new Position(position.getfX() + nx*(float)EnemySpeed, position.getfY() + ny*(float)EnemySpeed);
+
+    }
+
+    //#endregion
+
+    //#region Design and Animations
 
     @Override
     public Image getSprite() {
@@ -33,78 +110,5 @@ public class Enemy extends GameObject {
         return image;
     }
 
-    public void Seeking() {
-
-    }
-
-    public void Pursue(int targetx, int targety) {
-
-        int mx = targetx;
-        int my = targety;
-
-        int speed = 5;
-
-        int tx = position.getX() - Math.abs(mx);
-        int ty = position.getY() - Math.abs(my);
-        float nx = 0f;
-        float ny = 0f;
-        if (tx != 0 && Math.abs(tx) > speed) {
-            if (position.getX() < mx) {
-                nx = (float) tx / (tx + ty);
-            } else {
-                nx = -((float) tx / (tx + ty));
-            }
-        }
-        if (ty != 0 && Math.abs(ty) > speed) {
-            if (position.getY() < my) {
-                ny = (float) ty / (tx + ty);
-            } else {
-                ny = -((float) ty / (tx + ty));
-            }
-        }
-        //System.out.println("nx: " + tx + ", ny: " + ty);
-        if (nx>1) { nx = 1; }
-        if (nx<-1) { nx = -1; }
-        if (ny>1) { ny = 1; }
-        if (ny<-1) { ny = -1; }
-        position = new Position((int)(position.getX() + (int)Math.round(nx*(float)speed)), (int)(position.getY() + (int)Math.round(ny*(float)speed)));
-
-        /*
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                int tx = position.getX() - Math.abs(mx);
-                int ty = position.getY() - Math.abs(my);
-                float nx = 0f;
-                float ny = 0f;
-                if (tx != 0) {
-                    if (position.getX() < mx) {
-                        nx = (float) tx / (tx + ty);
-                    } else {
-                        nx = -((float) tx / (tx + ty));
-                    }
-                }
-                if (tx != 0) {
-                    if (position.getY() < my) {
-                        ny = (float) ty / (tx + ty);
-                    } else {
-                        ny = -((float) ty / (tx + ty));
-                    }
-                }
-                System.out.println("nx: " + nx + ", ny: " + ny);
-                if (nx>1) { nx = 1; }
-                if (nx<-1) { nx = -1; }
-                if (ny>1) { ny = 1; }
-                if (ny<-1) { ny = -1; }
-                position = new Position((int)(position.getX() + (nx*2)), (int)(position.getY() + (ny*2)));
-            }
-        }, 0, 1000);
-
-         */
-    }
-
-    public void Flee() {
-
-    }
+    //#endregion
 }

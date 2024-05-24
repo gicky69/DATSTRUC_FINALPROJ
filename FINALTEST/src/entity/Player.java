@@ -2,13 +2,22 @@ package entity;
 
 import controller.Controller;
 import core.Position;
+import game.Game;
 
 
 import javax.swing.*;
 import java.awt.*;
 
 public class Player extends GameObject {
+
+    //#region Design and Animation Init
+
     ImageIcon myAmeL, myAmeR, myAmeU, myAmeD, myAmeDefaultR, myAmeDefaultL;
+
+    //#endregion
+
+    //#region Player Init
+
     private Controller controller;
     private int PlayerSpeed = 5;
 
@@ -24,6 +33,8 @@ public class Player extends GameObject {
         myAmeD = new ImageIcon("FINALTEST/images/GamePanel/MC_Down-GamePanel.gif");
 
     }
+
+    //#endregion
 
     @Override
     public void update() {
