@@ -27,8 +27,8 @@ public class Game {
         input = new KeyInputs();
         frame = new GamePanel(width, height, input);
         gameObjects = new ArrayList<>();
-        AddPlayer();
-        AddEnemy(new Position(500, 500));
+        AddPlayer(new Position(50, 50)); // This adds a player
+        AddEnemy(new Position(500, 500)); // This adds an enemy
     }
 
     //#region Entity Management
@@ -41,17 +41,17 @@ public class Game {
     // Getters ng player
 
     // Adds player
-    public void AddPlayer() {
-        Player player = new Player(new PlayerController(input));
+    public void AddPlayer(Position pos) {
+        Player player = new Player(pos, new PlayerController(input));
         gameObjects.add(player);
-        player.game = this;
+        player.game = this; // Connect the player to the game master
     }
 
     // Adds enemy
     public void AddEnemy(Position pos) {
         Enemy enemy = new Enemy(pos);
         gameObjects.add(enemy);
-        enemy.game = this;
+        enemy.game = this; // Connect the enemy to the game master
     }
 
     //#endregion

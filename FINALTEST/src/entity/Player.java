@@ -21,9 +21,12 @@ public class Player extends GameObject {
     private Controller controller;
     private int PlayerSpeed = 5;
 
-    public Player(Controller controller) {
+    public Player(Position pos, Controller controller) {
 
         super();
+
+        this.position = pos;
+
         this.controller = controller;
         myAmeDefaultR = new ImageIcon("FINALTEST/images/GamePanel/MC_Default_Right-GamePanel.gif");
         myAmeDefaultL = new ImageIcon("FINALTEST/images/GamePanel/MC_Default_Left-GamePanel.gif");

@@ -26,7 +26,7 @@ public class Enemy extends GameObject {
 
     @Override
     public void update() {
-        Pursue();
+        Pursue(); // Pursuing the player
     }
 
     //#region Enemy Behavior
@@ -50,47 +50,67 @@ public class Enemy extends GameObject {
 
     public void MoveTowards(Position pos) {
 
-        int mx = pos.getX();
-        int my = pos.getY();
+        // Gets the target position in x and y
+        int px = pos.getX();
+        int py = pos.getY();
+        
+        // Gets the relative target position in x and y
+        int tx = position.getX() - Math.abs(px);
+        int ty = position.getY() - Math.abs(py);
+        
+        // Initiates "X velocity" and "Y velocity"
+        float xvel = 0f;
+        float yvel = 0f;
 
-        int tx = position.getX() - Math.abs(mx);
-        int ty = position.getY() - Math.abs(my);
-        float nx = 0f;
-        float ny = 0f;
+        // This is an equation that gets the normalized vector of target
         if (tx != 0 && Math.abs(tx) > EnemySpeed) {
-            nx = (float) tx / Math.abs(tx + ty);
+            xvel = (float) tx / Math.abs(tx + ty);
         }
         if (ty != 0 && Math.abs(ty) > EnemySpeed) {
-            ny = (float) ty / Math.abs(tx + ty);
+            yvel = (float) ty / Math.abs(tx + ty);
         }
-        float nspd = Math.abs(nx)+Math.abs(ny);
-        nx = nx/nspd;
-        ny = ny/nspd;
-        System.out.println("nx: " + nx + ", ny: " + ny + ", speed: " + (Math.abs(nx)+Math.abs(ny)));
-        position = new Position(position.getfX() - nx*(float)EnemySpeed, position.getfY() - ny*(float)EnemySpeed);
+
+        // This is to normalize the speed to be more precise
+        // Without this, enemy can sometimes go 10% faster or slower
+        float nspd = Math.abs(xvel)+Math.abs(yvel);
+        xvel = xvel/nspd;
+        yvel = yvel/nspd;
+
+        // Move towards the target with relative velocity times speed
+        position = new Position(position.getfX() - xvel*(float)EnemySpeed, position.getfY() - yvel*(float)EnemySpeed);
 
     }
 
     public void MoveAwayFrom(Position pos) {
 
-        int mx = pos.getX();
-        int my = pos.getY();
+        // Gets the target position in x and y
+        int px = pos.getX();
+        int py = pos.getY();
 
-        int tx = position.getX() - Math.abs(mx);
-        int ty = position.getY() - Math.abs(my);
-        float nx = 0f;
-        float ny = 0f;
+        // Gets the relative target position in x and y
+        int tx = position.getX() - Math.abs(px);
+        int ty = position.getY() - Math.abs(py);
+
+        // Initiates "X velocity" and "Y velocity"
+        float xvel = 0f;
+        float yvel = 0f;
+
+        // This is an equation that gets the normalized vector of target
         if (tx != 0 && Math.abs(tx) > EnemySpeed) {
-            nx = (float) tx / Math.abs(tx + ty);
+            xvel = (float) tx / Math.abs(tx + ty);
         }
         if (ty != 0 && Math.abs(ty) > EnemySpeed) {
-            ny = (float) ty / Math.abs(tx + ty);
+            yvel = (float) ty / Math.abs(tx + ty);
         }
-        float nspd = Math.abs(nx)+Math.abs(ny);
-        nx = nx/nspd;
-        ny = ny/nspd;
-        System.out.println("nx: " + nx + ", ny: " + ny + ", speed: " + (Math.abs(nx)+Math.abs(ny)));
-        position = new Position(position.getfX() + nx*(float)EnemySpeed, position.getfY() + ny*(float)EnemySpeed);
+
+        // This is to normalize the speed to be more precise
+        // Without this, enemy can sometimes go 10% faster or slower
+        float nspd = Math.abs(xvel)+Math.abs(yvel);
+        xvel = xvel/nspd;
+        yvel = yvel/nspd;
+
+        // Move away from the target with relative velocity times speed
+        position = new Position(position.getfX() + xvel*(float)EnemySpeed, position.getfY() + yvel*(float)EnemySpeed);
 
     }
 
