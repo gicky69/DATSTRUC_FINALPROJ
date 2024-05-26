@@ -7,6 +7,7 @@ import game.Game;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 public class Player extends GameObject {
 
@@ -82,8 +83,6 @@ public class Player extends GameObject {
     }
 
     //#region Player Hitbox
-
-
 
     //#endregion
 }

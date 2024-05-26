@@ -4,6 +4,7 @@ import core.Position;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
@@ -16,6 +17,8 @@ public class Enemy extends GameObject {
     private static final int RAYS = 100;
 
     LinkedList<Line2D.Float> lines;
+
+    boolean detected = false;
 
     public Enemy(Position position) {
         lines = buildLines();
@@ -57,6 +60,15 @@ public class Enemy extends GameObject {
     //#endregion
 
     //#region Enemy Actions
+
+    public void Detect() {
+        GameObject target = game.getGameObjects().get(0); // Get Player
+        if (position.getX() < target.position.getX()) {
+            Pursue();
+        } else {
+            Flee();
+        }
+    }
     //#endregion
 
     //#region Normalize
@@ -111,6 +123,10 @@ public class Enemy extends GameObject {
     //#region FOV
     public void drawFOV(Graphics2D g) {
         LinkedList<Line2D.Float> rays = ray(lines, (int) position.getfX(), (int) position.getfY(), RAYS, 300);
+        GameObject player = game.getGameObjects().get(0);
+        Rectangle2D playerBox = player.getBounds();
+
+
         g.setColor(Color.RED);
         for (Line2D.Float line : lines) {
             g.drawLine((int)line.x1, (int)line.y1, (int)line.x2, (int)line.y2);
@@ -118,13 +134,17 @@ public class Enemy extends GameObject {
 
         for (Line2D.Float ray : rays) {
             g.drawLine((int)ray.x1, (int)ray.y1, (int)ray.x2, (int)ray.y2);
+            if (playerBox.intersectsLine(rays)) {
+                detected
+            }
         }
     }
 
     public LinkedList<Line2D.Float> buildLines() {
         LinkedList<Line2D.Float> lines = new LinkedList<>();
         for (int i = 0;i < 10;i++) {
-            lines.add(new Line2D.Float(0, i * 64, 640, i * 64));
+            lines.add(new Line2D.Float(0, 50, 640, 50));
+
         }
 
         return lines;
