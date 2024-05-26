@@ -80,4 +80,10 @@ public class Player extends GameObject {
         }
         return image;
     }
+
+    //#region Player Hitbox
+
+
+
+    //#endregion
 }
