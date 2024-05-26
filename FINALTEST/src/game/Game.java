@@ -20,6 +20,12 @@ import java.util.ArrayList;
 
 public class Game {
 
+    //#region Experiental
+
+    Enemy tile;
+
+    //#endregion
+
     //#region Back-end Init
 
     private GamePanel frame;
@@ -64,6 +70,7 @@ public class Game {
         Enemy enemy = new Enemy(pos);
         gameObjects.add(enemy);
         enemy.game = this; // Connect the enemy to the game master
+        enemy.name = "Enemy";
     }
 
     //#endregion
@@ -88,25 +95,21 @@ public class Game {
                 if (getdist<dist || dist<0) {
                     dist = getdist;
                 }
-                System.out.println("object x: " + (float)(LC.getPoint1().getfX() + object.getPosition().getfX()) + "/ object y: " + (float)(LC.getPoint1().getfY() + object.getPosition().getfY()));
-                System.out.println("start x: " + start.getfX() + "/ start y: " + start.getfY());
-                System.out.println("end x: " + end.getfX() + "/ end y: " + end.getfY());
             });
-            if (dist!=-1) {
+            if (dist!=-1 && object.getCollision().getLayerMask(layerMask)) {
                 RayCastHits.add(new RayCastHit(object, dist));
             }
-            System.out.println("that was, name: " + object.name + "/ distance: " + dist);
+            //System.out.println("that was, name: " + object.name + "/ distance: " + dist);
         });
-        RayCastHits.sort((RayCastHit a1, RayCastHit a2) -> (int) ((a1.distance) - (a2.distance)));
+        RayCastHits.sort(new Comparator<RayCastHit>() {
+            @Override
+            public int compare(RayCastHit a1, RayCastHit a2) {
+                return Float.compare(a1.distance, a2.distance);
+            }
+        });
+
         RayCastHits.forEach((hit) -> {
-            if (layerMask == -1) {
-                linecasts.add(hit.gameObject);
-            }
-            else {
-                if (hit.gameObject.getCollision().getLayerMask(layerMask)) {
-                    linecasts.add(hit.gameObject);
-                }
-            }
+            linecasts.add(hit.gameObject);
         });
         return linecasts;
     }

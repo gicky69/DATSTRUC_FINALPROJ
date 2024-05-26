@@ -23,6 +23,22 @@ public class Collision {
         collisionLines.add(new CollisionLine(topleft, topright)); //top left to top right
         collisionLines.add(new CollisionLine(topright, bottomright)); //top right to bottom right
         collisionLines.add(new CollisionLine(bottomright, bottomleft)); //bottom right to bottom left
+        collisionLines.add(new CollisionLine(bottomleft, topleft)); //bottom left to top left
+    }
+
+    public void BoxCollision(int width, int height, Position offset) {
+        collisionLines = new ArrayList<>();
+
+        // Create points
+        Position topleft = new Position(-(width / 2f)+offset.getfX(), -(height / 2f)+offset.getfY());
+        Position topright = new Position((width / 2f)+offset.getfX(), -(height / 2f)+offset.getfY());
+        Position bottomright = new Position((width / 2f)+offset.getfX(), (height / 2f)+offset.getfY());
+        Position bottomleft = new Position(-(width / 2f)+offset.getfX(), (height / 2f)+offset.getfY());
+
+        // Create CollisionLines, this will be used to detect BoxCollisions
+        collisionLines.add(new CollisionLine(topleft, topright)); //top left to top right
+        collisionLines.add(new CollisionLine(topright, bottomright)); //top right to bottom right
+        collisionLines.add(new CollisionLine(bottomright, bottomleft)); //bottom right to bottom left
         collisionLines.add(new CollisionLine(bottomleft, topleft)); //bottem left to top left
     }
 

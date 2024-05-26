@@ -32,14 +32,11 @@ public class Enemy extends GameObject {
         Seeking();
         lines = buildLines();
 
-        /* Work in progress pls dont delete
-        List<GameObject> linecasthits = game.LineCastObjects(position, game.getGameObjects().get(0).getPosition(), -1);
-        if (!linecasthits.isEmpty()) {
-            GameObject playerget = linecasthits.get(0);
-            Position hpos = playerget.position;
-            System.out.println("x: " + hpos.getfX() + " y: " + hpos.getfY());
+        // Will cast a line from itself, to the player (player is index 0), layerMask will only target entities which have layer 0 enabled
+        List<GameObject> linecasthits = game.LineCastObjects(position, game.getGameObjects().get(0).getPosition(), 0);
+        if (!linecasthits.isEmpty() && linecasthits.get(0)!=null) {
+            System.out.println("name: " + linecasthits.get(0).name); // Will check the object that was hit closest according to the linecast
         }
-        */
 
         //System.out.println("enemy x: " + position.getfX() + " enemy y: " + position.getfY());
     }
