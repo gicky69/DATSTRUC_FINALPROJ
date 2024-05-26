@@ -1,5 +1,6 @@
 package entity;
 
+import core.collision.Collision;
 import core.Position;
 import core.Size;
 import game.Game;
@@ -11,11 +12,14 @@ import java.awt.*;
 public abstract class GameObject {
     protected Position position;
     protected Size size;
+    protected Collision collision;
     public Game game;
 
     public GameObject() {
         position = new Position(50,50);
         size = new Size(64, 64);
+        collision = new Collision();
+        collision.BoxCollision(size.getWidth(), size.getHeight());
     }
 
     public abstract void update();
@@ -28,4 +32,6 @@ public abstract class GameObject {
     public Size getSize() {
         return size;
     }
+
+    public Collision getCollision() { return collision; }
 }

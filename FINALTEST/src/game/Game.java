@@ -2,6 +2,7 @@ package game;
 
 import controller.PlayerController;
 import core.Position;
+import core.collision.RayCast;
 import entity.Enemy;
 import entity.GameObject;
 import entity.Player;
@@ -58,6 +59,27 @@ public class Game {
         Enemy enemy = new Enemy(pos);
         gameObjects.add(enemy);
         enemy.game = this; // Connect the enemy to the game master
+    }
+
+    //#endregion
+
+    //#region Raycast
+
+    float dist = -1;
+    List<GameObject> linecasts;
+
+    public List<GameObject> LineCastObjects(Position start, Position end, int layerMask) {
+        gameObjects.forEach((object) -> {
+            object.getCollision().getCollisionLines().forEach( (LC) -> {
+                float getdist = RayCast.getLineCast(start.getfX(), start.getfY(), end.getfX(), end.getfY(),
+                        LC.getPoint1().getfX() + object.getPosition().getfX(), LC.getPoint1().getfY() + object.getPosition().getfY(),
+                        LC.getPoint2().getfX() + object.getPosition().getfX(), LC.getPoint2().getfY() + object.getPosition().getfY());
+                if (getdist<dist || dist==-1) {
+                    dist = getdist;
+                }
+            });
+        });
+        return linecasts;
     }
 
     //#endregion
