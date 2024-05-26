@@ -1,28 +1,25 @@
 package entity;
 
-import controller.Controller;
 import core.Position;
-import game.Game;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
-import java.util.Timer;
-import java.util.TimerTask;
-
+import java.util.LinkedList;
 
 public class Enemy extends GameObject {
 
     //#region Enemy Init
     private int EnemySpeed = 3;
+    private int direction = 1;
 
-    private double fov = Math.toRadians(90);
-    private double viewDistance = 400;
+    private static final int RAYS = 360;
+
+    LinkedList<Line2D.Float> lines;
 
     public Enemy(Position position) {
+        lines = buildLines();
         this.position = position;
-
     }
 
     //#endregion
@@ -34,37 +31,19 @@ public class Enemy extends GameObject {
     }
 
     //#region Enemy Behavior
-
-    public void updateFOV(double angle) {
-        GameObject target = game.getGameObjects().get(0);
-
-        double distance = Math.sqrt(Math.pow(target.position.getX() - position.getX(), 2) + Math.pow(target.position.getY() - position.getY(), 2));
-
-        System.out.println("Distance: " + distance);
-        System.out.println("Angle: " + angle);
-        for (GameObject gameObject : game.getGameObjects()) {
-            if (gameObject instanceof Player) {
-                if (distance <= viewDistance) {
-                    if (angle >= Math.toRadians(90) && angle <= Math.toRadians(180)) {
-                        Pursue();
-                    }
-                }
-            }
-        }
-    }
-
     public void Seeking() {
         GameObject target = game.getGameObjects().get(0); // Get Player
-        int px = position.getX();
-        int py = position.getY();
 
-        double oscillaitonSpeed = 0.05;
-        double oscillationAmplitude = 50;
-        double oscillationOffset = 0;
+        // If closely reaching the bottom then go back down.
+        if (position.getY() >= 800) {
+            direction = -1;
+        }
 
-        oscillationOffset += oscillaitonSpeed;
-        double dy = oscillationAmplitude * Math.sin(oscillationOffset);
-        position = new Position(position.getfX(), position.getfY() + (float) dy);
+        if (position.getY() <= 300) {
+            direction = 1;
+        }
+
+        position = new Position(position.getfX(), position.getfY() + direction * (float) EnemySpeed);
     }
 
     public void Pursue() {
@@ -79,6 +58,7 @@ public class Enemy extends GameObject {
     //#endregion
 
     //#region Enemy Actions
+    //#endregion
 
     //#region Normalize
 
@@ -129,6 +109,74 @@ public class Enemy extends GameObject {
 
     //#endregion
 
+    //#region FOV
+    public void drawFOV(Graphics2D g) {
+        LinkedList<Line2D.Float> rays = ray(lines, (int) position.getfX(), (int) position.getfY(), RAYS, 500);
+        g.setColor(Color.RED);
+        for (Line2D.Float ray : rays) {
+            g.drawLine((int)ray.x1, (int)ray.y1, (int)ray.x2, (int)ray.y2);
+        }
+    }
+
+    public LinkedList<Line2D.Float> buildLines() {
+        LinkedList<Line2D.Float> lines = new LinkedList<>();
+        for (int i = 0;i < 10;i++) {
+            lines.add(new Line2D.Float(0, 0,0, 0));
+        }
+
+        return lines;
+    }
+
+    public LinkedList<Line2D.Float> ray(LinkedList<Line2D.Float> lines, int x, int y, int resolution, int maxDist) {
+        LinkedList<Line2D.Float> rays = new LinkedList<>();
+        double dir = 0;
+        for (int i = 0;i < resolution;i++) {
+            dir = -Math.PI / 3 + -Math.PI / 3 * ((double) i / resolution);
+
+            if (direction == 1) {
+                dir = Math.PI / 3 + Math.PI / 3 * ((double) i / resolution);
+            }
+
+            float minDist = maxDist;
+            for (Line2D.Float line : lines) {
+                float dist = getRayCast(x+32, y, x +(float) Math.cos(dir) * maxDist, y + (float) Math.sin(dir) * maxDist, line.x1, line.y1, line.x2, line.y2);
+                if (dist < minDist && dist > 0) {
+                    minDist = dist;
+                }
+            }
+            rays.add(new Line2D.Float(x+32,y, x+(float) Math.cos(dir) * minDist, y + (float) Math.sin(dir) * minDist));
+        }
+        return rays;
+    }
+
+    public static float dist(float x1, float y1, float x2, float y2) {
+        return (float) Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+    }
+
+    public static float getRayCast(float p0_x, float p0_y, float p1_x, float p1_y, float p2_x, float p2_y, float p3_x, float p3_y) {
+        float s1_x, s1_y, s2_x, s2_y;
+        s1_x = p1_x - p0_x;
+        s1_y = p1_y - p0_y;
+        s2_x = p3_x - p2_x;
+        s2_y = p3_y - p2_y;
+
+        float s, t;
+        s = (-s1_y * (p0_x - p2_x) + s1_x * (p0_y - p2_y)) / (-s2_x * s1_y + s1_x * s2_y);
+        t = (s2_x * (p0_y - p2_y) - s2_y * (p0_x - p2_x)) / (-s2_x * s1_y + s1_x * s2_y);
+
+        if (s >= 0 && s <= 1 && t >= 0 && t <= 1) {
+            // Collision detected
+            float x = p0_x + (t * s1_x);
+            float y = p0_y + (t * s1_y);
+
+            return dist(p0_x, p0_y, x, y);
+        }
+
+        return -1; // No collision
+    }
+
+    //#endregion
+
     //#region Design and Animations
 
     @Override
@@ -142,6 +190,5 @@ public class Enemy extends GameObject {
         graphics.dispose();
         return image;
     }
-
     //#endregion
 }

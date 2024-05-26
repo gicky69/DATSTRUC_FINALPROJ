@@ -40,6 +40,10 @@ public class Game {
         return gameObjects;
     }
 
+    public Graphics getGraphics() {
+        return frame.getGraphics();
+    }
+
     // Getters ng player
 
     // Adds player

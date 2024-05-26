@@ -1,5 +1,6 @@
 package display;
 
+import entity.Enemy;
 import input.KeyInputs;
 import game.Game;
 import entity.GameObject;
@@ -43,6 +44,9 @@ public class GamePanel extends JFrame {
         // Drawing the game object's sprites.
         for (GameObject gameObject : game.getGameObjects()) {
             g2.drawImage(gameObject.getSprite(), gameObject.getPosition().getX(), gameObject.getPosition().getY(), null);
+            if (gameObject instanceof Enemy) {
+                ((Enemy) gameObject).drawFOV(g2);
+            }
         }
         g2.dispose();
         bufferStrategy.show();
