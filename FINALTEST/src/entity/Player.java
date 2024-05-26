@@ -2,6 +2,7 @@ package entity;
 
 import controller.Controller;
 import core.Position;
+import core.collision.Collision;
 import game.Game;
 
 

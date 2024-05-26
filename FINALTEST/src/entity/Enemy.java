@@ -1,11 +1,14 @@
 package entity;
 
 import core.Position;
+import game.Game;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Enemy extends GameObject {
 
@@ -27,6 +30,17 @@ public class Enemy extends GameObject {
     @Override
     public void update() {
         Seeking();
+        lines = buildLines();
+
+        /* Work in progress pls dont delete
+        List<GameObject> linecasthits = game.LineCastObjects(position, game.getGameObjects().get(0).getPosition(), -1);
+        if (!linecasthits.isEmpty()) {
+            GameObject playerget = linecasthits.get(0);
+            Position hpos = playerget.position;
+            System.out.println("x: " + hpos.getfX() + " y: " + hpos.getfY());
+        }
+        */
+
         //System.out.println("enemy x: " + position.getfX() + " enemy y: " + position.getfY());
     }
 
@@ -58,6 +72,28 @@ public class Enemy extends GameObject {
     //#endregion
 
     //#region Enemy Actions
+
+    public void MoveTowards(Position pos) {
+
+        Position normalized = Normalize2D(pos); // Normalizes the relative position so it returns the directional value it is pointing to
+        float xvel = normalized.getfX();
+        float yvel = normalized.getfY();
+
+        // Move towards the target with relative velocity times speed
+        position = new Position(position.getfX() - xvel * (float) EnemySpeed, position.getfY() - yvel * (float) EnemySpeed);
+
+    }
+
+    public void MoveAwayFrom(Position pos) {
+
+        Position normalized = Normalize2D(pos); // Normalizes the relative position so it returns the directional value it is pointing to
+        float xvel = normalized.getfX();
+        float yvel = normalized.getfY();
+
+        // Move away from the target with relative velocity times speed
+        position = new Position(position.getfX() + xvel * (float) EnemySpeed, position.getfY() + yvel * (float) EnemySpeed);
+    }
+
     //#endregion
 
     //#region Normalize
@@ -86,30 +122,10 @@ public class Enemy extends GameObject {
         return new Position(nx, ny);
     }
 
-    public void MoveTowards(Position pos) {
-
-        Position normalized = Normalize2D(pos); // Normalizes the relative position so it returns the directional value it is pointing to
-        float xvel = normalized.getfX();
-        float yvel = normalized.getfY();
-
-        // Move towards the target with relative velocity times speed
-        position = new Position(position.getfX() - xvel * (float) EnemySpeed, position.getfY() - yvel * (float) EnemySpeed);
-
-    }
-
-    public void MoveAwayFrom(Position pos) {
-
-        Position normalized = Normalize2D(pos); // Normalizes the relative position so it returns the directional value it is pointing to
-        float xvel = normalized.getfX();
-        float yvel = normalized.getfY();
-
-        // Move away from the target with relative velocity times speed
-        position = new Position(position.getfX() + xvel * (float) EnemySpeed, position.getfY() + yvel * (float) EnemySpeed);
-    }
-
     //#endregion
 
     //#region FOV
+
     public void drawFOV(Graphics2D g) {
         LinkedList<Line2D.Float> rays = ray(lines, (int) position.getfX(), (int) position.getfY(), RAYS, 500);
         g.setColor(Color.RED);

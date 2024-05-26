@@ -10,7 +10,6 @@ public class Main {
     SettingsPanel settingsPanel;
     HTPPanel htpPanel;
 
-
     public Main() {
         mainFrame = new Frame(1600,900);
         loginPanel = new LoginPanel(mainFrame);

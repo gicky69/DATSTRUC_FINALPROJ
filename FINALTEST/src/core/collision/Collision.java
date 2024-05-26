@@ -2,6 +2,7 @@ package core.collision;
 
 import core.Position;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Collision {
@@ -10,6 +11,8 @@ public class Collision {
     private boolean[] layerMask = {false,false,false,false,false,false,false,false};
 
     public void BoxCollision(int width, int height) {
+        collisionLines = new ArrayList<>();
+
         // Create points
         Position topleft = new Position(-(width / 2f), -(height / 2f));
         Position topright = new Position((width / 2f), -(height / 2f));
