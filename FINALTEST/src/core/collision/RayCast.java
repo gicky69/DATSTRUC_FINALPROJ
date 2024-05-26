@@ -8,6 +8,10 @@ public class RayCast {
 
     public static float getLineCast(float p0_x, float p0_y, float p1_x, float p1_y, float p2_x, float p2_y, float p3_x, float p3_y) {
 
+        // Create lines
+
+
+        /*
         float s, t;
         s = (-p1_y * (p0_x - p2_x) + p1_x * (p0_y - p2_y)) / (-p3_x * p1_y + p1_x * p3_y);
         t = (p3_x * (p0_y - p2_y) - p3_y * (p0_x - p2_x)) / (-p3_x * p1_y + p1_x * p3_y);
@@ -19,8 +23,10 @@ public class RayCast {
 
             return dist(p0_x, p0_y, x, y);
         }
+        */
 
         return -1; // No collision
+
     }
 
     public static float getRayCast(float p0_x, float p0_y, float p1_x, float p1_y, float p2_x, float p2_y, float p3_x, float p3_y) {

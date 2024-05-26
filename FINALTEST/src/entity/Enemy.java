@@ -1,12 +1,14 @@
 package entity;
 
 import core.Position;
+import game.Game;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Enemy extends GameObject {
 
@@ -14,11 +16,9 @@ public class Enemy extends GameObject {
     private int EnemySpeed = 3;
     private int direction = 1;
 
-    private static final int RAYS = 100;
+    private static final int RAYS = 360;
 
     LinkedList<Line2D.Float> lines;
-
-    boolean detected = false;
 
     public Enemy(Position position) {
         lines = buildLines();
@@ -30,6 +30,18 @@ public class Enemy extends GameObject {
     @Override
     public void update() {
         Seeking();
+        lines = buildLines();
+
+        /* Work in progress pls dont delete
+        List<GameObject> linecasthits = game.LineCastObjects(position, game.getGameObjects().get(0).getPosition(), -1);
+        if (!linecasthits.isEmpty()) {
+            GameObject playerget = linecasthits.get(0);
+            Position hpos = playerget.position;
+            System.out.println("x: " + hpos.getfX() + " y: " + hpos.getfY());
+        }
+        */
+
+        //System.out.println("enemy x: " + position.getfX() + " enemy y: " + position.getfY());
     }
 
     //#region Enemy Behavior
@@ -61,14 +73,27 @@ public class Enemy extends GameObject {
 
     //#region Enemy Actions
 
-    public void Detect() {
-        GameObject target = game.getGameObjects().get(0); // Get Player
-        if (position.getX() < target.position.getX()) {
-            Pursue();
-        } else {
-            Flee();
-        }
+    public void MoveTowards(Position pos) {
+
+        Position normalized = Normalize2D(pos); // Normalizes the relative position so it returns the directional value it is pointing to
+        float xvel = normalized.getfX();
+        float yvel = normalized.getfY();
+
+        // Move towards the target with relative velocity times speed
+        position = new Position(position.getfX() - xvel * (float) EnemySpeed, position.getfY() - yvel * (float) EnemySpeed);
+
     }
+
+    public void MoveAwayFrom(Position pos) {
+
+        Position normalized = Normalize2D(pos); // Normalizes the relative position so it returns the directional value it is pointing to
+        float xvel = normalized.getfX();
+        float yvel = normalized.getfY();
+
+        // Move away from the target with relative velocity times speed
+        position = new Position(position.getfX() + xvel * (float) EnemySpeed, position.getfY() + yvel * (float) EnemySpeed);
+    }
+
     //#endregion
 
     //#region Normalize
@@ -97,54 +122,22 @@ public class Enemy extends GameObject {
         return new Position(nx, ny);
     }
 
-    public void MoveTowards(Position pos) {
-
-        Position normalized = Normalize2D(pos); // Normalizes the relative position so it returns the directional value it is pointing to
-        float xvel = normalized.getfX();
-        float yvel = normalized.getfY();
-
-        // Move towards the target with relative velocity times speed
-        position = new Position(position.getfX() - xvel * (float) EnemySpeed, position.getfY() - yvel * (float) EnemySpeed);
-
-    }
-
-    public void MoveAwayFrom(Position pos) {
-
-        Position normalized = Normalize2D(pos); // Normalizes the relative position so it returns the directional value it is pointing to
-        float xvel = normalized.getfX();
-        float yvel = normalized.getfY();
-
-        // Move away from the target with relative velocity times speed
-        position = new Position(position.getfX() + xvel * (float) EnemySpeed, position.getfY() + yvel * (float) EnemySpeed);
-    }
-
     //#endregion
 
     //#region FOV
+
     public void drawFOV(Graphics2D g) {
-        LinkedList<Line2D.Float> rays = ray(lines, (int) position.getfX(), (int) position.getfY(), RAYS, 300);
-        GameObject player = game.getGameObjects().get(0);
-        Rectangle2D playerBox = player.getBounds();
-
-
+        LinkedList<Line2D.Float> rays = ray(lines, (int) position.getfX(), (int) position.getfY(), RAYS, 500);
         g.setColor(Color.RED);
-        for (Line2D.Float line : lines) {
-            g.drawLine((int)line.x1, (int)line.y1, (int)line.x2, (int)line.y2);
-        }
-
         for (Line2D.Float ray : rays) {
             g.drawLine((int)ray.x1, (int)ray.y1, (int)ray.x2, (int)ray.y2);
-            if (playerBox.intersectsLine(rays)) {
-                detected
-            }
         }
     }
 
     public LinkedList<Line2D.Float> buildLines() {
         LinkedList<Line2D.Float> lines = new LinkedList<>();
         for (int i = 0;i < 10;i++) {
-            lines.add(new Line2D.Float(0, 50, 640, 50));
-
+            lines.add(new Line2D.Float(0, 0,0, 0));
         }
 
         return lines;
@@ -152,10 +145,8 @@ public class Enemy extends GameObject {
 
     public LinkedList<Line2D.Float> ray(LinkedList<Line2D.Float> lines, int x, int y, int resolution, int maxDist) {
         LinkedList<Line2D.Float> rays = new LinkedList<>();
-        x += 32;
         double dir = 0;
         for (int i = 0;i < resolution;i++) {
-            // Checks if it the player looks down or up
             dir = -Math.PI / 3 + -Math.PI / 3 * ((double) i / resolution);
 
             if (direction == 1) {
@@ -163,16 +154,13 @@ public class Enemy extends GameObject {
             }
 
             float minDist = maxDist;
-
-            // Checking if the ray hits the wall
             for (Line2D.Float line : lines) {
-                float dist = getRayCast(x, y, x +(float) Math.cos(dir) * maxDist, y + (float) Math.sin(dir) * maxDist, line.x1, line.y1, line.x2, line.y2);
+                float dist = getRayCast(x+32, y, x +(float) Math.cos(dir) * maxDist, y + (float) Math.sin(dir) * maxDist, line.x1, line.y1, line.x2, line.y2);
                 if (dist < minDist && dist > 0) {
                     minDist = dist;
                 }
             }
-
-            rays.add(new Line2D.Float(x,y, x+(float) Math.cos(dir) * minDist, y + (float) Math.sin(dir) * minDist));
+            rays.add(new Line2D.Float(x+32,y, x+(float) Math.cos(dir) * minDist, y + (float) Math.sin(dir) * minDist));
         }
         return rays;
     }

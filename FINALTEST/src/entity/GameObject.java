@@ -15,6 +15,7 @@ public abstract class GameObject {
     protected Size size;
     protected Collision collision;
     public Game game;
+    public String name = "entity";
 
     public GameObject() {
         position = new Position(50,50);
