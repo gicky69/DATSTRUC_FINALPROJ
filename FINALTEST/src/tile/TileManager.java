@@ -13,32 +13,34 @@ public class TileManager {
     GamePanel gamePanel;
     Tile[] tile;
     int[][] tileMap;
-    int tileSize = 40;
-    int maxScreenCol = 48;
-    int maxScreenRow = 27;
+
 
     public TileManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
-        tile = new Tile[100];
-        tileMap = new int[maxScreenRow][maxScreenCol];
-        getTileImage();
+        tile = new Tile[10];
+        tileMap = new int[gamePanel.maxWorldRow][gamePanel.maxWorldCol];
         loadMap();
+        getTileImage();
     }
 
+
+    // map is imported from txt.
     public void loadMap() {
-        String map = "FINALTEST/resources/Map/map1.txt";
-        try (BufferedReader reader = new BufferedReader(new FileReader(map))) {
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("FINALTEST/resources/Map/map1.txt"));
             String line;
             int row = 0;
-            while ((line = reader.readLine()) != null) {
+            while ((line = br.readLine()) != null) {
                 String[] tokens = line.split(" ");
                 for (int col = 0; col < tokens.length; col++) {
                     tileMap[row][col] = Integer.parseInt(tokens[col]);
                 }
                 row++;
             }
+            System.out.println("MAP LOADED SUCCESSFULLY");
+
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
     }
@@ -50,21 +52,27 @@ public class TileManager {
                 try {
                     tile[0] = new Tile();
                     tile[0].image = ImageIO.read(getClass().getResourceAsStream("/Tile/GreenTile.png"));
-                    if (tile[0].image == null) {
-                        System.out.println("Image not loaded");
-                    } else {
-                        System.out.println("Image loaded successfully");
+
+                    tile[1] = new Tile();
+                    tile[1].image = ImageIO.read(getClass().getResourceAsStream("/Tile/GreenTile.png"));
+
+                    for (int i = 0; i < 2; i++) {
+                        if (tile[i].image == null) {
+                            System.out.println("Image not loaded");
+                        } else {
+                            System.out.println("Image loaded successfully");
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-//                for (int row = 0; row < tileMap.length; row++) {
-//                    for (int col = 0; col < tileMap[row].length; col++) {
-//                        System.out.print(tileMap[row][col] + " ");
-//                    }
-//                    System.out.println();
-//                }
+                for (int row = 0; row < tileMap.length; row++) {
+                    for (int col = 0; col < tileMap[row].length; col++) {
+                        System.out.print(tileMap[row][col] + " ");
+                    }
+                    System.out.println();
+                }
                 return null;
             }
 
@@ -73,36 +81,25 @@ public class TileManager {
     }
 
     public void draw(Graphics2D g2) {
-        int col;
-        int row;
-        int x = 0;
-        int y = 0;
+        int col = 0;
+        int row = 0;
 
-        for (row = 0; row < tileMap.length; row++) {
-            for (col = 0; col < tileMap[row].length; col++) {
-                int rc = tileMap[row][col];
-                if (rc == 1) {
-                    g2.drawImage(tile[0].image, x, y, tileSize, tileSize, null);
-                }
-                x += tileSize;
+        while(col < gamePanel.maxWorldCol && row < gamePanel.maxWorldRow) {
+            int worldX = col * gamePanel.tileSize;
+            int worldY = row * gamePanel.tileSize;
+            int screenX = worldX-gamePanel.player.getWorldPosition().getX() + gamePanel.player.getScreenPosition().getX();
+            int screenY = worldY-gamePanel.player.getWorldPosition().getY() + gamePanel.player.getScreenPosition().getY();
+
+            System.out.print(tileMap[row][col]);
+
+            // to be changed
+            g2.drawImage(tile[0].image, screenX, screenY, gamePanel.tileSize, gamePanel.tileSize, null);
+            col++;
+
+            if (col == gamePanel.maxWorldCol) {
+                col = 0;
+                row++;
             }
-            y += tileSize;
-            x = 0;
         }
-
-        for (row = 0; row < tileMap.length; row++) {
-            for (col = 0; col < tileMap[row].length; col++) {
-                int rc = tileMap[row][col];
-                if (rc == 1) {
-                    g2.drawImage(tile[0].image, x, y, tileSize, tileSize, null);
-                }
-                x += tileSize;
-            }
-            y += tileSize;
-            x = 0;
-        }
-
-        //g2.drawImage(tile[0].image, 0, 0, gamePanel.tileSize, gamePanel.tileSize, null); // draw the tile image.
-
     }
 }

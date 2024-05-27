@@ -8,6 +8,7 @@ import game.Game;
 
 import javax.swing.*;
 import java.awt.*;
+import display.GamePanel;
 
 public class Player extends GameObject {
 
@@ -20,15 +21,21 @@ public class Player extends GameObject {
     //#region Player Init
 
     private Controller controller;
-    private int PlayerSpeed = 5;
+    private int PlayerSpeed = 4;
+    private Position worldPosition;
+    private Position screenPosition;
+    private GamePanel gamePanel;
 
-    public Player(Position pos, Controller controller) {
+    public Player(Position pos, Controller controller, GamePanel gamePanel) {
 
         super();
-
         this.position = pos;
-
+        this.worldPosition = position;
+        this.screenPosition = new Position(0, 0);
         this.controller = controller;
+        this.gamePanel = gamePanel;
+
+
         myAmeDefaultR = new ImageIcon("FINALTEST/images/GamePanel/MC_Default_Right-GamePanel.gif");
         myAmeDefaultL = new ImageIcon("FINALTEST/images/GamePanel/MC_Default_Left-GamePanel.gif");
         myAmeL = new ImageIcon("FINALTEST/images/GamePanel/MC_Left-GamePanel.gif");
@@ -39,6 +46,23 @@ public class Player extends GameObject {
     }
 
     //#endregion
+
+    // getters and setters for worldPosition and screenPosition
+    public Position getWorldPosition() {
+        return worldPosition;
+    }
+
+    public void setWorldPosition(Position worldPosition) {
+        this.worldPosition = worldPosition;
+    }
+
+    public Position getScreenPosition() {
+        return screenPosition;
+    }
+
+    public void setScreenPosition(Position screenPosition) {
+        this.screenPosition = screenPosition;
+    }
 
     @Override
     public void update() {
@@ -59,12 +83,16 @@ public class Player extends GameObject {
         }
 
         position = new Position(position.getX() + deltaX, position.getY() + deltaY);
+        setWorldPosition(position);
+        System.out.println("WORLD POSITION: " + position.getX() + " " + position.getY());
+        System.out.println("SCREEN POSITION: " + screenPosition.getX() + " " + screenPosition.getY());
+        setScreenPosition(new Position(gamePanel.screenWidth / 2, gamePanel.screenHeight / 2));
+
     }
 
     @Override
     public Image getSprite() {
         Image image = myAmeDefaultR.getImage();
-
 
         // Change sprite lng
         if (controller.isRequestingUp()){

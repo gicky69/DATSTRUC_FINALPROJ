@@ -31,7 +31,6 @@ public class Game {
     private GamePanel frame;
     private List<GameObject> gameObjects;
     private KeyInputs input;
-    private TileManager tilemanager;
 
     //#endregion
 
@@ -39,7 +38,9 @@ public class Game {
         input = new KeyInputs();
         frame = new GamePanel(width, height, input);
         gameObjects = new ArrayList<>();
-        AddPlayer(new Position(50, 50)); // This adds a player
+
+
+        AddPlayer(new Position(100, 100)); // This adds a player
         AddEnemy(new Position(500, 500)); // This adds an enemy
     }
 
@@ -56,13 +57,14 @@ public class Game {
 
     // Getters ng player
 
-    // Adds player
+    // Adds player as an object
     public void AddPlayer(Position pos) {
-        Player player = new Player(pos, new PlayerController(input));
+        Player player = new Player(pos, new PlayerController(input), frame);
         gameObjects.add(player);
         player.game = this; // Connect the player to the game master
         player.getCollision().setLayerMask(0, true);
         player.name = "Player";
+        frame.setPlayer(player);
     }
 
     // Adds enemy
