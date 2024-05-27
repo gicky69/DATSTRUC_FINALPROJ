@@ -1,31 +1,33 @@
-package core.collision;
+package core.physics2d;
 
 import core.Position;
 import entity.GameObject;
 import game.Game;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Physics2D {
 
-    public Game game;
+    public static Game game;
 
     public static float dist(float x1, float y1, float x2, float y2) {
         return (float) Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
     }
 
-    public static float detectIntersect(Position origin, Position end, Position linecolp1, Position linecolp2) {
+    public static Collider detectIntersect(Position origin, Position end, Position linecolp1, Position linecolp2) {
 
         //getLineCast(float xs1, float ys1, float xe1, float ye1, float xs2, float ys2, float xe2, float ye2)
         float xs1 = origin.getfX();
         float ys1 = origin.getfY();
         float xe1 = end.getfX();
         float ye1 = end.getfY();
-        float xs2 = linecolp1.getfX();
-        float ys2 = linecolp1.getfY();
-        float xe2 = linecolp2.getfX();
-        float ye2 = linecolp2.getfY();
+        float xs2 = linecolp1.getfX() + 0.001f; //These numbers are to prevent division by zero
+        float ys2 = linecolp1.getfY() + 0.002f;
+        float xe2 = linecolp2.getfX() + 0.003f;
+        float ye2 = linecolp2.getfY() + 0.004f;
+        float neverzero;
 
         //Points
         float p1x;
@@ -55,10 +57,11 @@ public class Physics2D {
 
         // Check if lines are parallel
         if (slope[0] == slope[1]) {
-            return -1;
+            return null;
         }
 
         // Calculate intersection point
+        neverzero = (slope[0] - slope[1]);
         float x = (intercept[1] - intercept[0]) / (slope[0] - slope[1]);
         float y = slope[0] * x + intercept[0];
 
@@ -76,29 +79,48 @@ public class Physics2D {
         // Calculate intersection distance
         if (isIntersect) {
             // Calculate intersection distance
-            return dist(xs1, ys1, x, y);
+            Collider collider = new Collider();
+            collider.point = new Position(x,y);
+            collider.distance = dist(xs1,ys1,x,y);
+            return collider;
         } else {
-            return -1;
+            return null;
         }
-
 
     }
 
     static float dist = -1;
-    List<Collider> colliders = new ArrayList<>();
+    static List<Collider> colliders = new ArrayList<>();
+    static Collider collider;
 
-    public List<Collider> getLineCast(Position origin, Position end, int layerMask) {
+    public static List<Collider> LineCastObjects(Position start, Position end, int layerMask) {
         colliders.clear();
-        game.getGameObjects().forEach((object) -> {
+        collider = null;
+        List<GameObject> gameObjects = game.getGameObjects();
+
+        gameObjects.forEach((object) -> {
             dist = -1;
             object.getCollision().getCollisionLines().forEach( (LC) -> {
-                float getdist = detectIntersect(origin, end, LC.getPoint1(), LC.getPoint2());
-                if (getdist<dist || dist<0) {
-                    dist = getdist;
+                Collider getcollider = detectIntersect(start, end,
+                        new Position(LC.getPoint1().getfX() + object.getPosition().getfX(), LC.getPoint1().getfY() + object.getPosition().getfY()),
+                        new Position(LC.getPoint2().getfX() + object.getPosition().getfX(), LC.getPoint2().getfY() + object.getPosition().getfY()));
+                if (getcollider!=null) {
+                    if (dist==-1 || dist > collider.distance) {
+                        dist = getcollider.distance;
+                        collider = getcollider;
+                    }
                 }
             });
             if (dist!=-1 && object.getCollision().getLayerMask(layerMask)) {
-                colliders.add(new Collider(object, dist));
+                collider.gameObject = object;
+                colliders.add(collider);
+            }
+            //System.out.println("that was, name: " + object.name + "/ distance: " + dist);
+        });
+        colliders.sort(new Comparator<Collider>() {
+            @Override
+            public int compare(Collider a1, Collider a2) {
+                return Float.compare(a1.distance, a2.distance);
             }
         });
         return colliders;
