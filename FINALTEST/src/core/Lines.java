@@ -1,12 +1,10 @@
-package core.collision;
+package core;
 
-import core.Position;
-
-public class CollisionLine {
+public class Lines {
     private Position point1;
     private Position point2;
 
-    public CollisionLine(Position p1, Position p2) {
+    public Lines(Position p1, Position p2) {
         this.point1 = p1;
         this.point2 = p2;
     }
