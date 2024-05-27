@@ -1,6 +1,6 @@
 package entity;
 
-import core.collision.Collision;
+import core.physics2d.Collision;
 import core.Position;
 import core.Size;
 import game.Game;

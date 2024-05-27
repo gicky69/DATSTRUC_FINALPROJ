@@ -2,8 +2,6 @@ package entity;
 
 import controller.Controller;
 import core.Position;
-import core.collision.Collision;
-import game.Game;
 
 
 import javax.swing.*;
@@ -84,8 +82,8 @@ public class Player extends GameObject {
 
         position = new Position(position.getX() + deltaX, position.getY() + deltaY);
         setWorldPosition(position);
-        System.out.println("WORLD POSITION: " + position.getX() + " " + position.getY());
-        System.out.println("SCREEN POSITION: " + screenPosition.getX() + " " + screenPosition.getY());
+        //System.out.println("WORLD POSITION: " + position.getX() + " " + position.getY());
+        //System.out.println("SCREEN POSITION: " + screenPosition.getX() + " " + screenPosition.getY());
         setScreenPosition(new Position(gamePanel.screenWidth / 2, gamePanel.screenHeight / 2));
 
     }

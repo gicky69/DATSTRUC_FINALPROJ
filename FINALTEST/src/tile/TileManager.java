@@ -69,9 +69,9 @@ public class TileManager {
 
                 for (int row = 0; row < tileMap.length; row++) {
                     for (int col = 0; col < tileMap[row].length; col++) {
-                        System.out.print(tileMap[row][col] + " ");
+                        //System.out.print(tileMap[row][col] + " ");
                     }
-                    System.out.println();
+                    //System.out.println();
                 }
                 return null;
             }
@@ -90,7 +90,7 @@ public class TileManager {
             int screenX = worldX-gamePanel.player.getWorldPosition().getX() + gamePanel.player.getScreenPosition().getX();
             int screenY = worldY-gamePanel.player.getWorldPosition().getY() + gamePanel.player.getScreenPosition().getY();
 
-            System.out.print(tileMap[row][col]);
+            //System.out.print(tileMap[row][col]);
 
             // to be changed
             g2.drawImage(tile[0].image, screenX, screenY, gamePanel.tileSize, gamePanel.tileSize, null);

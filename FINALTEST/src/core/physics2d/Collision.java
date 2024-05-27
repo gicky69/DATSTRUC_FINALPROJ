@@ -1,4 +1,4 @@
-package core.collision;
+package core.physics2d;
 
 import core.Lines;
 import core.Position;
