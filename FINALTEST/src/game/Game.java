@@ -39,7 +39,6 @@ public class Game {
         frame = new GamePanel(width, height, input);
         gameObjects = new ArrayList<>();
 
-
         AddPlayer(new Position(100, 100)); // This adds a player
         AddEnemy(new Position(500, 500)); // This adds an enemy
     }

@@ -15,14 +15,17 @@ public class Enemy extends GameObject {
     //#region Enemy Init
     private int EnemySpeed = 3;
     private int direction = 1;
-
     private static final int RAYS = 360;
+
+    private Position worldPosition;
+    private Position screenPosition;
 
     LinkedList<Line2D.Float> lines;
 
     public Enemy(Position position) {
         lines = buildLines();
         this.position = position;
+
     }
 
     //#endregion
