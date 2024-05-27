@@ -62,16 +62,25 @@ public class Physics2D {
         float x = (intercept[1] - intercept[0]) / (slope[0] - slope[1]);
         float y = slope[0] * x + intercept[0];
 
-        //Check if it is outside the parallel lines
-        if ((xs2<xe2 && xs2>x) || (xs2>xe2 && xe2>x) || (xs2<xe2 && xe2<x) || (xs2>xe2 && xs2<x))  {
-            return -1;
+        //Check if it is inside the parallel lines
+        boolean isIntersect = false;
+        if (Math.abs(xe2-xs2)>Math.abs(ye2-ys2)){
+            if ((xe2>xs2 && xe2>x && x>xs2) || (xs2>xe2 && xs2>x && x>xe2)) {
+                isIntersect = true;
+            }
+        } else {
+            if ((ye2>ys2 && ye2>y && y>ys2) || (ys2>ye2 && ys2>y && y>ye2)) {
+                isIntersect = true;
+            }
         }
-        if ((ys2<ye2 && ys2>y) || (ys2>ye2 && ye2>y) || (ys2<ye2 && ye2<y) || (ys2>ye2 && ys2<y))  {
+        // Calculate intersection distance
+        if (isIntersect) {
+            // Calculate intersection distance
+            return dist(xs1, ys1, x, y);
+        } else {
             return -1;
         }
 
-        // Calculate intersection distance
-        return dist(xs1,ys1,x,y);
 
     }
 
