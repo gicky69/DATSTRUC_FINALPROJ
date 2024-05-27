@@ -8,6 +8,7 @@ import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.concurrent.CountDownLatch;
 
 public class TileManager {
     GamePanel gamePanel;
@@ -17,10 +18,10 @@ public class TileManager {
 
     public TileManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
-        tile = new Tile[10];
+        tile = new Tile[2];
         tileMap = new int[gamePanel.maxWorldRow][gamePanel.maxWorldCol];
-        loadMap();
         getTileImage();
+        loadMap();
     }
 
 
@@ -45,18 +46,18 @@ public class TileManager {
 
     }
 
+    // CountDownLatch is used to wait for the image to load before drawing it. This is to prevent null pointer exception.
+    private final CountDownLatch latch = new CountDownLatch(1);
+
     public void getTileImage() {
+        // Swing Worker is used to load the images in the background, bypassing the EDT or Event Dispatch Thread ran on the main thread.
         SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
                 try {
-                    tile[0] = new Tile();
-                    tile[0].image = ImageIO.read(getClass().getResourceAsStream("/Tile/GreenTile.png"));
-
-                    tile[1] = new Tile();
-                    tile[1].image = ImageIO.read(getClass().getResourceAsStream("/Tile/GreenTile.png"));
-
-                    for (int i = 0; i < 2; i++) {
+                    for (int i = 0; i < tile.length; i++) {
+                        tile[i] = new Tile();
+                        tile[i].image = ImageIO.read(getClass().getResourceAsStream("/Tile/Tile" + i + ".png"));
                         if (tile[i].image == null) {
                             System.out.println("Image not loaded");
                         } else {
@@ -69,11 +70,17 @@ public class TileManager {
 
                 for (int row = 0; row < tileMap.length; row++) {
                     for (int col = 0; col < tileMap[row].length; col++) {
-                        //System.out.print(tileMap[row][col] + " ");
+                        System.out.print(tileMap[row][col] + " ");
                     }
-                    //System.out.println();
+                    System.out.println();
                 }
                 return null;
+            }
+
+            //
+            @Override
+            protected void done() {
+                latch.countDown(); // to signal code that SwingWorker has finished loading the images.
             }
 
         };
@@ -81,25 +88,28 @@ public class TileManager {
     }
 
     public void draw(Graphics2D g2) {
-        int col = 0;
-        int row = 0;
+        try {
+            latch.await(); // to  wait until the latch counts to 0, then this will run.
+            int col = 0;
+            int row = 0;
 
-        while(col < gamePanel.maxWorldCol && row < gamePanel.maxWorldRow) {
-            int worldX = col * gamePanel.tileSize;
-            int worldY = row * gamePanel.tileSize;
-            int screenX = worldX-gamePanel.player.getWorldPosition().getX() + gamePanel.player.getScreenPosition().getX();
-            int screenY = worldY-gamePanel.player.getWorldPosition().getY() + gamePanel.player.getScreenPosition().getY();
+            while (col < gamePanel.maxWorldCol && row < gamePanel.maxWorldRow) {
+                int worldX = col * gamePanel.tileSize;
+                int worldY = row * gamePanel.tileSize;
+                int screenX = worldX - gamePanel.player.getWorldPosition().getX() + gamePanel.player.getScreenPosition().getX();
+                int screenY = worldY - gamePanel.player.getWorldPosition().getY() + gamePanel.player.getScreenPosition().getY();
 
-            //System.out.print(tileMap[row][col]);
+                g2.drawImage(tile[tileMap[row][col]].image, screenX, screenY, gamePanel.tileSize, gamePanel.tileSize, null);
+                col++;
 
-            // to be changed
-            g2.drawImage(tile[0].image, screenX, screenY, gamePanel.tileSize, gamePanel.tileSize, null);
-            col++;
-
-            if (col == gamePanel.maxWorldCol) {
-                col = 0;
-                row++;
+                if (col == gamePanel.maxWorldCol) {
+                    col = 0;
+                    row++;
+                }
             }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException(e);
         }
     }
 }
