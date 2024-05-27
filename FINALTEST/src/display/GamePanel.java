@@ -50,6 +50,7 @@ public class GamePanel extends JFrame {
         this.player = player;
     }
 
+
     public void render(Game game) {
         // Draw the Player's sprite
         BufferStrategy bufferStrategy = getBufferStrategy();
@@ -75,4 +76,5 @@ public class GamePanel extends JFrame {
         g2.dispose();
         bufferStrategy.show();
     }
+
 }
