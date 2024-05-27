@@ -1,5 +1,6 @@
 package core.collision;
 
+import core.Lines;
 import core.Position;
 
 import java.util.ArrayList;
@@ -7,7 +8,7 @@ import java.util.List;
 
 public class Collision {
     private Position positionOffset;
-    private List<CollisionLine> collisionLines;
+    private List<Lines> collisionLines;
     private boolean[] layerMask = {false,false,false,false,false,false,false,false};
 
     public void BoxCollision(int width, int height) {
@@ -20,10 +21,10 @@ public class Collision {
         Position bottomleft = new Position(-(width / 2f), (height / 2f));
 
         // Create CollisionLines, this will be used to detect BoxCollisions
-        collisionLines.add(new CollisionLine(topleft, topright)); //top left to top right
-        collisionLines.add(new CollisionLine(topright, bottomright)); //top right to bottom right
-        collisionLines.add(new CollisionLine(bottomright, bottomleft)); //bottom right to bottom left
-        collisionLines.add(new CollisionLine(bottomleft, topleft)); //bottom left to top left
+        collisionLines.add(new Lines(topleft, topright)); //top left to top right
+        collisionLines.add(new Lines(topright, bottomright)); //top right to bottom right
+        collisionLines.add(new Lines(bottomright, bottomleft)); //bottom right to bottom left
+        collisionLines.add(new Lines(bottomleft, topleft)); //bottom left to top left
     }
 
     public void BoxCollision(int width, int height, Position offset) {
@@ -36,10 +37,10 @@ public class Collision {
         Position bottomleft = new Position(-(width / 2f)+offset.getfX(), (height / 2f)+offset.getfY());
 
         // Create CollisionLines, this will be used to detect BoxCollisions
-        collisionLines.add(new CollisionLine(topleft, topright)); //top left to top right
-        collisionLines.add(new CollisionLine(topright, bottomright)); //top right to bottom right
-        collisionLines.add(new CollisionLine(bottomright, bottomleft)); //bottom right to bottom left
-        collisionLines.add(new CollisionLine(bottomleft, topleft)); //bottem left to top left
+        collisionLines.add(new Lines(topleft, topright)); //top left to top right
+        collisionLines.add(new Lines(topright, bottomright)); //top right to bottom right
+        collisionLines.add(new Lines(bottomright, bottomleft)); //bottom right to bottom left
+        collisionLines.add(new Lines(bottomleft, topleft)); //bottem left to top left
     }
 
     public void setLayerMask(int layer, boolean isTrue) {
@@ -50,7 +51,7 @@ public class Collision {
         return layerMask[layer];
     }
 
-    public List<CollisionLine> getCollisionLines() {
+    public List<Lines> getCollisionLines() {
         return collisionLines;
     }
 }
