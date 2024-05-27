@@ -15,6 +15,7 @@ public class TileManager {
     Tile[] tile;
     int[][] tileMap;
 
+    // check only
 
     public TileManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
