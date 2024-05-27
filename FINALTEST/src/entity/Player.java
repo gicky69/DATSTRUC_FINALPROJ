@@ -9,8 +9,9 @@ import java.awt.*;
 
 public class Player extends GameObject {
     ImageIcon myAmeL, myAmeR, myAmeU, myAmeD, myAmeDefaultR, myAmeDefaultL;
-    private Controller controller;
     private int PlayerSpeed = 5;
+    private Controller controller;
+    Image sprite;
 
     public Player(Controller controller) {
         super();
@@ -22,6 +23,8 @@ public class Player extends GameObject {
         myAmeU = new ImageIcon("FINALTEST/images/GamePanel/MC_UP-GamePanel.gif");
         myAmeD = new ImageIcon("FINALTEST/images/GamePanel/MC_Down-GamePanel.gif");
 
+        sprite = myAmeDefaultR.getImage();
+
     }
 
     @Override
@@ -30,16 +33,24 @@ public class Player extends GameObject {
         int deltaY = 0;
 
         if (controller.isRequestingUp()) {
+            sprite = myAmeU.getImage();
             deltaY -= PlayerSpeed;
         }
         if (controller.isRequestingDown()) {
+            sprite = myAmeD.getImage();
             deltaY += PlayerSpeed;
         }
         if (controller.isRequestingLeft()) {
+            sprite = myAmeL.getImage();
             deltaX -= PlayerSpeed;
         }
         if (controller.isRequestingRight()) {
+            sprite = myAmeR.getImage();
             deltaX += PlayerSpeed;
+        }
+
+        if (controller.isDefault()) {
+            sprite = myAmeDefaultR.getImage();
         }
 
         position = new Position(position.getX() + deltaX, position.getY() + deltaY);
@@ -47,20 +58,7 @@ public class Player extends GameObject {
 
     @Override
     public Image getSprite() {
-        Image image = myAmeDefaultR.getImage();
 
-        if (controller.isRequestingUp()){
-            image = myAmeU.getImage();
-        }
-        if (controller.isRequestingDown()){
-            image = myAmeD.getImage();
-        }
-        if (controller.isRequestingLeft()){
-            image = myAmeL.getImage();
-        }
-        if (controller.isRequestingRight()){
-            image = myAmeR.getImage();
-        }
-        return image;
+        return sprite;
     }
 }

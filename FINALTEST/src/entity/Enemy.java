@@ -18,7 +18,7 @@ public class Enemy extends GameObject {
 
     @Override
     public void update() {
-        position = new Position(position.getX(), position.getY());
+        Seeking();
 //        Seeking();
     }
 
@@ -39,13 +39,15 @@ public class Enemy extends GameObject {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
+                if (position.getX() <= 100) {
+                    position = new Position(position.getX() + 5, position.getY());
+                }
                 if (position.getX() > 100) {
                     position = new Position(position.getX() - 5, position.getY());
                 }
-                if (position.getY() > 100) {
-                    position = new Position(position.getX(), position.getY() - 5);
-                }
+
+                System.out.println(position.getX() + " " + position.getY());
             }
-        }, 0, 1000);
+        }, 1000, 5000);
     }
 }
