@@ -11,6 +11,7 @@ public class PlayerController implements Controller {
         this.input = input;
     }
 
+    // Methods para sa controller, nirreturn kung anong key napindot
     @Override
     public boolean isDefault() {
         return !input.isPressed(KeyEvent.VK_W) && !input.isPressed(KeyEvent.VK_S) && !input.isPressed(KeyEvent.VK_A) && !input.isPressed(KeyEvent.VK_D);

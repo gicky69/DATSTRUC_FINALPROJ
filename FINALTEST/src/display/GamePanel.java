@@ -1,8 +1,10 @@
 package display;
 
+import entity.Enemy;
 import input.KeyInputs;
 import game.Game;
 import entity.GameObject;
+import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,24 +13,20 @@ import java.awt.image.BufferStrategy;
 
 public class GamePanel extends JFrame {
 
-    private Renderer renderer;
+    TileManager tileManager;
 
     public GamePanel(int width, int height, KeyInputs input) {
-        setLayout(null);
-        setResizable(false);
-
-        this.renderer = new Renderer();
-
-        setPreferredSize(new Dimension(width, height));
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        pack();
-
+        this.setLayout(null);
+        this.setPreferredSize(new Dimension(width, height));
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.pack();
         setBackground(Color.GRAY);
+        this.setVisible(true);
+        this.createBufferStrategy(2);
 
-        setVisible(true);
-        createBufferStrategy(2);
+        this.addKeyListener(input);
 
-        addKeyListener(input);
+        tileManager = new TileManager(this);
 
         setFocusable(true);
         requestFocusInWindow();
@@ -38,21 +36,19 @@ public class GamePanel extends JFrame {
         // Draw the Player's sprite
         BufferStrategy bufferStrategy = getBufferStrategy();
         Graphics g = bufferStrategy.getDrawGraphics();
+        Graphics2D g2 = (Graphics2D) g;
 
-        g.clearRect(0,0, getWidth(), getHeight());
+        g2.clearRect(0,0, getWidth(), getHeight());
+        tileManager.draw(g2);
 
-        renderer.render(game, g);
-
-//        game.getGameObjects().forEach(gameObject -> g.drawImage(gameObject.getSprite(),
-//                gameObject.getPosition().getX(),
-//                gameObject.getPosition().getY(),
-//                null
-//        ));
-
-//        for (GameObject gameObject : game.getGameObjects()) {
-//            g.drawImage(gameObject.getSprite(), gameObject.getPosition().getX(), gameObject.getPosition().getY(), null);
-//        }
-        g.dispose();
+        // Drawing the game object's sprites.
+        for (GameObject gameObject : game.getGameObjects()) {
+            g2.drawImage(gameObject.getSprite(), gameObject.getPosition().getX(), gameObject.getPosition().getY(), null);
+            if (gameObject instanceof Enemy) {
+                ((Enemy) gameObject).drawFOV(g2);
+            }
+        }
+        g2.dispose();
         bufferStrategy.show();
     }
 }
