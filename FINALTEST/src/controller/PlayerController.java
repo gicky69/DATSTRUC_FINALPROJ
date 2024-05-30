@@ -11,11 +11,6 @@ public class PlayerController implements Controller {
         this.input = input;
     }
 
-    // Methods para sa controller, nirreturn kung anong key napindot
-    @Override
-    public boolean isDefault() {
-        return !input.isPressed(KeyEvent.VK_W) && !input.isPressed(KeyEvent.VK_S) && !input.isPressed(KeyEvent.VK_A) && !input.isPressed(KeyEvent.VK_D);
-    }
 
     @Override
     public boolean isRequestingUp() {
@@ -35,5 +30,15 @@ public class PlayerController implements Controller {
     @Override
     public boolean isRequestingRight() {
         return input.isPressed(KeyEvent.VK_D);
+    }
+
+    @Override
+    public boolean isSprinting() {
+        return input.isPressed(KeyEvent.VK_SHIFT);
+    }
+
+    @Override
+    public boolean isSprintKeyReleased() {
+        return input.isReleased(KeyEvent.VK_SHIFT);
     }
 }

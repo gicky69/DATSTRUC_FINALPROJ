@@ -14,6 +14,10 @@ public class KeyInputs implements KeyListener {
         return keys[keyCode];
     }
 
+    public boolean isReleased(int keyCode){
+        return !keys[keyCode];
+    }
+
     @Override
     public void keyTyped(KeyEvent e) {
 

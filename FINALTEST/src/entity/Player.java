@@ -22,6 +22,8 @@ public class Player extends GameObject {
     private Controller controller;
     private int PlayerSpeed = 5;
 
+    private boolean sprint = false;
+
     public Player(Position pos, Controller controller) {
 
         super();
@@ -44,6 +46,7 @@ public class Player extends GameObject {
     public void update() {
         int deltaX = 0;
         int deltaY = 0;
+        int sprintspd = 5;
 
         if (controller.isRequestingUp()) {
             deltaY -= PlayerSpeed;
@@ -57,7 +60,15 @@ public class Player extends GameObject {
         if (controller.isRequestingRight()) {
             deltaX += PlayerSpeed;
         }
+        if(controller.isSprinting() && !sprint) {
+            deltaX *= sprintspd;
+            sprint = true;
+        }
 
+        if (controller.isSprintKeyReleased()) {
+            sprint = false;
+        }
+        System.out.println("Sprinting: " + sprint);
         position = new Position(position.getX() + deltaX, position.getY() + deltaY);
     }
 

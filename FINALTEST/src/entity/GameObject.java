@@ -17,7 +17,7 @@ public abstract class GameObject {
     public String name = "entity";
 
     public GameObject() {
-        position = new Position(50,50);
+        position = new Position(0,0);
         size = new Size(64, 64);
         collision = new Collision();
         collision.BoxCollision(size.getWidth(), size.getHeight());

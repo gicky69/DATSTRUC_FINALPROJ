@@ -32,19 +32,15 @@ public class Enemy extends GameObject {
         Seeking();
         lines = buildLines();
 
-        // Will cast a line from itself, to the player (player is index 0), layerMask will only target entities which have layer 0 enabled
-        List<GameObject> linecasthits = game.LineCastObjects(position, game.getGameObjects().get(0).getPosition(), 0);
-        if (!linecasthits.isEmpty() && linecasthits.get(0)!=null) {
-            System.out.println("name: " + linecasthits.get(0).name); // Will check the object that was hit closest according to the linecast
-        }
-
-        //System.out.println("enemy x: " + position.getfX() + " enemy y: " + position.getfY());
+//        // Will cast a line from itself, to the player (player is index 0), layerMask will only target entities which have layer 0 enabled
+//        List<GameObject> linecasthits = game.LineCastObjects(position, game.getGameObjects().get(0).getPosition(), 0);
+//        if (!linecasthits.isEmpty() && linecasthits.get(0)!=null) {
+//            System.out.println("name: " + linecasthits.get(0).name); // Will check the object that was hit closest according to the linecast
+//        }
     }
 
     //#region Enemy Behavior
     public void Seeking() {
-        GameObject target = game.getGameObjects().get(0); // Get Player
-
         // If closely reaching the bottom then go back down.
         if (position.getY() >= 800) {
             direction = -1;
@@ -144,7 +140,7 @@ public class Enemy extends GameObject {
         LinkedList<Line2D.Float> rays = new LinkedList<>();
         double dir = 0;
         for (int i = 0;i < resolution;i++) {
-            dir = -Math.PI / 3 + -Math.PI / 3 * ((double) i / resolution);
+            dir = -Math.PI / 3 + -Math.PI / 3 * ((double) i / resolution); // This prints in
 
             if (direction == 1) {
                 dir = Math.PI / 3 + Math.PI / 3 * ((double) i / resolution);
