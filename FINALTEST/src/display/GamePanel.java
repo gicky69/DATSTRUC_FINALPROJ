@@ -17,6 +17,8 @@ public class GamePanel extends JFrame {
     TileManager tileManager;
     public Player player;
 
+    private Renderer renderer;
+
     public final int screenWidth = 1600;
     public final int screenHeight = 1000;
     public final int tileSize = 40;
@@ -38,6 +40,8 @@ public class GamePanel extends JFrame {
         this.setVisible(true);
         this.createBufferStrategy(2);
 
+        this.renderer = new Renderer();
+
         this.addKeyListener(input);
 
         tileManager = new TileManager(this);
@@ -58,21 +62,25 @@ public class GamePanel extends JFrame {
         Graphics2D g2 = (Graphics2D) g;
 
         g2.clearRect(0,0, getWidth(), getHeight());
-        tileManager.draw(g2);
+//        tileManager.draw(g2);
 
         // Drawing the game object's sprites.
-        for (GameObject gameObject : game.getGameObjects()) {
+//        for (GameObject gameObject : game.getGameObjects()) {
+//
+//            if (gameObject instanceof Player) {
+//                g2.drawImage(gameObject.getSprite(), player.getPosition().getX(), player.getPosition().getY(), null);
+//            } else {
+//                if (gameObject instanceof Enemy) {
+//                    g2.drawImage(gameObject.getSprite(), gameObject.getPosition().getX(), gameObject.getPosition().getY(), null);
+//                    ((Enemy) gameObject).drawFOV(g2);
+//                }
+//            }
+//
+//        }
 
-            if (gameObject instanceof Player) {
-                g2.drawImage(gameObject.getSprite(), player.getScreenPosition().getX(), player.getScreenPosition().getY(), null);
-            } else {
-                g2.drawImage(gameObject.getSprite(), gameObject.getPosition().getX(), gameObject.getPosition().getY(), null);
-                if (gameObject instanceof Enemy) {
-                    ((Enemy) gameObject).drawFOV(g2);
-                }
-            }
+        renderer.renderMap(this, g2);
+        renderer.render(game, g2);
 
-        }
         g2.dispose();
         bufferStrategy.show();
     }

@@ -70,7 +70,7 @@ public class Enemy extends GameObject {
                 float pdir = Vector2D.getAngleInDegrees(position, collider.point);
                 float cdir = Math.abs(direction-pdir);
                 if (cdir>360) { cdir = cdir - 360; }
-                System.out.println("lookaway: " + cdir + " / distance: " + collider.distance);
+//                System.out.println("lookaway: " + cdir + " / distance: " + collider.distance);
                 if (cdir<90) {
                     if (testPrintColliders) { System.out.println("Player is within the enemy FOV"); }
                 }
@@ -161,6 +161,7 @@ public class Enemy extends GameObject {
         }
     }
 
+    //#region Raycasting
     public LinkedList<Line2D.Float> buildLines() {
         LinkedList<Line2D.Float> lines = new LinkedList<>();
         for (int i = 0;i < 10;i++) {
