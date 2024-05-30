@@ -22,7 +22,6 @@ public class Position {
     public float getfX() {
         return x;
     }
-
     public float getfY() {
         return y;
     }
@@ -30,7 +29,6 @@ public class Position {
     public void setX(float x) {
         this.x = x;
     }
-
     public void setY(float y) {
         this.y = y;
     }

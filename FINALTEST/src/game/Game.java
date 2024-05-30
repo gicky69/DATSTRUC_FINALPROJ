@@ -86,7 +86,7 @@ public class Game {
     // Updates each elements ng gameObjects list.
     public void update() {
         gameObjects.forEach(gameObject -> gameObject.update());
-        camera.update(this);
+        camera.update();
     }
 
     // Renders yung frame which is yung GamePanel.

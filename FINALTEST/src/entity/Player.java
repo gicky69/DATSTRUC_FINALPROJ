@@ -45,22 +45,22 @@ public class Player extends GameObject {
 
     //#endregion
 
-    // getters and setters for worldPosition and screenPosition
-    public Position getWorldPosition() {
-        return worldPosition;
-    }
-
-    public void setWorldPosition(Position worldPosition) {
-        this.worldPosition = worldPosition;
-    }
-
-    public Position getScreenPosition() {
-        return screenPosition;
-    }
-
-    public void setScreenPosition(Position screenPosition) {
-        this.screenPosition = screenPosition;
-    }
+//    // getters and setters for worldPosition and screenPosition
+//    public Position getWorldPosition() {
+//        return worldPosition;
+//    }
+//
+//    public void setWorldPosition(Position worldPosition) {
+//        this.worldPosition = worldPosition;
+//    }
+//
+//    public Position getScreenPosition() {
+//        return screenPosition;
+//    }
+//
+//    public void setScreenPosition(Position screenPosition) {
+//        this.screenPosition = screenPosition;
+//    }
 
     @Override
     public void update() {
@@ -79,14 +79,15 @@ public class Player extends GameObject {
         if (controller.isRequestingRight()) {
             deltaX += PlayerSpeed;
         }
+        if (controller.isSprinting()) {
+
+        }
 
         position = new Position(position.getX() + deltaX, position.getY() + deltaY);
-        System.out.println("PLAYER POSITION: " + position.getX() + " " + position.getY());
 //        setWorldPosition(position);
         //System.out.println("WORLD POSITION: " + position.getX() + " " + position.getY());
         //System.out.println("SCREEN POSITION: " + screenPosition.getX() + " " + screenPosition.getY());
 //        setScreenPosition(new Position(gamePanel.screenWidth / 2, gamePanel.screenHeight / 2));
-
     }
 
     @Override
