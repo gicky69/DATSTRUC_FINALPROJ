@@ -1,6 +1,7 @@
 package tile;
 
 import display.GamePanel;
+import display.Renderer;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -88,7 +89,7 @@ public class TileManager {
         worker.execute();
     }
 
-    public void draw(Graphics2D g2) {
+    public void draw(Renderer renderer, Graphics g2) {
         try {
             latch.await(); // to  wait until the latch counts to 0, then this will run.
             int col = 0;
@@ -97,10 +98,8 @@ public class TileManager {
             while (col < gamePanel.maxWorldCol && row < gamePanel.maxWorldRow) {
                 int worldX = col * gamePanel.tileSize;
                 int worldY = row * gamePanel.tileSize;
-                int screenX = worldX - gamePanel.player.getWorldPosition().getX() + gamePanel.player.getScreenPosition().getX();
-                int screenY = worldY - gamePanel.player.getWorldPosition().getY() + gamePanel.player.getScreenPosition().getY();
 
-                g2.drawImage(tile[tileMap[row][col]].image, screenX, screenY, gamePanel.tileSize, gamePanel.tileSize, null);
+                g2.drawImage(tile[tileMap[row][col]].image, worldX - gamePanel.player.getPosition().getX() + gamePanel.screenWidth / 2, worldY - gamePanel.player.getPosition().getY() + gamePanel.screenHeight / 2, null);
                 col++;
 
                 if (col == gamePanel.maxWorldCol) {
