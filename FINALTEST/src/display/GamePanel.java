@@ -1,6 +1,7 @@
 package display;
 
 import entity.Enemy;
+import entity.Player;
 import input.KeyInputs;
 import game.Game;
 import entity.GameObject;
@@ -14,6 +15,19 @@ import java.awt.image.BufferStrategy;
 public class GamePanel extends JFrame {
 
     TileManager tileManager;
+    public Player player;
+
+    public final int screenWidth = 1600;
+    public final int screenHeight = 1000;
+    public final int tileSize = 40;
+    public final int maxScreenCol = screenWidth/tileSize;
+    public int maxScreenRow = screenHeight/tileSize;
+
+    // world settings
+    public final int maxWorldCol = 80;
+    public final int maxWorldRow = 40;
+    public final int worldWidth = tileSize * maxWorldCol;
+    public final int worldHeight = tileSize * maxWorldRow;
 
     public GamePanel(int width, int height, KeyInputs input) {
         this.setLayout(null);
@@ -32,6 +46,11 @@ public class GamePanel extends JFrame {
         requestFocusInWindow();
     }
 
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+
     public void render(Game game) {
         // Draw the Player's sprite
         BufferStrategy bufferStrategy = getBufferStrategy();
@@ -43,12 +62,19 @@ public class GamePanel extends JFrame {
 
         // Drawing the game object's sprites.
         for (GameObject gameObject : game.getGameObjects()) {
-            g2.drawImage(gameObject.getSprite(), gameObject.getPosition().getX(), gameObject.getPosition().getY(), null);
-            if (gameObject instanceof Enemy) {
-                ((Enemy) gameObject).drawFOV(g2);
+
+            if (gameObject instanceof Player) {
+                g2.drawImage(gameObject.getSprite(), player.getScreenPosition().getX(), player.getScreenPosition().getY(), null);
+            } else {
+                g2.drawImage(gameObject.getSprite(), gameObject.getPosition().getX(), gameObject.getPosition().getY(), null);
+                if (gameObject instanceof Enemy) {
+                    ((Enemy) gameObject).drawFOV(g2);
+                }
             }
+
         }
         g2.dispose();
         bufferStrategy.show();
     }
+
 }
