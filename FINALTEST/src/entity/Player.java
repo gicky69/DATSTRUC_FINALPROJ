@@ -19,7 +19,6 @@ public class Player extends GameObject {
     //#region Player Init
 
     private Controller controller;
-    private int PlayerSpeed = 4;
     private Position worldPosition;
     private Position screenPosition;
     private GamePanel gamePanel;
@@ -40,6 +39,8 @@ public class Player extends GameObject {
         myAmeR = new ImageIcon("FINALTEST/images/GamePanel/MC_Right-GamePanel.gif");
         myAmeU = new ImageIcon("FINALTEST/images/GamePanel/MC_UP-GamePanel.gif");
         myAmeD = new ImageIcon("FINALTEST/images/GamePanel/MC_Down-GamePanel.gif");
+
+        solidArea = new Rectangle(0, 0, 10, 10);
 
     }
 
@@ -68,25 +69,47 @@ public class Player extends GameObject {
         int deltaY = 0;
 
         if (controller.isRequestingUp()) {
-            deltaY -= PlayerSpeed;
+            direction = "up";
+            deltaY -= entitySpeed;
         }
         if (controller.isRequestingDown()) {
-            deltaY += PlayerSpeed;
+            direction = "down";
+            deltaY += entitySpeed;
         }
         if (controller.isRequestingLeft()) {
-            deltaX -= PlayerSpeed;
+            direction = "left";
+            deltaX -= entitySpeed;
         }
         if (controller.isRequestingRight()) {
-            deltaX += PlayerSpeed;
+            direction = "right";
+            deltaX += entitySpeed;
         }
 
         position = new Position(position.getX() + deltaX, position.getY() + deltaY);
         System.out.println("PLAYER POSITION: " + position.getX() + " " + position.getY());
-//        setWorldPosition(position);
-        //System.out.println("WORLD POSITION: " + position.getX() + " " + position.getY());
-        //System.out.println("SCREEN POSITION: " + screenPosition.getX() + " " + screenPosition.getY());
-//        setScreenPosition(new Position(gamePanel.screenWidth / 2, gamePanel.screenHeight / 2));
 
+        game.entityCollision.tileChecker(this);
+
+        if (collisionOn) {
+            System.out.println(true);
+
+            switch (direction) {
+                case "up":
+                    position = new Position(position.getX() + deltaX, position.getY() + entitySpeed);
+                    break;
+                case "down":
+                    position = new Position(position.getX() + deltaX, position.getY() - entitySpeed);
+                    break;
+                case "left":
+                    position = new Position(position.getX() + entitySpeed, position.getY() + deltaY);
+                    break;
+                case "right":
+                    position = new Position(position.getX() - entitySpeed, position.getY() + deltaY);
+                    break;
+            }
+        }
+
+        collisionOn = false;
     }
 
     @Override

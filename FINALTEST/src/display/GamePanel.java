@@ -1,6 +1,7 @@
 package display;
 
 import entity.Enemy;
+import entity.EntityCollision;
 import entity.Player;
 import input.KeyInputs;
 import game.Game;
@@ -8,13 +9,14 @@ import entity.GameObject;
 import tile.TileManager;
 
 import javax.swing.*;
+import javax.swing.text.html.parser.Entity;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
 
 public class GamePanel extends JFrame {
 
-    TileManager tileManager;
+    public TileManager tileManager;
     public Player player;
 
     private Renderer renderer;
@@ -31,6 +33,8 @@ public class GamePanel extends JFrame {
     public final int worldWidth = tileSize * maxWorldCol;
     public final int worldHeight = tileSize * maxWorldRow;
 
+
+
     public GamePanel(int width, int height, KeyInputs input) {
         this.setLayout(null);
         this.setPreferredSize(new Dimension(width, height));
@@ -43,7 +47,6 @@ public class GamePanel extends JFrame {
         this.renderer = new Renderer();
 
         this.addKeyListener(input);
-
         tileManager = new TileManager(this);
 
         setFocusable(true);
@@ -77,6 +80,8 @@ public class GamePanel extends JFrame {
 //            }
 //
 //        }
+
+
 
         renderer.renderMap(this, g2);
         renderer.render(game, g2);
