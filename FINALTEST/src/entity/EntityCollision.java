@@ -12,6 +12,8 @@ public class EntityCollision {
         this.entity = entity;
     }
 
+
+    // check
     public void tileChecker(GameObject gameObject) {
 
         // this will check the leftX, rightX, topY, bottomY of the entity (this is the solid area we're talking about)
