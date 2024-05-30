@@ -26,7 +26,7 @@ public class Camera {
         this.ObjectWithFocus = Optional.of(object);
     }
 
-    public void update() {
+    public void update(Game game) {
         if (ObjectWithFocus.isPresent()) {
             Position objectPosition = ObjectWithFocus.get().getPosition();
 
