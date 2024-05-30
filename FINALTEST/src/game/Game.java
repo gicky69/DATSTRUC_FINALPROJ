@@ -7,12 +7,14 @@ import core.physics2d.Physics2D;
 import core.physics2d.Collider;
 import display.Camera;
 import entity.Enemy;
+import entity.EntityCollision;
 import entity.GameObject;
 import entity.Player;
 import input.KeyInputs;
 
 import display.GamePanel;
 
+import javax.swing.text.html.parser.Entity;
 import java.awt.*;
 import java.util.List;
 import java.util.ArrayList;
@@ -27,6 +29,7 @@ public class Game {
     private KeyInputs input;
     public Physics2D p2d;
     private Camera camera;
+    public EntityCollision entityCollision;
 
     //#endregion
 
@@ -69,6 +72,7 @@ public class Game {
         player.getCollision().setLayerMask(0, true);
         player.name = "Player";
         frame.setPlayer(player);
+        entityCollision = new EntityCollision(frame, player);
     }
 
     // Adds enemy
@@ -86,7 +90,7 @@ public class Game {
     // Updates each elements ng gameObjects list.
     public void update() {
         gameObjects.forEach(gameObject -> gameObject.update());
-        camera.update();
+        camera.update(this);
     }
 
     // Renders yung frame which is yung GamePanel.

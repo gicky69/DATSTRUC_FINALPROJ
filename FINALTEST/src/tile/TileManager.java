@@ -13,8 +13,8 @@ import java.util.concurrent.CountDownLatch;
 
 public class TileManager {
     GamePanel gamePanel;
-    Tile[] tile;
-    int[][] tileMap;
+    public Tile[] tile;
+    public int[][] tileMap;
 
     // check only
 
@@ -64,6 +64,10 @@ public class TileManager {
                             System.out.println("Image not loaded");
                         } else {
                             System.out.println("Image loaded successfully");
+                        }
+
+                        if (i == 0) {
+                            tile[i].collision = true;
                         }
                     }
                 } catch (Exception e) {
