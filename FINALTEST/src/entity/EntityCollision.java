@@ -1,15 +1,18 @@
 package entity;
 
 import display.GamePanel;
+import entity.Player;
 
 public class EntityCollision {
 
     private GamePanel gamePanel;
     private GameObject entity;
+    private Player player;
 
-    public EntityCollision(GamePanel gamePanel, GameObject entity) {
+    public EntityCollision(GamePanel gamePanel, GameObject entity, Player player) {
         this.gamePanel = gamePanel;
         this.entity = entity;
+        this.player = player;
     }
 
 
@@ -17,10 +20,10 @@ public class EntityCollision {
     public void tileChecker(GameObject gameObject) {
 
         // this will check the leftX, rightX, topY, bottomY of the entity (this is the solid area we're talking about)
-        int entityLeftWorldX = entity.getPosition().getX() + entity.solidArea.x;
-        int entityRightWorldX = entity.getPosition().getX() + entity.solidArea.x + entity.solidArea.width;
-        int entityTopWorldY = entity.getPosition().getY() + entity.solidArea.y;
-        int entityBottomWorldY = entity.getPosition().getY() + entity.solidArea.y + entity.solidArea.height;
+        int entityLeftWorldX = entity.getPosition().getX();
+        int entityRightWorldX = entity.getPosition().getX();
+        int entityTopWorldY = entity.getPosition().getY();
+        int entityBottomWorldY = entity.getPosition().getY();
 
         // this will get the tile position of the entity (left, right, top, bottom)
         int entityLeftCol = entityLeftWorldX / gamePanel.tileSize;
@@ -36,7 +39,6 @@ public class EntityCollision {
                 entityTopRow = (entityTopWorldY-entity.entitySpeed) / gamePanel.tileSize;
                 tileSide1 = gamePanel.tileManager.tileMap[entityTopRow][entityLeftCol];
                 tileSide2 = gamePanel.tileManager.tileMap[entityTopRow][entityRightCol];
-
 
                 // if the conditions are true, push the entity back to its previous position
                 if (gamePanel.tileManager.tile[tileSide1].collision || gamePanel.tileManager.tile[tileSide2].collision) {

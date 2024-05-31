@@ -7,9 +7,13 @@ import java.awt.*;
 
 public class Renderer {
     Camera camera;
+    Player player;
 
-    public void render(Game game, Graphics graphics) {
+
+
+    public void render(Game game, Graphics graphics, Player player) {
         this.camera = game.getCamera();
+        this.player = player;
 
         // Draw the Player's sprite
         game.getGameObjects().forEach(gameObject -> {
@@ -19,20 +23,14 @@ public class Renderer {
                     null
             );
 
-            // Draw a rectangle on the player
-            if (gameObject instanceof Player) {
-                graphics.setColor(Color.RED);
-                graphics.drawRect(
-                        gameObject.getPosition().getX() - camera.getPosition().getX() - 32,
-                        gameObject.getPosition().getY() - camera.getPosition().getY() - 32,
-                        10,
-                        10);
+            // draw player position
+            graphics.setColor(Color.BLACK);
+            graphics.drawString("Player Position: ",20,50);
+            graphics.drawString("X: " + player.getPosition().getX() +" Y: "
+                    + player.getPosition().getY(),20,70);
 
-                // Print the rectangle (player's) position
-                System.out.println("Rectangle Position: X = " + gameObject.getPosition().getX() + ", Y = "
-                        + gameObject.getPosition().getY());
-
-            }
+            // display collision state
+            graphics.drawString("Collision: " + player.getCollisionState(),20,90);
         });
     }
 

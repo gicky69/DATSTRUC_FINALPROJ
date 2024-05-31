@@ -72,7 +72,7 @@ public class Game {
         player.getCollision().setLayerMask(0, true);
         player.name = "Player";
         frame.setPlayer(player);
-        entityCollision = new EntityCollision(frame, player);
+        entityCollision = new EntityCollision(frame, player, player);
     }
 
     // Adds enemy
