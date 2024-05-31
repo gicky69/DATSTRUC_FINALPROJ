@@ -10,20 +10,14 @@ import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Enemy extends GameObject {
-
-    //#region Enemy Init
-    private int EnemySpeed = 3;
-    private float direction = 90;
-    private int viewDistance = 500; // How far can the enemy see?
-    private int FOVSize = 90; // How big is the enemy FOV?
+public class Wall extends GameObject {
 
     // Build Lines
     private static final int RAYS = 360;
 
     LinkedList<Line2D.Float> lines;
 
-    public Enemy(Position position) {
+    public Wall(Position position) {
         lines = buildLines();
         this.position = position;
     }

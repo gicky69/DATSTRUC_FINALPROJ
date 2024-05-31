@@ -43,7 +43,7 @@ public class Game {
         camera = new Camera(windowsSize);
 
         AddPlayer(new Position(100, 100)); // This adds a player
-        AddEnemy(new Position(800, 500)); // This adds an enemy
+        AddEnemy(new Position(600, 500)); // This adds an enemy
     }
 
     //#region Entity Management
