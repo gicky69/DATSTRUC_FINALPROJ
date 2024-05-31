@@ -19,16 +19,12 @@ public class Player extends GameObject {
     //#region Player Init
 
     private Controller controller;
-    private Position worldPosition;
-    private Position screenPosition;
     private GamePanel gamePanel;
 
     public Player(Position pos, Controller controller, GamePanel gamePanel) {
 
         super();
         this.position = pos;
-        this.worldPosition = position;
-        this.screenPosition = new Position(0, 0);
         this.controller = controller;
         this.gamePanel = gamePanel;
 
@@ -40,28 +36,9 @@ public class Player extends GameObject {
         myAmeU = new ImageIcon("FINALTEST/images/GamePanel/MC_UP-GamePanel.gif");
         myAmeD = new ImageIcon("FINALTEST/images/GamePanel/MC_Down-GamePanel.gif");
 
-        solidArea = new Rectangle(0, 0, 10, 10);
-
     }
 
     //#endregion
-
-    // getters and setters for worldPosition and screenPosition
-    public Position getWorldPosition() {
-        return worldPosition;
-    }
-
-    public void setWorldPosition(Position worldPosition) {
-        this.worldPosition = worldPosition;
-    }
-
-    public Position getScreenPosition() {
-        return screenPosition;
-    }
-
-    public void setScreenPosition(Position screenPosition) {
-        this.screenPosition = screenPosition;
-    }
 
     @Override
     public void update() {
@@ -85,14 +62,19 @@ public class Player extends GameObject {
             deltaX += entitySpeed;
         }
 
-        position = new Position(position.getX() + deltaX, position.getY() + deltaY);
-        System.out.println("PLAYER POSITION: " + position.getX() + " " + position.getY());
+        // Normalize speed if more than one key is pressed
+        double length = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        if (length > entitySpeed) {
+            deltaX = (int) (deltaX / length * entitySpeed);
+            deltaY = (int) (deltaY / length * entitySpeed);
+        }
 
+        position = new Position(position.getX() + deltaX, position.getY() + deltaY);
+
+        collisionOn = false;
         game.entityCollision.tileChecker(this);
 
         if (collisionOn) {
-            System.out.println(true);
-
             switch (direction) {
                 case "up":
                     position = new Position(position.getX() + deltaX, position.getY() + entitySpeed);
@@ -109,7 +91,6 @@ public class Player extends GameObject {
             }
         }
 
-        collisionOn = false;
     }
 
     @Override
@@ -130,5 +111,9 @@ public class Player extends GameObject {
             image = myAmeR.getImage();
         }
         return image;
+    }
+
+    public boolean getCollisionState() {
+        return this.collisionOn;
     }
 }

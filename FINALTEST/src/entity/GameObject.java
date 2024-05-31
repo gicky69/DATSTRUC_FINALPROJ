@@ -15,7 +15,7 @@ public abstract class GameObject {
     protected Collision collision;
     public int entitySpeed = 5;
     public String direction = "";
-    public Rectangle solidArea;
+    //public Rectangle solidArea; to be used (probably) in the future
     public boolean collisionOn = false;
     public Game game;
     public String name = "entity";
@@ -38,4 +38,6 @@ public abstract class GameObject {
     }
 
     public Collision getCollision() { return collision; }
+
 }
+
