@@ -6,10 +6,7 @@ import core.Size;
 import core.physics2d.Physics2D;
 import core.physics2d.Collider;
 import display.Camera;
-import entity.Enemy;
-import entity.EntityCollision;
-import entity.GameObject;
-import entity.Player;
+import entity.*;
 import input.KeyInputs;
 
 import display.GamePanel;
@@ -44,6 +41,7 @@ public class Game {
 
         AddPlayer(new Position(100, 100)); // This adds a player
         AddEnemy(new Position(600, 500)); // This adds an enemy
+        AddObject(2, new Position(600, 500)); // This creates an object called wall (this is to test the linecast collision)
     }
 
     //#region Entity Management
@@ -81,6 +79,15 @@ public class Game {
         gameObjects.add(enemy);
         enemy.game = this; // Connect the enemy to the game master
         enemy.name = "Enemy";
+    }
+
+    // Adds an object
+    public void AddObject(int itemid, Position pos) {
+        Wall wall = new Wall(pos);
+        gameObjects.add(wall);
+        wall.game = this; // Connect the enemy to the game master
+        wall.name = "Wall";
+        wall.getCollision().setLayerMask(0, true);
     }
 
     //#endregion
