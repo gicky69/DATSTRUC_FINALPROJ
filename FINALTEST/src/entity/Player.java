@@ -45,6 +45,9 @@ public class Player extends GameObject {
         int deltaX = 0;
         int deltaY = 0;
 
+        int oldPosX = position.getX();
+        int oldPosY = position.getY();
+
         if (controller.isRequestingUp()) {
             direction = "up";
             deltaY -= entitySpeed;
@@ -75,22 +78,31 @@ public class Player extends GameObject {
         game.entityCollision.tileChecker(this);
 
         if (collisionOn) {
-            switch (direction) {
-                case "up":
-                    position = new Position(position.getX() + deltaX, position.getY() + entitySpeed);
-                    break;
-                case "down":
-                    position = new Position(position.getX() + deltaX, position.getY() - entitySpeed);
-                    break;
-                case "left":
-                    position = new Position(position.getX() + entitySpeed, position.getY() + deltaY);
-                    break;
-                case "right":
-                    position = new Position(position.getX() - entitySpeed, position.getY() + deltaY);
-                    break;
-            }
+            position = new Position(oldPosX, position.getY());
+//            switch (direction) {
+//                case "up":
+//                    position = new Position(position.getX() + deltaX, position.getY() + entitySpeed);
+//                    break;
+//                case "down":
+//                    position = new Position(position.getX() + deltaX, position.getY() - entitySpeed);
+//                    break;
+//                case "left":
+//                    position = new Position(position.getX() + entitySpeed, position.getY() + deltaY);
+//                    break;
+//                case "right":
+//                    position = new Position(position.getX() - entitySpeed, position.getY() + deltaY);
+//                    break;
+//            }
         }
 
+        oldPosX = position.getX();
+
+
+        collisionOn = false;
+        game.entityCollision.tileChecker(this);
+        if (collisionOn) {
+            position = new Position(oldPosX, oldPosY);
+        }
     }
 
     @Override
