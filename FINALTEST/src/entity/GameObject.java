@@ -20,8 +20,8 @@ public abstract class GameObject {
     public GameObject() {
         position = new Position(50,50);
         size = new Size(64, 64);
-//        collision = new Collision();
-//        collision.BoxCollision(size.getWidth(), size.getHeight());
+        collision = new Collision();
+        collision.BoxCollision(size.getWidth(), size.getHeight());
     }
 
     public abstract void update();
@@ -37,7 +37,7 @@ public abstract class GameObject {
 
     public Collision getCollision() { return collision; }
 
-    public Rectangle2D.Float getBounds() {
-        return new Rectangle2D.Float(position.getfX(), position.getfY(), size.getWidth(), size.getHeight());
-    }
+//    public Rectangle2D.Float getBounds() {
+//        return new Rectangle2D.Float(position.getfX(), position.getfY(), size.getWidth(), size.getHeight());
+//    }
 }

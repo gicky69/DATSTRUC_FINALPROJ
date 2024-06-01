@@ -129,9 +129,7 @@ public class Enemy extends GameObject {
     public void drawFOV(Graphics2D g) {
         LinkedList<Line2D.Float> rays = ray(lines, (int) position.getfX(), (int) position.getfY(), RAYS, 500);
         g.setColor(Color.RED);
-        for (Line2D.Float ray : rays) {
-            g.drawLine((int)ray.x1, (int)ray.y1, (int)ray.x2, (int)ray.y2);
-        }
+        rays.forEach(ray -> g.drawLine((int) ray.x1, (int) ray.y1, (int) ray.x2, (int) ray.y2));
     }
 
     public LinkedList<Line2D.Float> buildLines() {
