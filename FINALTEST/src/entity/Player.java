@@ -72,7 +72,7 @@ public class Player extends GameObject {
             deltaY = (int) (deltaY / length * entitySpeed);
         }
 
-        position = new Position(position.getX() + deltaX, position.getY() + deltaY);
+        position = new Position(position.getX() + deltaX, position.getY());
 
         collisionOn = false;
         game.entityCollision.tileChecker(this);
@@ -95,13 +95,22 @@ public class Player extends GameObject {
 //            }
         }
 
+        // if player collides horizontally, revert to old position
         oldPosX = position.getX();
-
 
         collisionOn = false;
         game.entityCollision.tileChecker(this);
         if (collisionOn) {
             position = new Position(oldPosX, oldPosY);
+        }
+
+        // collision vertically
+        position = new Position(position.getX(), position.getY() + deltaY);
+
+        collisionOn = false;
+        game.entityCollision.tileChecker(this);
+        if (collisionOn) {
+            position = new Position(position.getX(), oldPosY);
         }
     }
 
