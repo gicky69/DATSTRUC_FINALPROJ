@@ -1,12 +1,12 @@
 package entity;
 
 import core.Position;
-import game.Game;
+import core.Vector2D;
+import core.physics2d.Collider;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,8 +14,11 @@ public class Enemy extends GameObject {
 
     //#region Enemy Init
     private int EnemySpeed = 3;
-    private int direction = 1;
+    private float direction = 90;
+    private int viewDistance = 500; // How far can the enemy see?
+    private int FOVSize = 90; // How big is the enemy FOV?
 
+    // Build Lines
     private static final int RAYS = 360;
 
     LinkedList<Line2D.Float> lines;
@@ -32,15 +35,6 @@ public class Enemy extends GameObject {
         Seeking();
         lines = buildLines();
 
-        /* Work in progress pls dont delete
-        List<GameObject> linecasthits = game.LineCastObjects(position, game.getGameObjects().get(0).getPosition(), -1);
-        if (!linecasthits.isEmpty()) {
-            GameObject playerget = linecasthits.get(0);
-            Position hpos = playerget.position;
-            System.out.println("x: " + hpos.getfX() + " y: " + hpos.getfY());
-        }
-        */
-
         //System.out.println("enemy x: " + position.getfX() + " enemy y: " + position.getfY());
     }
 
@@ -48,16 +42,50 @@ public class Enemy extends GameObject {
     public void Seeking() {
         GameObject target = game.getGameObjects().get(0); // Get Player
 
+        // direction is now in degrees 0-360
         // If closely reaching the bottom then go back down.
         if (position.getY() >= 800) {
-            direction = -1;
+            direction = 270;
         }
 
         if (position.getY() <= 300) {
-            direction = 1;
+            direction = 90;
         }
 
-        position = new Position(position.getfX(), position.getfY() + direction * (float) EnemySpeed);
+        Position moveto = Vector2D.angleToVector(direction);
+        float movetox = moveto.getfX() * EnemySpeed;
+        float movetoy = moveto.getfY() * EnemySpeed;
+        position = new Position(position.getfX() + movetox, position.getfY() + movetoy);
+
+
+        // Will cast a line from itself, to the player (player is index 0), layerMask will only target entities which have layer 0 enabled
+        List<Collider> colliders = game.p2d.LineCastObjects(position, game.getGameObjects().get(0).getPosition(), 0);
+        int testPrintColliders = 2; // If you want to test the collider, if true, will print information about colliding objects between the enemy and player.
+        if (!colliders.isEmpty() && colliders.get(0)!=null) {
+            Collider collider  = colliders.get(0);
+            if (testPrintColliders==1) { System.out.println("name: " + collider.gameObject.name); } // Will check the object that was hit closest according to the linecast
+            if (collider.gameObject.name.equals("Player")) {
+
+                // Check if the player is within the ray's angle, is the player close enough?
+                float pdir = Vector2D.getAngleInDegrees(position, collider.point);
+                float cdir = Math.abs(direction-pdir)*2f;
+                if (cdir>360) { cdir = cdir - 360; }
+                if (testPrintColliders==1) { System.out.println("lookaway: " + cdir + " / distance: " + collider.distance); }
+                if (cdir<90) {
+                    if (testPrintColliders==1) { System.out.println("Player is within the enemy FOV"); }
+                }
+                if (collider.distance<300) {
+                    if (testPrintColliders==1) { System.out.println("Player is within the enemy distance"); }
+                }
+
+                // If the enemy should detect the player
+                if ((cdir<FOVSize) && collider.distance<viewDistance) {
+                    // What happens if player is detected??
+                    if (testPrintColliders==2) { System.out.println("Player is detected"); }
+                }
+            }
+        }
+
     }
 
     public void Pursue() {
@@ -132,6 +160,7 @@ public class Enemy extends GameObject {
         rays.forEach(ray -> g.drawLine((int) ray.x1, (int) ray.y1, (int) ray.x2, (int) ray.y2));
     }
 
+    //#region Raycasting
     public LinkedList<Line2D.Float> buildLines() {
         LinkedList<Line2D.Float> lines = new LinkedList<>();
         for (int i = 0;i < 10;i++) {

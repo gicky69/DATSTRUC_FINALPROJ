@@ -2,39 +2,46 @@ package game;
 
 import controller.PlayerController;
 import core.Position;
-import core.collision.RayCast;
-import core.collision.RayCastHit;
-import entity.Enemy;
-import entity.GameObject;
-import entity.Player;
+import core.Size;
+import core.physics2d.Physics2D;
+import core.physics2d.Collider;
+import display.Camera;
+import entity.*;
 import input.KeyInputs;
 
 import display.GamePanel;
-import tile.TileManager;
 
+import javax.swing.text.html.parser.Entity;
 import java.awt.*;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.ArrayList;
 
 public class Game {
+
 
     //#region Back-end Init
 
     private GamePanel frame;
     private List<GameObject> gameObjects;
     private KeyInputs input;
-    private TileManager tilemanager;
+    public Physics2D p2d;
+    private Camera camera;
+    public EntityCollision entityCollision;
 
     //#endregion
 
-    public Game(int width, int height) {
+    public Game(Size windowsSize, int width, int height) {
         input = new KeyInputs();
         frame = new GamePanel(width, height, input);
         gameObjects = new ArrayList<>();
-        AddPlayer(new Position(50, 50)); // This adds a player
-        AddEnemy(new Position(500, 500)); // This adds an enemy
+        p2d = new Physics2D();
+        p2d.game = this;
+
+        camera = new Camera(windowsSize);
+
+        AddPlayer(new Position(100, 100)); // This adds a player
+        AddEnemy(new Position(600, 500)); // This adds an enemy
+        AddObject(2, new Position(600, 500)); // This creates an object called wall (this is to test the linecast collision)
     }
 
     //#region Entity Management
@@ -50,13 +57,20 @@ public class Game {
 
     // Getters ng player
 
-    // Adds player
+    public Camera getCamera() {
+        return camera;
+    }
+
+    // Adds player as an object
     public void AddPlayer(Position pos) {
-        Player player = new Player(pos, new PlayerController(input));
+        Player player = new Player(pos, new PlayerController(input), frame);
         gameObjects.add(player);
+        camera.focusOn(player);
         player.game = this; // Connect the player to the game master
         player.getCollision().setLayerMask(0, true);
         player.name = "Player";
+        frame.setPlayer(player);
+        entityCollision = new EntityCollision(frame, player, player);
     }
 
     // Adds enemy
@@ -64,51 +78,16 @@ public class Game {
         Enemy enemy = new Enemy(pos);
         gameObjects.add(enemy);
         enemy.game = this; // Connect the enemy to the game master
+        enemy.name = "Enemy";
     }
 
-    //#endregion
-
-    //#region Raycasting, Linecasting
-
-    // Work in progress
-
-    float dist = -1;
-    List<GameObject> linecasts = new ArrayList<>();
-    List<RayCastHit> RayCastHits = new ArrayList<>();
-
-    public List<GameObject> LineCastObjects(Position start, Position end, int layerMask) {
-        linecasts.clear();
-        RayCastHits.clear();
-        gameObjects.forEach((object) -> {
-            dist = -1;
-            object.getCollision().getCollisionLines().forEach( (LC) -> {
-                float getdist = RayCast.getLineCast(start.getfX(), start.getfY(), end.getfX(), end.getfY(),
-                        LC.getPoint1().getfX() + object.getPosition().getfX(), LC.getPoint1().getfY() + object.getPosition().getfY(),
-                        LC.getPoint2().getfX() + object.getPosition().getfX(), LC.getPoint2().getfY() + object.getPosition().getfY());
-                if (getdist<dist || dist<0) {
-                    dist = getdist;
-                }
-                System.out.println("object x: " + (float)(LC.getPoint1().getfX() + object.getPosition().getfX()) + "/ object y: " + (float)(LC.getPoint1().getfY() + object.getPosition().getfY()));
-                System.out.println("start x: " + start.getfX() + "/ start y: " + start.getfY());
-                System.out.println("end x: " + end.getfX() + "/ end y: " + end.getfY());
-            });
-            if (dist!=-1) {
-                RayCastHits.add(new RayCastHit(object, dist));
-            }
-            System.out.println("that was, name: " + object.name + "/ distance: " + dist);
-        });
-        RayCastHits.sort((RayCastHit a1, RayCastHit a2) -> (int) ((a1.distance) - (a2.distance)));
-        RayCastHits.forEach((hit) -> {
-            if (layerMask == -1) {
-                linecasts.add(hit.gameObject);
-            }
-            else {
-                if (hit.gameObject.getCollision().getLayerMask(layerMask)) {
-                    linecasts.add(hit.gameObject);
-                }
-            }
-        });
-        return linecasts;
+    // Adds an object
+    public void AddObject(int itemid, Position pos) {
+        Wall wall = new Wall(pos);
+        gameObjects.add(wall);
+        wall.game = this; // Connect the enemy to the game master
+        wall.name = "Wall";
+        wall.getCollision().setLayerMask(0, true);
     }
 
     //#endregion
@@ -118,6 +97,7 @@ public class Game {
     // Updates each elements ng gameObjects list.
     public void update() {
         gameObjects.forEach(gameObject -> gameObject.update());
+        camera.update(this);
     }
 
     // Renders yung frame which is yung GamePanel.

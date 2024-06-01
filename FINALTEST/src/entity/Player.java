@@ -2,13 +2,11 @@ package entity;
 
 import controller.Controller;
 import core.Position;
-import core.collision.Collision;
-import game.Game;
 
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
+import display.GamePanel;
 
 public class Player extends GameObject {
 
@@ -21,15 +19,16 @@ public class Player extends GameObject {
     //#region Player Init
 
     private Controller controller;
-    private int PlayerSpeed = 5;
+    private GamePanel gamePanel;
 
-    public Player(Position pos, Controller controller) {
+    public Player(Position pos, Controller controller, GamePanel gamePanel) {
 
         super();
-
         this.position = pos;
-
         this.controller = controller;
+        this.gamePanel = gamePanel;
+
+
         myAmeDefaultR = new ImageIcon("FINALTEST/images/GamePanel/MC_Default_Right-GamePanel.gif");
         myAmeDefaultL = new ImageIcon("FINALTEST/images/GamePanel/MC_Default_Left-GamePanel.gif");
         myAmeL = new ImageIcon("FINALTEST/images/GamePanel/MC_Left-GamePanel.gif");
@@ -47,25 +46,56 @@ public class Player extends GameObject {
         int deltaY = 0;
 
         if (controller.isRequestingUp()) {
-            deltaY -= PlayerSpeed;
+            direction = "up";
+            deltaY -= entitySpeed;
         }
         if (controller.isRequestingDown()) {
-            deltaY += PlayerSpeed;
+            direction = "down";
+            deltaY += entitySpeed;
         }
         if (controller.isRequestingLeft()) {
-            deltaX -= PlayerSpeed;
+            direction = "left";
+            deltaX -= entitySpeed;
         }
         if (controller.isRequestingRight()) {
-            deltaX += PlayerSpeed;
+            direction = "right";
+            deltaX += entitySpeed;
+        }
+
+        // Normalize speed if more than one key is pressed
+        double length = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        if (length > entitySpeed) {
+            deltaX = (int) (deltaX / length * entitySpeed);
+            deltaY = (int) (deltaY / length * entitySpeed);
         }
 
         position = new Position(position.getX() + deltaX, position.getY() + deltaY);
+
+        collisionOn = false;
+        game.entityCollision.tileChecker(this);
+
+        if (collisionOn) {
+            switch (direction) {
+                case "up":
+                    position = new Position(position.getX() + deltaX, position.getY() + entitySpeed);
+                    break;
+                case "down":
+                    position = new Position(position.getX() + deltaX, position.getY() - entitySpeed);
+                    break;
+                case "left":
+                    position = new Position(position.getX() + entitySpeed, position.getY() + deltaY);
+                    break;
+                case "right":
+                    position = new Position(position.getX() - entitySpeed, position.getY() + deltaY);
+                    break;
+            }
+        }
+
     }
 
     @Override
     public Image getSprite() {
         Image image = myAmeDefaultR.getImage();
-
 
         // Change sprite lng
         if (controller.isRequestingUp()){
@@ -83,7 +113,7 @@ public class Player extends GameObject {
         return image;
     }
 
-    //#region Player Hitbox
-
-    //#endregion
+    public boolean getCollisionState() {
+        return this.collisionOn;
+    }
 }

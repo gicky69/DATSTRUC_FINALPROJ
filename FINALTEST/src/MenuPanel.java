@@ -1,3 +1,4 @@
+import core.Size;
 import game.Game;
 import game.GameLoop;
 
@@ -42,7 +43,7 @@ public class MenuPanel extends JPanel {
             mainFrame.frame.setVisible(false);
 
             // Start the Timer
-            new Thread(new GameLoop(new Game(1920, 1080))).start();
+            new Thread(new GameLoop(new Game(new Size(1600, 1000),1600, 1000))).start();
         });
 
         shopButton.addActionListener(e -> {
