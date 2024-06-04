@@ -39,7 +39,7 @@ public class Game {
 
         camera = new Camera(windowsSize);
 
-        AddPlayer(new Position(100, 100)); // This adds a player
+        AddPlayer(new Position(1000, 1000)); // This adds a player
         AddEnemy(new Position(600, 500)); // This adds an enemy
         AddObject(2, new Position(600, 500)); // This creates an object called wall (this is to test the linecast collision)
     }
@@ -96,8 +96,8 @@ public class Game {
 
     // Updates each elements ng gameObjects list.
     public void update() {
+        camera.update(this, frame);
         gameObjects.forEach(gameObject -> gameObject.update());
-        camera.update(this);
     }
 
     // Renders yung frame which is yung GamePanel.
