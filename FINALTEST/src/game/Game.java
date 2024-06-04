@@ -103,7 +103,6 @@ public class Game {
     // Renders yung frame which is yung GamePanel.
     public void render() {
         frame.render(this);
-
     }
 
     //#endregion
