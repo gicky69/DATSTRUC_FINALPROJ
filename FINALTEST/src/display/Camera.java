@@ -26,12 +26,38 @@ public class Camera {
         this.ObjectWithFocus = Optional.of(object);
     }
 
-    public void update(Game game) {
+    public void update(Game game, GamePanel gamePanel) {
         if (ObjectWithFocus.isPresent()) {
             Position objectPosition = ObjectWithFocus.get().getPosition();
 
-            this.position.setX(objectPosition.getX() - windowSize.getWidth() / 2);
-            this.position.setY(objectPosition.getY() - windowSize.getHeight() / 2);
+            int screenX = objectPosition.getX() - windowSize.getWidth() / 2;
+            int screenY = objectPosition.getY() - windowSize.getHeight() / 2;
+
+            this.position.setX(screenX);
+            this.position.setY(screenY);
+
+            //limitWithinBounds(game, gamePanel);
+
+        }
+
+    }
+
+    // NOT YET FINISHED
+    public void limitWithinBounds(Game game, GamePanel gamePanel) {
+        int worldWidth = gamePanel.getWorldWidth();
+        int worldHeight = gamePanel.getWorldHeight();
+
+        // Continue updating camera position even when it reaches the map border
+        if (position.getX() < 0) {
+            position.setX(0);
+        } else if (position.getX() + windowSize.getWidth() > gamePanel.getWorldWidth()) {
+            position.setX(gamePanel.getWorldWidth() - windowSize.getWidth());
+        }
+
+        if (position.getY() < 0) {
+            position.setY(0);
+        } else if (position.getY() + windowSize.getHeight() > gamePanel.getWorldHeight()) {
+            position.setY(gamePanel.getWorldHeight() - windowSize.getHeight());
         }
     }
 }

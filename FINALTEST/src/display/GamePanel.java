@@ -90,4 +90,12 @@ public class GamePanel extends JFrame {
         bufferStrategy.show();
     }
 
+    public int getWorldWidth() {
+        return worldWidth;
+    }
+
+    public int getWorldHeight() {
+        return worldHeight;
+    }
+
 }
