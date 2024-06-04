@@ -74,25 +74,11 @@ public class Player extends GameObject {
 
         position = new Position(position.getX() + deltaX, position.getY());
 
+        // allow diagonal movements if player collides
         collisionOn = false;
         game.entityCollision.tileChecker(this);
-
         if (collisionOn) {
             position = new Position(oldPosX, position.getY());
-//            switch (direction) {
-//                case "up":
-//                    position = new Position(position.getX() + deltaX, position.getY() + entitySpeed);
-//                    break;
-//                case "down":
-//                    position = new Position(position.getX() + deltaX, position.getY() - entitySpeed);
-//                    break;
-//                case "left":
-//                    position = new Position(position.getX() + entitySpeed, position.getY() + deltaY);
-//                    break;
-//                case "right":
-//                    position = new Position(position.getX() - entitySpeed, position.getY() + deltaY);
-//                    break;
-//            }
         }
 
         // if player collides horizontally, revert to old position
