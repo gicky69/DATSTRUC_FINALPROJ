@@ -32,12 +32,12 @@ public class Game {
 
     public Game(Size windowsSize, int width, int height) {
         input = new KeyInputs();
-        frame = new GamePanel(width, height, input);
+        camera = new Camera(windowsSize);
+        frame = new GamePanel(width, height, input, camera);
         gameObjects = new ArrayList<>();
         p2d = new Physics2D();
         p2d.game = this;
 
-        camera = new Camera(windowsSize);
 
         AddPlayer(new Position(1000, 1000)); // This adds a player
         AddEnemy(new Position(600, 500)); // This adds an enemy

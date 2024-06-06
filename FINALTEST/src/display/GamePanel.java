@@ -20,6 +20,7 @@ public class GamePanel extends JFrame {
     public Player player;
 
     private Renderer renderer;
+    public Camera camera;
 
     public final int screenWidth = 1600;
     public final int screenHeight = 1000;
@@ -35,7 +36,7 @@ public class GamePanel extends JFrame {
 
 
 
-    public GamePanel(int width, int height, KeyInputs input) {
+    public GamePanel(int width, int height, KeyInputs input, Camera camera) {
         this.setLayout(null);
         this.setPreferredSize(new Dimension(width, height));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -43,6 +44,7 @@ public class GamePanel extends JFrame {
         setBackground(Color.GRAY);
         this.setVisible(true);
         this.createBufferStrategy(2);
+        this.camera = camera;
 
         this.renderer = new Renderer();
 

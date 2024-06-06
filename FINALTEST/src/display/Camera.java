@@ -36,13 +36,12 @@ public class Camera {
             this.position.setX(screenX);
             this.position.setY(screenY);
 
-            //limitWithinBounds(game, gamePanel);
+            limitWithinBounds(game, gamePanel);
 
         }
 
     }
 
-    // NOT YET FINISHED
     public void limitWithinBounds(Game game, GamePanel gamePanel) {
         int worldWidth = gamePanel.getWorldWidth();
         int worldHeight = gamePanel.getWorldHeight();
@@ -50,14 +49,14 @@ public class Camera {
         // Continue updating camera position even when it reaches the map border
         if (position.getX() < 0) {
             position.setX(0);
-        } else if (position.getX() + windowSize.getWidth() > gamePanel.getWorldWidth()) {
-            position.setX(gamePanel.getWorldWidth() - windowSize.getWidth());
+        } else if (position.getX() + windowSize.getWidth() > worldWidth) {
+            position.setX(worldWidth - windowSize.getWidth());
         }
 
         if (position.getY() < 0) {
             position.setY(0);
-        } else if (position.getY() + windowSize.getHeight() > gamePanel.getWorldHeight()) {
-            position.setY(gamePanel.getWorldHeight() - windowSize.getHeight());
+        } else if (position.getY() + windowSize.getHeight() > worldHeight) {
+            position.setY(worldHeight - windowSize.getHeight());
         }
     }
 }
