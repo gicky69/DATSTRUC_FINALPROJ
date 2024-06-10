@@ -81,8 +81,6 @@ public class GamePanel extends JFrame {
 //
 //        }
 
-
-
         renderer.renderMap(this, g2);
         renderer.render(game, g2, player);
 
