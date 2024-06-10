@@ -20,7 +20,7 @@ public class TileManager {
 
     public TileManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
-        tile = new Tile[3];
+        tile = new Tile[4];
         tileMap = new int[gamePanel.maxWorldRow][gamePanel.maxWorldCol];
         getTileImage();
         loadMap();
