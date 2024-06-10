@@ -20,6 +20,7 @@ public class Player extends GameObject {
 
     private Controller controller;
     private GamePanel gamePanel;
+    public boolean itemCollected = false;
 
     public Player(Position pos, Controller controller, GamePanel gamePanel) {
 
@@ -27,7 +28,6 @@ public class Player extends GameObject {
         this.position = pos;
         this.controller = controller;
         this.gamePanel = gamePanel;
-
 
         myAmeDefaultR = new ImageIcon("FINALTEST/images/GamePanel/MC_Default_Right-GamePanel.gif");
         myAmeDefaultL = new ImageIcon("FINALTEST/images/GamePanel/MC_Default_Left-GamePanel.gif");
@@ -98,6 +98,9 @@ public class Player extends GameObject {
         if (collisionOn) {
             position = new Position(position.getX(), oldPosY);
         }
+
+        finishStatus();
+
     }
 
     @Override
@@ -120,7 +123,17 @@ public class Player extends GameObject {
         return image;
     }
 
-    public boolean getCollisionState() {
-        return this.collisionOn;
+    public void finishStatus() {
+        // get player's position divided by the tile size
+        int playerTileX = position.getX() / gamePanel.tileSize;
+        int playerTileY = position.getY() / gamePanel.tileSize;
+
+        // 2D array, will check if player's position is on finish part and if item is collected
+        if (gamePanel.tileManager.tileMap[playerTileY][playerTileX] == 3 && itemCollected) {
+            System.out.println("ROUND FINISHED");
+
+
+        }
     }
+
 }

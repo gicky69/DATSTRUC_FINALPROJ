@@ -42,7 +42,7 @@ public class MenuPanel extends JPanel {
             // Close mainFrame
             mainFrame.frame.setVisible(false);
 
-            // Start the Timer
+            // Start the Timer and game frame
             new Thread(new GameLoop(new Game(new Size(1600, 1000),1600, 1000))).start();
         });
 

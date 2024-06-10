@@ -20,7 +20,7 @@ public class TileManager {
 
     public TileManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
-        tile = new Tile[2];
+        tile = new Tile[4];
         tileMap = new int[gamePanel.maxWorldRow][gamePanel.maxWorldCol];
         getTileImage();
         loadMap();
@@ -68,6 +68,8 @@ public class TileManager {
 
                         if (i == 0) {
                             tile[i].collision = true;
+                        } else if (i == 2) {
+                            tile[i].collision = true;
                         }
                     }
                 } catch (Exception e) {
@@ -100,10 +102,18 @@ public class TileManager {
             int row = 0;
 
             while (col < gamePanel.maxWorldCol && row < gamePanel.maxWorldRow) {
-                int worldX = col * gamePanel.tileSize;
-                int worldY = row * gamePanel.tileSize;
+                int worldX = col * gamePanel.tileSize - gamePanel.camera.getPosition().getX();
+                int worldY = row * gamePanel.tileSize - gamePanel.camera.getPosition().getY();
 
-                g2.drawImage(tile[tileMap[row][col]].image, worldX - gamePanel.player.getPosition().getX() + gamePanel.screenWidth / 2, worldY - gamePanel.player.getPosition().getY() + gamePanel.screenHeight / 2, null);
+//                // Only adjust positions relative to the camera if the camera is within the map boundaries
+//                if (gamePanel.camera.getPosition().getX() > 0 && gamePanel.camera.getPosition().getX() < gamePanel.getWorldWidth() - gamePanel.screenWidth) {
+//                    worldX -= gamePanel.player.getPosition().getX() - gamePanel.screenWidth / 2;
+//                }
+//                if (gamePanel.camera.getPosition().getY() > 0 && gamePanel.camera.getPosition().getY() < gamePanel.getWorldHeight() - gamePanel.screenHeight) {
+//                    worldY -= gamePanel.player.getPosition().getY() - gamePanel.screenHeight / 2;
+//                }
+
+                g2.drawImage(tile[tileMap[row][col]].image, worldX, worldY, null);
                 col++;
 
                 if (col == gamePanel.maxWorldCol) {
