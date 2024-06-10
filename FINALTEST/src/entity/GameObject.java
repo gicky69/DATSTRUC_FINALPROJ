@@ -15,7 +15,6 @@ public abstract class GameObject {
     protected Collision collision;
     public int entitySpeed = 5;
     public String direction = "";
-    //public Rectangle solidArea; to be used (probably) in the future
     public boolean collisionOn = false;
     public Game game;
     public String name = "entity";
@@ -38,6 +37,11 @@ public abstract class GameObject {
     }
 
     public Collision getCollision() { return collision; }
+
+    // vicinity of objects
+    public Rectangle getBounds() {
+        return new Rectangle(position.getX(), position.getY(), size.getWidth(), size.getHeight());
+    }
 
 }
 

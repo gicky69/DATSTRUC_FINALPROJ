@@ -29,8 +29,8 @@ public class Renderer {
             graphics.drawString("X: " + player.getPosition().getX() +" Y: "
                     + player.getPosition().getY(),20,70);
 
-            // display collision state
-            graphics.drawString("Collision: " + player.getCollisionState(),20,90);
+            // display item collection state
+            graphics.drawString("Item Collection Status: " + player.itemCollected,20,90);
         });
     }
 

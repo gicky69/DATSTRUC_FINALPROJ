@@ -20,7 +20,7 @@ public class TileManager {
 
     public TileManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
-        tile = new Tile[2];
+        tile = new Tile[3];
         tileMap = new int[gamePanel.maxWorldRow][gamePanel.maxWorldCol];
         getTileImage();
         loadMap();
@@ -67,6 +67,8 @@ public class TileManager {
                         }
 
                         if (i == 0) {
+                            tile[i].collision = true;
+                        } else if (i == 2) {
                             tile[i].collision = true;
                         }
                     }

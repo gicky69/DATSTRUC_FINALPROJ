@@ -20,6 +20,7 @@ public class Player extends GameObject {
 
     private Controller controller;
     private GamePanel gamePanel;
+    public boolean itemCollected = false;
 
     public Player(Position pos, Controller controller, GamePanel gamePanel) {
 
@@ -27,7 +28,6 @@ public class Player extends GameObject {
         this.position = pos;
         this.controller = controller;
         this.gamePanel = gamePanel;
-
 
         myAmeDefaultR = new ImageIcon("FINALTEST/images/GamePanel/MC_Default_Right-GamePanel.gif");
         myAmeDefaultL = new ImageIcon("FINALTEST/images/GamePanel/MC_Default_Left-GamePanel.gif");
@@ -98,6 +98,7 @@ public class Player extends GameObject {
         if (collisionOn) {
             position = new Position(position.getX(), oldPosY);
         }
+
     }
 
     @Override
