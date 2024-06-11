@@ -41,4 +41,11 @@ public class PlayerController implements Controller {
     public boolean isSprintKeyReleased() {
         return input.isReleased(KeyEvent.VK_SHIFT);
     }
+
+    @Override
+    public boolean isPaused() {
+        return input.isPressed(KeyEvent.VK_ESCAPE);
+    }
+
+
 }

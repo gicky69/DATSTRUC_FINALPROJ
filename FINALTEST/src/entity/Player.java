@@ -65,6 +65,10 @@ public class Player extends GameObject {
             deltaX += entitySpeed;
         }
 
+        if (controller.isPaused()) {
+            game.togglePause();
+        }
+
         // Normalize speed if more than one key is pressed
         double length = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
         if (length > entitySpeed) {
@@ -134,6 +138,10 @@ public class Player extends GameObject {
 
 
         }
+    }
+
+    public Controller getController() {
+        return controller;
     }
 
 }

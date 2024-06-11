@@ -4,14 +4,13 @@ import controller.PlayerController;
 import core.Position;
 import core.Size;
 import core.physics2d.Physics2D;
-import core.physics2d.Collider;
 import display.Camera;
 import entity.*;
 import input.KeyInputs;
 
 import display.GamePanel;
 
-import javax.swing.text.html.parser.Entity;
+import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 import java.util.ArrayList;
@@ -27,13 +26,14 @@ public class Game {
     public Physics2D p2d;
     private Camera camera;
     public EntityCollision entityCollision;
+    public boolean isPaused = false;
 
     //#endregion
 
     public Game(Size windowsSize, int width, int height) {
         input = new KeyInputs();
         camera = new Camera(windowsSize);
-        frame = new GamePanel(width, height, input, camera);
+        frame = new GamePanel(width, height, input, camera, this);
         gameObjects = new ArrayList<>();
         p2d = new Physics2D();
         p2d.game = this;
@@ -105,15 +105,30 @@ public class Game {
 
     // Updates each elements ng gameObjects list.
     public void update() {
-        camera.update(this, frame);
-        gameObjects.forEach(gameObject -> gameObject.update());
+        Player player = frame.getPlayer();
+        if (player.getController().isPaused()) {
+            isPaused = !isPaused;
+        }
+        if (!isPaused) {
+            camera.update(this, frame);
+            gameObjects.forEach(gameObject -> gameObject.update());
+        }
     }
 
     // Renders yung frame which is yung GamePanel.
     public void render() {
-        frame.render(this);
+        if (!isPaused) {
+            frame.render(this);
+        }
 
     }
+
+    public void togglePause() {
+        isPaused = !isPaused;
+        frame.pausePanel.setVisible(true);
+
+    }
+
 
     //#endregion
 }
