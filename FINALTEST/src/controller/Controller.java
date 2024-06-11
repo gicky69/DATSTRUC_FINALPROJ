@@ -9,4 +9,6 @@ public interface Controller {
     boolean isRequestingRight();
     boolean isSprinting();
     boolean isSprintKeyReleased();
+
+    boolean isPaused();
 }
