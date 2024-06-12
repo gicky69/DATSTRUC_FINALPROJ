@@ -7,6 +7,8 @@ public class Player extends GameObject {
 
     private Controller controller;
 
+    public int lastKeyPressed = 0;
+
     public Player(Position pos, Controller controller)  {
         super();
         this.position = pos;
@@ -32,7 +34,21 @@ public class Player extends GameObject {
             deltaX += 3;
         }
 
+        // Key Inputs
+        if (controller.clickedGrass()) {
+            lastKeyPressed = 48;
+        }
+        if (controller.clickedWall()) {
+            lastKeyPressed = 49;
+        }
+        if (controller.clickedDoor()) {
+            lastKeyPressed = 50;
+        }
+        if (controller.clickedFloor()) {
+            lastKeyPressed = 51;
+        }
+
+//        System.out.println("Last key pressed: " + lastKeyPressed);
         position = new Position(position.getX() + deltaX, position.getY() + deltaY);
-        System.out.println(position.getX() + " " + position.getY());
     }
 }

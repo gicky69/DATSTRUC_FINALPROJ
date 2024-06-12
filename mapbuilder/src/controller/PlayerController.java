@@ -29,4 +29,24 @@ public class PlayerController implements Controller {
     public boolean isClickedRight() {
         return keyInput.isPressed(68);
     }
+
+    @Override
+    public boolean clickedGrass() {
+        return keyInput.isPressed(48);
+    }
+
+    @Override
+    public boolean clickedWall() {
+        return keyInput.isPressed(49);
+    }
+
+    @Override
+    public boolean clickedDoor() {
+        return keyInput.isPressed(50);
+    }
+
+    @Override
+    public boolean clickedFloor() {
+        return keyInput.isPressed(51);
+    }
 }

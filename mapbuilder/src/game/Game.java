@@ -1,5 +1,6 @@
 package game;
 
+import buttons.buttonsFrame;
 import controller.PlayerController;
 import core.Position;
 import core.Size;
@@ -9,6 +10,7 @@ import entity.GameObject;
 import entity.Player;
 import input.KeyInput;
 import input.MouseInput;
+import map.Map;
 
 import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ public class Game {
     private MouseInput mouseInput;
     private KeyInput keyInput;
     private Camera camera;
+    private buttonsFrame bFrame;
 
     private List<GameObject> gameObjects = new ArrayList<>();
 
@@ -26,16 +29,12 @@ public class Game {
         keyInput = new KeyInput();
         mouseInput = new MouseInput();
         main = new Display(width, height,  keyInput);
+        bFrame = new buttonsFrame(main.map);
 
         gameObjects = new ArrayList<>();
-
         camera = new Camera(windowSize);
 
-        AddPlayer(new Position(800, 450));
-    }
-
-    public BufferStrategy getBufferStrategy() {
-        return main.getBufferStrategy();
+        AddPlayer(new Position(100, 100));
     }
 
     public Camera getCamera() {
@@ -47,17 +46,15 @@ public class Game {
         gameObjects.add(player);
         player.game = this;
         camera.focusOn(player);
-
+        main.setPlayer(player);
     }
 
     public void update() {
-        main.update();
         gameObjects.forEach(gameObjects -> gameObjects.update());
         camera.update(this);
     }
 
     public void render() {
-
+        main.render(this);
     }
-
 }

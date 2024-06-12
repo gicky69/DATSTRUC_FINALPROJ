@@ -23,14 +23,14 @@ public class TileManager {
         tile = new Tile[4];
         tileMap = new int[gamePanel.maxWorldRow][gamePanel.maxWorldCol];
         getTileImage();
-        loadMap();
+        loadMap("FINALTEST/resources/Map/map1.txt");
     }
 
 
     // map is imported from txt.
-    public void loadMap() {
+    public void loadMap(String filePath) {
         try {
-            BufferedReader br = new BufferedReader(new FileReader("FINALTEST/resources/Map/map1.txt"));
+            BufferedReader br = new BufferedReader(new FileReader(filePath));
             String line;
             int row = 0;
             while ((line = br.readLine()) != null) {
@@ -45,7 +45,6 @@ public class TileManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     // CountDownLatch is used to wait for the image to load before drawing it. This is to prevent null pointer exception.

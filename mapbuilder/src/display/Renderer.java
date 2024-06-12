@@ -1,5 +1,6 @@
 package display;
 
+import entity.Player;
 import game.Game;
 import map.Map;
 
@@ -9,13 +10,11 @@ public class Renderer {
     Camera camera;
     private Map map;
 
-    public void render(Game game, Graphics graphics) {
+    public void render(Game game, Graphics graphics, Player player) {
         this.camera = game.getCamera();
-
-        // Draw the Player's sprite
     }
 
-    public void renderMap(Graphics2D g2) {
-
+    public void renderMap(Display display, Graphics2D g2) {
+        display.map.draw(g2);
     }
 }

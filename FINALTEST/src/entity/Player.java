@@ -132,7 +132,7 @@ public class Player extends GameObject {
         if (gamePanel.tileManager.tileMap[playerTileY][playerTileX] == 3 && itemCollected) {
             System.out.println("ROUND FINISHED");
 
-    
+
         }
     }
 
