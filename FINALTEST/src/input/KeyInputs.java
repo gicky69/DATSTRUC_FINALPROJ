@@ -32,4 +32,8 @@ public class KeyInputs implements KeyListener {
     public void keyReleased(KeyEvent e) {
         keys[e.getKeyCode()] = false;
     }
+
+
+
+
 }
