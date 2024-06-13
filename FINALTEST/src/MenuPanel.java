@@ -1,4 +1,6 @@
 import core.Size;
+import display.GamePanel;
+import display.SubPanels;
 import game.Game;
 import game.GameLoop;
 
@@ -7,13 +9,16 @@ import javax.swing.*;
 public class MenuPanel extends JPanel {
 
     Frame mainFrame;
+    RoundPanel roundPanel;
     ShopPanel shopPanel;
     SettingsPanel settingsPanel;
     HTPPanel htpPanel;
     JButton playButton, shopButton, settingsButton, htpButton, exitButton;
+    SubPanels subPanels;
 
-    public MenuPanel(Frame mainFrame) {
+    public MenuPanel(Frame mainFrame, SubPanels subPanels) {
         this.mainFrame = mainFrame;
+        this.subPanels = subPanels;
         this.setSize(mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
         this.setLayout(null);
 
@@ -38,12 +43,16 @@ public class MenuPanel extends JPanel {
         this.add(exitButton);
 
         playButton.addActionListener(e -> {
-
+            mainFrame.frame.getContentPane().removeAll();
             // Close mainFrame
-            mainFrame.frame.setVisible(false);
 
-            // Start the Timer and game frame
-            new Thread(new GameLoop(new Game(new Size(1600, 1000),1600, 1000))).start();
+            // view round panel
+            roundPanel = new RoundPanel(mainFrame);
+            roundPanel.setBounds(0, 0, mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
+            mainFrame.frame.add(roundPanel);
+            mainFrame.frame.revalidate();
+            mainFrame.frame.repaint();
+
         });
 
         shopButton.addActionListener(e -> {
@@ -84,6 +93,25 @@ public class MenuPanel extends JPanel {
     }
 }
 
+class RoundPanel extends  JPanel {
+    Frame mainFrame;
+    JButton startButton;
+    JLabel temp = new JLabel("Round Panel");
+    public RoundPanel(Frame mainFrame) {
+        this.mainFrame = mainFrame;
+        this.add(temp);
+
+        startButton = new JButton("Start");
+        startButton.setBounds(860, 700, 200, 50);
+        this.add(startButton);
+
+        startButton.addActionListener(e -> {
+            mainFrame.frame.setVisible(false);
+            new Thread(new GameLoop(new Game(new Size(1600, 1000),1600, 1000))).start();
+        });
+    }
+}
+
 class ShopPanel extends JPanel {
     Frame mainFrame;
     JButton backButton;
@@ -98,7 +126,7 @@ class ShopPanel extends JPanel {
 
         backButton.addActionListener(e -> {
             mainFrame.frame.getContentPane().removeAll();
-            mainFrame.frame.add(new MenuPanel(mainFrame));
+            mainFrame.frame.add(new MenuPanel(mainFrame, new SubPanels()));
             mainFrame.frame.revalidate();
             mainFrame.frame.repaint();
         });
@@ -119,7 +147,7 @@ class SettingsPanel extends JPanel {
 
         backButton.addActionListener(e -> {
             mainFrame.frame.getContentPane().removeAll();
-            mainFrame.frame.add(new MenuPanel(mainFrame));
+            mainFrame.frame.add(new MenuPanel(mainFrame, new SubPanels()));
             mainFrame.frame.revalidate();
             mainFrame.frame.repaint();
         });
@@ -140,7 +168,7 @@ class HTPPanel extends JPanel {
 
         backButton.addActionListener(e -> {
             mainFrame.frame.getContentPane().removeAll();
-            mainFrame.frame.add(new MenuPanel(mainFrame));
+            mainFrame.frame.add(new MenuPanel(mainFrame, new SubPanels()));
             mainFrame.frame.revalidate();
             mainFrame.frame.repaint();
         });

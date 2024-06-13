@@ -7,6 +7,7 @@ import core.Position;
 import javax.swing.*;
 import java.awt.*;
 import display.GamePanel;
+import display.SubPanels;
 
 public class Player extends GameObject {
 
@@ -21,13 +22,15 @@ public class Player extends GameObject {
     private Controller controller;
     private GamePanel gamePanel;
     public boolean itemCollected = false;
+    private SubPanels subPanels;
 
-    public Player(Position pos, Controller controller, GamePanel gamePanel) {
+    public Player(Position pos, Controller controller, GamePanel gamePanel, SubPanels subPanels) {
 
         super();
         this.position = pos;
         this.controller = controller;
         this.gamePanel = gamePanel;
+        this.subPanels = subPanels;
 
         myAmeDefaultR = new ImageIcon("FINALTEST/images/GamePanel/MC_Default_Right-GamePanel.gif");
         myAmeDefaultL = new ImageIcon("FINALTEST/images/GamePanel/MC_Default_Left-GamePanel.gif");
@@ -63,6 +66,12 @@ public class Player extends GameObject {
         if (controller.isRequestingRight()) {
             direction = "right";
             deltaX += entitySpeed;
+        }
+
+        if (controller.isSprinting()) {
+            entitySpeed = 7;
+        } else {
+            entitySpeed = 5;
         }
 
         if (controller.isPaused()) {
@@ -134,8 +143,12 @@ public class Player extends GameObject {
 
         // 2D array, will check if player's position is on finish part and if item is collected
         if (gamePanel.tileManager.tileMap[playerTileY][playerTileX] == 3 && itemCollected) {
-            System.out.println("ROUND FINISHED");
-
+            subPanels.roundOver = true;
+            System.out.println("ROUND OVER");
+            subPanels.setRoundOverPanel(gamePanel, game);
+            subPanels.roundOverPanel.setVisible(true);
+            gamePanel.revalidate();
+            gamePanel.repaint();
 
         }
     }
