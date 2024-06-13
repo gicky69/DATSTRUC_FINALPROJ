@@ -1,3 +1,5 @@
+import display.SubPanels;
+
 import javax.swing.*;
 
 public class Main {
@@ -9,11 +11,13 @@ public class Main {
     ShopPanel shopPanel;
     SettingsPanel settingsPanel;
     HTPPanel htpPanel;
+    SubPanels subPanels;
 
     public Main() {
         mainFrame = new Frame(1600,900);
-        loginPanel = new LoginPanel(mainFrame);
-        menuPanel = new MenuPanel(mainFrame);
+        subPanels = new SubPanels();
+        loginPanel = new LoginPanel(mainFrame, subPanels);
+        menuPanel = new MenuPanel(mainFrame, subPanels);
         shopPanel = new ShopPanel(mainFrame);
         settingsPanel = new SettingsPanel(mainFrame);
         htpPanel = new HTPPanel(mainFrame);

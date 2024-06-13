@@ -21,13 +21,13 @@ public class GamePanel extends JFrame {
     public Player player;
 
     private Renderer renderer;
+    private SubPanels subPanels;
     public Camera camera;
 
+    // screen settings
     public final int screenWidth = 1600;
     public final int screenHeight = 1000;
     public final int tileSize = 40;
-    public final int maxScreenCol = screenWidth/tileSize;
-    public int maxScreenRow = screenHeight/tileSize;
 
     // world settings
     public final int maxWorldCol = 80;
@@ -35,9 +35,11 @@ public class GamePanel extends JFrame {
     public final int worldWidth = tileSize * maxWorldCol;
     public final int worldHeight = tileSize * maxWorldRow;
 
-    public JPanel pausePanel;
+    //panels and boolean
+    public boolean roundOver = false;
 
-    public GamePanel(int width, int height, KeyInputs input, Camera camera, Game game) {
+    public GamePanel(int width, int height, KeyInputs input, Camera camera, Game game, SubPanels subPanels) {
+        this.subPanels = subPanels;
         this.setLayout(null);
         this.setPreferredSize(new Dimension(width, height));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -52,7 +54,8 @@ public class GamePanel extends JFrame {
         // set default settings
         tileManager = new TileManager(this);
         setBackground(Color.GRAY);
-        setPausePanel();
+        subPanels.setPausePanel(this, game);
+        subPanels.setRoundOverPanel(this, game);
         setFocusable(true);
         requestFocusInWindow();
     }
@@ -84,13 +87,8 @@ public class GamePanel extends JFrame {
 //
 //        }
 
-
-
         renderer.renderMap(this, g2);
         renderer.render(game, g2, player);
-
-
-
 
         g2.dispose();
         bufferStrategy.show();
@@ -106,29 +104,5 @@ public class GamePanel extends JFrame {
 
     public Player getPlayer() {
         return player;
-    }
-
-    public void setPausePanel() {
-
-        pausePanel = new JPanel();
-        pausePanel.setVisible(false);
-        pausePanel.setSize(500, 500);
-
-        JButton resume = new JButton("Resume");
-        resume.setSize(100, 50);
-        pausePanel.add(resume);
-        this.add(pausePanel);
-
-        // Calculate the center position of the GamePanel
-        int centerX = (this.getWidth() - pausePanel.getWidth()) / 2;
-        int centerY = (this.getHeight() - pausePanel.getHeight()) / 2;
-
-        pausePanel.setLocation(centerX,centerY);
-
-
-        resume.addActionListener(e -> {
-            game.isPaused = false;
-            pausePanel.setVisible(false);
-        });
     }
 }
