@@ -83,6 +83,7 @@ public class Game {
         gameObjects.add(enemy);
         enemy.game = this; // Connect the enemy to the game master
         enemy.name = "Enemy";
+        entityCollision = new EntityCollision(frame, enemy, frame.getPlayer());
     }
 
     // Adds an object

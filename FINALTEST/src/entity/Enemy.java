@@ -14,9 +14,12 @@ public class Enemy extends GameObject {
 
     //#region Enemy Init
     private int EnemySpeed = 3;
-    private float direction = 90;
+    private float lookdirection = 90;
     private int viewDistance = 500; // How far can the enemy see?
     private int FOVSize = 90; // How big is the enemy FOV?
+    private int deltaY = 3;
+
+    private boolean Pursuing = false;
 
     // Build Lines
     private static final int RAYS = 360;
@@ -32,7 +35,13 @@ public class Enemy extends GameObject {
 
     @Override
     public void update() {
-        Seeking();
+//        if (Pursuing) {
+//            Pursue();
+//        } else {
+//            Seeking();
+//        }
+         Pursue();
+
         lines = buildLines();
 
         //System.out.println("enemy x: " + position.getfX() + " enemy y: " + position.getfY());
@@ -45,14 +54,14 @@ public class Enemy extends GameObject {
         // direction is now in degrees 0-360
         // If closely reaching the bottom then go back down.
         if (position.getY() >= 800) {
-            direction = 270;
+            lookdirection = 270;
         }
 
         if (position.getY() <= 300) {
-            direction = 90;
+            lookdirection = 90;
         }
 
-        Position moveto = Vector2D.angleToVector(direction);
+        Position moveto = Vector2D.angleToVector(lookdirection);
         float movetox = moveto.getfX() * EnemySpeed;
         float movetoy = moveto.getfY() * EnemySpeed;
         position = new Position(position.getfX() + movetox, position.getfY() + movetoy);
@@ -68,7 +77,7 @@ public class Enemy extends GameObject {
 
                 // Check if the player is within the ray's angle, is the player close enough?
                 float pdir = Vector2D.getAngleInDegrees(position, collider.point);
-                float cdir = Math.abs(direction-pdir)*2f;
+                float cdir = Math.abs(lookdirection-pdir)*2f;
                 if (cdir>360) { cdir = cdir - 360; }
                 if (testPrintColliders==1) { System.out.println("lookaway: " + cdir + " / distance: " + collider.distance); }
                 if (cdir<90) {
@@ -80,8 +89,12 @@ public class Enemy extends GameObject {
 
                 // If the enemy should detect the player
                 if ((cdir<FOVSize) && collider.distance<viewDistance) {
+                    Pursuing = true;
                     // What happens if player is detected??
-                    if (testPrintColliders==2) { System.out.println("Player is detected"); }
+                    if (testPrintColliders==2) {
+                        System.out.println("Player is detected");
+                    }
+
                 }
             }
         }
@@ -102,14 +115,44 @@ public class Enemy extends GameObject {
     //#region Enemy Actions
 
     public void MoveTowards(Position pos) {
+        float oldPosX = position.getfX();
+        float oldPosY = position.getfY();
 
         Position normalized = Normalize2D(pos); // Normalizes the relative position so it returns the directional value it is pointing to
         float xvel = normalized.getfX();
         float yvel = normalized.getfY();
 
+        //# region Collision
+        // Enemy collision with the Wall
         // Move towards the target with relative velocity times speed
-        position = new Position(position.getfX() - xvel * (float) EnemySpeed, position.getfY() - yvel * (float) EnemySpeed);
+        position = new Position(position.getfX() - xvel * (float) EnemySpeed, position.getfY());
 
+        // allow diagonal movement
+        collisionOn = false;
+        game.entityCollision.tileChecker(this);
+        if (collisionOn) {
+            position = new Position(oldPosX, position.getfY());
+        }
+
+        oldPosX = position.getfX();
+
+        //  Horizontal Movement
+        collisionOn = false;
+        game.entityCollision.tileChecker(this);
+        if (collisionOn) {
+            position = new Position(oldPosX, oldPosY);
+        }
+
+        position = new Position(position.getfX(), position.getfY() - yvel * (float) EnemySpeed);
+
+        // Vertical Movement
+        collisionOn = false;
+        game.entityCollision.tileChecker(this);
+        if (collisionOn) {
+            position = new Position(position.getX(), oldPosY);
+        }
+
+        //# endregion
     }
 
     public void MoveAwayFrom(Position pos) {
@@ -154,12 +197,6 @@ public class Enemy extends GameObject {
 
     //#region FOV
 
-    public void drawFOV(Graphics2D g) {
-        LinkedList<Line2D.Float> rays = ray(lines, (int) position.getfX(), (int) position.getfY(), RAYS, 500);
-        g.setColor(Color.RED);
-        rays.forEach(ray -> g.drawLine((int) ray.x1, (int) ray.y1, (int) ray.x2, (int) ray.y2));
-    }
-
     //#region Raycasting
     public LinkedList<Line2D.Float> buildLines() {
         LinkedList<Line2D.Float> lines = new LinkedList<>();
@@ -176,7 +213,7 @@ public class Enemy extends GameObject {
         for (int i = 0;i < resolution;i++) {
             dir = -Math.PI / 3 + -Math.PI / 3 * ((double) i / resolution);
 
-            if (direction == 1) {
+            if (lookdirection == 1) {
                 dir = Math.PI / 3 + Math.PI / 3 * ((double) i / resolution);
             }
 

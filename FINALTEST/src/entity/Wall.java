@@ -12,8 +12,6 @@ import java.util.List;
 
 public class Wall extends GameObject {
 
-    // Build Lines
-    private static final int RAYS = 360;
 
     public Wall(Position position) {
         this.position = position;

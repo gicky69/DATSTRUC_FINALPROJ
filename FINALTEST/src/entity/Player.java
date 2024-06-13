@@ -69,7 +69,7 @@ public class Player extends GameObject {
         }
 
         if (controller.isSprinting()) {
-            entitySpeed = 10;
+            entitySpeed = 7;
         } else {
             entitySpeed = 5;
         }
@@ -89,6 +89,7 @@ public class Player extends GameObject {
                 deltaY = (int) (deltaY / length * entitySpeed);
             }
         }
+
 
         position = new Position(position.getX() + deltaX, position.getY());
 

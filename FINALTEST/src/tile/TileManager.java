@@ -1,7 +1,9 @@
 package tile;
 
+import core.Position;
 import display.GamePanel;
 import display.Renderer;
+import entity.Wall;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -15,6 +17,7 @@ public class TileManager {
     GamePanel gamePanel;
     public Tile[] tile;
     public int[][] tileMap;
+    public Wall[][] wallMap;
 
     // check only
 
@@ -22,8 +25,9 @@ public class TileManager {
         this.gamePanel = gamePanel;
         tile = new Tile[4];
         tileMap = new int[gamePanel.maxWorldRow][gamePanel.maxWorldCol];
+        wallMap = new Wall[gamePanel.maxWorldRow][gamePanel.maxWorldCol];
         getTileImage();
-        loadMap("FINALTEST/resources/Map/map1.txt");
+        loadMap("FINALTEST/resources/Map/map13.txt");
     }
 
 
@@ -37,6 +41,9 @@ public class TileManager {
                 String[] tokens = line.split(" ");
                 for (int col = 0; col < tokens.length; col++) {
                     tileMap[row][col] = Integer.parseInt(tokens[col]);
+//                    tileMap[row][col] = Character.getNumericValue(line.charAt(col));
+
+                    wallMap[row][col] = new Wall(new Position(col * gamePanel.tileSize, row * gamePanel.tileSize));
                 }
                 row++;
             }
@@ -65,9 +72,9 @@ public class TileManager {
                             System.out.println("Image loaded successfully");
                         }
 
-                        if (i == 0) {
+                        if (i == 0) { // Border
                             tile[i].collision = true;
-                        } else if (i == 2) {
+                        } else if (i == 2) { // Wall
                             tile[i].collision = true;
                         }
                     }
