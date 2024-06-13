@@ -69,11 +69,14 @@ public class Player extends GameObject {
         }
 
         if (controller.isSprinting()) {
-            entitySpeed = 7;
+            entitySpeed = 10;
         } else {
             entitySpeed = 5;
         }
 
+        if (controller.isSneaking()) {
+            entitySpeed = 1;
+        }
         if (controller.isPaused()) {
             game.togglePause();
         }

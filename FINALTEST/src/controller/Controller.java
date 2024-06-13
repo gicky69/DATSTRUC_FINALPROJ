@@ -8,6 +8,7 @@ public interface Controller {
     boolean isRequestingLeft();
     boolean isRequestingRight();
     boolean isSprinting();
+    boolean isSneaking();
     boolean isSprintKeyReleased();
 
     boolean isPaused();
