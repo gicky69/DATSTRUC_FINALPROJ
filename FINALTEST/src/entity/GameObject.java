@@ -13,7 +13,7 @@ public abstract class GameObject {
     protected Position position;
     protected Size size;
     protected Collision collision;
-    public int entitySpeed = 5;
+    public int entitySpeed = 3;
     public String direction = "";
     public boolean collisionOn = false;
     public Game game;

@@ -1,3 +1,5 @@
+import display.SubPanels;
+
 import javax.swing.*;
 import java.io.*;
 
@@ -5,15 +7,17 @@ public class LoginPanel extends JPanel {
     UserValidation userValidation;
     Frame mainFrame;
     MenuPanel menuPanel;
+    SubPanels subPanels;
     JButton resetButton, loginButton, registerButton;
     JLabel usernameLabel, passwordLabel;
     JTextField usernameField; JPasswordField passwordField;
 
-    public LoginPanel(Frame mainFrame) {
+    public LoginPanel(Frame mainFrame, SubPanels subPanels) {
         this.mainFrame = mainFrame;
+        this.subPanels = subPanels;
         mainFrame.frame.setVisible(true);
         userValidation = new UserValidation();
-        menuPanel = new MenuPanel(mainFrame);
+        menuPanel = new MenuPanel(mainFrame, subPanels);
 
         this.setSize(mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
         this.setLayout(null);

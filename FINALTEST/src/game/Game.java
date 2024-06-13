@@ -5,6 +5,7 @@ import core.Position;
 import core.Size;
 import core.physics2d.Physics2D;
 import display.Camera;
+import display.SubPanels;
 import entity.*;
 import input.KeyInputs;
 
@@ -26,6 +27,7 @@ public class Game {
     public Physics2D p2d;
     private Camera camera;
     public EntityCollision entityCollision;
+    public SubPanels subPanels;
     public boolean isPaused = false;
 
     //#endregion
@@ -33,7 +35,8 @@ public class Game {
     public Game(Size windowsSize, int width, int height) {
         input = new KeyInputs();
         camera = new Camera(windowsSize);
-        frame = new GamePanel(width, height, input, camera, this);
+        subPanels = new SubPanels();
+        frame = new GamePanel(width, height, input, camera, this, subPanels);
         gameObjects = new ArrayList<>();
         p2d = new Physics2D();
         p2d.game = this;
@@ -64,7 +67,7 @@ public class Game {
 
     // Adds player as an object
     public void AddPlayer(Position pos) {
-        Player player = new Player(pos, new PlayerController(input), frame);
+        Player player = new Player(pos, new PlayerController(input), frame, subPanels);
         gameObjects.add(player);
         camera.focusOn(player);
         player.game = this; // Connect the player to the game master
@@ -113,6 +116,11 @@ public class Game {
             camera.update(this, frame);
             gameObjects.forEach(gameObject -> gameObject.update());
         }
+
+        if (subPanels.roundOver && !isPaused) {
+            subPanels.setRoundOverPanel(frame, this);
+            isPaused = !isPaused;
+        }
     }
 
     // Renders yung frame which is yung GamePanel.
@@ -120,15 +128,12 @@ public class Game {
         if (!isPaused) {
             frame.render(this);
         }
-
     }
 
     public void togglePause() {
         isPaused = !isPaused;
-        frame.pausePanel.setVisible(true);
-
+        subPanels.pausePanel.setVisible(true);
     }
-
 
     //#endregion
 }
