@@ -38,6 +38,9 @@ public class PlayerController implements Controller {
     }
 
     @Override
+    public boolean isSneaking() {return input.isPressed(KeyEvent.VK_CONTROL); }
+
+    @Override
     public boolean isSprintKeyReleased() {
         return input.isReleased(KeyEvent.VK_SHIFT);
     }
