@@ -165,6 +165,12 @@ public class Enemy extends GameObject {
         position = new Position(position.getfX() + xvel * (float) EnemySpeed, position.getfY() + yvel * (float) EnemySpeed);
     }
 
+    public void ShortestPath(Position pos) {
+        // A* Algorithm
+
+
+    }
+
     //#endregion
 
     //#region Normalize
