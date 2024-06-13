@@ -75,7 +75,7 @@ public class Player extends GameObject {
         }
 
         if (controller.isSneaking()) {
-            entitySpeed = 1;
+            entitySpeed = 3;
         }
         if (controller.isPaused()) {
             game.togglePause();
@@ -83,9 +83,11 @@ public class Player extends GameObject {
 
         // Normalize speed if more than one key is pressed
         double length = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-        if (length > entitySpeed) {
-            deltaX = (int) (deltaX / length * entitySpeed);
-            deltaY = (int) (deltaY / length * entitySpeed);
+        if (entitySpeed < 5) {
+            if (length > entitySpeed) {
+                deltaX = (int) (deltaX / length * entitySpeed);
+                deltaY = (int) (deltaY / length * entitySpeed);
+            }
         }
 
         position = new Position(position.getX() + deltaX, position.getY());
