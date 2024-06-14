@@ -90,33 +90,22 @@ public class Player extends GameObject {
             }
         }
 
-
         position = new Position(position.getX() + deltaX, position.getY());
 
-        // allow diagonal movements if player collides
         collisionOn = false;
-        game.entityCollision.tileChecker(this);
+        game.entityCollision.tileChecker(game.getGameObjects());
         if (collisionOn) {
             position = new Position(oldPosX, position.getY());
         }
 
-        // if player collides horizontally, revert to old position
-        oldPosX = position.getX();
-
-        collisionOn = false;
-        game.entityCollision.tileChecker(this);
-        if (collisionOn) {
-            position = new Position(oldPosX, oldPosY);
-        }
-
-        // collision vertically
         position = new Position(position.getX(), position.getY() + deltaY);
 
         collisionOn = false;
-        game.entityCollision.tileChecker(this);
+        game.entityCollision.tileChecker(game.getGameObjects());
         if (collisionOn) {
             position = new Position(position.getX(), oldPosY);
         }
+
 
         finishStatus();
 

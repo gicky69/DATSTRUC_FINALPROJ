@@ -129,7 +129,7 @@ public class Enemy extends GameObject {
 
         // allow diagonal movement
         collisionOn = false;
-        game.entityCollision.tileChecker(this);
+        game.entityCollision.tileChecker(game.getGameObjects());
         if (collisionOn) {
             position = new Position(oldPosX, position.getfY());
         }
@@ -138,7 +138,7 @@ public class Enemy extends GameObject {
 
         //  Horizontal Movement
         collisionOn = false;
-        game.entityCollision.tileChecker(this);
+        game.entityCollision.tileChecker(game.getGameObjects());
         if (collisionOn) {
             position = new Position(oldPosX, oldPosY);
         }
@@ -147,7 +147,7 @@ public class Enemy extends GameObject {
 
         // Vertical Movement
         collisionOn = false;
-        game.entityCollision.tileChecker(this);
+        game.entityCollision.tileChecker(game.getGameObjects());
         if (collisionOn) {
             position = new Position(position.getX(), oldPosY);
         }

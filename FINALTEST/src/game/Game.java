@@ -46,6 +46,7 @@ public class Game {
         AddEnemy(new Position(600, 500)); // This adds an enemy
         AddObject(2, new Position(600, 500)); // This creates an object called wall (this is to test the linecast collision)
         AddItem(new Position(500, 1500)); // This creates an item
+        entityCollision = new EntityCollision(frame, gameObjects);
     }
 
     //#region Entity Management
@@ -74,7 +75,6 @@ public class Game {
         player.getCollision().setLayerMask(0, true);
         player.name = "Player";
         frame.setPlayer(player);
-        entityCollision = new EntityCollision(frame, player, player);
     }
 
     // Adds enemy
@@ -83,7 +83,6 @@ public class Game {
         gameObjects.add(enemy);
         enemy.game = this; // Connect the enemy to the game master
         enemy.name = "Enemy";
-        entityCollision = new EntityCollision(frame, enemy, frame.getPlayer());
     }
 
     // Adds an object
@@ -115,7 +114,8 @@ public class Game {
         }
         if (!isPaused) {
             camera.update(this, frame);
-            gameObjects.forEach(gameObject -> gameObject.update());
+            gameObjects.forEach(GameObject::update);
+            entityCollision.tileChecker(gameObjects);
         }
 
         if (subPanels.roundOver && !isPaused) {

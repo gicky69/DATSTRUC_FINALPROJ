@@ -27,7 +27,7 @@ public class TileManager {
         tileMap = new int[gamePanel.maxWorldRow][gamePanel.maxWorldCol];
         wallMap = new Wall[gamePanel.maxWorldRow][gamePanel.maxWorldCol];
         getTileImage();
-        loadMap("FINALTEST/resources/Map/map13.txt");
+        loadMap("FINALTEST/resources/Map/map1.txt");
     }
 
 
@@ -42,7 +42,6 @@ public class TileManager {
                 for (int col = 0; col < tokens.length; col++) {
                     tileMap[row][col] = Integer.parseInt(tokens[col]);
 //                    tileMap[row][col] = Character.getNumericValue(line.charAt(col));
-
                     wallMap[row][col] = new Wall(new Position(col * gamePanel.tileSize, row * gamePanel.tileSize));
                 }
                 row++;
@@ -75,8 +74,10 @@ public class TileManager {
                         if (i == 0) { // Border
                             tile[i].collision = true;
                         } else if (i == 2) { // Wall
+                            System.out.println("Added collision");
                             tile[i].collision = true;
                         }
+
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
