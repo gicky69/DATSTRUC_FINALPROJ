@@ -129,7 +129,6 @@ class RoundPanel extends  JPanel {
                 mainFrame.frame.getContentPane().removeAll();
                 subPanels.setRoundDetail(roundDetail);
                 new Thread(new GameLoop(new Game(new Size(1600, 1000),1600, 1000))).start();
-                System.out.println(roundDetail);
                 mainFrame.frame.revalidate();
                 mainFrame.frame.repaint();
             });
