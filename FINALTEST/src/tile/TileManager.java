@@ -3,6 +3,7 @@ package tile;
 import core.Position;
 import display.GamePanel;
 import display.Renderer;
+import display.SubPanels;
 import entity.Wall;
 
 import javax.imageio.ImageIO;
@@ -15,19 +16,24 @@ import java.util.concurrent.CountDownLatch;
 
 public class TileManager {
     GamePanel gamePanel;
+    SubPanels subPanels;
     public Tile[] tile;
     public int[][] tileMap;
     public Wall[][] wallMap;
+    public int roundDetail;
 
     // check only
 
-    public TileManager(GamePanel gamePanel) {
+    public TileManager(GamePanel gamePanel, SubPanels subPanels) {
         this.gamePanel = gamePanel;
+        this.subPanels = subPanels;
+
         tile = new Tile[4];
         tileMap = new int[gamePanel.maxWorldRow][gamePanel.maxWorldCol];
         wallMap = new Wall[gamePanel.maxWorldRow][gamePanel.maxWorldCol];
         getTileImage();
-        loadMap("FINALTEST/resources/Map/map13.txt");
+        System.out.println("FROM TILEMANAGER: " + subPanels.roundDetail);
+        loadMap("FINALTEST/resources/Map/map" + 11 +".txt");
     }
 
 

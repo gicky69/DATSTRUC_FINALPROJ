@@ -1,22 +1,18 @@
 package display;
 
-import entity.Enemy;
-import entity.EntityCollision;
 import entity.Player;
 import input.KeyInputs;
 import game.Game;
-import entity.GameObject;
 import tile.TileManager;
 
-import javax.imageio.IIOParam;
 import javax.swing.*;
-import javax.swing.text.html.parser.Entity;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
 
 public class GamePanel extends JFrame {
     private final Game game;
+    public Frame menuFrame;
     public TileManager tileManager;
     public Player player;
 
@@ -40,6 +36,7 @@ public class GamePanel extends JFrame {
 
     public GamePanel(int width, int height, KeyInputs input, Camera camera, Game game, SubPanels subPanels) {
         this.subPanels = subPanels;
+        this.menuFrame = menuFrame;
         this.setLayout(null);
         this.setPreferredSize(new Dimension(width, height));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -52,7 +49,7 @@ public class GamePanel extends JFrame {
         this.addKeyListener(input);
 
         // set default settings
-        tileManager = new TileManager(this);
+        tileManager = new TileManager(this, subPanels);
         setBackground(Color.GRAY);
         subPanels.setPausePanel(this, game);
         subPanels.setRoundOverPanel(this, game);
