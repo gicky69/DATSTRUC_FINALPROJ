@@ -152,6 +152,8 @@ public class Enemy extends GameObject {
             position = new Position(position.getX(), oldPosY);
         }
 
+        //test
+
         //# endregion
     }
 
