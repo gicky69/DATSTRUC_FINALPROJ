@@ -104,6 +104,7 @@ class RoundPanel extends  JPanel {
 
         for (int roundNum = 1; roundNum <= 5; roundNum++) {
             JButton roundButton = new JButton("Round " + roundNum);
+            System.out.println("Round " + roundNum);
             roundButton.setBounds(860, 300 + (roundNum * 100), 200, 50);
             this.add(roundButton);
 
@@ -126,8 +127,8 @@ class RoundPanel extends  JPanel {
             }
 
             roundButton.addActionListener(e -> {
-                mainFrame.frame.getContentPane().removeAll();
                 subPanels.setRoundDetail(roundDetail);
+                mainFrame.frame.getContentPane().removeAll();
                 new Thread(new GameLoop(new Game(new Size(1600, 1000),1600, 1000))).start();
                 mainFrame.frame.revalidate();
                 mainFrame.frame.repaint();

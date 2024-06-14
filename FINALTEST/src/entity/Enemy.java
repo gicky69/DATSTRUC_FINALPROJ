@@ -35,12 +35,11 @@ public class Enemy extends GameObject {
 
     @Override
     public void update() {
-//        if (Pursuing) {
-//            Pursue();
-//        } else {
-//            Seeking();
-//        }
-         Pursue();
+        Seeking();
+
+        if (Pursuing) {
+            Pursue();
+        }
 
         lines = buildLines();
 
@@ -49,17 +48,8 @@ public class Enemy extends GameObject {
 
     //#region Enemy Behavior
     public void Seeking() {
-        GameObject target = game.getGameObjects().get(0); // Get Player
-
         // direction is now in degrees 0-360
         // If closely reaching the bottom then go back down.
-        if (position.getY() >= 800) {
-            lookdirection = 270;
-        }
-
-        if (position.getY() <= 300) {
-            lookdirection = 90;
-        }
 
         Position moveto = Vector2D.angleToVector(lookdirection);
         float movetox = moveto.getfX() * EnemySpeed;
@@ -74,7 +64,7 @@ public class Enemy extends GameObject {
             Collider collider  = colliders.get(0);
             if (testPrintColliders==1) { System.out.println("name: " + collider.gameObject.name); } // Will check the object that was hit closest according to the linecast
             if (collider.gameObject.name.equals("Player")) {
-
+                Pursuing = true;
                 // Check if the player is within the ray's angle, is the player close enough?
                 float pdir = Vector2D.getAngleInDegrees(position, collider.point);
                 float cdir = Math.abs(lookdirection-pdir)*2f;
@@ -89,13 +79,13 @@ public class Enemy extends GameObject {
 
                 // If the enemy should detect the player
                 if ((cdir<FOVSize) && collider.distance<viewDistance) {
-                    Pursuing = true;
                     // What happens if player is detected??
                     if (testPrintColliders==2) {
                         System.out.println("Player is detected");
                     }
-
                 }
+            } else {
+                Pursuing = false;
             }
         }
 
@@ -152,7 +142,6 @@ public class Enemy extends GameObject {
             position = new Position(position.getX(), oldPosY);
         }
 
-        // test
         //# endregion
     }
 

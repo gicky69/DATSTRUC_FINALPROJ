@@ -51,10 +51,6 @@ public class EntityCollision {
                 int tileSide1 = gamePanel.tileManager.tileMap[newRow][newCol];
                 boolean isCollision = gamePanel.tileManager.tile[tileSide1].collision;
 
-                if (isCollision) {
-                    System.out.println("collide");
-                }
-
                 entity.collisionOn = isCollision;
             } else {
                 System.out.println("Invalid entity position: (" + newPosX + ", " + newPosY + ")");

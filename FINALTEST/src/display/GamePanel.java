@@ -13,11 +13,11 @@ import java.awt.image.BufferStrategy;
 public class GamePanel extends JFrame {
     private final Game game;
     public Frame menuFrame;
+    private SubPanels subPanels;
     public TileManager tileManager;
     public Player player;
 
     private Renderer renderer;
-    private SubPanels subPanels;
     public Camera camera;
 
     // screen settings
