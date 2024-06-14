@@ -1,4 +1,5 @@
 import display.SubPanels;
+import tile.TileManager;
 
 import javax.swing.*;
 import java.io.*;
@@ -11,10 +12,12 @@ public class LoginPanel extends JPanel {
     JButton resetButton, loginButton, registerButton;
     JLabel usernameLabel, passwordLabel;
     JTextField usernameField; JPasswordField passwordField;
+    TileManager tileManager;
 
     public LoginPanel(Frame mainFrame, SubPanels subPanels) {
         this.mainFrame = mainFrame;
         this.subPanels = subPanels;
+
         mainFrame.frame.setVisible(true);
         userValidation = new UserValidation();
         menuPanel = new MenuPanel(mainFrame, subPanels);
