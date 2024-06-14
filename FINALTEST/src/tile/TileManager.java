@@ -20,7 +20,6 @@ public class TileManager {
     public Tile[] tile;
     public int[][] tileMap;
     public Wall[][] wallMap;
-    public int roundDetail;
 
     // check only
 
@@ -32,10 +31,11 @@ public class TileManager {
         tileMap = new int[gamePanel.maxWorldRow][gamePanel.maxWorldCol];
         wallMap = new Wall[gamePanel.maxWorldRow][gamePanel.maxWorldCol];
         getTileImage();
-        System.out.println("FROM TILEMANAGER: " + subPanels.roundDetail);
+
+        // HINDI NAG PPASS YUNG roundDetail HUHUHUHU
+        System.out.println("FROM TILEMANAGER: " + subPanels.getRoundDetail());
         loadMap("FINALTEST/resources/Map/map" + 11 +".txt");
     }
-
 
     // map is imported from txt.
     public void loadMap(String filePath) {
