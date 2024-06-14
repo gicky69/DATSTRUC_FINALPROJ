@@ -1,5 +1,4 @@
 import core.Size;
-import display.GamePanel;
 import display.SubPanels;
 import game.Game;
 import game.GameLoop;
@@ -47,7 +46,7 @@ public class MenuPanel extends JPanel {
             // Close mainFrame
 
             // view round panel
-            roundPanel = new RoundPanel(mainFrame);
+            roundPanel = new RoundPanel(mainFrame, subPanels);
             roundPanel.setBounds(0, 0, mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
             mainFrame.frame.add(roundPanel);
             mainFrame.frame.revalidate();
@@ -95,20 +94,45 @@ public class MenuPanel extends JPanel {
 
 class RoundPanel extends  JPanel {
     Frame mainFrame;
-    JButton startButton;
+    SubPanels subPanels;
     JLabel temp = new JLabel("Round Panel");
-    public RoundPanel(Frame mainFrame) {
+    public int roundDetail = 11;
+    public RoundPanel(Frame mainFrame, SubPanels subPanels) {
         this.mainFrame = mainFrame;
+        this.subPanels = subPanels;
         this.add(temp);
 
-        startButton = new JButton("Start");
-        startButton.setBounds(860, 700, 200, 50);
-        this.add(startButton);
+        for (int roundNum = 1; roundNum <= 5; roundNum++) {
+            JButton roundButton = new JButton("Round " + roundNum);
+            roundButton.setBounds(860, 300 + (roundNum * 100), 200, 50);
+            this.add(roundButton);
 
-        startButton.addActionListener(e -> {
-            mainFrame.frame.setVisible(false);
-            new Thread(new GameLoop(new Game(new Size(1600, 1000),1600, 1000))).start();
-        });
+            switch (roundNum) {
+                case 1:
+                    roundDetail = 11;
+                    break;
+                case 2:
+                    roundDetail = 12;
+                    break;
+                case 3:
+                    roundDetail = 13;
+                    break;
+                case 4:
+                    roundDetail = 14;
+                    break;
+                case 5:
+                    roundDetail = 15;
+                    break;
+            }
+
+            roundButton.addActionListener(e -> {
+                mainFrame.frame.getContentPane().removeAll();
+                subPanels.setRoundDetail(roundDetail);
+                new Thread(new GameLoop(new Game(new Size(1600, 1000),1600, 1000))).start();
+                mainFrame.frame.revalidate();
+                mainFrame.frame.repaint();
+            });
+        }
     }
 }
 

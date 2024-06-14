@@ -10,6 +10,16 @@ public class SubPanels {
     GamePanel gamePanel;
     public JPanel pausePanel, roundOverPanel;
     public boolean roundOver = false;
+    int roundDetail;
+
+    public void setRoundDetail(int roundDetail) {
+        this.roundDetail = roundDetail;
+        System.out.println("FROM SUBPANELS: " + roundDetail);
+    }
+
+    public int getRoundDetail() {
+        return roundDetail;
+    }
 
     public void setPausePanel(GamePanel gamePanel, Game game) {
         this.gamePanel = gamePanel;
@@ -59,4 +69,5 @@ public class SubPanels {
         });
 
     }
+
 }

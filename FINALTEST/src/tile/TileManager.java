@@ -3,6 +3,7 @@ package tile;
 import core.Position;
 import display.GamePanel;
 import display.Renderer;
+import display.SubPanels;
 import entity.Wall;
 
 import javax.imageio.ImageIO;
@@ -15,21 +16,26 @@ import java.util.concurrent.CountDownLatch;
 
 public class TileManager {
     GamePanel gamePanel;
+    SubPanels subPanels;
     public Tile[] tile;
     public int[][] tileMap;
     public Wall[][] wallMap;
 
     // check only
 
-    public TileManager(GamePanel gamePanel) {
+    public TileManager(GamePanel gamePanel, SubPanels subPanels) {
         this.gamePanel = gamePanel;
+        this.subPanels = subPanels;
+
         tile = new Tile[4];
         tileMap = new int[gamePanel.maxWorldRow][gamePanel.maxWorldCol];
         wallMap = new Wall[gamePanel.maxWorldRow][gamePanel.maxWorldCol];
         getTileImage();
-        loadMap("FINALTEST/resources/Map/map1.txt");
-    }
 
+        // HINDI NAG PPASS YUNG roundDetail HUHUHUHU
+        System.out.println("FROM TILEMANAGER: " + subPanels.getRoundDetail());
+        loadMap("FINALTEST/resources/Map/map" + 11 +".txt");
+    }
 
     // map is imported from txt.
     public void loadMap(String filePath) {
@@ -42,6 +48,7 @@ public class TileManager {
                 for (int col = 0; col < tokens.length; col++) {
                     tileMap[row][col] = Integer.parseInt(tokens[col]);
 //                    tileMap[row][col] = Character.getNumericValue(line.charAt(col));
+
                     wallMap[row][col] = new Wall(new Position(col * gamePanel.tileSize, row * gamePanel.tileSize));
                 }
                 row++;
@@ -74,10 +81,8 @@ public class TileManager {
                         if (i == 0) { // Border
                             tile[i].collision = true;
                         } else if (i == 2) { // Wall
-                            System.out.println("Added collision");
                             tile[i].collision = true;
                         }
-
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
