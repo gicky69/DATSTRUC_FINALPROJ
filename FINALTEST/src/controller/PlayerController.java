@@ -38,7 +38,16 @@ public class PlayerController implements Controller {
     }
 
     @Override
-    public boolean isSneaking() {return input.isPressed(KeyEvent.VK_CONTROL); }
+    public boolean isSneaking() {
+        // for windows and mac users
+        String OS = System.getProperty("os.name").toLowerCase();
+        if (OS.contains("win")) {
+            return input.isPressed(KeyEvent.VK_CONTROL);
+        } else {
+            return input.isPressed(KeyEvent.VK_META);
+        }
+
+    }
 
     @Override
     public boolean isSprintKeyReleased() {

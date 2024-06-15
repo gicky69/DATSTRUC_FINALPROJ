@@ -122,7 +122,7 @@ public class Game {
         }
 
         if (subPanels.roundOver && !isPaused) {
-            subPanels.setRoundOverPanel(frame, this);
+            subPanels.setRoundOverPanel(frame, this, roundPanel);
             isPaused = !isPaused;
         }
     }

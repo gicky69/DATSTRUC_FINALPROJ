@@ -46,15 +46,19 @@ public class SubPanels {
             pausePanel.setVisible(false);
         });
     }
-    public void setRoundOverPanel(GamePanel gamePanel, Game game) {
+    public void setRoundOverPanel(GamePanel gamePanel, Game game, RoundPanel roundPanel) {
         this.gamePanel = gamePanel;
+        this.roundPanel = roundPanel;
         roundOverPanel = new JPanel();
         roundOverPanel.setSize(500, 500);
         roundOverPanel.setVisible(false);
 
         JButton nextRound = new JButton("Next Round");
+        JButton roundPanelButton = new JButton("Go Back");
         nextRound.setSize(100, 50);
+        roundPanelButton.setSize(100, 50);
         roundOverPanel.add(nextRound);
+        roundOverPanel.add(roundPanelButton);
         gamePanel.add(roundOverPanel);
 
         // Calculate the center position of the GamePanel
@@ -69,6 +73,18 @@ public class SubPanels {
             gamePanel.revalidate();
             gamePanel.repaint();
 
+            game.isPaused = false;
+        });
+
+        roundPanelButton.addActionListener(e -> {
+            roundOver = false;
+            roundOverPanel.setVisible(false);
+            roundPanel.currentRound++;
+            System.out.println("CURRENT ROUND ON SUBPANELS " + roundPanel.currentRound);
+            roundPanel.update();
+            roundPanel.mainFrame.frame.setVisible(true);
+            gamePanel.revalidate();
+            gamePanel.repaint();
             game.isPaused = false;
         });
 
