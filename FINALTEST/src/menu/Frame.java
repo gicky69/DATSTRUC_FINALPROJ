@@ -1,8 +1,9 @@
+package menu;
+
 import javax.swing.*;
-import java.awt.*;
 
 public class Frame {
-    JFrame frame;
+    public JFrame frame;
 
     public Frame(int width, int height) {
         frame = new JFrame("Final Test");

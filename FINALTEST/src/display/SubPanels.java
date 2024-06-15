@@ -1,6 +1,7 @@
 package display;
 
 import game.Game;
+import menu.RoundPanel;
 
 import javax.swing.*;
 
@@ -8,17 +9,19 @@ import javax.swing.*;
 public class SubPanels {
 
     GamePanel gamePanel;
+    RoundPanel roundPanel;
     public JPanel pausePanel, roundOverPanel;
     public boolean roundOver = false;
     int roundDetail;
 
-    public void setRoundDetail(int roundDetail) {
+    public void setRoundDetail(int roundDetail, RoundPanel roundPanel) {
         this.roundDetail = roundDetail;
-        System.out.println("FROM SUBPANELS: " + roundDetail);
+        this.roundPanel = roundPanel;
+        roundPanel.updateRoundDetail();
     }
 
     public int getRoundDetail() {
-        System.out.println("THIS ROUND DETAIL: " + this.roundDetail);
+        System.out.println("THIS ROUND DETAIL: " + roundDetail);
         return roundDetail;
     }
 

@@ -10,6 +10,7 @@ import entity.*;
 import input.KeyInputs;
 
 import display.GamePanel;
+import menu.RoundPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,15 +29,17 @@ public class Game {
     private Camera camera;
     public EntityCollision entityCollision;
     public SubPanels subPanels;
+    public RoundPanel roundPanel;
     public boolean isPaused = false;
 
     //#endregion
 
-    public Game(Size windowsSize, int width, int height) {
+    public Game(Size windowsSize, int width, int height, RoundPanel roundPanel) {
+        this.roundPanel = roundPanel;
         input = new KeyInputs();
         camera = new Camera(windowsSize);
         subPanels = new SubPanels();
-        frame = new GamePanel(width, height, input, camera, this, subPanels);
+        frame = new GamePanel(width, height, input, camera, this, subPanels, roundPanel);
         gameObjects = new ArrayList<>();
         p2d = new Physics2D();
         p2d.game = this;

@@ -1,3 +1,5 @@
+package menu;
+
 import display.SubPanels;
 import tile.TileManager;
 

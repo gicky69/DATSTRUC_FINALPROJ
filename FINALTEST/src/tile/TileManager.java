@@ -5,6 +5,7 @@ import display.GamePanel;
 import display.Renderer;
 import display.SubPanels;
 import entity.Wall;
+import menu.RoundPanel;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -20,21 +21,22 @@ public class TileManager {
     public Tile[] tile;
     public int[][] tileMap;
     public Wall[][] wallMap;
+    public RoundPanel roundPanel;
 
     // check only
 
-    public TileManager(GamePanel gamePanel, SubPanels subPanels) {
+    public TileManager(GamePanel gamePanel, SubPanels subPanels, RoundPanel roundPanel) {
         this.gamePanel = gamePanel;
         this.subPanels = subPanels;
+        this.roundPanel = roundPanel;
 
         tile = new Tile[4];
         tileMap = new int[gamePanel.maxWorldRow][gamePanel.maxWorldCol];
         wallMap = new Wall[gamePanel.maxWorldRow][gamePanel.maxWorldCol];
         getTileImage();
 
-        // HINDI NAG PPASS YUNG roundDetail HUHUHUHU
-        System.out.println("FROM TILEMANAGER: " + subPanels.getRoundDetail());
-        loadMap("FINALTEST/resources/Map/map" + 11 +".txt");
+        System.out.println("FROM TILEMANAGER: " + roundPanel.roundDetail );
+        loadMap("FINALTEST/resources/Map/map" + roundPanel.roundDetail +".txt");
     }
 
     // map is imported from txt.
