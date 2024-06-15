@@ -9,8 +9,6 @@ public class Renderer {
     Camera camera;
     Player player;
 
-
-
     public void render(Game game, Graphics graphics, Player player) {
         this.camera = game.getCamera();
         this.player = player;

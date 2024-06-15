@@ -12,6 +12,7 @@ public class Frame {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
         frame.setResizable(false);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setVisible(true);
         frame.setFocusable(true);
     }

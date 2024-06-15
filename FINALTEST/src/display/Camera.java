@@ -12,6 +12,8 @@ public class Camera {
     private Size windowSize;
 
     private Optional<GameObject> ObjectWithFocus;
+    private int width;
+    private int height;
 
     public Camera(Size windowSize) {
         this.position = new Position(0, 0);

@@ -8,6 +8,8 @@ import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.image.BufferStrategy;
 
 
@@ -41,6 +43,7 @@ public class GamePanel extends JFrame {
         this.roundPanel = roundPanel;
         this.setLayout(null);
         this.setPreferredSize(new Dimension(width, height));
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.pack();
         this.setVisible(true);
@@ -54,9 +57,12 @@ public class GamePanel extends JFrame {
         tileManager = new TileManager(this, subPanels, roundPanel);
         setBackground(Color.GRAY);
         subPanels.setPausePanel(this, game);
-        subPanels.setRoundOverPanel(this, game);
+        subPanels.setRoundOverPanel(this, game, roundPanel);
         setFocusable(true);
         requestFocusInWindow();
+
+
+
     }
 
     public void setPlayer(Player player) {
