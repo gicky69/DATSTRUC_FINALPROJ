@@ -140,8 +140,9 @@ public class Player extends GameObject {
         if (gamePanel.tileManager.tileMap[playerTileY][playerTileX] == 3 && itemCollected) {
             subPanels.roundOver = true;
             System.out.println("ROUND OVER");
-            subPanels.setRoundOverPanel(gamePanel, game);
+            subPanels.setRoundOverPanel(gamePanel, game, gamePanel.roundPanel);
             subPanels.roundOverPanel.setVisible(true);
+
             gamePanel.revalidate();
             gamePanel.repaint();
 
