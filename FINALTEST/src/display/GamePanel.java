@@ -3,6 +3,7 @@ package display;
 import entity.Player;
 import input.KeyInputs;
 import game.Game;
+import menu.RoundPanel;
 import tile.TileManager;
 
 import javax.swing.*;
@@ -15,6 +16,7 @@ public class GamePanel extends JFrame {
     public Frame menuFrame;
     private SubPanels subPanels;
     public TileManager tileManager;
+    public RoundPanel roundPanel;
     public Player player;
 
     private Renderer renderer;
@@ -34,9 +36,9 @@ public class GamePanel extends JFrame {
     //panels and boolean
     public boolean roundOver = false;
 
-    public GamePanel(int width, int height, KeyInputs input, Camera camera, Game game, SubPanels subPanels) {
+    public GamePanel(int width, int height, KeyInputs input, Camera camera, Game game, SubPanels subPanels, RoundPanel roundPanel) {
         this.subPanels = subPanels;
-        this.menuFrame = menuFrame;
+        this.roundPanel = roundPanel;
         this.setLayout(null);
         this.setPreferredSize(new Dimension(width, height));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -49,7 +51,7 @@ public class GamePanel extends JFrame {
         this.addKeyListener(input);
 
         // set default settings
-        tileManager = new TileManager(this, subPanels);
+        tileManager = new TileManager(this, subPanels, roundPanel);
         setBackground(Color.GRAY);
         subPanels.setPausePanel(this, game);
         subPanels.setRoundOverPanel(this, game);
