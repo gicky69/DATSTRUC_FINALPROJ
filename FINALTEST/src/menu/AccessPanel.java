@@ -6,7 +6,7 @@ import tile.TileManager;
 import javax.swing.*;
 import java.io.*;
 
-public class LoginPanel extends JPanel {
+public class AccessPanel extends JPanel {
     UserValidation userValidation;
     Frame mainFrame;
     MenuPanel menuPanel;
@@ -14,9 +14,8 @@ public class LoginPanel extends JPanel {
     JButton resetButton, loginButton, registerButton;
     JLabel usernameLabel, passwordLabel;
     JTextField usernameField; JPasswordField passwordField;
-    TileManager tileManager;
 
-    public LoginPanel(Frame mainFrame, SubPanels subPanels) {
+    public AccessPanel(Frame mainFrame, SubPanels subPanels) {
         this.mainFrame = mainFrame;
         this.subPanels = subPanels;
 
@@ -64,19 +63,11 @@ public class LoginPanel extends JPanel {
                 menuPanel.setBounds(0, 0, mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
                 mainFrame.frame.add(menuPanel);
                 menuPanel.requestFocusInWindow();
-                mainFrame.frame.revalidate();
-                mainFrame.frame.repaint();
-
-//                // for debugging purposes only, will be removed after.
-//                mainFrame.frame.getContentPane().removeAll();
-//                gamePanel.setBounds(0, 0, mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
-//                mainFrame.frame.add(gamePanel);
-//                gamePanel.requestFocusInWindow();
-//                mainFrame.frame.revalidate();
-//                mainFrame.frame.repaint();
+                mainFrame.update();
                 System.out.println("Login Successful");
             } else {
                 System.out.println("Login failed.");
+                JOptionPane.showMessageDialog(null, "Invalid username or password.", "Warning", JOptionPane.WARNING_MESSAGE);
             }
         });
 
@@ -84,9 +75,7 @@ public class LoginPanel extends JPanel {
             boolean isRegisterSuccessful = userValidation.register(usernameField.getText(), passwordField.getText());
             if (isRegisterSuccessful) {
                 System.out.println("Registration Successful");
-                JOptionPane.showMessageDialog(null, "Registration Successful.");
-            } else {
-                System.out.println("Registration failed.");
+                JOptionPane.showMessageDialog(null, "Registration Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
             }
         });
     }
@@ -100,7 +89,6 @@ public class LoginPanel extends JPanel {
             try (BufferedReader reader = new BufferedReader(new FileReader(DB_UserCredentials))) {
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    System.out.println("Print");
                     String[] user = line.split(",");
                     if (user[0].equals(username) && user[1].equals(password)) {
                         return true;
@@ -116,9 +104,11 @@ public class LoginPanel extends JPanel {
         public boolean register(String username, String password) {
 
             if (username.isEmpty() || password.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Field is empty.", "Warning", JOptionPane.WARNING_MESSAGE);
                 return false;
 
-            } else if (username.contains(",") || password.contains(",")) {
+            } else if (username.contains(",")) {
+                JOptionPane.showMessageDialog(null, "Invalid username or password.", "Warning", JOptionPane.WARNING_MESSAGE);
                 return false;
             }
             else {
@@ -127,8 +117,7 @@ public class LoginPanel extends JPanel {
                     while ((line = reader.readLine()) != null) {
                         String[] user = line.split(",");
                         if (user[0].equals(username)) {
-                            System.out.println("Username already exists.");
-                            JOptionPane.showMessageDialog(null, "Username already exists.");
+                            JOptionPane.showMessageDialog(null, "Username already exists.", "Warning", JOptionPane.WARNING_MESSAGE);
                             return false;
                         }
                     }

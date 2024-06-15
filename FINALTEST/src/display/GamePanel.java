@@ -41,6 +41,14 @@ public class GamePanel extends JFrame {
     public GamePanel(int width, int height, KeyInputs input, Camera camera, Game game, SubPanels subPanels, RoundPanel roundPanel) {
         this.subPanels = subPanels;
         this.roundPanel = roundPanel;
+        this.camera = camera;
+        this.game = game;
+        this.renderer = new Renderer();
+        tileManager = new TileManager(this, subPanels, roundPanel);
+        subPanels.setPausePanel(this, game);
+        subPanels.setRoundOverPanel(this, game, roundPanel);
+
+        // frame settings
         this.setLayout(null);
         this.setPreferredSize(new Dimension(width, height));
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -48,21 +56,10 @@ public class GamePanel extends JFrame {
         this.pack();
         this.setVisible(true);
         this.createBufferStrategy(2);
-        this.camera = camera;
-        this.game = game;
-        this.renderer = new Renderer();
         this.addKeyListener(input);
-
-        // set default settings
-        tileManager = new TileManager(this, subPanels, roundPanel);
         setBackground(Color.GRAY);
-        subPanels.setPausePanel(this, game);
-        subPanels.setRoundOverPanel(this, game, roundPanel);
         setFocusable(true);
         requestFocusInWindow();
-
-
-
     }
 
     public void setPlayer(Player player) {
