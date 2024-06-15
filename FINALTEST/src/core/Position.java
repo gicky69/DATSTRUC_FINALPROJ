@@ -19,6 +19,18 @@ public class Position {
         return inty;
     }
 
+    public int gridX() {
+        return (int) x / 40;
+    }
+
+    public int gridY() {
+        return (int) y / 40;
+    }
+
+    public static Position ofGridPosition(int gridX, int gridY) {
+        return new Position(gridX * 40 + 20, gridY * 40 + 20);
+    }
+
     public float getfX() {
         return x;
     }

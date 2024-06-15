@@ -10,7 +10,9 @@ import entity.*;
 import input.KeyInputs;
 
 import display.GamePanel;
+import map.GameMap;
 import menu.RoundPanel;
+import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,6 +25,7 @@ public class Game {
     //#region Back-end Init
 
     private GamePanel frame;
+    private GameMap map;
     private List<GameObject> gameObjects;
     private KeyInputs input;
     public Physics2D p2d;
@@ -40,6 +43,7 @@ public class Game {
         camera = new Camera(windowsSize);
         subPanels = new SubPanels();
         frame = new GamePanel(width, height, input, camera, this, subPanels, roundPanel);
+        map = new GameMap(frame.getTileManager());
         gameObjects = new ArrayList<>();
         p2d = new Physics2D();
         p2d.game = this;
@@ -59,8 +63,8 @@ public class Game {
         return gameObjects;
     }
 
-    public Graphics getGraphics() {
-        return frame.getGraphics();
+    public TileManager getTiles() {
+        return frame.getTileManager();
     }
 
     // Getters ng player
@@ -118,9 +122,9 @@ public class Game {
         if (!isPaused) {
             camera.update(this, frame);
             gameObjects.forEach(GameObject::update);
+            map.update();
             entityCollision.tileChecker(gameObjects);
         }
-
         if (subPanels.roundOver && !isPaused) {
             subPanels.setRoundOverPanel(frame, this);
             isPaused = !isPaused;

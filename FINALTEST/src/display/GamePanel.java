@@ -28,6 +28,7 @@ public class GamePanel extends JFrame {
     public final int tileSize = 40;
 
     // world settings
+    public final int SPRITE_SIZE = 40;
     public final int maxWorldCol = 80;
     public final int maxWorldRow = 40;
     public final int worldWidth = tileSize * maxWorldCol;
@@ -99,6 +100,10 @@ public class GamePanel extends JFrame {
 
     public int getWorldHeight() {
         return worldHeight;
+    }
+
+    public TileManager getTileManager() {
+        return tileManager;
     }
 
     public Player getPlayer() {

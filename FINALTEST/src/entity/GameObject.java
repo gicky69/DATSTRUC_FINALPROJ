@@ -4,6 +4,7 @@ import core.physics2d.Collision;
 import core.Position;
 import core.Size;
 import game.Game;
+import tile.TileManager;
 
 import java.awt.*;
 

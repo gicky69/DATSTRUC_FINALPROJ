@@ -13,6 +13,8 @@ import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.CountDownLatch;
 
 public class TileManager {
@@ -22,7 +24,6 @@ public class TileManager {
     public int[][] tileMap;
     public Wall[][] wallMap;
     public RoundPanel roundPanel;
-
     // check only
 
     public TileManager(GamePanel gamePanel, SubPanels subPanels, RoundPanel roundPanel) {
@@ -74,16 +75,19 @@ public class TileManager {
                     for (int i = 0; i < tile.length; i++) {
                         tile[i] = new Tile();
                         tile[i].image = ImageIO.read(getClass().getResourceAsStream("/Tile/Tile" + i + ".png"));
+                        tile[i].setLength(40);
                         if (tile[i].image == null) {
                             System.out.println("Image not loaded");
                         } else {
                             System.out.println("Image loaded successfully");
                         }
 
-                        if (i == 0) { // Border
+                        if (i == 0) {
                             tile[i].collision = true;
-                        } else if (i == 2) { // Wall
+                            tile[i].pathable = false;
+                        } else if (i == 2){
                             tile[i].collision = true;
+                            tile[i].pathable = false;
                         }
                     }
                 } catch (Exception e) {
@@ -107,6 +111,14 @@ public class TileManager {
 
         };
         worker.execute();
+    }
+
+    public Tile getSpecificTile(int i) {
+        return tile[i];
+    }
+
+    public Tile[] getTiles() {
+        return tile;
     }
 
     public void draw(Renderer renderer, Graphics g2) {
@@ -140,4 +152,12 @@ public class TileManager {
             throw new RuntimeException(e);
         }
     }
+
+    //# region Getters
+
+    // get Map
+    public int[][] getMap() {
+        return tileMap;
+    }
+    //# endregion
 }

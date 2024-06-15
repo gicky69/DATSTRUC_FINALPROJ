@@ -3,6 +3,7 @@ package entity;
 import core.Position;
 import core.Vector2D;
 import core.physics2d.Collider;
+//import tile.Pathfinder;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
@@ -104,6 +105,10 @@ public class Enemy extends GameObject {
 
     //#region Enemy Actions
 
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
     public void MoveTowards(Position pos) {
         float oldPosX = position.getfX();
         float oldPosY = position.getfY();
@@ -155,10 +160,18 @@ public class Enemy extends GameObject {
         position = new Position(position.getfX() + xvel * (float) EnemySpeed, position.getfY() + yvel * (float) EnemySpeed);
     }
 
-    public void ShortestPath(Position pos) {
-        // A* Algorithm
+    public void moveTowardsPlayer() {
+        // Get the current position of the enemy
+        Position enemyPosition = this.position;
 
+        // Get the current position of the player
+        Position playerPosition = game.getGameObjects().get(0).getPosition();
 
+        // Find the path from the enemy to the player
+//        Position path = Pathfinder.findPath(enemyPosition, playerPosition, game.getTiles());
+//        System.out.println(path);
+
+        // Now you can use the path for the enemy's movement
     }
 
     //#endregion
