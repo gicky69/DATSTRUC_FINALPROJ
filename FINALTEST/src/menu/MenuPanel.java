@@ -14,7 +14,7 @@ public class MenuPanel extends JPanel {
     ShopPanel shopPanel;
     SettingsPanel settingsPanel;
     HTPPanel htpPanel;
-    JButton playButton, shopButton, settingsButton, htpButton, exitButton;
+    JButton playButton, shopButton, settingsButton, tutorialButton, exitButton;
     SubPanels subPanels;
 
     public MenuPanel(Frame mainFrame, SubPanels subPanels) {
@@ -35,9 +35,9 @@ public class MenuPanel extends JPanel {
         settingsButton.setBounds(860, 500, 200, 50);
         this.add(settingsButton);
 
-        htpButton = new JButton("How to Play");
-        htpButton.setBounds(860, 600, 200, 50);
-        this.add(htpButton);
+        tutorialButton = new JButton("Tutorial");
+        tutorialButton.setBounds(860, 600, 200, 50);
+        this.add(tutorialButton);
 
         exitButton = new JButton("Exit");
         exitButton.setBounds(860, 700, 200, 50);
@@ -45,12 +45,12 @@ public class MenuPanel extends JPanel {
 
         playButton.addActionListener(e -> {
             mainFrame.frame.getContentPane().removeAll();
-            // Close mainFrame
 
             // view round panel
             roundPanel = new RoundPanel(mainFrame, subPanels);
             roundPanel.setBounds(0, 0, mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
             mainFrame.frame.add(roundPanel);
+            mainFrame.frame.setTitle("Choose Difficulty & Round");
             mainFrame.frame.revalidate();
             mainFrame.frame.repaint();
 
@@ -58,6 +58,7 @@ public class MenuPanel extends JPanel {
 
         shopButton.addActionListener(e -> {
             mainFrame.frame.getContentPane().removeAll();
+            mainFrame.frame.setTitle("Shop");
             shopPanel = new ShopPanel(mainFrame);
             mainFrame.frame.add(shopPanel);
             shopPanel.setBounds(0, 0, mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
@@ -67,7 +68,7 @@ public class MenuPanel extends JPanel {
         });
 
         settingsButton.addActionListener(e -> {
-            mainFrame.frame.setTitle("GAME NAME: Settings");
+            mainFrame.frame.setTitle("Settings");
             mainFrame.frame.getContentPane().removeAll();
             settingsPanel = new SettingsPanel(mainFrame);
             mainFrame.frame.add(settingsPanel);
@@ -77,8 +78,9 @@ public class MenuPanel extends JPanel {
             mainFrame.frame.repaint();
         });
 
-        htpButton.addActionListener(e -> {
+        tutorialButton.addActionListener(e -> {
             mainFrame.frame.getContentPane().removeAll();
+            mainFrame.frame.setTitle("Tutorial");
             htpPanel = new HTPPanel(mainFrame);
             mainFrame.frame.add(htpPanel);
             htpPanel.setBounds(0, 0, mainFrame.frame.getWidth(), mainFrame.frame.getHeight());

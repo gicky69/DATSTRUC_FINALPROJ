@@ -4,6 +4,8 @@ import game.Game;
 import menu.RoundPanel;
 
 import javax.swing.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 // This class is used to create subpanels for the game frame
 public class SubPanels {
@@ -31,20 +33,39 @@ public class SubPanels {
         pausePanel.setVisible(false);
         pausePanel.setSize(500, 500);
 
-        JButton resume = new JButton("Resume");
-        resume.setSize(100, 50);
-        pausePanel.add(resume);
-        gamePanel.add(pausePanel);
+        gamePanel.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                int centerX = (gamePanel.getWidth() - pausePanel.getWidth()) / 2;
+                int centerY = (gamePanel.getHeight() - pausePanel.getHeight()) / 2;
+                pausePanel.setLocation(centerX, centerY);
+            }
+        });
 
-        // Calculate the center position of the GamePanel
-        int centerX = (gamePanel.getWidth() - pausePanel.getWidth()) / 2;
-        int centerY = (gamePanel.getHeight() - pausePanel.getHeight()) / 2;
-        pausePanel.setLocation(centerX,centerY);
+        JButton resumeButton = new JButton("Resume");
+        JButton quitRoundButton = new JButton("Quit Round");
+        resumeButton.setSize(100, 50);
+        pausePanel.add(resumeButton);
+        pausePanel.add(quitRoundButton);
 
-        resume.addActionListener(e -> {
+        resumeButton.addActionListener(e -> {
             game.isPaused = false;
             pausePanel.setVisible(false);
         });
+
+        quitRoundButton.addActionListener(e -> {
+            game.isPaused = false;
+            roundOver = true;
+            pausePanel.setVisible(false);
+            roundPanel.update();
+            roundPanel.mainFrame.frame.setVisible(true);
+            gamePanel.revalidate();
+            gamePanel.repaint();
+        });
+
+        gamePanel.setLayout(null);
+        gamePanel.add(pausePanel);
+
     }
     public void setRoundOverPanel(GamePanel gamePanel, Game game, RoundPanel roundPanel) {
         this.gamePanel = gamePanel;

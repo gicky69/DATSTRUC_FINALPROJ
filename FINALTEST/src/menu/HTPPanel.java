@@ -19,6 +19,7 @@ public class HTPPanel extends JPanel {
         backButton.addActionListener(e -> {
             mainFrame.frame.getContentPane().removeAll();
             mainFrame.frame.add(new MenuPanel(mainFrame, new SubPanels()));
+            mainFrame.frame.setTitle("Robbery Bob");
             mainFrame.frame.revalidate();
             mainFrame.frame.repaint();
         });

@@ -7,7 +7,7 @@ public class Main {
     Frame mainFrame;
     JButton startButton;
     JButton exitButton;
-    LoginPanel loginPanel;
+    AccessPanel loginPanel;
     MenuPanel menuPanel;
     ShopPanel shopPanel;
     SettingsPanel settingsPanel;
@@ -17,7 +17,7 @@ public class Main {
     public Main() {
         mainFrame = new Frame(1600,900);
         subPanels = new SubPanels();
-        loginPanel = new LoginPanel(mainFrame, subPanels);
+        loginPanel = new AccessPanel(mainFrame, subPanels);
         menuPanel = new MenuPanel(mainFrame, subPanels);
         shopPanel = new ShopPanel(mainFrame);
         settingsPanel = new SettingsPanel(mainFrame);

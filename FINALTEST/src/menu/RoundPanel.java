@@ -12,11 +12,12 @@ import java.util.List;
 
 public class RoundPanel extends  JPanel {
     public Frame mainFrame;
-    SubPanels subPanels;
-    JLabel temp = new JLabel("Round Panel");
+    public SubPanels subPanels;
     public int roundDetail;
     public int currentRound = 1;
     private List<JButton> roundButtons = new ArrayList<>();
+    JLabel temp = new JLabel("Round Panel");
+    JButton backButton;
 
     public RoundPanel(Frame mainFrame, SubPanels subPanels) {
         this.mainFrame = mainFrame;
@@ -26,7 +27,6 @@ public class RoundPanel extends  JPanel {
         for (int roundNum = 1; roundNum <= 5; roundNum++) {
             JButton roundButton = new JButton("Round " + roundNum);
             roundButton.setEnabled(roundNum == 1);
-            System.out.println("Round " + roundNum);
             roundButton.setBounds(860, 300 + (roundNum * 100), 200, 50);
             this.add(roundButton);
             roundButtons.add(roundButton);
@@ -44,8 +44,8 @@ public class RoundPanel extends  JPanel {
                 double height = screenSize.getHeight();
                 new Thread(new GameLoop(new Game(new Size((int)width, (int)height),(int)width, (int)height, this))).start();
 
-                mainFrame.frame.revalidate();
-                mainFrame.frame.repaint();
+                mainFrame.frame.setVisible(false);
+                mainFrame.update();
 
                 System.out.println(currentRound);
                 if (currentRound < roundButtons.size()) {
@@ -53,6 +53,18 @@ public class RoundPanel extends  JPanel {
                 }
             });
         }
+
+        backButton = new JButton("Back");
+        backButton.setBounds(860, 700, 200, 50);
+        this.add(backButton);
+        backButton.addActionListener(e -> {
+            mainFrame.frame.getContentPane().removeAll();
+
+            MenuPanel menuPanel = new MenuPanel(mainFrame, subPanels);
+            menuPanel.setBounds(0,0,mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
+            mainFrame.frame.add(menuPanel);
+            mainFrame.update();
+        });
     }
 
     // will update the roundDetail variable in this class based on the passed variable on the subpanels.
