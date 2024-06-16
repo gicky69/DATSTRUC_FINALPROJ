@@ -8,11 +8,9 @@ import java.util.List;
 public class EntityCollision {
 
     private GamePanel gamePanel;
-    private List<GameObject> entity;
 
-    public EntityCollision(GamePanel gamePanel, List<GameObject> entity) {
+    public EntityCollision(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
-        this.entity = entity;
     }
 
 

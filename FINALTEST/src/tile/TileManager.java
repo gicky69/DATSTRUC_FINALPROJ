@@ -13,8 +13,7 @@ import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.concurrent.CountDownLatch;
 
 public class TileManager {
@@ -22,7 +21,6 @@ public class TileManager {
     SubPanels subPanels;
     public Tile[] tile;
     public int[][] tileMap;
-    public Wall[][] wallMap;
     public RoundPanel roundPanel;
     // check only
 
@@ -33,7 +31,6 @@ public class TileManager {
 
         tile = new Tile[4];
         tileMap = new int[gamePanel.maxWorldRow][gamePanel.maxWorldCol];
-        wallMap = new Wall[gamePanel.maxWorldRow][gamePanel.maxWorldCol];
         getTileImage();
 
         System.out.println("FROM TILEMANAGER: " + roundPanel.roundDetail );
@@ -51,8 +48,6 @@ public class TileManager {
                 for (int col = 0; col < tokens.length; col++) {
                     tileMap[row][col] = Integer.parseInt(tokens[col]);
 //                    tileMap[row][col] = Character.getNumericValue(line.charAt(col));
-
-                    wallMap[row][col] = new Wall(new Position(col * gamePanel.tileSize, row * gamePanel.tileSize));
                 }
                 row++;
             }
