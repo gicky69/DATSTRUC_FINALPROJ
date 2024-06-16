@@ -160,7 +160,7 @@ public class pathfinder {
 
 
                 // check if the tile is pathable or not
-                if (gameMap.map[i][j] == 1) {
+                if (gameMap.map[i][j] == 0) {
                     closed.add(node);
                 }
 
