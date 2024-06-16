@@ -68,7 +68,6 @@ public class Game {
     }
 
     // Getters ng player
-
     public Camera getCamera() {
         return camera;
     }
@@ -144,4 +143,9 @@ public class Game {
     }
 
     //#endregion
+
+
+    public GameMap getMap() {
+        return map;
+    }
 }

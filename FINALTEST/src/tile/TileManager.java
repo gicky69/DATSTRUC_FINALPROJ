@@ -1,10 +1,8 @@
 package tile;
 
-import core.Position;
 import display.GamePanel;
 import display.Renderer;
 import display.SubPanels;
-import entity.Wall;
 import menu.RoundPanel;
 
 import javax.imageio.ImageIO;

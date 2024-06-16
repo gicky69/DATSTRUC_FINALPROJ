@@ -11,7 +11,7 @@ public class GameMap {
     TileManager tileManager;
     private List<Tile> gridMap;
 
-    private int map[][];
+    public int map[][];
 
     public GameMap(TileManager TM) {
         this.tileManager = TM;
@@ -21,6 +21,7 @@ public class GameMap {
 
     // update map
     public void update() {
+
     }
 
     //# region Set Game Map Attributes
@@ -31,8 +32,8 @@ public class GameMap {
             for (int j = 0; j < map[i].length; j++) {
                 // set the size to be a grid
                 Tile tile = new Tile();
-                tile.setGridX(j);
-                tile.setGridY(i);
+                tile.setGridX(j*40);
+                tile.setGridY(i*40);
                 gridMap.add(tile);
             }
         }

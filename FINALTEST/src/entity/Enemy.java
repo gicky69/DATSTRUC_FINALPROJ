@@ -3,6 +3,8 @@ package entity;
 import core.Position;
 import core.Vector2D;
 import core.physics2d.Collider;
+import tile.pathfinder.pathfinder.Node;
+import tile.pathfinder.pathfinder;
 //import tile.Pathfinder;
 
 import java.awt.*;
@@ -18,9 +20,13 @@ public class Enemy extends GameObject {
     private float lookdirection = 90;
     private int viewDistance = 500; // How far can the enemy see?
     private int FOVSize = 90; // How big is the enemy FOV?
+    private pathfinder pf;
     private int deltaY = 3;
 
     private boolean Pursuing = false;
+
+    private List<Position> pathToFollow;
+    private int currentPathIndex;
 
     // Build Lines
     private static final int RAYS = 360;
@@ -30,17 +36,20 @@ public class Enemy extends GameObject {
     public Enemy(Position position) {
         lines = buildLines();
         this.position = position;
+        this.pf = new pathfinder();
     }
 
     //#endregion
 
     @Override
     public void update() {
-        Seeking();
-
         if (Pursuing) {
             Pursue();
+            followPath();
+        } else {
+            Seeking();
         }
+
 
         lines = buildLines();
 
@@ -93,8 +102,11 @@ public class Enemy extends GameObject {
     }
 
     public void Pursue() {
-        GameObject target = game.getGameObjects().get(0); // Get Player
-        MoveTowards(target.position); // Move towards the player's position
+        Position target = game.getGameObjects().get(0).getPosition(); // Get Player
+        Position start = position;
+
+        pathToFollow = pf.findPath(start, target, game.getMap());
+        currentPathIndex = pathToFollow.size() - 1;
     }
 
     public void Flee() {
@@ -117,37 +129,52 @@ public class Enemy extends GameObject {
         float xvel = normalized.getfX();
         float yvel = normalized.getfY();
 
+        position = new Position(position.getfX() - xvel * (float) EnemySpeed, position.getfY() - yvel * (float) EnemySpeed);
+
         //# region Collision
         // Enemy collision with the Wall
         // Move towards the target with relative velocity times speed
-        position = new Position(position.getfX() - xvel * (float) EnemySpeed, position.getfY());
 
         // allow diagonal movement
-        collisionOn = false;
-        game.entityCollision.tileChecker(game.getGameObjects());
-        if (collisionOn) {
-            position = new Position(oldPosX, position.getfY());
-        }
-
-        oldPosX = position.getfX();
-
-        //  Horizontal Movement
-        collisionOn = false;
-        game.entityCollision.tileChecker(game.getGameObjects());
-        if (collisionOn) {
-            position = new Position(oldPosX, oldPosY);
-        }
-
-        position = new Position(position.getfX(), position.getfY() - yvel * (float) EnemySpeed);
-
-        // Vertical Movement
-        collisionOn = false;
-        game.entityCollision.tileChecker(game.getGameObjects());
-        if (collisionOn) {
-            position = new Position(position.getX(), oldPosY);
-        }
+//        collisionOn = false;
+//        game.entityCollision.tileChecker(game.getGameObjects());
+//        if (collisionOn) {
+//            position = new Position(oldPosX, position.getfY());
+//        }
+//
+//        oldPosX = position.getfX();
+//
+//        //  Horizontal Movement
+//        collisionOn = false;
+//        game.entityCollision.tileChecker(game.getGameObjects());
+//        if (collisionOn) {
+//            position = new Position(oldPosX, oldPosY);
+//        }
+//
+//        position = new Position(position.getfX(), position.getfY() - yvel * (float) EnemySpeed);
+//
+//        // Vertical Movement
+//        collisionOn = false;
+//        game.entityCollision.tileChecker(game.getGameObjects());
+//        if (collisionOn) {
+//            position = new Position(position.getX(), oldPosY);
+//        }
 
         //# endregion
+    }
+
+    public void followPath() {
+        if (currentPathIndex >= 0) {
+            System.out.println("Following path");
+            Position target = pathToFollow.get(currentPathIndex);
+            System.out.println("Target: " + target.getfX() + " " + target.getfY());
+            MoveTowards(target);
+            if (position.equals(target)) {
+                currentPathIndex--;
+            }
+        } else {
+            Pursuing = false;
+        }
     }
 
     public void MoveAwayFrom(Position pos) {
@@ -158,20 +185,6 @@ public class Enemy extends GameObject {
 
         // Move away from the target with relative velocity times speed
         position = new Position(position.getfX() + xvel * (float) EnemySpeed, position.getfY() + yvel * (float) EnemySpeed);
-    }
-
-    public void moveTowardsPlayer() {
-        // Get the current position of the enemy
-        Position enemyPosition = this.position;
-
-        // Get the current position of the player
-        Position playerPosition = game.getGameObjects().get(0).getPosition();
-
-        // Find the path from the enemy to the player
-//        Position path = Pathfinder.findPath(enemyPosition, playerPosition, game.getTiles());
-//        System.out.println(path);
-
-        // Now you can use the path for the enemy's movement
     }
 
     //#endregion

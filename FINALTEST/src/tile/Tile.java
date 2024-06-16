@@ -40,7 +40,7 @@ public class Tile {
 
     //# endregion
 
-
+    //# region Setters
     public void setGridX(int gridX) {
         this.gridX = gridX * 40; // 40 is the size of the tile
     }
@@ -48,4 +48,13 @@ public class Tile {
     public void setGridY(int gridY) {
         this.gridY = gridY * 40;
     }
+
+    public void setPosX(int x) {
+        this.x = x;
+    }
+
+    public void setPosY(int y) {
+        this.y = y;
+    }
+    //# endregion
 }
