@@ -147,7 +147,10 @@ import java.util.*;
 
 public class pathfinder {
 
+
     public static List<Position> findPath(Position start, Position target, GameMap gameMap) {
+
+        /*
         final PriorityQueue<Node> open = new PriorityQueue<>();
         final Set<Node> closed = new HashSet<>();
         final Node[][] nodeMap = new Node[gameMap.map.length][gameMap.map[0].length];
@@ -204,8 +207,507 @@ public class pathfinder {
             }
         }   while (!open.isEmpty());
         return List.of(start);
+
+         */
+
+        List<Position> path = new ArrayList<>();
+
+        //-3 means start
+        //-2 means target
+        //-1 means its blocked
+        //0 means its free
+        int width = gameMap.map.length;
+        int height = gameMap.map[0].length;
+        int[][] moveCosts = new int[width][height];
+        int[][] totalCosts = new int[width][height];
+        List<Position> openedNodes = new ArrayList<>();
+
+        Position tgpos = new Position (start.gridX(), start.gridY()); //start grid pos
+        Position sgpos = new Position (target.gridX(), target.gridY()); //target grid pos
+
+        // Get the walls
+        for(int i=0;i<totalCosts.length;i++) {
+            for (int j = 0; j < totalCosts[0].length; j++) {
+
+                // check if the tile is pathable or not
+                if (gameMap.map[i][j] == 0 || gameMap.map[i][j] == 2) {
+                    totalCosts[i][j] = -1;
+                }
+            }
+        }
+
+
+        openedNodes.add(sgpos);
+        totalCosts[tgpos.getX()][tgpos.getY()] = -2; //Set the identifier for target node
+
+        // Scan to create pathfinding
+        while (true) {
+
+            //To find the node with the lowest cost
+            int currentNodeCost = -1; //Total Cost
+            int currentMoveCost = 0; //Move Cost
+            Position currentNode = new Position(0,0);
+
+            //Find the lowest cost node among the opened nodes
+            for (Position openedNode : openedNodes) {
+                int nodex = openedNode.getX();
+                int nodey = openedNode.getY();
+                if (currentNodeCost == -1) { //First
+                    currentNodeCost = totalCosts[nodex][nodey];
+                    currentNode = openedNode;
+                    currentMoveCost = moveCosts[nodex][nodey];
+                } else { // Compare if lower
+                    if (currentNodeCost > totalCosts[nodex][nodey]) {
+                        currentNodeCost = totalCosts[nodex][nodey];
+                        currentNode = openedNode;
+                        currentMoveCost = moveCosts[nodex][nodey];
+                    }
+                }
+            }
+
+            int nodex = currentNode.getX();
+            int nodey = currentNode.getY();
+
+            int cnodex;
+            int cnodey;
+
+            int heuristic;
+            int moveCost;
+            int totalCost;
+
+            //region Check for target node
+
+            // Non-diagonal
+            // Up
+            cnodex = nodex;
+            cnodey = nodey-1;
+            if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
+                if (totalCosts[cnodex][cnodey] == -2) {
+                    break;
+                }
+            }
+            // Left
+            cnodex = nodex-1;
+            cnodey = nodey;
+            if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
+                if (totalCosts[cnodex][cnodey] == -2) {
+                    break;
+                }
+            }
+            // Right
+            cnodex = nodex+1;
+            cnodey = nodey;
+            if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
+                if (totalCosts[cnodex][cnodey] == -2) {
+                    break;
+                }
+            }
+            // Down
+            cnodex = nodex;
+            cnodey = nodey+1;
+            if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
+                if (totalCosts[cnodex][cnodey] == -2) {
+                    break;
+                }
+            }
+
+
+            // Diagonal
+            // Up Left
+            cnodex = nodex-1;
+            cnodey = nodey-1;
+            if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
+                if (totalCosts[cnodex][nodey] != -1 && totalCosts[nodex][cnodey] != -1) {
+                    if (totalCosts[cnodex][cnodey] == -2) {
+                        break;
+                    }
+                }
+            }
+            // Up Right
+            cnodex = nodex+1;
+            cnodey = nodey-1;
+            if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
+                if (totalCosts[cnodex][nodey] != -1 && totalCosts[nodex][cnodey] != -1) {
+                    if (totalCosts[cnodex][cnodey] == -2) {
+                        break;
+                    }
+                }
+            }
+            // Down Left
+            cnodex = nodex-1;
+            cnodey = nodey+1;
+            if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
+                if (totalCosts[cnodex][nodey] != -1 && totalCosts[nodex][cnodey] != -1) {
+                    if (totalCosts[cnodex][cnodey] == -2) {
+                        break;
+                    }
+                }
+            }
+            // Down Right
+            cnodex = nodex+1;
+            cnodey = nodey+1;
+            if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
+                if (totalCosts[cnodex][nodey] != -1 && totalCosts[nodex][cnodey] != -1) {
+                    if (totalCosts[cnodex][cnodey] == -2) {
+                        break;
+                    }
+                }
+            }
+
+            //endregion
+
+            //region Open the nodes
+
+            // Non-diagonal
+            // Up
+            cnodex = nodex;
+            cnodey = nodey-1;
+            heuristic = getHeuristic(new Position(cnodex, cnodey), tgpos); // Get Heuristic
+            moveCost = currentMoveCost + 10; // Get Move Cost: Current Move Cost + New Move
+            totalCost = heuristic + moveCost; // Get Total Cost: New Heuristic + Move Cost
+            if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
+                if (totalCosts[cnodex][cnodey] == 0 || (totalCosts[cnodex][cnodey] > currentNodeCost)) {
+                    totalCosts[cnodex][cnodey] = totalCost;
+                    moveCosts[cnodex][cnodey] = moveCost;
+                    openedNodes.add(new Position(cnodex, cnodey));
+                }
+            }
+            // Left
+            cnodex = nodex-1;
+            cnodey = nodey;
+            heuristic = getHeuristic(new Position(cnodex, cnodey), tgpos); // Get Heuristic
+            moveCost = currentMoveCost + 10; // Get Move Cost: Current Move Cost + New Move
+            totalCost = heuristic + moveCost; // Get Total Cost: New Heuristic + Move Cost
+            if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
+                if (totalCosts[cnodex][cnodey] == 0 || (totalCosts[cnodex][cnodey] > currentNodeCost)) {
+                    totalCosts[cnodex][cnodey] = totalCost;
+                    moveCosts[cnodex][cnodey] = moveCost;
+                    openedNodes.add(new Position(cnodex, cnodey));
+                }
+            }
+            // Right
+            cnodex = nodex+1;
+            cnodey = nodey;
+            heuristic = getHeuristic(new Position(cnodex, cnodey), tgpos); // Get Heuristic
+            moveCost = currentMoveCost + 10; // Get Move Cost: Current Move Cost + New Move
+            totalCost = heuristic + moveCost; // Get Total Cost: New Heuristic + Move Cost
+            if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
+                if (totalCosts[cnodex][cnodey] == 0 || (totalCosts[cnodex][cnodey] > currentNodeCost)) {
+                    totalCosts[cnodex][cnodey] = totalCost;
+                    moveCosts[cnodex][cnodey] = moveCost;
+                    openedNodes.add(new Position(cnodex, cnodey));
+                }
+            }
+            // Down
+            cnodex = nodex;
+            cnodey = nodey+1;
+            heuristic = getHeuristic(new Position(cnodex, cnodey), tgpos); // Get Heuristic
+            moveCost = currentMoveCost + 10; // Get Move Cost: Current Move Cost + New Move
+            totalCost = heuristic + moveCost; // Get Total Cost: New Heuristic + Move Cost
+            if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
+                if (totalCosts[cnodex][cnodey] == 0 || (totalCosts[cnodex][cnodey] > currentNodeCost)) {
+                    totalCosts[cnodex][cnodey] = totalCost;
+                    moveCosts[cnodex][cnodey] = moveCost;
+                    openedNodes.add(new Position(cnodex, cnodey));
+                }
+            }
+
+
+            // Diagonal
+            // Up Left
+            cnodex = nodex-1;
+            cnodey = nodey-1;
+            heuristic = getHeuristic(new Position(cnodex, cnodey), tgpos); // Get Heuristic
+            moveCost = currentMoveCost + 10; // Get Move Cost: Current Move Cost + New Move
+            totalCost = heuristic + moveCost; // Get Total Cost: New Heuristic + Move Cost
+            if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
+                if (totalCosts[cnodex][nodey] != -1 && totalCosts[nodex][cnodey] != -1) {
+                    if (totalCosts[cnodex][cnodey] == 0 || (totalCosts[cnodex][cnodey] > currentNodeCost)) {
+                        totalCosts[cnodex][cnodey] = totalCost;
+                        moveCosts[cnodex][cnodey] = moveCost;
+                        openedNodes.add(new Position(cnodex, cnodey));
+                    }
+                }
+            }
+            // Up Right
+            cnodex = nodex+1;
+            cnodey = nodey-1;
+            heuristic = getHeuristic(new Position(cnodex, cnodey), tgpos); // Get Heuristic
+            moveCost = currentMoveCost + 10; // Get Move Cost: Current Move Cost + New Move
+            totalCost = heuristic + moveCost; // Get Total Cost: New Heuristic + Move Cost
+            if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
+                if (totalCosts[cnodex][nodey] != -1 && totalCosts[nodex][cnodey] != -1) {
+                    if (totalCosts[cnodex][cnodey] == 0 || (totalCosts[cnodex][cnodey] > currentNodeCost)) {
+                        totalCosts[cnodex][cnodey] = totalCost;
+                        moveCosts[cnodex][cnodey] = moveCost;
+                        openedNodes.add(new Position(cnodex, cnodey));
+                    }
+                }
+            }
+            // Down Left
+            cnodex = nodex-1;
+            cnodey = nodey+1;
+            heuristic = getHeuristic(new Position(cnodex, cnodey), tgpos); // Get Heuristic
+            moveCost = currentMoveCost + 10; // Get Move Cost: Current Move Cost + New Move
+            totalCost = heuristic + moveCost; // Get Total Cost: New Heuristic + Move Cost
+            if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
+                if (totalCosts[cnodex][nodey] != -1 && totalCosts[nodex][cnodey] != -1) {
+                    if (totalCosts[cnodex][cnodey] == 0 || (totalCosts[cnodex][cnodey] > currentNodeCost)) {
+                        totalCosts[cnodex][cnodey] = totalCost;
+                        moveCosts[cnodex][cnodey] = moveCost;
+                        openedNodes.add(new Position(cnodex, cnodey));
+                    }
+                }
+            }
+            // Down Right
+            cnodex = nodex+1;
+            cnodey = nodey+1;
+            heuristic = getHeuristic(new Position(cnodex, cnodey), tgpos); // Get Heuristic
+            moveCost = currentMoveCost + 10; // Get Move Cost: Current Move Cost + New Move
+            totalCost = heuristic + moveCost; // Get Total Cost: New Heuristic + Move Cost
+            if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
+                if (totalCosts[cnodex][nodey] != -1 && totalCosts[nodex][cnodey] != -1) {
+                    if (totalCosts[cnodex][cnodey] == 0 || (totalCosts[cnodex][cnodey] > currentNodeCost)) {
+                        totalCosts[cnodex][cnodey] = totalCost;
+                        moveCosts[cnodex][cnodey] = moveCost;
+                        openedNodes.add(new Position(cnodex, cnodey));
+                    }
+                }
+            }
+
+            //endregion
+
+            openedNodes.remove(currentNode);
+        }
+
+        moveCosts[sgpos.getX()][sgpos.getY()] = -2; //Set the identifier for start node
+
+        openedNodes.clear();
+        Position currentpos = tgpos;
+        // Draw a path from the end to start
+        while (true) {
+
+            openedNodes.clear();
+
+            int nodex = currentpos.getX();
+            int nodey = currentpos.getY();
+
+            int cnodex;
+            int cnodey;
+
+            //region Check start node
+
+            // Non-diagonal
+            // Up
+            cnodex = nodex;
+            cnodey = nodey-1;
+            if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
+                if (moveCosts[cnodex][cnodey] == -2) {
+                    path.add(new Position(cnodex, cnodey));
+                    break;
+                }
+            }
+            // Left
+            cnodex = nodex-1;
+            cnodey = nodey;
+            if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
+                if (moveCosts[cnodex][cnodey] == -2) {
+                    path.add(new Position(cnodex, cnodey));
+                    break;
+                }
+            }
+            // Right
+            cnodex = nodex+1;
+            cnodey = nodey;
+            if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
+                if (moveCosts[cnodex][cnodey] == -2) {
+                    path.add(new Position(cnodex, cnodey));
+                    break;
+                }
+            }
+            // Down
+            cnodex = nodex;
+            cnodey = nodey+1;
+            if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
+                if (moveCosts[cnodex][cnodey] == -2) {
+                    path.add(new Position(cnodex, cnodey));
+                    break;
+                }
+            }
+
+
+            // Diagonal
+            // Up Left
+            cnodex = nodex-1;
+            cnodey = nodey-1;
+            if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
+                if (totalCosts[cnodex][nodey] != -1 && totalCosts[nodex][cnodey] != -1) {
+                    if (moveCosts[cnodex][cnodey] == -2) {
+                        path.add(new Position(cnodex, cnodey));
+                        break;
+                    }
+                }
+            }
+            // Up Right
+            cnodex = nodex+1;
+            cnodey = nodey-1;
+            if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
+                if (totalCosts[cnodex][nodey] != -1 && totalCosts[nodex][cnodey] != -1) {
+                    if (moveCosts[cnodex][cnodey] == -2) {
+                        path.add(new Position(cnodex, cnodey));
+                        break;
+                    }
+                }
+            }
+            // Down Left
+            cnodex = nodex-1;
+            cnodey = nodey+1;
+            if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
+                if (totalCosts[cnodex][nodey] != -1 && totalCosts[nodex][cnodey] != -1) {
+                    if (moveCosts[cnodex][cnodey] == -2) {
+                        path.add(new Position(cnodex, cnodey));
+                        break;
+                    }
+                }
+            }
+            // Down Right
+            cnodex = nodex+1;
+            cnodey = nodey+1;
+            if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
+                if (totalCosts[cnodex][nodey] != -1 && totalCosts[nodex][cnodey] != -1) {
+                    if (moveCosts[cnodex][cnodey] == -2) {
+                        path.add(new Position(cnodex, cnodey));
+                        break;
+                    }
+                }
+            }
+
+            //endregion
+
+            //region Check for available paths
+
+            // Non-diagonal
+            // Up
+            cnodex = nodex;
+            cnodey = nodey-1;
+            if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
+                if (moveCosts[cnodex][cnodey] > 0) {
+                    openedNodes.add(new Position(cnodex, cnodey));
+                }
+            }
+            // Left
+            cnodex = nodex-1;
+            cnodey = nodey;
+            if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
+                if (moveCosts[cnodex][cnodey] > 0) {
+                    openedNodes.add(new Position(cnodex, cnodey));
+                }
+            }
+            // Right
+            cnodex = nodex+1;
+            cnodey = nodey;
+            if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
+                if (moveCosts[cnodex][cnodey] > 0) {
+                    openedNodes.add(new Position(cnodex, cnodey));
+                }
+            }
+            // Down
+            cnodex = nodex;
+            cnodey = nodey+1;
+            if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
+                if (moveCosts[cnodex][cnodey] > 0) {
+                    openedNodes.add(new Position(cnodex, cnodey));
+                }
+            }
+
+
+            // Diagonal
+            // Up Left
+            cnodex = nodex-1;
+            cnodey = nodey-1;
+            if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
+                if (totalCosts[cnodex][nodey] != -1 && totalCosts[nodex][cnodey] != -1) {
+                    if (moveCosts[cnodex][cnodey] > 0) {
+                        openedNodes.add(new Position(cnodex, cnodey));
+                    }
+                }
+            }
+            // Up Right
+            cnodex = nodex+1;
+            cnodey = nodey-1;
+            if (totalCosts[cnodex][nodey]!=-1 && totalCosts[nodex][cnodey]!=-1) {
+                if (moveCosts[cnodex][cnodey]>0) {
+                    openedNodes.add(new Position(cnodex, cnodey));
+                }
+            }
+            // Down Left
+            cnodex = nodex-1;
+            cnodey = nodey+1;
+            if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
+                if (totalCosts[cnodex][nodey] != -1 && totalCosts[nodex][cnodey] != -1) {
+                    if (moveCosts[cnodex][cnodey] > 0) {
+                        openedNodes.add(new Position(cnodex, cnodey));
+                    }
+                }
+            }
+            // Down Right
+            cnodex = nodex+1;
+            cnodey = nodey+1;
+            if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
+                if (totalCosts[cnodex][nodey] != -1 && totalCosts[nodex][cnodey] != -1) {
+                    if (moveCosts[cnodex][cnodey] > 0) {
+                        openedNodes.add(new Position(cnodex, cnodey));
+                    }
+                }
+            }
+
+            //endregion
+
+            int currentMoveCost = -1; //Move Cost
+            Position currentNode = new Position(0,0);
+
+            //Find the lowest movement cost node among the opened nodes
+            for (Position openedNode : openedNodes) {
+                nodex = openedNode.getX();
+                nodey = openedNode.getY();
+                if (currentMoveCost == -1) { //First
+                    currentMoveCost = moveCosts[nodex][nodey];
+                    currentNode = openedNode;
+                } else { // Compare if lower
+                    if (currentMoveCost > moveCosts[nodex][nodey]) {
+                        currentMoveCost = moveCosts[nodex][nodey];
+                        currentNode = openedNode;
+                    }
+                }
+            }
+            currentpos = currentNode;
+            path.add(currentpos);
+        }
+
+        return path;
     }
 
+    static int getHeuristic (Position current, Position end) {
+        int cx = current.getX();
+        int cy = current.getY();
+        int ex = end.getX();
+        int ey = end.getY();
+        int tx = cx - ex;
+        int ty = cy - ey;
+
+        int adiag = Math.abs(tx - ty);
+        int diag = 0;
+        if (tx>ty) {
+            diag = tx - adiag;
+        }
+        else if (ty>tx) {
+            diag = ty - adiag;
+        }
+        int heuristic = (diag*14) + (adiag*10);
+        return heuristic;
+    }
+
+    /*
     private static List<Position> extractPath(Node current) {
         List<Position> path = new ArrayList<>();
         while (current.parent != null) {
@@ -248,4 +750,5 @@ public class pathfinder {
             return Position.ofGridPosition(gridX, gridY);
         }
     }
+     */
 }

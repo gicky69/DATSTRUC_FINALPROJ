@@ -3,7 +3,7 @@ package entity;
 import core.Position;
 import core.Vector2D;
 import core.physics2d.Collider;
-import tile.pathfinder.pathfinder.Node;
+//import tile.pathfinder.pathfinder.Node;
 import tile.pathfinder.pathfinder;
 //import tile.Pathfinder;
 
@@ -129,7 +129,7 @@ public class Enemy extends GameObject {
         float xvel = normalized.getfX();
         float yvel = normalized.getfY();
 
-        position = new Position(position.getfX() + xvel * (float) EnemySpeed, position.getfY() + yvel * (float) EnemySpeed);
+        position = new Position(position.getfX() - xvel * (float) EnemySpeed, position.getfY() - yvel * (float) EnemySpeed);
 
         //# region Collision
         // Enemy collision with the Wall

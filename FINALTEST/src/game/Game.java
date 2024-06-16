@@ -49,7 +49,7 @@ public class Game {
         p2d.game = this;
 
 
-        AddPlayer(new Position(1000, 1000)); // This adds a player
+        AddPlayer(new Position(1500, 1000)); // This adds a player
         AddEnemy(new Position(600, 500)); // This adds an enemy
         AddObject(2, new Position(600, 500)); // This creates an object called wall (this is to test the linecast collision)
         AddItem(new Position(500, 1500)); // This creates an item
