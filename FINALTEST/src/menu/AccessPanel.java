@@ -57,16 +57,14 @@ public class AccessPanel extends JPanel {
             boolean isLoginSuccessful = userValidation.login(usernameField.getText(), passwordField.getText());
 
             if (isLoginSuccessful) {
-
-                // comment if diretso na sa game mismo
                 mainFrame.frame.getContentPane().removeAll();
                 menuPanel.setBounds(0, 0, mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
                 mainFrame.frame.add(menuPanel);
                 menuPanel.requestFocusInWindow();
                 mainFrame.update();
-                System.out.println("Login Successful");
+                System.out.println("User Access Successful");
             } else {
-                System.out.println("Login failed.");
+                System.out.println("User Access Failed.");
                 JOptionPane.showMessageDialog(null, "Invalid username or password.", "Warning", JOptionPane.WARNING_MESSAGE);
             }
         });
@@ -76,6 +74,9 @@ public class AccessPanel extends JPanel {
             if (isRegisterSuccessful) {
                 System.out.println("Registration Successful");
                 JOptionPane.showMessageDialog(null, "Registration Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else {
+                System.out.println("Registration Failed");
             }
         });
     }
