@@ -99,7 +99,6 @@ public class SubPanels {
         roundPanelButton.addActionListener(e -> {
             roundOver = false;
             roundOverPanel.setVisible(false);
-            roundPanel.currentRound++;
             System.out.println("CURRENT ROUND ON SUBPANELS " + roundPanel.currentRound);
             roundPanel.update();
             roundPanel.mainFrame.frame.setVisible(true);
