@@ -147,7 +147,14 @@ import java.util.*;
 
 public class pathfinder {
 
-
+    /**
+     * <p>
+     * printInfo,
+     * 1 = will show path count
+     * 2 = will show path count and position by position pathing
+     * <p>
+     */
+    public int printInfo = 0;
     public static List<Position> findPath(Position start, Position target, GameMap gameMap) {
 
         /*
@@ -210,32 +217,38 @@ public class pathfinder {
 
          */
 
+        float tileSizeX = 40;
+        float tileSizeY = 40;
+
         List<Position> path = new ArrayList<>();
 
-        //-3 means start
-        //-2 means target
         //-1 means its blocked
         //0 means its free
         int width = gameMap.map.length;
         int height = gameMap.map[0].length;
-        int[][] moveCosts = new int[width][height];
-        int[][] totalCosts = new int[width][height];
+        int[][] moveCosts = new int[height][width];
+        int[][] totalCosts = new int[height][width];
         List<Position> openedNodes = new ArrayList<>();
 
         Position tgpos = new Position (start.gridX(), start.gridY()); //start grid pos
         Position sgpos = new Position (target.gridX(), target.gridY()); //target grid pos
 
         // Get the walls
-        for(int i=0;i<totalCosts.length;i++) {
-            for (int j = 0; j < totalCosts[0].length; j++) {
+        for(int i=0;i<totalCosts[0].length;i++) {
+            for (int j = 0; j < totalCosts.length; j++) {
 
                 // check if the tile is pathable or not
                 if (gameMap.map[i][j] == 0 || gameMap.map[i][j] == 2) {
-                    totalCosts[i][j] = -1;
+                    totalCosts[j][i] = -1;
                 }
             }
         }
 
+        //System.out.println("size (" + width + ", " + height + ")");
+
+        //System.out.println("start: (" + sgpos.getX() + ", " + sgpos.getY() + ")");
+        //System.out.println("target: (" + tgpos.getX() + ", " + tgpos.getY() + ")");
+        int pathc = 0;
 
         openedNodes.add(sgpos);
         totalCosts[tgpos.getX()][tgpos.getY()] = -2; //Set the identifier for target node
@@ -366,7 +379,7 @@ public class pathfinder {
             moveCost = currentMoveCost + 10; // Get Move Cost: Current Move Cost + New Move
             totalCost = heuristic + moveCost; // Get Total Cost: New Heuristic + Move Cost
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
-                if (totalCosts[cnodex][cnodey] == 0 || (totalCosts[cnodex][cnodey] > currentNodeCost)) {
+                if (totalCosts[cnodex][cnodey] == 0 || ((totalCosts[cnodex][cnodey] > totalCost) && totalCost>0)) {
                     totalCosts[cnodex][cnodey] = totalCost;
                     moveCosts[cnodex][cnodey] = moveCost;
                     openedNodes.add(new Position(cnodex, cnodey));
@@ -379,7 +392,7 @@ public class pathfinder {
             moveCost = currentMoveCost + 10; // Get Move Cost: Current Move Cost + New Move
             totalCost = heuristic + moveCost; // Get Total Cost: New Heuristic + Move Cost
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
-                if (totalCosts[cnodex][cnodey] == 0 || (totalCosts[cnodex][cnodey] > currentNodeCost)) {
+                if (totalCosts[cnodex][cnodey] == 0 || ((totalCosts[cnodex][cnodey] > totalCost) && totalCost>0)) {
                     totalCosts[cnodex][cnodey] = totalCost;
                     moveCosts[cnodex][cnodey] = moveCost;
                     openedNodes.add(new Position(cnodex, cnodey));
@@ -392,7 +405,7 @@ public class pathfinder {
             moveCost = currentMoveCost + 10; // Get Move Cost: Current Move Cost + New Move
             totalCost = heuristic + moveCost; // Get Total Cost: New Heuristic + Move Cost
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
-                if (totalCosts[cnodex][cnodey] == 0 || (totalCosts[cnodex][cnodey] > currentNodeCost)) {
+                if (totalCosts[cnodex][cnodey] == 0 || ((totalCosts[cnodex][cnodey] > totalCost) && totalCost>0)) {
                     totalCosts[cnodex][cnodey] = totalCost;
                     moveCosts[cnodex][cnodey] = moveCost;
                     openedNodes.add(new Position(cnodex, cnodey));
@@ -405,7 +418,7 @@ public class pathfinder {
             moveCost = currentMoveCost + 10; // Get Move Cost: Current Move Cost + New Move
             totalCost = heuristic + moveCost; // Get Total Cost: New Heuristic + Move Cost
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
-                if (totalCosts[cnodex][cnodey] == 0 || (totalCosts[cnodex][cnodey] > currentNodeCost)) {
+                if (totalCosts[cnodex][cnodey] == 0 || ((totalCosts[cnodex][cnodey] > totalCost) && totalCost>0)) {
                     totalCosts[cnodex][cnodey] = totalCost;
                     moveCosts[cnodex][cnodey] = moveCost;
                     openedNodes.add(new Position(cnodex, cnodey));
@@ -418,11 +431,11 @@ public class pathfinder {
             cnodex = nodex-1;
             cnodey = nodey-1;
             heuristic = getHeuristic(new Position(cnodex, cnodey), tgpos); // Get Heuristic
-            moveCost = currentMoveCost + 10; // Get Move Cost: Current Move Cost + New Move
+            moveCost = currentMoveCost + 14; // Get Move Cost: Current Move Cost + New Move
             totalCost = heuristic + moveCost; // Get Total Cost: New Heuristic + Move Cost
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
                 if (totalCosts[cnodex][nodey] != -1 && totalCosts[nodex][cnodey] != -1) {
-                    if (totalCosts[cnodex][cnodey] == 0 || (totalCosts[cnodex][cnodey] > currentNodeCost)) {
+                    if (totalCosts[cnodex][cnodey] == 0 || ((totalCosts[cnodex][cnodey] > totalCost) && totalCost>0)) {
                         totalCosts[cnodex][cnodey] = totalCost;
                         moveCosts[cnodex][cnodey] = moveCost;
                         openedNodes.add(new Position(cnodex, cnodey));
@@ -433,11 +446,11 @@ public class pathfinder {
             cnodex = nodex+1;
             cnodey = nodey-1;
             heuristic = getHeuristic(new Position(cnodex, cnodey), tgpos); // Get Heuristic
-            moveCost = currentMoveCost + 10; // Get Move Cost: Current Move Cost + New Move
+            moveCost = currentMoveCost + 14; // Get Move Cost: Current Move Cost + New Move
             totalCost = heuristic + moveCost; // Get Total Cost: New Heuristic + Move Cost
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
                 if (totalCosts[cnodex][nodey] != -1 && totalCosts[nodex][cnodey] != -1) {
-                    if (totalCosts[cnodex][cnodey] == 0 || (totalCosts[cnodex][cnodey] > currentNodeCost)) {
+                    if (totalCosts[cnodex][cnodey] == 0 || ((totalCosts[cnodex][cnodey] > totalCost) && totalCost>0)) {
                         totalCosts[cnodex][cnodey] = totalCost;
                         moveCosts[cnodex][cnodey] = moveCost;
                         openedNodes.add(new Position(cnodex, cnodey));
@@ -448,11 +461,11 @@ public class pathfinder {
             cnodex = nodex-1;
             cnodey = nodey+1;
             heuristic = getHeuristic(new Position(cnodex, cnodey), tgpos); // Get Heuristic
-            moveCost = currentMoveCost + 10; // Get Move Cost: Current Move Cost + New Move
+            moveCost = currentMoveCost + 14; // Get Move Cost: Current Move Cost + New Move
             totalCost = heuristic + moveCost; // Get Total Cost: New Heuristic + Move Cost
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
                 if (totalCosts[cnodex][nodey] != -1 && totalCosts[nodex][cnodey] != -1) {
-                    if (totalCosts[cnodex][cnodey] == 0 || (totalCosts[cnodex][cnodey] > currentNodeCost)) {
+                    if (totalCosts[cnodex][cnodey] == 0 || ((totalCosts[cnodex][cnodey] > totalCost) && totalCost>0)) {
                         totalCosts[cnodex][cnodey] = totalCost;
                         moveCosts[cnodex][cnodey] = moveCost;
                         openedNodes.add(new Position(cnodex, cnodey));
@@ -463,11 +476,11 @@ public class pathfinder {
             cnodex = nodex+1;
             cnodey = nodey+1;
             heuristic = getHeuristic(new Position(cnodex, cnodey), tgpos); // Get Heuristic
-            moveCost = currentMoveCost + 10; // Get Move Cost: Current Move Cost + New Move
+            moveCost = currentMoveCost + 14; // Get Move Cost: Current Move Cost + New Move
             totalCost = heuristic + moveCost; // Get Total Cost: New Heuristic + Move Cost
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
                 if (totalCosts[cnodex][nodey] != -1 && totalCosts[nodex][cnodey] != -1) {
-                    if (totalCosts[cnodex][cnodey] == 0 || (totalCosts[cnodex][cnodey] > currentNodeCost)) {
+                    if (totalCosts[cnodex][cnodey] == 0 || ((totalCosts[cnodex][cnodey] > totalCost) && totalCost>0)) {
                         totalCosts[cnodex][cnodey] = totalCost;
                         moveCosts[cnodex][cnodey] = moveCost;
                         openedNodes.add(new Position(cnodex, cnodey));
@@ -478,15 +491,19 @@ public class pathfinder {
             //endregion
 
             openedNodes.remove(currentNode);
+            //pathc++;
         }
+        //System.out.println("iterations: " + pathc);
+        //pathc = 0;
 
         moveCosts[sgpos.getX()][sgpos.getY()] = -2; //Set the identifier for start node
 
         openedNodes.clear();
         Position currentpos = tgpos;
+
+        int countup = 0;
         // Draw a path from the end to start
         while (true) {
-
             openedNodes.clear();
 
             int nodex = currentpos.getX();
@@ -503,7 +520,7 @@ public class pathfinder {
             cnodey = nodey-1;
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
                 if (moveCosts[cnodex][cnodey] == -2) {
-                    path.add(new Position(cnodex, cnodey));
+                    path.add(new Position(cnodex*tileSizeX, cnodey*tileSizeX));
                     break;
                 }
             }
@@ -512,7 +529,7 @@ public class pathfinder {
             cnodey = nodey;
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
                 if (moveCosts[cnodex][cnodey] == -2) {
-                    path.add(new Position(cnodex, cnodey));
+                    path.add(new Position(cnodex*tileSizeX, cnodey*tileSizeX));
                     break;
                 }
             }
@@ -521,7 +538,7 @@ public class pathfinder {
             cnodey = nodey;
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
                 if (moveCosts[cnodex][cnodey] == -2) {
-                    path.add(new Position(cnodex, cnodey));
+                    path.add(new Position(cnodex*tileSizeX, cnodey*tileSizeX));
                     break;
                 }
             }
@@ -530,7 +547,7 @@ public class pathfinder {
             cnodey = nodey+1;
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
                 if (moveCosts[cnodex][cnodey] == -2) {
-                    path.add(new Position(cnodex, cnodey));
+                    path.add(new Position(cnodex*tileSizeX, cnodey*tileSizeX));
                     break;
                 }
             }
@@ -543,7 +560,7 @@ public class pathfinder {
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
                 if (totalCosts[cnodex][nodey] != -1 && totalCosts[nodex][cnodey] != -1) {
                     if (moveCosts[cnodex][cnodey] == -2) {
-                        path.add(new Position(cnodex, cnodey));
+                        path.add(new Position(cnodex*tileSizeX, cnodey*tileSizeX));
                         break;
                     }
                 }
@@ -554,7 +571,7 @@ public class pathfinder {
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
                 if (totalCosts[cnodex][nodey] != -1 && totalCosts[nodex][cnodey] != -1) {
                     if (moveCosts[cnodex][cnodey] == -2) {
-                        path.add(new Position(cnodex, cnodey));
+                        path.add(new Position(cnodex*tileSizeX, cnodey*tileSizeX));
                         break;
                     }
                 }
@@ -565,7 +582,7 @@ public class pathfinder {
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
                 if (totalCosts[cnodex][nodey] != -1 && totalCosts[nodex][cnodey] != -1) {
                     if (moveCosts[cnodex][cnodey] == -2) {
-                        path.add(new Position(cnodex, cnodey));
+                        path.add(new Position(cnodex*tileSizeX, cnodey*tileSizeX));
                         break;
                     }
                 }
@@ -576,7 +593,7 @@ public class pathfinder {
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
                 if (totalCosts[cnodex][nodey] != -1 && totalCosts[nodex][cnodey] != -1) {
                     if (moveCosts[cnodex][cnodey] == -2) {
-                        path.add(new Position(cnodex, cnodey));
+                        path.add(new Position(cnodex*tileSizeX, cnodey*tileSizeX));
                         break;
                     }
                 }
@@ -636,8 +653,10 @@ public class pathfinder {
             cnodex = nodex+1;
             cnodey = nodey-1;
             if (totalCosts[cnodex][nodey]!=-1 && totalCosts[nodex][cnodey]!=-1) {
-                if (moveCosts[cnodex][cnodey]>0) {
-                    openedNodes.add(new Position(cnodex, cnodey));
+                if (totalCosts[cnodex][nodey] != -1 && totalCosts[nodex][cnodey] != -1) {
+                    if (moveCosts[cnodex][cnodey] > 0) {
+                        openedNodes.add(new Position(cnodex, cnodey));
+                    }
                 }
             }
             // Down Left
@@ -681,8 +700,54 @@ public class pathfinder {
                 }
             }
             currentpos = currentNode;
-            path.add(currentpos);
+            path.add(new Position (currentpos.getfX()*tileSizeX, currentpos.getfY()*tileSizeY));
+            pathc++;
+            //System.out.println("path cost: " + currentMoveCost);
+            if (currentMoveCost==-1) {
+                break;
+            }
         }
+
+        if (printInfo > 0) {
+            System.out.println("Path count: " + pathc);
+            System.out.println("Path: ");
+            if (printInfo > 1) {
+                for (Position pat : path) {
+                    System.out.print("(" + pat.getX() + ", " + pat.getY() + ")>");
+                }
+            }
+
+//            System.out.println("");
+//            for(int i=0;i< 20;i++) {
+//                System.out.println("");
+//                for (int j = 0; j < 20; j++) {
+//
+//                    int relx = j+(int)(path.getFirst().getX()/40f)-10;
+//                    int rely = i+(int)(path.getFirst().getY()/40f)-10;
+//                    //System.out.println("relx: (" + relx + ")");
+//
+//                    // check if the tile is pathable or not
+//                    if (relx>0 && rely>0 && relx<width && rely<height) {
+//                        if (totalCosts[relx][rely] == -1) {
+//                            System.out.print("1");
+//                        } else {
+//                            System.out.print("0");
+//                        }
+//                    }
+//                }
+//            }
+        }
+
+//        for(int i=0;i<totalCosts.length;i++) {
+//            System.out.println("");
+//            for (int j = 0; j < totalCosts[0].length; j++) {
+//
+//                // check if the tile is pathable or not
+//                if (totalCosts[i][j] == -1) {
+//                    System.out.print("1");
+//                } else { System.out.print("0"); }
+//            }
+//        }
 
         return path;
     }

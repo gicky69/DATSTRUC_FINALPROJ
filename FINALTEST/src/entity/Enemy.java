@@ -105,6 +105,7 @@ public class Enemy extends GameObject {
         Position target = game.getGameObjects().get(0).getPosition(); // Get Player
         Position start = position;
 
+        pf.printInfo = 2;
         pathToFollow = pf.findPath(start, target, game.getMap());
         currentPathIndex = pathToFollow.size() - 1;
     }
