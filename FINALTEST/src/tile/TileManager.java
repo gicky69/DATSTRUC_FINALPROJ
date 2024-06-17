@@ -12,6 +12,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
 
 public class TileManager {
@@ -30,8 +31,6 @@ public class TileManager {
         tile = new Tile[4];
         tileMap = new int[gamePanel.maxWorldRow][gamePanel.maxWorldCol];
         getTileImage();
-
-        System.out.println("FROM TILEMANAGER: " + roundPanel.roundDetail );
         loadMap("FINALTEST/resources/Map/map" + roundPanel.roundDetail +".txt");
     }
 
@@ -49,7 +48,7 @@ public class TileManager {
                 }
                 row++;
             }
-            System.out.println("MAP LOADED SUCCESSFULLY");
+            System.out.println("Successful map loading. Loading map" + roundPanel.roundDetail + ".txt");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -60,6 +59,8 @@ public class TileManager {
     private final CountDownLatch latch = new CountDownLatch(1);
 
     public void getTileImage() {
+        ArrayList<Integer> loadedTiles = new ArrayList<>();
+
         // Swing Worker is used to load the images in the background, bypassing the EDT or Event Dispatch Thread ran on the main thread.
         SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
             @Override
@@ -70,9 +71,9 @@ public class TileManager {
                         tile[i].image = ImageIO.read(getClass().getResourceAsStream("/Tile/Tile" + i + ".png"));
                         tile[i].setLength(40);
                         if (tile[i].image == null) {
-                            System.out.println("Image not loaded");
+                            System.out.println("Tile " + i +" not loaded");
                         } else {
-                            System.out.println("Image loaded successfully");
+                            loadedTiles.add(i);
                         }
 
                         if (i == 0) {
@@ -87,12 +88,15 @@ public class TileManager {
                     e.printStackTrace();
                 }
 
-                for (int row = 0; row < tileMap.length; row++) {
-                    for (int col = 0; col < tileMap[row].length; col++) {
-                        System.out.print(tileMap[row][col] + " ");
-                    }
-                    System.out.println();
-                }
+//                // print map
+//                for (int row = 0; row < tileMap.length; row++) {
+//                    for (int col = 0; col < tileMap[row].length; col++) {
+//                        System.out.print(tileMap[row][col] + " ");
+//                    }
+//                    System.out.println();
+//                }
+                System.out.println("Tiles "+ loadedTiles + " boot successful.");
+
                 return null;
             }
 

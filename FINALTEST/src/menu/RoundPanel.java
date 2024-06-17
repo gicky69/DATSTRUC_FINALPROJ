@@ -47,7 +47,6 @@ public class RoundPanel extends  JPanel {
                 mainFrame.frame.setVisible(false);
                 mainFrame.update();
 
-                System.out.println(currentRound);
                 if (currentRound < roundButtons.size()) {
                     roundButtons.get(currentRound).setEnabled(true);
                 }
@@ -76,7 +75,6 @@ public class RoundPanel extends  JPanel {
         for (int i = 0; i < roundButtons.size(); i++) {
             roundButtons.get(i).setEnabled(i < currentRound);
         }
-        System.out.println("CURRENT ROUND ON ROUND PANEL: " + currentRound);
         this.revalidate();
         this.repaint();
         this.mainFrame.frame.getContentPane().setVisible(true);
