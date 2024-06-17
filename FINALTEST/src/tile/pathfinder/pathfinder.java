@@ -154,7 +154,7 @@ public class pathfinder {
      * 2 = will show path count and position by position pathing
      * <p>
      */
-    public int printInfo = 0;
+    public static int printInfo = 0;
     public static List<Position> findPath(Position start, Position target, GameMap gameMap) {
 
         /*
