@@ -45,7 +45,6 @@ public class Enemy extends GameObject {
     public void update() {
         if (Pursuing) {
             Pursue();
-            followPath();
         } else {
             Seeking();
         }
@@ -107,7 +106,8 @@ public class Enemy extends GameObject {
 
         pf.printInfo = 2;
         pathToFollow = pf.findPath(start, target, game.getMap());
-        currentPathIndex = pathToFollow.size() - 1;
+        currentPathIndex = 1;
+        followPath();
     }
 
     public void Flee() {
@@ -165,13 +165,11 @@ public class Enemy extends GameObject {
     }
 
     public void followPath() {
-        if (currentPathIndex >= 0) {
-            System.out.println("Following path");
+        if (currentPathIndex < pathToFollow.size()) {
             Position target = pathToFollow.get(currentPathIndex);
-            System.out.println("Target: " + target.getfX() + " " + target.getfY());
             MoveTowards(target);
-            if (position.equals(target)) {
-                currentPathIndex--;
+            if (position.getfX() == target.getfX() && position.getfY() == target.getfY()) {
+                currentPathIndex++;
             }
         } else {
             Pursuing = false;
