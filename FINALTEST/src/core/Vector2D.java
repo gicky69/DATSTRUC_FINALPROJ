@@ -25,4 +25,16 @@ public class Vector2D {
         return (float)angle;
     }
 
+    public static float getDistance(Position vector1, Position vector2) {
+
+        double[] vector3 = {vector1.getfX(), vector1.getfY()};
+        double[] vector4 = {vector2.getfX(), vector2.getfY()};
+        double sum = 0.0;
+        for (int i = 0; i < vector3.length; i++) {
+            double diff = vector3[i] - vector4[i];
+            sum += diff * diff;
+        }
+
+        return (float)Math.sqrt(sum);
+    }
 }

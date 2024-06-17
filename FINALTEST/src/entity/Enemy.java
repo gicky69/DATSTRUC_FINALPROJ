@@ -23,7 +23,7 @@ public class Enemy extends GameObject {
     private pathfinder pf;
     private int deltaY = 3;
 
-    private boolean Pursuing = false;
+    private boolean Pursuing = true;
 
     private List<Position> pathToFollow;
     private int currentPathIndex;
@@ -105,6 +105,7 @@ public class Enemy extends GameObject {
         Position target = game.getGameObjects().get(0).getPosition(); // Get Player
         Position start = position;
 
+        System.out.println(Vector2D.getDistance(position, target));
         pf.printInfo = 0;
         pathToFollow = pf.findPath(start, target, game.getMap());
         currentPathIndex = 1;
@@ -131,12 +132,17 @@ public class Enemy extends GameObject {
         float xvel = normalized.getfX();
         float yvel = normalized.getfY();
 
-        position = new Position(position.getfX() - xvel * (float) EnemySpeed, position.getfY() - yvel * (float) EnemySpeed);
+        if (Vector2D.getDistance(position, pos)<EnemySpeed) {
+            position = pos;
+        }
+        else {
+            position = new Position(position.getfX() - xvel * (float) EnemySpeed, position.getfY() - yvel * (float) EnemySpeed);
+        }
 
         //# Face towards player
         lookdirection = Vector2D.getAngleInDegrees(position, pos);
 
-
+        /*
         //# region Collision
         // Enemy collision with the Wall
         // Move towards the target with relative velocity times speed
@@ -167,6 +173,8 @@ public class Enemy extends GameObject {
         }
 
         //# endregion
+
+         */
     }
 
     public void followPath() {
@@ -209,10 +217,10 @@ public class Enemy extends GameObject {
         float ny = 0f;
 
         // This is an equation that gets the normalized vector of target
-        if (tx != 0 && Math.abs(tx) > EnemySpeed) {
+        if (tx != 0) {
             nx = (float) tx / (float)Math.hypot(Math.abs(tx), Math.abs(ty)); //Math.hypot returns the hypotenuse value from the 2 vectors
         }
-        if (ty != 0 && Math.abs(ty) > EnemySpeed) {
+        if (ty != 0) {
             ny = (float) ty / (float)Math.hypot(Math.abs(tx), Math.abs(ty));
         }
 
