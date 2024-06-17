@@ -23,7 +23,6 @@ public class SubPanels {
     }
 
     public int getRoundDetail() {
-        System.out.println("THIS ROUND DETAIL: " + roundDetail);
         return roundDetail;
     }
 
