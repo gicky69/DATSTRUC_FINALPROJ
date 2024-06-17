@@ -110,14 +110,6 @@ public class TileManager {
         worker.execute();
     }
 
-    public Tile getSpecificTile(int i) {
-        return tile[i];
-    }
-
-    public Tile[] getTiles() {
-        return tile;
-    }
-
     public void draw(Renderer renderer, Graphics g2) {
         try {
             latch.await(); // to  wait until the latch counts to 0, then this will run.
