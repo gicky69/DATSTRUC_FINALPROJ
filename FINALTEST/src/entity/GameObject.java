@@ -29,6 +29,7 @@ public abstract class GameObject {
     public abstract void update();
     public abstract Image getSprite();
 
+
     public Position getPosition() {
         return position;
     }

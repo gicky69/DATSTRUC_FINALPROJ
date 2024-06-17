@@ -51,7 +51,8 @@ public class Game {
 
         AddPlayer(new Position(1500, 1000)); // This adds a player
         AddEnemy(new Position(600, 500)); // This adds an enemy
-        AddObject(2, new Position(600, 500)); // This creates an object called wall (this is to test the linecast collision)
+//        AddObject(2, new Position(600, 500)); // This creates an object called wall (this is to test the linecast collision)
+        addWalls();
         AddItem(new Position(500, 1500)); // This creates an item
         entityCollision = new EntityCollision(frame);
     }
@@ -61,10 +62,6 @@ public class Game {
     // Getters para mabigay ng class nato yung gameObjects na list.
     public List<GameObject> getGameObjects() {
         return gameObjects;
-    }
-
-    public TileManager getTiles() {
-        return frame.getTileManager();
     }
 
     // Getters ng player
@@ -98,6 +95,18 @@ public class Game {
         wall.game = this; // Connect the enemy to the game master
         wall.name = "Wall";
         wall.getCollision().setLayerMask(0, true);
+    }
+
+    public void addWalls() {
+        int[][] tiles = map.map;
+        for (int y = 0; y < tiles.length; y++) {
+            for (int x = 0; x < tiles[y].length; x++) {
+                // add each walls
+                if (tiles[y][x] == 0 || tiles[y][x] == 2) {
+                    AddObject(2, new Position(x * 40, y * 40));
+                }
+            }
+        }
     }
 
     public void AddItem(Position pos) {

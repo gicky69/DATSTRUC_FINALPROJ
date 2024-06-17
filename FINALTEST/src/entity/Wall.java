@@ -27,14 +27,7 @@ public class Wall extends GameObject {
 
     @Override
     public Image getSprite() {
-        BufferedImage image = new BufferedImage(64, 64, BufferedImage.TYPE_INT_RGB);
-        Graphics2D graphics = image.createGraphics();
-
-        graphics.setColor(Color.LIGHT_GRAY);
-        graphics.fillRect(0, 0, 64, 64);
-
-        graphics.dispose();
-        return image;
+        return null;
     }
     //#endregion
 }

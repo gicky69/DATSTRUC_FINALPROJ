@@ -43,9 +43,11 @@ public class Enemy extends GameObject {
 
     @Override
     public void update() {
+        System.out.println("Pursuing : " + Pursuing );
         if (Pursuing) {
             Pursue();
         } else {
+            System.out.println("Seeking");
             Seeking();
         }
 
@@ -57,9 +59,6 @@ public class Enemy extends GameObject {
 
     //#region Enemy Behavior
     public void Seeking() {
-        // direction is now in degrees 0-360
-        // If closely reaching the bottom then go back down.
-
         Position moveto = Vector2D.angleToVector(lookdirection);
         float movetox = moveto.getfX() * EnemySpeed;
         float movetoy = moveto.getfY() * EnemySpeed;
@@ -96,6 +95,8 @@ public class Enemy extends GameObject {
             } else {
                 Pursuing = false;
             }
+        } else {
+            Pursuing = false;
         }
 
     }
@@ -104,7 +105,7 @@ public class Enemy extends GameObject {
         Position target = game.getGameObjects().get(0).getPosition(); // Get Player
         Position start = position;
 
-        pf.printInfo = 2;
+        pf.printInfo = 0;
         pathToFollow = pf.findPath(start, target, game.getMap());
         currentPathIndex = 1;
         followPath();
@@ -131,6 +132,10 @@ public class Enemy extends GameObject {
         float yvel = normalized.getfY();
 
         position = new Position(position.getfX() - xvel * (float) EnemySpeed, position.getfY() - yvel * (float) EnemySpeed);
+
+        //# Face towards player
+        lookdirection = Vector2D.getAngleInDegrees(position, pos);
+
 
         //# region Collision
         // Enemy collision with the Wall

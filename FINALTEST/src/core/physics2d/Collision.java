@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Collision {
-    private Position positionOffset;
     private List<Lines> collisionLines;
     private boolean[] layerMask = {false,false,false,false,false,false,false,false};
 

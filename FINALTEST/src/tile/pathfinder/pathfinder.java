@@ -25,15 +25,12 @@ public class pathfinder {
         //0 means its free
         int width = gameMap.map[0].length;
         int height = gameMap.map.length;
-        System.out.println("height: " + height);
         int[][] moveCosts = new int[width][height];
         int[][] totalCosts = new int[width][height];
-        System.out.println("totalCosts: " + totalCosts.length + ", " + totalCosts[0].length);
         List<Position> openedNodes = new ArrayList<>();
 
         Position tgpos = new Position (start.gridX(), start.gridY()); //start grid pos
         Position sgpos = new Position (target.gridX(), target.gridY()); //target grid pos
-        System.out.println("target: " + tgpos.getX() + ", " + tgpos.getY());
 
         // Get the walls
         for (int i=0;i<width;i++) {
