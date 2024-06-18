@@ -26,7 +26,7 @@ public class SettingsPanel extends JPanel {
         this.add(backButton);
 
         settingsBGLabel = new JLabel();
-        settingsBGIMG = new ImageIcon("FINALTEST/images/MainIBG/SHOP PANEL (1).png");
+        settingsBGIMG = new ImageIcon("FINALTEST/images/MainIBG/SETTINGS (1).png");
         settingsBGLabel.setIcon(settingsBGIMG);
         settingsBGLabel.setBounds(0,0, 1920, 1080);
         this.add(settingsBGLabel);
