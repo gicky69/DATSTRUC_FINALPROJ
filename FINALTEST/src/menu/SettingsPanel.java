@@ -17,12 +17,14 @@ public class SettingsPanel extends JPanel {
     public SettingsPanel(Frame mainFrame) {
         this.mainFrame = mainFrame;
         this.add(temp);
+        this.setSize(mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
+        this.setLayout(null);
 
         backButton = new JLabel();
         backButtonHighlight = new ImageIcon("FINALTEST/images/buttons/backClicked-AllPanel.png");
         backButtonIMG = new ImageIcon("FINALTEST/images/buttons/backNotClicked-AllPanel.png");
         backButton.setIcon(backButtonIMG);
-        backButton.setBounds(860, 700, 250, 150);
+        backButton.setBounds(1390, 800, 250, 150);
         this.add(backButton);
 
         settingsBGLabel = new JLabel();
