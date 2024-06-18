@@ -6,6 +6,7 @@ import game.Game;
 import game.GameLoop;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -30,44 +31,44 @@ public class MenuPanel extends JPanel {
 
         playLabel = new JLabel("Play");
         playLabel.setBounds(840,770,250,150);
-        playImagec = new ImageIcon("FINALTEST/images/buttons/PLAY -CLICKED.png");
-        playImagenc = new ImageIcon("FINALTEST/images/buttons/PLAY -NOT CLICKED.png");
+        playImagec = new ImageIcon("FINALTEST/images/buttons/playClicked-MenuPanel.png");
+        playImagenc = new ImageIcon("FINALTEST/images/buttons/playNotClicked-MenuPanel.png");
         playLabel.setIcon(playImagenc);
         playLabel.setVisible(true);
         this.add(playLabel);
 
         shopLabel = new JLabel("Shop");
         shopLabel.setBounds(1650,100,250,150);
-        shopImagenc = new ImageIcon("FINALTEST/images/buttons/SHOP_-_NOT_CLICKED.png");
-        shopImagec = new ImageIcon("FINALTEST/images/buttons/SHOP_-_CLICKED.png");
+        shopImagenc = new ImageIcon("FINALTEST/images/buttons/shopNotClicked-MenuPanel.png");
+        shopImagec = new ImageIcon("FINALTEST/images/buttons/shopClicked-MenuPanel.png");
         shopLabel.setIcon(shopImagenc);
         this.add(shopLabel);
 
         settingsLabel = new JLabel("Settings");
         settingsLabel.setBounds(1650,0,250,150);
-        settingImagenc = new ImageIcon("FINALTEST/images/buttons/SETTINGS - NOT CLICKED.png");
-        settingImagec = new ImageIcon("FINALTEST/images/buttons/SETTINGS - CLICKED.png");
+        settingImagenc = new ImageIcon("FINALTEST/images/buttons/settingsNotClicked-MenuPanel.png");
+        settingImagec = new ImageIcon("FINALTEST/images/buttons/settingsClicked-MenuPanel.png");
         settingsLabel.setIcon(settingImagenc);
         this.add(settingsLabel);
 
         htpLabel = new JLabel("How to Play");
         htpLabel.setBounds(255,750,250,150);
-        htpImagenc = new ImageIcon("FINALTEST/images/buttons/HOW_TO_PLAY_-_NOT_CLICKED.png");
-        htpImagec = new ImageIcon("FINALTEST/images/buttons/HOW_TO_PLAY_-_CLICKED.png");
+        htpImagenc = new ImageIcon("FINALTEST/images/buttons/htpNotClicked-MenuPanel.png");
+        htpImagec = new ImageIcon("FINALTEST/images/buttons/htpClicked-MenuPanel.png");
         htpLabel.setIcon(htpImagenc);
         htpLabel.setVisible(true);
         this.add(htpLabel);
 
         exitLabel = new JLabel("Exit");
         exitLabel.setBounds(1430,750,250,150);
-        exitImagenc = new ImageIcon("FINALTEST/images/buttons/EXIT_-_NOT_CLICKED.png");
-        exitImagec = new ImageIcon("FINALTEST/images/buttons/EXIT_-_CLICKED.png");
+        exitImagenc = new ImageIcon("FINALTEST/images/buttons/exitNotClicked-MenuPanel.png");
+        exitImagec = new ImageIcon("FINALTEST/images/buttons/exitClicked-MenuPanel.png");
         exitLabel.setIcon(exitImagenc);
         this.add(exitLabel);
 
         menuBGLabel = new JLabel();
         menuBGLabel.setBounds(0,0, 1920,1080);
-        menuBGImg = new ImageIcon("FINALTEST/images/MainIBG/main menu background.png");
+        menuBGImg = new ImageIcon("FINALTEST/images/MainIBG/mainMenuBG-MenuPanel.png");
         menuBGLabel.setIcon(menuBGImg);
         this.add(menuBGLabel);
 
@@ -252,8 +253,7 @@ public class MenuPanel extends JPanel {
         exitLabel.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.exit(0);
-
+            System.exit(0);
             }
 
             @Override

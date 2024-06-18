@@ -19,8 +19,8 @@ public class HTPPanel extends JPanel {
         backButton = new JLabel();
         backButton.setLayout(null);
         backButton.setBounds(860, 700, 250, 150);
-        backButtonHighlight = new ImageIcon("FINALTEST/images/buttons/back_-_clicked.png");
-        backButtonIMG = new ImageIcon("FINALTEST/images/buttons/back_-_not_clicked.png");
+        backButtonHighlight = new ImageIcon("FINALTEST/images/buttons/backClicked-AllPanel.png");
+        backButtonIMG = new ImageIcon("FINALTEST/images/buttons/backNotClicked-AllPanel.png");
         backButton.setIcon(backButtonIMG);
         this.add(backButton);
 
