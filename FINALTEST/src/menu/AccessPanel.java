@@ -67,28 +67,28 @@ public class AccessPanel extends JPanel {
 
         loginButton = new JLabel("Login");
         loginButton.setBounds(1300, 250, 250, 150);
-        logInIMG = new ImageIcon("FINALTEST/images/Buttons/LOG IN - NOT CLICKED 1.png");
-        logInHighlight = new ImageIcon("FINALTEST/images/Buttons/LOG IN - CLICKED 1.png");
+        logInIMG = new ImageIcon("FINALTEST/images/Buttons/loginNotClicked-AccessPanel.png");
+        logInHighlight = new ImageIcon("FINALTEST/images/Buttons/loginClicked-AccessPanel.png");
         loginButton.setIcon(logInIMG);
         this.add(loginButton);
 
         registerButton = new JLabel("Register");
         registerButton.setBounds(1300, 450, 250, 150);
-        registerIMG = new ImageIcon("FINALTEST/images/Buttons/REGISTER-NOT CLICKED 1.png");
-        registerHighlight = new ImageIcon("FINALTEST/images/Buttons/REGISTER - CLICKED 1.png");
+        registerIMG = new ImageIcon("FINALTEST/images/Buttons/registerNotClicked-AccessPanel.png");
+        registerHighlight = new ImageIcon("FINALTEST/images/Buttons/registerClicked-AccessPanel.png");
         registerButton.setIcon(registerIMG);
         this.add(registerButton);
 
         resetButton = new JLabel("Reset");
         resetButton.setBounds(1300, 650, 250, 150);
-        resetIMG = new ImageIcon("FINALTEST/images/Buttons/RESET - NOT CLICKED 1.png");
-        resetHighlight = new ImageIcon("FINALTEST/images/Buttons/RESET - CLICKED 1.png");
+        resetIMG = new ImageIcon("FINALTEST/images/Buttons/resetNotClicked-AccessPanel.png");
+        resetHighlight = new ImageIcon("FINALTEST/images/Buttons/resetClicked-AccessPanel.png");
         resetButton.setIcon(resetIMG);
         this.add(resetButton);
 
         logInBGLabel = new JLabel();
         logInBGLabel.setBounds(0,0, 1920,1080);
-        loginBGIMG = new ImageIcon("FINALTEST/images/MainIBG/log in background .png");
+        loginBGIMG = new ImageIcon("FINALTEST/images/MainIBG/accessBG-AccessPanel.png");
         logInBGLabel.setIcon(loginBGIMG);
         this.add(logInBGLabel);
 

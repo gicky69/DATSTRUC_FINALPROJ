@@ -17,14 +17,14 @@ public class ShopPanel extends JPanel {
 
         backButton = new JLabel();
         //backButton.setLayout(null);
-        backButtonHighlight = new ImageIcon("FINALTEST/images/buttons/back_-_clicked.png");
-        backButtonIMG = new ImageIcon("FINALTEST/images/buttons/back_-_not_clicked.png");
+        backButtonHighlight = new ImageIcon("FINALTEST/images/buttons/backClicked-AllPanel.png");
+        backButtonIMG = new ImageIcon("FINALTEST/images/buttons/backNotClicked-AllPanel.png");
         backButton.setIcon(backButtonIMG);
         backButton.setBounds(860, 700, 250, 150);
         this.add(backButton);
 
         shopBGLabel = new JLabel();
-        shopBGIMG = new ImageIcon("FINALTEST/images/MainIBG/SHOP PANEL (1).png");
+        shopBGIMG = new ImageIcon("FINALTEST/images/MainIBG/shopBG-ShopPanel.png");
         shopBGLabel.setIcon(shopBGIMG);
         shopBGLabel.setBounds(0,0, 1920, 1080);
         this.add(shopBGLabel);

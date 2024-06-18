@@ -19,14 +19,14 @@ public class SettingsPanel extends JPanel {
         this.add(temp);
 
         backButton = new JLabel();
-        backButtonHighlight = new ImageIcon("FINALTEST/images/buttons/back_-_clicked.png");
-        backButtonIMG = new ImageIcon("FINALTEST/images/buttons/back_-_not_clicked.png");
+        backButtonHighlight = new ImageIcon("FINALTEST/images/buttons/backClicked-AllPanel.png");
+        backButtonIMG = new ImageIcon("FINALTEST/images/buttons/backNotClicked-AllPanel.png");
         backButton.setIcon(backButtonIMG);
         backButton.setBounds(860, 700, 250, 150);
         this.add(backButton);
 
         settingsBGLabel = new JLabel();
-        settingsBGIMG = new ImageIcon("FINALTEST/images/MainIBG/SETTINGS (1).png");
+        settingsBGIMG = new ImageIcon("FINALTEST/images/MainIBG/settingsBG-SettingsPanel.png");
         settingsBGLabel.setIcon(settingsBGIMG);
         settingsBGLabel.setBounds(0,0, 1920, 1080);
         this.add(settingsBGLabel);
