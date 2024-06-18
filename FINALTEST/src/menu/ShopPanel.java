@@ -14,13 +14,15 @@ public class ShopPanel extends JPanel {
     public ShopPanel(Frame mainFrame) {
         this.mainFrame = mainFrame;
         this.add(temp);
+        this.setSize(mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
+        this.setLayout(null);
 
         backButton = new JLabel();
         //backButton.setLayout(null);
         backButtonHighlight = new ImageIcon("FINALTEST/images/buttons/backClicked-AllPanel.png");
         backButtonIMG = new ImageIcon("FINALTEST/images/buttons/backNotClicked-AllPanel.png");
         backButton.setIcon(backButtonIMG);
-        backButton.setBounds(860, 700, 250, 150);
+        backButton.setBounds(1500, 0, 250, 150);
         this.add(backButton);
 
         shopBGLabel = new JLabel();
