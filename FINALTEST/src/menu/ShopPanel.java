@@ -8,11 +8,15 @@ import java.awt.event.MouseListener;
 
 public class ShopPanel extends JPanel {
     Frame mainFrame;
+    AccessPanel accessPanel;
     JLabel backButton, shopBGLabel;
     ImageIcon backButtonIMG, backButtonHighlight, shopBGIMG;
+    String playerInUse;
     JLabel temp = new JLabel("Shop Panel");
-    public ShopPanel(Frame mainFrame) {
+
+    public ShopPanel(Frame mainFrame, AccessPanel accessPanel) {
         this.mainFrame = mainFrame;
+        this.accessPanel = accessPanel;
         this.add(temp);
         this.setSize(mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
         this.setLayout(null);
@@ -35,7 +39,7 @@ public class ShopPanel extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 mainFrame.frame.getContentPane().removeAll();
-                mainFrame.frame.add(new MenuPanel(mainFrame, new SubPanels()));
+                mainFrame.frame.add(new MenuPanel(mainFrame, new SubPanels(), accessPanel));
                 mainFrame.frame.setTitle("Robbery Bob");
                 mainFrame.frame.revalidate();
                 mainFrame.frame.repaint();

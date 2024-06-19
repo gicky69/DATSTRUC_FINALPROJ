@@ -18,10 +18,6 @@ public class Main {
         mainFrame = new Frame(1600,900);
         subPanels = new SubPanels();
         loginPanel = new AccessPanel(mainFrame, subPanels);
-        menuPanel = new MenuPanel(mainFrame, subPanels);
-        shopPanel = new ShopPanel(mainFrame);
-        settingsPanel = new SettingsPanel(mainFrame);
-        htpPanel = new HTPPanel(mainFrame);
 
         mainFrame.frame.add(loginPanel);
         loginPanel.requestFocusInWindow();

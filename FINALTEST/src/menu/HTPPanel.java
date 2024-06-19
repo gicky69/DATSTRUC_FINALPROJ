@@ -8,12 +8,14 @@ import java.awt.event.MouseListener;
 
 public class HTPPanel extends JPanel {
     Frame mainFrame;
+    AccessPanel accessPanel;
     JLabel backButton;
     ImageIcon backButtonIMG, backButtonHighlight;
-
+    String playerInUse;
     JLabel temp = new JLabel("How to Play Panel");
-    public HTPPanel(Frame mainFrame) {
+    public HTPPanel(Frame mainFrame, AccessPanel accessPanel) {
         this.mainFrame = mainFrame;
+        this.accessPanel = accessPanel;
         this.add(temp);
 
         backButton = new JLabel();
@@ -28,7 +30,7 @@ public class HTPPanel extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 mainFrame.frame.getContentPane().removeAll();
-                mainFrame.frame.add(new MenuPanel(mainFrame, new SubPanels()));
+                mainFrame.frame.add(new MenuPanel(mainFrame, new SubPanels(), accessPanel));
                 mainFrame.frame.setTitle("Robbery Bob");
                 mainFrame.frame.revalidate();
                 mainFrame.frame.repaint();

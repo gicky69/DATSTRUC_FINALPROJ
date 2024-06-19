@@ -14,18 +14,20 @@ public class MenuPanel extends JPanel {
 
     Frame mainFrame;
     RoundPanel roundPanel;
+    AccessPanel accessPanel;
     ShopPanel shopPanel;
     SettingsPanel settingsPanel;
     HTPPanel htpPanel;
     //JButton playButton, shopButton, settingsButton, tutorialButton, exitButton;
     JLabel playLabel,  shopLabel, settingsLabel, htpLabel, exitLabel, menuBGLabel;
     ImageIcon playImagenc, playImagec, shopImagenc, shopImagec, settingImagenc, settingImagec, htpImagenc, htpImagec, exitImagenc, exitImagec, menuBGImg;
-
     SubPanels subPanels;
+    String playerInUse;
 
-    public MenuPanel(Frame mainFrame, SubPanels subPanels) {
+    public MenuPanel(Frame mainFrame, SubPanels subPanels, AccessPanel accessPanel) {
         this.mainFrame = mainFrame;
         this.subPanels = subPanels;
+        this.accessPanel = accessPanel;
         this.setSize(mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
         this.setLayout(null);
 
@@ -79,7 +81,7 @@ public class MenuPanel extends JPanel {
                 mainFrame.frame.getContentPane().removeAll();
 
                 // view round panel
-                roundPanel = new RoundPanel(mainFrame, subPanels);
+                roundPanel = new RoundPanel(mainFrame, subPanels, accessPanel);
                 roundPanel.setBounds(0, 0, mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
                 mainFrame.frame.add(roundPanel);
                 mainFrame.frame.setTitle("Choose Difficulty & Round");
@@ -115,7 +117,7 @@ public class MenuPanel extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 mainFrame.frame.getContentPane().removeAll();
                 mainFrame.frame.setTitle("Shop");
-                shopPanel = new ShopPanel(mainFrame);
+                shopPanel = new ShopPanel(mainFrame, accessPanel);
                 mainFrame.frame.add(shopPanel);
                 shopPanel.setBounds(0, 0, mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
                 shopPanel.requestFocusInWindow();
@@ -181,7 +183,7 @@ public class MenuPanel extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 mainFrame.frame.setTitle("Settings");
                 mainFrame.frame.getContentPane().removeAll();
-                settingsPanel = new SettingsPanel(mainFrame);
+                settingsPanel = new SettingsPanel(mainFrame, accessPanel);
                 mainFrame.frame.add(settingsPanel);
                 settingsPanel.setBounds(0, 0, mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
                 settingsPanel.requestFocusInWindow();
@@ -218,7 +220,7 @@ public class MenuPanel extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 mainFrame.frame.getContentPane().removeAll();
                 mainFrame.frame.setTitle("Tutorial");
-                htpPanel = new HTPPanel(mainFrame);
+                htpPanel = new HTPPanel(mainFrame, accessPanel);
                 mainFrame.frame.add(htpPanel);
                 htpPanel.setBounds(0, 0, mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
                 htpPanel.requestFocusInWindow();
