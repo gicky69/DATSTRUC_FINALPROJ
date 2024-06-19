@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.*;
+import java.util.UUID;
 
 public class AccessPanel extends JPanel {
     UserValidation userValidation;
@@ -18,9 +19,6 @@ public class AccessPanel extends JPanel {
     JLabel usernameLabel, passwordLabel;
     JTextField usernameField; JPasswordField passwordField;
     ImageIcon logInIMG, logInHighlight, loginBGImg, registerIMG, registerHighlight, resetIMG, resetHighlight, loginBGIMG;
-
-
-
 
     public AccessPanel(Frame mainFrame, SubPanels subPanels) {
         this.mainFrame = mainFrame;
@@ -232,15 +230,19 @@ public class AccessPanel extends JPanel {
     static class UserValidation {
 
         static final String DB_UserCredentials = "FINALTEST/Database/users.txt";
+        static final String DB_UserData = "FINALTEST/Database/playerdata.txt";
 
         public boolean login(String username, String password) {
 
             try (BufferedReader reader = new BufferedReader(new FileReader(DB_UserCredentials))) {
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    String[] user = line.split(",");
-                    if (user[0].equals(username) && user[1].equals(password)) {
+                    String[] user = line.split(";");
+                    if (user[1].equals(username) && user[2].equals(password)) {
                         return true;
+                    } else{
+                        return false;
+
                     }
                 }
             } catch (IOException e) {
@@ -252,11 +254,13 @@ public class AccessPanel extends JPanel {
 
         public boolean register(String username, String password) {
 
+            UUID userID = UUID.randomUUID();
+
             if (username.isEmpty() || password.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Field is empty.", "Warning", JOptionPane.WARNING_MESSAGE);
                 return false;
 
-            } else if (username.contains(",")) {
+            } else if (username.contains(",") || username.contains(";")) {
                 JOptionPane.showMessageDialog(null, "Invalid username or password.", "Warning", JOptionPane.WARNING_MESSAGE);
                 return false;
             }
@@ -264,21 +268,34 @@ public class AccessPanel extends JPanel {
                 try (BufferedReader reader = new BufferedReader(new FileReader(DB_UserCredentials))) {
                     String line;
                     while ((line = reader.readLine()) != null) {
-                        String[] user = line.split(",");
-                        if (user[0].equals(username)) {
+                        String[] user = line.split(";");
+                        if (user[1].equals(username)) {
                             JOptionPane.showMessageDialog(null, "Username already exists.", "Warning", JOptionPane.WARNING_MESSAGE);
                             return false;
                         }
+
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-
                 try (BufferedWriter writer = new BufferedWriter(new FileWriter(DB_UserCredentials, true))) {
-                    writer.write(username + "," + password); //add credentials to db
-                    writer.newLine(); //new line
+                    writer.write(userID + ";" + username + ";" + password); //add credentials to db
+                    writer.newLine();
+
                     return true;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    System.out.println("NOT WORKING");
+                }
+
+                //add player data to txt
+                try (BufferedWriter writer2 = new BufferedWriter(new FileWriter(DB_UserData, true))) {
+                    writer2.write(userID + ";" + "1,1,1"); //add player data to db (not finished)
+                    writer2.newLine();
+
+                    return true;
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
