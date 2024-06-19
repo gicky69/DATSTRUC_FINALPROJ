@@ -6,91 +6,280 @@ import game.Game;
 import game.GameLoop;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class MenuPanel extends JPanel {
 
     Frame mainFrame;
     RoundPanel roundPanel;
+    AccessPanel accessPanel;
     ShopPanel shopPanel;
     SettingsPanel settingsPanel;
     HTPPanel htpPanel;
-    JButton playButton, shopButton, settingsButton, tutorialButton, exitButton;
+    //JButton playButton, shopButton, settingsButton, tutorialButton, exitButton;
+    JLabel playLabel,  shopLabel, settingsLabel, htpLabel, exitLabel, menuBGLabel;
+    ImageIcon playImagenc, playImagec, shopImagenc, shopImagec, settingImagenc, settingImagec, htpImagenc, htpImagec, exitImagenc, exitImagec, menuBGImg;
     SubPanels subPanels;
+    String playerInUse;
 
-    public MenuPanel(Frame mainFrame, SubPanels subPanels) {
+    public MenuPanel(Frame mainFrame, SubPanels subPanels, AccessPanel accessPanel) {
         this.mainFrame = mainFrame;
         this.subPanels = subPanels;
+        this.accessPanel = accessPanel;
         this.setSize(mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
         this.setLayout(null);
 
-        playButton = new JButton("Play");
-        playButton.setBounds(860, 300, 200, 50);
-        this.add(playButton);
+        playLabel = new JLabel("Play");
+        playLabel.setBounds(840,770,250,150);
+        playImagec = new ImageIcon("FINALTEST/images/buttons/playClicked-MenuPanel.png");
+        playImagenc = new ImageIcon("FINALTEST/images/buttons/playNotClicked-MenuPanel.png");
+        playLabel.setIcon(playImagenc);
+        playLabel.setVisible(true);
+        this.add(playLabel);
 
-        shopButton = new JButton("Shop");
-        shopButton.setBounds(860, 400, 200, 50);
-        this.add(shopButton);
+        shopLabel = new JLabel("Shop");
+        shopLabel.setBounds(1650,100,250,150);
+        shopImagenc = new ImageIcon("FINALTEST/images/buttons/shopNotClicked-MenuPanel.png");
+        shopImagec = new ImageIcon("FINALTEST/images/buttons/shopClicked-MenuPanel.png");
+        shopLabel.setIcon(shopImagenc);
+        this.add(shopLabel);
 
-        settingsButton = new JButton("Settings");
-        settingsButton.setBounds(860, 500, 200, 50);
-        this.add(settingsButton);
+        settingsLabel = new JLabel("Settings");
+        settingsLabel.setBounds(1650,0,250,150);
+        settingImagenc = new ImageIcon("FINALTEST/images/buttons/settingsNotClicked-MenuPanel.png");
+        settingImagec = new ImageIcon("FINALTEST/images/buttons/settingsClicked-MenuPanel.png");
+        settingsLabel.setIcon(settingImagenc);
+        this.add(settingsLabel);
 
-        tutorialButton = new JButton("Tutorial");
-        tutorialButton.setBounds(860, 600, 200, 50);
-        this.add(tutorialButton);
+        htpLabel = new JLabel("How to Play");
+        htpLabel.setBounds(255,750,250,150);
+        htpImagenc = new ImageIcon("FINALTEST/images/buttons/htpNotClicked-MenuPanel.png");
+        htpImagec = new ImageIcon("FINALTEST/images/buttons/htpClicked-MenuPanel.png");
+        htpLabel.setIcon(htpImagenc);
+        htpLabel.setVisible(true);
+        this.add(htpLabel);
 
-        exitButton = new JButton("Exit");
-        exitButton.setBounds(860, 700, 200, 50);
-        this.add(exitButton);
+        exitLabel = new JLabel("Exit");
+        exitLabel.setBounds(1430,750,250,150);
+        exitImagenc = new ImageIcon("FINALTEST/images/buttons/exitNotClicked-MenuPanel.png");
+        exitImagec = new ImageIcon("FINALTEST/images/buttons/exitClicked-MenuPanel.png");
+        exitLabel.setIcon(exitImagenc);
+        this.add(exitLabel);
 
-        playButton.addActionListener(e -> {
-            mainFrame.frame.getContentPane().removeAll();
+        menuBGLabel = new JLabel();
+        menuBGLabel.setBounds(0,0, 1920,1080);
+        menuBGImg = new ImageIcon("FINALTEST/images/MainIBG/mainMenuBG-MenuPanel.png");
+        menuBGLabel.setIcon(menuBGImg);
+        this.add(menuBGLabel);
 
-            // view round panel
-            roundPanel = new RoundPanel(mainFrame, subPanels);
-            roundPanel.setBounds(0, 0, mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
-            mainFrame.frame.add(roundPanel);
-            mainFrame.frame.setTitle("Choose Difficulty & Round");
-            mainFrame.frame.revalidate();
-            mainFrame.frame.repaint();
 
+        playLabel.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                mainFrame.frame.getContentPane().removeAll();
+
+                // view round panel
+                roundPanel = new RoundPanel(mainFrame, subPanels, accessPanel);
+                roundPanel.setBounds(0, 0, mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
+                mainFrame.frame.add(roundPanel);
+                mainFrame.frame.setTitle("Choose Difficulty & Round");
+                mainFrame.frame.revalidate();
+                mainFrame.frame.repaint();
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                playLabel.setIcon(playImagec);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                playLabel.setIcon(playImagenc);
+
+            }
         });
 
-        shopButton.addActionListener(e -> {
-            mainFrame.frame.getContentPane().removeAll();
-            mainFrame.frame.setTitle("Shop");
-            shopPanel = new ShopPanel(mainFrame);
-            mainFrame.frame.add(shopPanel);
-            shopPanel.setBounds(0, 0, mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
-            shopPanel.requestFocusInWindow();
-            mainFrame.frame.revalidate();
-            mainFrame.frame.repaint();
+        shopLabel.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                mainFrame.frame.getContentPane().removeAll();
+                mainFrame.frame.setTitle("Shop");
+                shopPanel = new ShopPanel(mainFrame, accessPanel);
+                mainFrame.frame.add(shopPanel);
+                shopPanel.setBounds(0, 0, mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
+                shopPanel.requestFocusInWindow();
+                mainFrame.frame.revalidate();
+                mainFrame.frame.repaint();
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                shopLabel.setIcon(shopImagec);
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                shopLabel.setIcon(shopImagenc);
+
+            }
         });
 
-        settingsButton.addActionListener(e -> {
-            mainFrame.frame.setTitle("Settings");
-            mainFrame.frame.getContentPane().removeAll();
-            settingsPanel = new SettingsPanel(mainFrame);
-            mainFrame.frame.add(settingsPanel);
-            settingsPanel.setBounds(0, 0, mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
-            settingsPanel.requestFocusInWindow();
-            mainFrame.frame.revalidate();
-            mainFrame.frame.repaint();
+        settingsLabel.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                settingsLabel.setIcon(settingImagec);
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                settingsLabel.setIcon(settingImagenc);
+
+            }
         });
 
-        tutorialButton.addActionListener(e -> {
-            mainFrame.frame.getContentPane().removeAll();
-            mainFrame.frame.setTitle("Tutorial");
-            htpPanel = new HTPPanel(mainFrame);
-            mainFrame.frame.add(htpPanel);
-            htpPanel.setBounds(0, 0, mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
-            htpPanel.requestFocusInWindow();
-            mainFrame.frame.revalidate();
-            mainFrame.frame.repaint();
+        settingsLabel.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                mainFrame.frame.setTitle("Settings");
+                mainFrame.frame.getContentPane().removeAll();
+                settingsPanel = new SettingsPanel(mainFrame, accessPanel);
+                mainFrame.frame.add(settingsPanel);
+                settingsPanel.setBounds(0, 0, mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
+                settingsPanel.requestFocusInWindow();
+                mainFrame.frame.revalidate();
+                mainFrame.frame.repaint();
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                settingsLabel.setIcon(settingImagec);
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                settingsLabel.setIcon(settingImagenc);
+
+            }
         });
 
-        exitButton.addActionListener(e -> {
+        htpLabel.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                mainFrame.frame.getContentPane().removeAll();
+                mainFrame.frame.setTitle("Tutorial");
+                htpPanel = new HTPPanel(mainFrame, accessPanel);
+                mainFrame.frame.add(htpPanel);
+                htpPanel.setBounds(0, 0, mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
+                htpPanel.requestFocusInWindow();
+                mainFrame.frame.revalidate();
+                mainFrame.frame.repaint();
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                htpLabel.setIcon(htpImagec);
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                htpLabel.setIcon(htpImagenc);
+
+            }
+        });
+
+        exitLabel.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
             System.exit(0);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                exitLabel.setIcon(exitImagec);
+
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                exitLabel.setIcon(exitImagenc);
+
+            }
         });
 
     }
