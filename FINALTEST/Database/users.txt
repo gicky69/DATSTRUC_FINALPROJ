@@ -1,4 +1,2 @@
-admin,admin
-test1,test1
-joaquin,Password
-test2,test2
+a847895d-f02e-486b-9480-59b661f7ede3;admin;admin
+
