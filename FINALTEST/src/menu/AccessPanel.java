@@ -19,6 +19,7 @@ public class AccessPanel extends JPanel {
     JLabel usernameLabel, passwordLabel;
     JTextField usernameField; JPasswordField passwordField;
     ImageIcon logInIMG, logInHighlight, loginBGImg, registerIMG, registerHighlight, resetIMG, resetHighlight, loginBGIMG;
+    public String playerInUse;
 
     public AccessPanel(Frame mainFrame, SubPanels subPanels) {
         this.mainFrame = mainFrame;
@@ -26,7 +27,7 @@ public class AccessPanel extends JPanel {
 
         mainFrame.frame.setVisible(true);
         userValidation = new UserValidation();
-        menuPanel = new MenuPanel(mainFrame, subPanels);
+        menuPanel = new MenuPanel(mainFrame, subPanels, this);
 
         this.setSize(mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
         this.setLayout(null);
@@ -95,9 +96,10 @@ public class AccessPanel extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 // will store true/false
-                boolean isLoginSuccessful = userValidation.login(usernameField.getText(), passwordField.getText());
+                playerInUse = userValidation.login(usernameField.getText(), passwordField.getText());
 
-                if (isLoginSuccessful) {
+                if (playerInUse != null) {
+                    System.out.println("FROM ACCESS: " + playerInUse);
                     mainFrame.frame.getContentPane().removeAll();
                     menuPanel.setBounds(0, 0, mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
                     mainFrame.frame.add(menuPanel);
@@ -232,24 +234,23 @@ public class AccessPanel extends JPanel {
         static final String DB_UserCredentials = "FINALTEST/Database/users.txt";
         static final String DB_UserData = "FINALTEST/Database/playerdata.txt";
 
-        public boolean login(String username, String password) {
+        public String login(String username, String password) {
 
             try (BufferedReader reader = new BufferedReader(new FileReader(DB_UserCredentials))) {
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    String[] user = line.split(";");
+                    String[] user = line.split(":");
                     if (user[1].equals(username) && user[2].equals(password)) {
-                        return true;
+                        return user[0];
                     } else{
-                        return false;
-
+                        return null;
                     }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            return false;
+            return null;
         }
 
         public boolean register(String username, String password) {
@@ -260,28 +261,39 @@ public class AccessPanel extends JPanel {
                 JOptionPane.showMessageDialog(null, "Field is empty.", "Warning", JOptionPane.WARNING_MESSAGE);
                 return false;
 
-            } else if (username.contains(",") || username.contains(";")) {
+            } else if (username.contains(",") || username.contains(":")) {
                 JOptionPane.showMessageDialog(null, "Invalid username or password.", "Warning", JOptionPane.WARNING_MESSAGE);
                 return false;
             }
             else {
-                try (BufferedReader reader = new BufferedReader(new FileReader(DB_UserCredentials))) {
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        String[] user = line.split(";");
-                        if (user[1].equals(username)) {
-                            JOptionPane.showMessageDialog(null, "Username already exists.", "Warning", JOptionPane.WARNING_MESSAGE);
-                            return false;
-                        }
-
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+//                try (BufferedReader reader = new BufferedReader(new FileReader(DB_UserCredentials))) {
+//                    String line;
+//                    while ((line = reader.readLine()) != null) {
+//                        String[] user = line.split(":");
+//                        if (user[1].equals(username)) {
+//                            JOptionPane.showMessageDialog(null, "Username already exists.", "Warning", JOptionPane.WARNING_MESSAGE);
+//                            return false;
+//                        }
+//
+//                    }
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
 
                 try (BufferedWriter writer = new BufferedWriter(new FileWriter(DB_UserCredentials, true))) {
-                    writer.write(userID + ";" + username + ";" + password); //add credentials to db
+                    writer.write(userID + ":" + username + ":" + password); //add credentials to db
                     writer.newLine();
+
+                    //add player data to txt
+                    try (BufferedWriter writer2 = new BufferedWriter(new FileWriter(DB_UserData, true))) {
+                        writer2.write(userID + ":" + "1,1,1"); //add player data to db (not finished)
+                        writer2.newLine();
+                        writer2.flush();
+
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
                     return true;
                 } catch (IOException e) {
@@ -289,18 +301,7 @@ public class AccessPanel extends JPanel {
                     System.out.println("NOT WORKING");
                 }
 
-                //add player data to txt
-                try (BufferedWriter writer2 = new BufferedWriter(new FileWriter(DB_UserData, true))) {
-                    writer2.write(userID + ";" + "1,1,1"); //add player data to db (not finished)
-                    writer2.newLine();
-
-                    return true;
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
                 return false;
-
             }
 
         }

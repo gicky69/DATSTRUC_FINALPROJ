@@ -9,22 +9,29 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class RoundPanel extends  JPanel {
     public Frame mainFrame;
+    public AccessPanel accessPanel;
     public SubPanels subPanels;
     public int roundDetail;
-    public static int[] currentRound = {1,1,1};
+    public int[] currentRound;
     JLabel temp = new JLabel("Round Panel");
     JLabel backButton;
     ImageIcon backButtonIMG, backButtonHighlight;
 
 
-    public RoundPanel(Frame mainFrame, SubPanels subPanels) {
+    public RoundPanel(Frame mainFrame, SubPanels subPanels, AccessPanel accessPanel) {
         this.mainFrame = mainFrame;
         this.subPanels = subPanels;
+        this.accessPanel = accessPanel;
+        this.currentRound = getPlayerRoundData(accessPanel.playerInUse);
         this.add(temp);
         this.setLayout(null);
 
@@ -150,7 +157,7 @@ public class RoundPanel extends  JPanel {
             public void mouseClicked(MouseEvent e) {
                 mainFrame.frame.getContentPane().removeAll();
 
-                MenuPanel menuPanel = new MenuPanel(mainFrame, subPanels);
+                MenuPanel menuPanel = new MenuPanel(mainFrame, subPanels, accessPanel);
                 menuPanel.setBounds(0,0,mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
                 mainFrame.frame.add(menuPanel);
                 mainFrame.update();
@@ -182,6 +189,28 @@ public class RoundPanel extends  JPanel {
 
     }
 
+    private int[] getPlayerRoundData(String playerId) {
+        String filePath = "FINALTEST/Database/playerdata.txt"; // Replace with the path to your text file
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(":");
+                if (data[0].equals(playerId)) {
+                    String[] roundDataStrings = data[1].split(",");
+                    int[] roundData = new int[roundDataStrings.length];
+                    for (int i = 0; i < roundDataStrings.length; i++) {
+                        roundData[i] = Integer.parseInt(roundDataStrings[i]);
+                    }
+                    return roundData;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     // will update the roundDetail variable in this class based on the passed variable on the subpanels.
     public void updateRoundDetail() {
         this.roundDetail = subPanels.getRoundDetail();
@@ -192,4 +221,7 @@ public class RoundPanel extends  JPanel {
         this.repaint();
         this.mainFrame.frame.getContentPane().setVisible(true);
     }
+
+    //getters
+
 }
