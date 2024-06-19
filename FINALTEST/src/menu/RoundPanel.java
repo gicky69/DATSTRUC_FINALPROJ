@@ -64,11 +64,11 @@ public class RoundPanel extends  JPanel {
                 mainFrame.frame.setVisible(false);
                 mainFrame.update();
 
-                if (currentRound[0] < easyDifficulty.size()) {
-                    easyDifficulty.get(currentRound[0]).setEnabled(true);
-                }
-                currentRound[0]++;
             });
+        }
+
+        for (int i=1; i <= currentRound[0]; i++) {
+            easyDifficulty.get(i).setEnabled(true);
         }
 
         // MEDIUM DIFFICULTY
@@ -100,12 +100,11 @@ public class RoundPanel extends  JPanel {
                 mainFrame.frame.setVisible(false);
                 mainFrame.update();
 
-                if (currentRound[1] < mediumDifficulty.size()) {
-                    mediumDifficulty.get(currentRound[1]).setEnabled(true);
-                }
-
-                currentRound[1]++;
             });
+        }
+
+        for (int i=1; i <= currentRound[1]; i++) {
+            mediumDifficulty.get(i).setEnabled(true);
         }
 
         // HARD DIFFICULTY
@@ -137,12 +136,12 @@ public class RoundPanel extends  JPanel {
                 mainFrame.frame.setVisible(false);
                 mainFrame.update();
 
-                if (currentRound[2] < hardDifficulty.size()) {
-                    hardDifficulty.get(currentRound[2]).setEnabled(true);
-                }
-
-                currentRound[2]++;
             });
+        }
+
+        for (int i=1; i <= currentRound[2]; i++) {
+            hardDifficulty.get(i).setEnabled(true);
+            System.out.println("UPDATING HARD DIFFICULTY");
         }
 
         backButton = new JLabel("Back");
