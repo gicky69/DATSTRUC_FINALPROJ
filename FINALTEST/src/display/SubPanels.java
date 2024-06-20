@@ -56,7 +56,7 @@ public class SubPanels {
             game.isPaused = false;
             roundOver = true;
             pausePanel.setVisible(false);
-            roundPanel.update();
+            roundPanel.updateDisplay();
             roundPanel.mainFrame.frame.setVisible(true);
             gamePanel.revalidate();
             gamePanel.repaint();
@@ -99,8 +99,20 @@ public class SubPanels {
         roundPanelButton.addActionListener(e -> {
             roundOver = false;
             roundOverPanel.setVisible(false);
-            System.out.println("CURRENT ROUND ON SUBPANELS " + roundPanel.currentRound);
-            roundPanel.update();
+
+            int currentDifficultyindex = 0;
+            switch (roundPanel.currentDifficulty) {
+                case "easy":
+                    break;
+                case "medium":
+                    currentDifficultyindex = 1;
+                    break;
+                case "hard":
+                    currentDifficultyindex = 2;
+                    break;
+            }
+            roundPanel.updatePlayerRoundData(roundPanel.accessPanel.playerInUse, currentDifficultyindex);
+            roundPanel.updateDisplay();
             roundPanel.mainFrame.frame.setVisible(true);
             gamePanel.revalidate();
             gamePanel.repaint();
