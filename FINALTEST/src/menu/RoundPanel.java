@@ -9,9 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,10 +20,13 @@ public class RoundPanel extends  JPanel {
     public SubPanels subPanels;
     public int roundDetail;
     public int[] currentRound;
+    public String currentDifficulty;
+    public List<JButton> easyDifficulty;
+    public List<JButton> mediumDifficulty;
+    public List<JButton> hardDifficulty;
     JLabel temp = new JLabel("Round Panel");
     JLabel backButton;
     ImageIcon backButtonIMG, backButtonHighlight;
-
 
     public RoundPanel(Frame mainFrame, SubPanels subPanels, AccessPanel accessPanel) {
         this.mainFrame = mainFrame;
@@ -35,15 +36,16 @@ public class RoundPanel extends  JPanel {
         this.add(temp);
         this.setLayout(null);
 
+
         // EASY DIFFICULTY
-        List<JButton> easyDifficulty = new ArrayList<>();
+        easyDifficulty = new ArrayList<>();
         JLabel easyLabel = new JLabel("Easy Difficulty");
         easyLabel.setBounds(600, 100, 200, 50);
         easyLabel.setHorizontalAlignment(SwingConstants.CENTER);
         this.add(easyLabel);
         for (int roundNum = 1; roundNum <= 5; roundNum++) {
             JButton roundButton = new JButton("Round " + roundNum);
-            roundButton.setEnabled(roundNum == 1);
+            roundButton.setEnabled(roundNum <= currentRound[0]);
             roundButton.setBounds(600, 100 + (roundNum * 100), 200, 50);
             this.add(roundButton);
             easyDifficulty.add(roundButton);
@@ -54,6 +56,7 @@ public class RoundPanel extends  JPanel {
             roundButton.addActionListener(e -> {
                 subPanels.setRoundDetail(roundDetail, this);
                 mainFrame.frame.getContentPane().setVisible(false);
+                currentDifficulty = "easy";
 
                 // will get screen size of user
                 Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -67,19 +70,16 @@ public class RoundPanel extends  JPanel {
             });
         }
 
-        for (int i=1; i <= currentRound[0]; i++) {
-            easyDifficulty.get(i).setEnabled(true);
-        }
 
         // MEDIUM DIFFICULTY
-        List<JButton> mediumDifficulty = new ArrayList<>();
+        mediumDifficulty = new ArrayList<>();
         JLabel mediumLabel = new JLabel("Medium Difficulty");
         mediumLabel.setBounds(800, 100, 200, 50);
         mediumLabel.setHorizontalAlignment(SwingConstants.CENTER);
         this.add(mediumLabel);
         for (int roundNum = 1; roundNum <= 5; roundNum++) {
             JButton roundButton = new JButton("Round " + roundNum);
-            roundButton.setEnabled(roundNum == 1);
+            roundButton.setEnabled(roundNum <= currentRound[1]);
             roundButton.setBounds(800, 100 + (roundNum * 100), 200, 50);
             this.add(roundButton);
             mediumDifficulty.add(roundButton);
@@ -90,6 +90,7 @@ public class RoundPanel extends  JPanel {
             roundButton.addActionListener(e -> {
                 subPanels.setRoundDetail(roundDetail, this);
                 mainFrame.frame.getContentPane().setVisible(false);
+                currentDifficulty = "medium";
 
                 // will get screen size of user
                 Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -103,19 +104,15 @@ public class RoundPanel extends  JPanel {
             });
         }
 
-        for (int i=1; i <= currentRound[1]; i++) {
-            mediumDifficulty.get(i).setEnabled(true);
-        }
-
         // HARD DIFFICULTY
-        List<JButton> hardDifficulty = new ArrayList<>();
+        hardDifficulty = new ArrayList<>();
         JLabel hardLabel = new JLabel("Hard Difficulty");
         hardLabel.setBounds(1000, 100, 200, 50);
         hardLabel.setHorizontalAlignment(SwingConstants.CENTER);
         this.add(hardLabel);
         for (int roundNum = 1; roundNum <= 5; roundNum++) {
             JButton roundButton = new JButton("Round " + roundNum);
-            roundButton.setEnabled(roundNum == 1);
+            roundButton.setEnabled(roundNum <= currentRound[2]);
             roundButton.setBounds(1000, 100 + (roundNum * 100), 200, 50);
             this.add(roundButton);
             hardDifficulty.add(roundButton);
@@ -126,6 +123,7 @@ public class RoundPanel extends  JPanel {
             roundButton.addActionListener(e -> {
                 subPanels.setRoundDetail(roundDetail, this);
                 mainFrame.frame.getContentPane().setVisible(false);
+                currentDifficulty = "hard";
 
                 // will get screen size of user
                 Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -137,11 +135,6 @@ public class RoundPanel extends  JPanel {
                 mainFrame.update();
 
             });
-        }
-
-        for (int i=1; i <= currentRound[2]; i++) {
-            hardDifficulty.get(i).setEnabled(true);
-            System.out.println("UPDATING HARD DIFFICULTY");
         }
 
         backButton = new JLabel("Back");
@@ -215,7 +208,76 @@ public class RoundPanel extends  JPanel {
         this.roundDetail = subPanels.getRoundDetail();
     }
 
-    public void update() {
+    public void updatePlayerRoundData(String playerID, int difficultyIndex) {
+        System.out.println("RUNNING updatePlayerRoundData()");
+        String filePath = "FINALTEST/Database/playerdata.txt";
+        List<String> fileContent = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(":");
+                if (data[0].equals(playerID)) {
+                    String[] roundDataStrings = data[1].split(",");
+                    int[] roundData = new int[roundDataStrings.length];
+
+                    for (int i = 0; i < roundDataStrings.length; i++) {
+                        roundData[i] = Integer.parseInt(roundDataStrings[i]);
+                    }
+
+                    // Increment the round number for the given difficulty
+                    System.out.println("round data and diff index before: "+roundData[difficultyIndex]);
+                    roundData[difficultyIndex] += 1;
+                    System.out.println("round data and diff index after: "+roundData[difficultyIndex]);
+
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0; i < roundData.length; i++) {
+                        if (i > 0) {
+                            sb.append(",");
+                        }
+                        sb.append(roundData[i]);
+                    }
+                    data[1] = sb.toString();
+                    line = String.join(":", data);
+                }
+                fileContent.add(line);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Write the updated data back to the file
+        try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
+            for (String line : fileContent) {
+                writer.println(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        updateButtons();
+    }
+
+    private void updateDifficultyButtons(List<JButton> difficultyButtons, int currentRound) {
+        for (int i = 0; i < difficultyButtons.size(); i++) {
+            JButton roundButton = difficultyButtons.get(i);
+            // Enable the button if the current round is greater than or equal to the button's round number
+            roundButton.setEnabled(i + 1 <= currentRound);
+        }
+    }
+
+    public void updateButtons() {
+        updateDifficultyButtons(easyDifficulty, currentRound[0]);
+        updateDifficultyButtons(mediumDifficulty, currentRound[1]);
+        updateDifficultyButtons(hardDifficulty, currentRound[2]);
+    }
+
+
+
+    public void updateDisplay() {
+        System.out.println("UPDATE DISPLAY");
+        updateButtons();
         this.revalidate();
         this.repaint();
         this.mainFrame.frame.getContentPane().setVisible(true);
