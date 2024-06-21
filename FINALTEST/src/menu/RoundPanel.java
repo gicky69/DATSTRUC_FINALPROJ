@@ -225,10 +225,7 @@ public class RoundPanel extends  JPanel {
                         roundData[i] = Integer.parseInt(roundDataStrings[i]);
                     }
 
-                    // Increment the round number for the given difficulty
-                    System.out.println("round data and diff index before: "+roundData[difficultyIndex]);
                     roundData[difficultyIndex] += 1;
-                    System.out.println("round data and diff index after: "+roundData[difficultyIndex]);
 
                     StringBuilder sb = new StringBuilder();
                     for (int i = 0; i < roundData.length; i++) {
@@ -259,6 +256,7 @@ public class RoundPanel extends  JPanel {
         updateDifficultyButtons(easyDifficulty, currentRound[0]);
         updateDifficultyButtons(mediumDifficulty, currentRound[1]);
         updateDifficultyButtons(hardDifficulty, currentRound[2]);
+        System.out.println("ROUND DETAIL ON ROUNDPANEL: " + roundDetail);
     }
 
     private void updateDifficultyButtons(List<JButton> difficultyButtons, int currentRound) {
@@ -268,9 +266,6 @@ public class RoundPanel extends  JPanel {
             roundButton.setEnabled(i + 1 <= currentRound);
         }
     }
-
-
-
 
     public void updateDisplay() {
         this.currentRound = getPlayerRoundData(accessPanel.playerInUse);
