@@ -1,6 +1,9 @@
 package core;
 
 public class Position {
+
+    public static int PROXIMITY_RANGE = 5;
+
     private float x;
     private float y;
 
@@ -10,12 +13,12 @@ public class Position {
     }
 
     public int getX() {
-        int intx = (int)Math.round(x);
+        int intx = Math.round(x);
         return intx;
     }
 
     public int getY() {
-        int inty = (int)Math.round(y);
+        int inty = Math.round(y);
         return inty;
     }
 
@@ -27,8 +30,12 @@ public class Position {
         return (int) y / 40;
     }
 
+    public static Position copyOf(Position position) {
+        return new Position(position.getX(), position.getY());
+    }
+
     public static Position ofGridPosition(int gridX, int gridY) {
-        return new Position(gridX * 40 + 20, gridY * 40 + 20);
+        return new Position(gridX * 40 + 40 / 2, gridY * 40 + 40 / 2);
     }
 
     public float getfX() {
@@ -45,5 +52,9 @@ public class Position {
 
     public void setY(float y) {
         this.y = y;
+    }
+
+    public boolean isInRangeOf(Position position) {
+        return Math.abs(x - position.getfX()) < PROXIMITY_RANGE && Math.abs(y - position.getfY()) < PROXIMITY_RANGE;
     }
 }

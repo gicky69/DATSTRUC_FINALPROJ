@@ -34,7 +34,6 @@ public class Enemy extends GameObject {
     LinkedList<Line2D.Float> lines;
 
     public Enemy(Position position) {
-        lines = buildLines();
         this.position = position;
         this.pf = new pathfinder();
     }
@@ -50,9 +49,6 @@ public class Enemy extends GameObject {
             System.out.println("Seeking");
             Seeking();
         }
-
-
-        lines = buildLines();
 
         //System.out.println("enemy x: " + position.getfX() + " enemy y: " + position.getfY());
     }
@@ -98,6 +94,10 @@ public class Enemy extends GameObject {
         } else {
             Pursuing = false;
         }
+
+    }
+
+    public void Wander() {
 
     }
 
@@ -230,64 +230,6 @@ public class Enemy extends GameObject {
     //#endregion
 
     //#region FOV
-
-    //#region Raycasting
-    public LinkedList<Line2D.Float> buildLines() {
-        LinkedList<Line2D.Float> lines = new LinkedList<>();
-        for (int i = 0;i < 10;i++) {
-            lines.add(new Line2D.Float(0, 0,0, 0));
-        }
-
-        return lines;
-    }
-
-    public LinkedList<Line2D.Float> ray(LinkedList<Line2D.Float> lines, int x, int y, int resolution, int maxDist) {
-        LinkedList<Line2D.Float> rays = new LinkedList<>();
-        double dir = 0;
-        for (int i = 0;i < resolution;i++) {
-            dir = -Math.PI / 3 + -Math.PI / 3 * ((double) i / resolution);
-
-            if (lookdirection == 1) {
-                dir = Math.PI / 3 + Math.PI / 3 * ((double) i / resolution);
-            }
-
-            float minDist = maxDist;
-            for (Line2D.Float line : lines) {
-                float dist = getRayCast(x+32, y, x +(float) Math.cos(dir) * maxDist, y + (float) Math.sin(dir) * maxDist, line.x1, line.y1, line.x2, line.y2);
-                if (dist < minDist && dist > 0) {
-                    minDist = dist;
-                }
-            }
-            rays.add(new Line2D.Float(x+32,y, x+(float) Math.cos(dir) * minDist, y + (float) Math.sin(dir) * minDist));
-        }
-        return rays;
-    }
-
-    public static float dist(float x1, float y1, float x2, float y2) {
-        return (float) Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
-    }
-
-    public static float getRayCast(float p0_x, float p0_y, float p1_x, float p1_y, float p2_x, float p2_y, float p3_x, float p3_y) {
-        float s1_x, s1_y, s2_x, s2_y;
-        s1_x = p1_x - p0_x;
-        s1_y = p1_y - p0_y;
-        s2_x = p3_x - p2_x;
-        s2_y = p3_y - p2_y;
-
-        float s, t;
-        s = (-s1_y * (p0_x - p2_x) + s1_x * (p0_y - p2_y)) / (-s2_x * s1_y + s1_x * s2_y);
-        t = (s2_x * (p0_y - p2_y) - s2_y * (p0_x - p2_x)) / (-s2_x * s1_y + s1_x * s2_y);
-
-        if (s >= 0 && s <= 1 && t >= 0 && t <= 1) {
-            // Collision detected
-            float x = p0_x + (t * s1_x);
-            float y = p0_y + (t * s1_y);
-
-            return dist(p0_x, p0_y, x, y);
-        }
-
-        return -1; // No collision
-    }
 
     //#endregion
 

@@ -1,5 +1,6 @@
 package map;
 
+import core.Position;
 import tile.Tile;
 import tile.TileManager;
 
@@ -37,6 +38,13 @@ public class GameMap {
                 gridMap.add(tile);
             }
         }
+    }
+
+    public Position getRandomPosition() {
+        int x = (int) (Math.random() *  map.length * 40);
+        int y = (int) (Math.random() * map[0].length * 40);
+
+        return new Position(x, y);
     }
     //# endregion
 }

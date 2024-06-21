@@ -2,6 +2,8 @@ package game;
 
 public class GameLoop implements Runnable {
 
+    public static final int UPDATE_PER_SECOND = 60;
+
     private Game game;
 
     private boolean running;

@@ -1,5 +1,6 @@
 package entity;
 
+import controller.Controller;
 import core.physics2d.Collision;
 import core.Position;
 import core.Size;
@@ -14,6 +15,9 @@ public abstract class GameObject {
     protected Position position;
     protected Size size;
     protected Collision collision;
+    protected Controller controller;
+
+
     public int entitySpeed = 3;
     public String direction = "";
     public boolean collisionOn = false;
@@ -45,5 +49,12 @@ public abstract class GameObject {
         return new Rectangle(position.getX(), position.getY(), size.getWidth(), size.getHeight());
     }
 
+    public void setController(Controller controller) {
+        this.controller = controller;
+    }
+
+    public Controller getController() {
+        return controller;
+    }
 }
 

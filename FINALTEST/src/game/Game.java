@@ -1,5 +1,8 @@
 package game;
 
+import ai.AIManager;
+import controller.Controller;
+import controller.NPCController;
 import controller.PlayerController;
 import core.Position;
 import core.Size;
@@ -16,6 +19,7 @@ import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.Time;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -35,6 +39,11 @@ public class Game {
     public RoundPanel roundPanel;
     public boolean isPaused = false;
 
+    protected Timer time;
+    private AIManager aiManager;
+    private NPCController NPCController = new NPCController();
+
+
     //#endregion
 
     public Game(Size windowsSize, int width, int height, RoundPanel roundPanel) {
@@ -47,6 +56,9 @@ public class Game {
         gameObjects = new ArrayList<>();
         p2d = new Physics2D();
         p2d.game = this;
+
+        time = new Timer();
+        aiManager = new AIManager();
 
 
         AddPlayer(new Position(1500, 1000)); // This adds a player
@@ -86,6 +98,7 @@ public class Game {
         gameObjects.add(enemy);
         enemy.game = this; // Connect the enemy to the game master
         enemy.name = "Enemy";
+        enemy.setController(NPCController);
     }
 
     // Adds an object
@@ -131,6 +144,8 @@ public class Game {
             camera.update(this, frame);
             gameObjects.forEach(GameObject::update);
             map.update();
+            // GameObjects enemy index = 1
+            aiManager.update(this, gameObjects.get(1));
             entityCollision.tileChecker(gameObjects);
         }
         if (subPanels.roundOver && !isPaused) {
@@ -154,7 +169,18 @@ public class Game {
     //#endregion
 
 
+    //#region Getters
     public GameMap getMap() {
         return map;
     }
+
+    public Timer getTime() {
+        return time;
+    }
+
+    public Position getRandomPosition() {
+        return map.getRandomPosition();
+    }
+
+    //#endregion
 }
