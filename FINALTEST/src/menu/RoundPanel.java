@@ -256,7 +256,9 @@ public class RoundPanel extends  JPanel {
             e.printStackTrace();
         }
 
-        updateButtons();
+        updateDifficultyButtons(easyDifficulty, currentRound[0]);
+        updateDifficultyButtons(mediumDifficulty, currentRound[1]);
+        updateDifficultyButtons(hardDifficulty, currentRound[2]);
     }
 
     private void updateDifficultyButtons(List<JButton> difficultyButtons, int currentRound) {
@@ -267,17 +269,16 @@ public class RoundPanel extends  JPanel {
         }
     }
 
-    public void updateButtons() {
-        updateDifficultyButtons(easyDifficulty, currentRound[0]);
-        updateDifficultyButtons(mediumDifficulty, currentRound[1]);
-        updateDifficultyButtons(hardDifficulty, currentRound[2]);
-    }
 
 
 
     public void updateDisplay() {
-        System.out.println("UPDATE DISPLAY");
-        updateButtons();
+        this.currentRound = getPlayerRoundData(accessPanel.playerInUse);
+
+        updateDifficultyButtons(easyDifficulty, currentRound[0]);
+        updateDifficultyButtons(mediumDifficulty, currentRound[1]);
+        updateDifficultyButtons(hardDifficulty, currentRound[2]);
+
         this.revalidate();
         this.repaint();
         this.mainFrame.frame.getContentPane().setVisible(true);
