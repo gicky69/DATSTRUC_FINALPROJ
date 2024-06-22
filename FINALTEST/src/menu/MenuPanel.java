@@ -55,8 +55,8 @@ public class MenuPanel extends JPanel {
 
         htpLabel = new JLabel("How to Play");
         htpLabel.setBounds(255,750,250,150);
-        htpImagenc = new ImageIcon("FINALTEST/images/buttons/htpNotClicked-MenuPanel.png");
-        htpImagec = new ImageIcon("FINALTEST/images/buttons/htpClicked-MenuPanel.png");
+        htpImagenc = new ImageIcon("FINALTEST/images/buttons/rulesNotClicked-MenuPanel.png");
+        htpImagec = new ImageIcon("FINALTEST/images/buttons/rulesClicked-MenuPanel.png");
         htpLabel.setIcon(htpImagenc);
         htpLabel.setVisible(true);
         this.add(htpLabel);
