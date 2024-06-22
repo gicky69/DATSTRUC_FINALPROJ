@@ -39,7 +39,7 @@ public class MenuPanel extends JPanel {
         playLabel.setVisible(true);
         this.add(playLabel);
 
-        shopLabel = new JLabel("Shop");
+        /*shopLabel = new JLabel("Shop");
         shopLabel.setBounds(1650,100,250,150);
         shopImagenc = new ImageIcon("FINALTEST/images/buttons/shopNotClicked-MenuPanel.png");
         shopImagec = new ImageIcon("FINALTEST/images/buttons/shopClicked-MenuPanel.png");
@@ -51,7 +51,7 @@ public class MenuPanel extends JPanel {
         settingImagenc = new ImageIcon("FINALTEST/images/buttons/settingsNotClicked-MenuPanel.png");
         settingImagec = new ImageIcon("FINALTEST/images/buttons/settingsClicked-MenuPanel.png");
         settingsLabel.setIcon(settingImagenc);
-        this.add(settingsLabel);
+        this.add(settingsLabel);*/
 
         htpLabel = new JLabel("How to Play");
         htpLabel.setBounds(255,750,250,150);
@@ -112,7 +112,7 @@ public class MenuPanel extends JPanel {
             }
         });
 
-        shopLabel.addMouseListener(new MouseListener() {
+        /*shopLabel.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 mainFrame.frame.getContentPane().removeAll();
@@ -213,7 +213,7 @@ public class MenuPanel extends JPanel {
                 settingsLabel.setIcon(settingImagenc);
 
             }
-        });
+        });*/
 
         htpLabel.addMouseListener(new MouseListener() {
             @Override
