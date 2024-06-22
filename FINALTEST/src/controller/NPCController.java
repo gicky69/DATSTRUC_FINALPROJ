@@ -61,7 +61,6 @@ public class NPCController implements Controller {
         //
 
 
-
     }
 
     public void stop() {

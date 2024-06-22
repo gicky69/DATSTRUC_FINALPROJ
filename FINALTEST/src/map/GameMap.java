@@ -1,21 +1,29 @@
 package map;
 
 import core.Position;
+import game.Game;
 import tile.Tile;
 import tile.TileManager;
+import tile.pathfinder.pathfinder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class GameMap {
     TileManager tileManager;
+
     private List<Tile> gridMap;
+    private pathfinder pf;
+    private List<Position> pathToFollow;
+
+    // Game
+    private Game game;
 
     public int map[][];
 
     public GameMap(TileManager TM) {
         this.tileManager = TM;
+        this.pf = new pathfinder();
         map = tileManager.getMap();
         setGameTiles();
     }
@@ -40,11 +48,5 @@ public class GameMap {
         }
     }
 
-    public Position getRandomPosition() {
-        int x = (int) (Math.random() *  map.length * 40);
-        int y = (int) (Math.random() * map[0].length * 40);
-
-        return new Position(x, y);
-    }
     //# endregion
 }
