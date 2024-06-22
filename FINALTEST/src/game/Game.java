@@ -15,6 +15,7 @@ import input.KeyInputs;
 import display.GamePanel;
 import map.GameMap;
 import menu.RoundPanel;
+import sun.security.mscapi.CPublicKey;
 import tile.TileManager;
 
 import javax.swing.*;
@@ -42,6 +43,7 @@ public class Game {
     protected Timer time;
     private AIManager aiManager;
     private NPCController NPCController = new NPCController();
+    private int score = 0;
 
 
     //#endregion
@@ -128,6 +130,7 @@ public class Game {
         item.game = this; // Connect the enemy to the game master
         item.name = "Item";
         item.getCollision().setLayerMask(0, true);
+
     }
 
     //#endregion
@@ -147,6 +150,8 @@ public class Game {
             // GameObjects enemy index = 1
             aiManager.update(this, gameObjects.get(1));
             entityCollision.tileChecker(gameObjects);
+
+
         }
         if (subPanels.roundOver && !isPaused) {
             subPanels.setRoundOverPanel(frame, this, roundPanel);

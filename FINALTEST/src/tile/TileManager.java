@@ -28,7 +28,7 @@ public class TileManager {
         this.subPanels = subPanels;
         this.roundPanel = roundPanel;
 
-        tile = new Tile[4];
+        tile = new Tile[5];
         tileMap = new int[gamePanel.maxWorldRow][gamePanel.maxWorldCol];
         getTileImage();
         loadMap("FINALTEST/resources/Map/map" + roundPanel.roundDetail +".txt");
