@@ -1,9 +1,12 @@
 package display;
 
+import core.Size;
 import game.Game;
+import game.GameLoop;
 import menu.RoundPanel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
@@ -89,10 +92,15 @@ public class SubPanels {
         nextRound.addActionListener(e -> {
             roundOver = false;
             roundOverPanel.setVisible(false);
-            System.out.println("Next Round!");
+
+            roundPanel.roundDetail++;
+            System.out.println("ROUND DETAIL ON SUBPANELS: " + roundDetail);
+            updateRoundDetails();
+            double width = roundPanel.getWidth();
+            double height = roundPanel.getHeight();
+            new Thread(new GameLoop(new Game(new Size((int)width, (int)height),(int)width, (int)height, roundPanel))).start();
             gamePanel.revalidate();
             gamePanel.repaint();
-
             game.isPaused = false;
         });
 
@@ -100,24 +108,29 @@ public class SubPanels {
             roundOver = false;
             roundOverPanel.setVisible(false);
 
-            int currentDifficultyindex = 0;
-            switch (roundPanel.currentDifficulty) {
-                case "easy":
-                    break;
-                case "medium":
-                    currentDifficultyindex = 1;
-                    break;
-                case "hard":
-                    currentDifficultyindex = 2;
-                    break;
-            }
-            roundPanel.updatePlayerRoundData(roundPanel.accessPanel.playerInUse, currentDifficultyindex);
+            updateRoundDetails();
             roundPanel.updateDisplay();
             roundPanel.mainFrame.frame.setVisible(true);
             gamePanel.revalidate();
             gamePanel.repaint();
             game.isPaused = false;
         });
+
+    }
+
+    public void updateRoundDetails() {
+        int currentDifficultyindex = 0;
+        switch (roundPanel.currentDifficulty) {
+            case "easy":
+                break;
+            case "medium":
+                currentDifficultyindex = 1;
+                break;
+            case "hard":
+                currentDifficultyindex = 2;
+                break;
+        }
+        roundPanel.updatePlayerRoundData(roundPanel.accessPanel.playerInUse, currentDifficultyindex);
 
     }
 
