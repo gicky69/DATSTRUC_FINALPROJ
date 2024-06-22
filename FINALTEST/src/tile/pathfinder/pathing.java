@@ -105,7 +105,7 @@ public class pathing {
         }while (!open.isEmpty());
 
 
-        return List.of(start);
+        return(null);
     }
 
 
