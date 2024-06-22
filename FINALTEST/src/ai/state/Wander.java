@@ -14,6 +14,7 @@ public class Wander extends AIState {
     private List<Position> targets;
     private pathfinder pf;
     private int currentPathIndex = 1;
+    Position targetPosition;
 
     public Wander() {
         super();
@@ -43,21 +44,26 @@ public class Wander extends AIState {
 
     //#region AI Movement
     private void getRandomPosition(Game game, GameObject entity) {
-        int x = (int) (Math.random() * game.getMap().map[0].length);
-        System.out.println("X: " + x);
-        int y = (int) (Math.random() * game.getMap().map.length);
-        System.out.println("Y: " + y);
-
+        int x, y;
+        do {
+            x = (int) (Math.random() * game.getMap().map[0].length);
+            y = (int) (Math.random() * game.getMap().map.length);
+        } while (game.getMap().map[y][x] != 0 || game.getMap().map[y][x] == 2);
 
         Position startPosition = entity.getPosition();
-        Position targetPosition = new Position(x * 40, y * 40);
+        targetPosition = new Position(x * 40, y * 40);
         System.out.println("Target Position: " + targetPosition.getfX() + ", " + targetPosition.getfY());
 
         targets = pf.findPath(startPosition, targetPosition, game.getMap());
+        currentPathIndex = 1;
+        System.out.println("CurrentPathIndex: " + currentPathIndex);
+        System.out.println("target size: " + targets.size());
+        move(entity);
     }
 
     private void move(GameObject entity) {
         if (currentPathIndex < targets.size()) {
+            System.out.println("Moving...");
             Position start = entity.getPosition();
             Position target = targets.get(currentPathIndex);
             entity.movement.MoveTowards(start, target);
@@ -69,9 +75,9 @@ public class Wander extends AIState {
     //#endregion
 
     private boolean arrived(GameObject entity) {
-        if (entity.getPosition().isInRangeOf(targets.get(0))) {
+        if (entity.getPosition().isInRangeOf(targetPosition)) {
             System.out.println("Arrived at target");
         }
-        return entity.getPosition().isInRangeOf(targets.get(0));
+        return entity.getPosition().isInRangeOf(targetPosition);
     }
 }

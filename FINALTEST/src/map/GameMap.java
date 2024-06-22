@@ -48,5 +48,14 @@ public class GameMap {
         }
     }
 
+    public void isPathable(int x, int y) {
+        if (map[y][x] == 1) {
+            System.out.println("Pathable");
+        } else {
+            System.out.println("Not Pathable");
+        }
+
+    }
+
     //# endregion
 }
