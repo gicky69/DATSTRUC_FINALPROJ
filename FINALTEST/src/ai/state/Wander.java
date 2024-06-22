@@ -32,6 +32,8 @@ public class Wander extends AIState {
             getRandomPosition(game, entity);
         }
 
+        System.out.println("Current Position: " + entity.getPosition().getfX() + ", " + entity.getPosition().getfY());
+
         move(entity);
 
         if (arrived(entity)) {
@@ -50,7 +52,6 @@ public class Wander extends AIState {
 
         Position startPosition = entity.getPosition();
         Position targetPosition = new Position(x * 40, y * 40);
-        System.out.println("Target Position: " + targetPosition.getfX() + ", " + targetPosition.getfY());
 
         targets = pf.findPath(startPosition, targetPosition, game.getMap());
     }
