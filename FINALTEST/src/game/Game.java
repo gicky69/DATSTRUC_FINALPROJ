@@ -107,19 +107,19 @@ public class Game {
         gameObjects.add(wall);
         wall.game = this; // Connect the enemy to the game master
         wall.name = "Wall";
-        wall.getCollision().setLayerMask(0, true);
+//        wall.getCollision().setLayerMask(0, true);
     }
 
     public void addWalls() {
-        int[][] tiles = map.map;
-        for (int y = 0; y < tiles.length; y++) {
-            for (int x = 0; x < tiles[y].length; x++) {
-                // add each walls
-                if (tiles[y][x] == 0 || tiles[y][x] == 2) {
-                    AddObject(2, new Position(x * 40, y * 40));
-                }
-            }
-        }
+//        int[][] tiles = map.map;
+//        for (int y = 0; y < tiles.length; y++) {
+//            for (int x = 0; x < tiles[y].length; x++) {
+//                // add each walls
+//                if (tiles[y][x] == 0 || tiles[y][x] == 2) {
+//                    AddObject(2, new Position(x * 40, y * 40));
+//                }
+//            }
+//        }
     }
 
     public void AddItem(Position pos) {
@@ -176,10 +176,6 @@ public class Game {
 
     public Timer getTime() {
         return time;
-    }
-
-    public Position getRandomPosition() {
-        return map.getRandomPosition();
     }
 
     //#endregion

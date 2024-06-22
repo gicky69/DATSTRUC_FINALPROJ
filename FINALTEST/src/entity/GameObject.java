@@ -1,6 +1,7 @@
 package entity;
 
 import controller.Controller;
+import core.Movement;
 import core.physics2d.Collision;
 import core.Position;
 import core.Size;
@@ -17,16 +18,17 @@ public abstract class GameObject {
     protected Collision collision;
     protected Controller controller;
 
-
     public int entitySpeed = 3;
     public String direction = "";
     public boolean collisionOn = false;
     public Game game;
     public String name = "entity";
+    public Movement movement;
 
     public GameObject() {
         size = new Size(64, 64);
         collision = new Collision();
+        movement = new Movement();
         collision.BoxCollision(size.getWidth(), size.getHeight());
     }
 

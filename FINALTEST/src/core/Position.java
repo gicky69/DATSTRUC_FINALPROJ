@@ -57,4 +57,12 @@ public class Position {
     public boolean isInRangeOf(Position position) {
         return Math.abs(x - position.getfX()) < PROXIMITY_RANGE && Math.abs(y - position.getfY()) < PROXIMITY_RANGE;
     }
+
+    public void setfX(float v) {
+        x = v;
+    }
+
+    public void setfY(float v) {
+        y = v;
+    }
 }
