@@ -43,7 +43,6 @@ public class Wander extends AIState {
 
     //#region AI Movement
     private void getRandomPosition(Game game, GameObject entity) {
-        // Limit x to 40 only
         int x = (int) (Math.random() * game.getMap().map[0].length);
         System.out.println("X: " + x);
         int y = (int) (Math.random() * game.getMap().map.length);
@@ -52,6 +51,7 @@ public class Wander extends AIState {
 
         Position startPosition = entity.getPosition();
         Position targetPosition = new Position(x * 40, y * 40);
+        System.out.println("Target Position: " + targetPosition.getfX() + ", " + targetPosition.getfY());
 
         targets = pf.findPath(startPosition, targetPosition, game.getMap());
     }
@@ -69,6 +69,9 @@ public class Wander extends AIState {
     //#endregion
 
     private boolean arrived(GameObject entity) {
+        if (entity.getPosition().isInRangeOf(targets.get(0))) {
+            System.out.println("Arrived at target");
+        }
         return entity.getPosition().isInRangeOf(targets.get(0));
     }
 }

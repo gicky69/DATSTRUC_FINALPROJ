@@ -2,14 +2,18 @@ package core;
 
 public class Position {
 
-    public static int PROXIMITY_RANGE = 50;
+    public static int PROXIMITY_RANGE = 5;
 
     private float x;
     private float y;
+    private int ix;
+    private int iy;
 
     public Position(float x, float y) {
         this.x = x;
         this.y = y;
+        this.ix = Math.round(x);
+        this.iy = Math.round(y);
     }
 
     public int getX() {
@@ -30,14 +34,6 @@ public class Position {
         return (int) y / 40;
     }
 
-    public static Position copyOf(Position position) {
-        return new Position(position.getX(), position.getY());
-    }
-
-    public static Position ofGridPosition(int gridX, int gridY) {
-        return new Position(gridX * 40 + 40 / 2, gridY * 40 + 40 / 2);
-    }
-
     public float getfX() {
         return x;
     }
@@ -55,7 +51,12 @@ public class Position {
     }
 
     public boolean isInRangeOf(Position position) {
-        return Math.abs(x - position.getfX()) < PROXIMITY_RANGE && Math.abs(y - position.getfY()) < PROXIMITY_RANGE;
+        System.out.println("Current Position " + getfX() + " " + getfY());
+        System.out.println("Target Position " + position.getfX() + " " + position.getfY());
+        System.out.println((getfX() - position.getfX()) + " " + (getfY() - position.getfY()));
+        boolean inRange = Math.abs(getfX() - position.getfX()) < PROXIMITY_RANGE && Math.abs(getfY() - position.getfY()) < PROXIMITY_RANGE;
+        System.out.println("In range: " + inRange);
+        return inRange;
     }
 
     public void setfX(float v) {
