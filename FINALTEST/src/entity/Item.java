@@ -12,7 +12,7 @@ public class Item extends GameObject {
 
     public Item(Position position) {
         this.position = position; // from gameobject position, instantiate the position of the item
-        itemImage = new ImageIcon("FINALTEST/images/item.gif");
+        itemImage = new ImageIcon("FINALTEST/images/Items/money.gif");
         this.isActive = true;
     }
 
