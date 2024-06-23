@@ -520,7 +520,7 @@ public class pathfinder {
                 }
             }
             currentpos = currentNode;
-            path.add(new Position (currentpos.getfX() * tileSizeX, currentpos.getfY()*tileSizeY));
+            path.add(new Position (currentpos.getfX() * tileSizeX + tileSizeX / 2, currentpos.getfY()*tileSizeY + tileSizeY / 2));
             pathc++;
             //System.out.println("path cost: " + currentMoveCost);
             if (currentMoveCost==-1) {

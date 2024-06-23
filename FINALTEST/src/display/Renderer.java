@@ -30,6 +30,9 @@ public class Renderer {
             // display item collection state
             graphics.drawString("Item Collection Status: " + player.itemCollected,20,90);
 
+            // draw player footstep radius
+            player.getFootstep().draw((Graphics2D) graphics, player.getPosition());
+
             // Draw the player's hitbox for debugging
             if (player != null) {
                 graphics.setColor(Color.RED);
@@ -37,6 +40,8 @@ public class Renderer {
                 graphics.drawRect(hitbox.x - camera.getPosition().getX()-30, hitbox.y - camera.getPosition().getY()-40, hitbox.width, hitbox.height);
             }
         });
+
+
     }
 
     public void renderMap(GamePanel gamePanel, Graphics2D g2) {

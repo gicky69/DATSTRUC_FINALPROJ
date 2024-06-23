@@ -23,6 +23,13 @@ public class Movement {
             position.setfX(position.getfX() - xvel * 4);
             position.setfY(position.getfY() - yvel * 4);
         }
+
+        //# region Collision
+
+
+
+
+        //#endregion
     }
 
     public void stop() {
