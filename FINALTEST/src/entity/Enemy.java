@@ -49,6 +49,7 @@ public class Enemy extends GameObject {
 //        } else {
 //            Seeking();
 //        }
+//        Pursue();
 
         //System.out.println("enemy x: " + position.getfX() + " enemy y: " + position.getfY());
     }
