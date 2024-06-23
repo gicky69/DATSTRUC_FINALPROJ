@@ -16,7 +16,9 @@ public class pathfinder {
      */
 
     public static int printInfo = 0;
-
+    private static int[] antiLoop = new int[1];
+    private static int maxLoops = 500;
+    private static boolean failed = false;
 
     public static List<Position> findPath(Position start, Position target, GameMap gameMap) {
         float tileSizeX = 40;
@@ -59,7 +61,11 @@ public class pathfinder {
 
         // Scan to create pathfinding
         while (true) {
-
+            if (antiLoop[0]>maxLoops) {
+                failed = true;
+                break;
+            }
+            antiLoop[0]++;
             //To find the node with the lowest cost
             int currentNodeCost = -1; //Total Cost
             int currentMoveCost = 0; //Move Cost
@@ -299,6 +305,12 @@ public class pathfinder {
         }
         //System.out.println("iterations: " + pathc);
         //pathc = 0;
+        if (failed) {
+            path.clear();
+            System.out.println("Cannot find a path from origin to target");
+            path.add(target);
+            return path;
+        }
 
         moveCosts[sgpos.getX()][sgpos.getY()] = -2; //Set the identifier for start node
 
@@ -308,6 +320,11 @@ public class pathfinder {
         int countup = 0;
         // Draw a path from the end to start
         while (true) {
+            if (antiLoop[0]>maxLoops) {
+                failed = true;
+                break;
+            }
+            antiLoop[0]++;
             openedNodes.clear();
 
             int nodex = currentpos.getX();
@@ -510,6 +527,13 @@ public class pathfinder {
             if (currentMoveCost==-1) {
                 break;
             }
+        }
+
+        if (failed) {
+            path.clear();
+            System.out.println("Cannot draw the path from the end to the start, this error should never ever happen, if this is happening please contact .lednar at Discord, or tell CarlAndrew to contact Randell");
+            path.add(target);
+            return path;
         }
 
         if (printInfo > 0) {
