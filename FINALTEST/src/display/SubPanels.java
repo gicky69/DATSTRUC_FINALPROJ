@@ -10,6 +10,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +25,8 @@ public class SubPanels {
     public JPanel pausePanel, roundOverPanel;
     public boolean roundOver = false;
     int roundDetail;
+    JLabel pauseLB, resumeBGLB, quitBGLB;
+    ImageIcon pauseIMG, resumeNC, resumeC, quitNC, quitC;
 
     public void setRoundDetail(int roundDetail, RoundPanel roundPanel) {
         this.roundDetail = roundDetail;
@@ -37,7 +41,14 @@ public class SubPanels {
     public void setPausePanel(GamePanel gamePanel, Game game) {
         this.gamePanel = gamePanel;
         pausePanel = new JPanel();
+        pausePanel.setLayout(null);
         pausePanel.setVisible(false);
+
+        pauseLB = new JLabel();
+        pauseLB.setLayout(null);
+        pauseLB.setBounds(0,0,500,500);
+        pauseIMG = new ImageIcon("FINALTEST/images/MainIBG/pauseIMG-PausePanel.png");
+        pauseLB.setIcon(pauseIMG);
         pausePanel.setSize(500, 500);
 
         gamePanel.addComponentListener(new ComponentAdapter() {
@@ -49,18 +60,101 @@ public class SubPanels {
             }
         });
 
-        JButton resumeButton = new JButton("Resume");
-        JButton quitRoundButton = new JButton("Quit Round");
-        resumeButton.setSize(100, 50);
-        pausePanel.add(resumeButton);
-        pausePanel.add(quitRoundButton);
+        resumeBGLB = new JLabel();
+        resumeNC = new ImageIcon("FINALTEST/images/buttons/resumeNotClicked-PausePanel.png");
+        resumeBGLB.setLayout(null);
+        resumeBGLB.setBounds(50,250,150,100);
+        resumeBGLB.setIcon(resumeNC);
 
-        resumeButton.addActionListener(e -> {
-            game.isPaused = false;
-            pausePanel.setVisible(false);
+        resumeBGLB.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                game.isPaused = false;
+                pausePanel.setVisible(false);
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                resumeC = new ImageIcon("FINALTEST/images/buttons/resumeClicked-PausePanel.png");
+                resumeBGLB.setIcon(resumeC);
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                resumeBGLB.setIcon(resumeNC);
+
+            }
         });
 
-        quitRoundButton.addActionListener(e -> {
+        quitBGLB = new JLabel();
+        quitNC = new ImageIcon("FINALTEST/images/buttons/quitNotClicked-PausePanel.png");
+        quitBGLB.setLayout(null);
+        quitBGLB.setBounds(295,250,150,100);
+        quitBGLB.setIcon(quitNC);
+
+        quitBGLB.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                game.isPaused = false;
+                roundOver = true;
+                pausePanel.setVisible(false);
+                roundPanel.updateDisplay();
+                roundPanel.mainFrame.frame.setVisible(true);
+                gamePanel.revalidate();
+                gamePanel.repaint();
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                quitC = new ImageIcon("FINALTEST/images/buttons/quitClicked-PausePanel.png");
+                quitBGLB.setIcon(quitC);
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                quitBGLB.setIcon(quitNC);
+
+            }
+        });
+
+
+        /*JButton resumeButton = new JButton("Resume");
+        JButton quitRoundButton = new JButton("Quit Round");
+        resumeButton.setSize(100, 50);*/
+        pausePanel.add(resumeBGLB);
+        pausePanel.add(quitBGLB);
+        pausePanel.add(pauseLB);
+
+        /*resumeButton.addActionListener(e -> {
+            game.isPaused = false;
+            pausePanel.setVisible(false);
+        });*/
+
+        /*quitRoundButton.addActionListener(e -> {
             game.isPaused = false;
             roundOver = true;
             pausePanel.setVisible(false);
@@ -68,7 +162,7 @@ public class SubPanels {
             roundPanel.mainFrame.frame.setVisible(true);
             gamePanel.revalidate();
             gamePanel.repaint();
-        });
+        });*/
 
         gamePanel.setLayout(null);
         gamePanel.add(pausePanel);
