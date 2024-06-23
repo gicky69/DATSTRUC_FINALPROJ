@@ -93,9 +93,9 @@ public class SubPanels {
             roundOver = false;
             roundOverPanel.setVisible(false);
 
+            updateRoundDetails();
             roundPanel.roundDetail++;
             System.out.println("ROUND DETAIL ON SUBPANELS: " + roundDetail);
-            updateRoundDetails();
             double width = roundPanel.getWidth();
             double height = roundPanel.getHeight();
             new Thread(new GameLoop(new Game(new Size((int)width, (int)height),(int)width, (int)height, roundPanel))).start();

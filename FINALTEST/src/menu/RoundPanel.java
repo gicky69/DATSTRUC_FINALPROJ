@@ -10,8 +10,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
 
 public class RoundPanel extends  JPanel {
@@ -225,7 +224,19 @@ public class RoundPanel extends  JPanel {
                         roundData[i] = Integer.parseInt(roundDataStrings[i]);
                     }
 
-                    roundData[difficultyIndex] += 1;
+
+                    Map<String, Integer> difficultyIndexMap = new HashMap<>();
+                    difficultyIndexMap.put("easy", 0);
+                    difficultyIndexMap.put("medium", 1);
+                    difficultyIndexMap.put("hard", 2);
+
+                    // check conditions for updating the round data
+                    int difficultyIndexNum = difficultyIndexMap.get(currentDifficulty);
+                    if (roundData[difficultyIndexNum] >= currentRound[difficultyIndexNum] &&
+                            roundDetail % 10 == currentRound[difficultyIndexNum]
+                            && roundData[difficultyIndexNum] <= 5) {
+                        roundData[difficultyIndexNum] += 1;
+                    }
 
                     StringBuilder sb = new StringBuilder();
                     for (int i = 0; i < roundData.length; i++) {
