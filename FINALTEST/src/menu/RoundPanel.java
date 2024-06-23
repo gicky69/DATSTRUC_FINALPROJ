@@ -39,11 +39,11 @@ public class RoundPanel extends  JPanel {
         // EASY DIFFICULTY
         easyDifficulty = new ArrayList<>();
         JLabel easyLabel = new JLabel("Easy Difficulty");
-        Font easyFont = new Font("Constantia", Font.BOLD, 20);
+        /*Font easyFont = new Font("Constantia", Font.BOLD, 20);
         easyLabel.setFont(easyFont);
         easyLabel.setForeground(Color.white);
         easyLabel.setBounds(420, 250, 200, 50);
-        easyLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        easyLabel.setHorizontalAlignment(SwingConstants.CENTER);*/
         this.add(easyLabel);
         for (int roundNum = 1; roundNum <= 5; roundNum++) {
             JButton roundButton = new JButton("Round " + roundNum);
@@ -53,7 +53,7 @@ public class RoundPanel extends  JPanel {
             roundButton.setForeground(Color.white);
 
             roundButton.setEnabled(roundNum <= currentRound[0]);
-            roundButton.setBounds(420, 200 + (roundNum * 100), 200, 50);
+            roundButton.setBounds(300, 300 + (roundNum * 100), 200, 50);
             this.add(roundButton);
             easyDifficulty.add(roundButton);
 
@@ -81,11 +81,11 @@ public class RoundPanel extends  JPanel {
         // MEDIUM DIFFICULTY
         mediumDifficulty = new ArrayList<>();
         JLabel mediumLabel = new JLabel("Medium Difficulty");
-        Font mediumFont = new Font("Constantia", Font.BOLD, 20);
+        /*Font mediumFont = new Font("Constantia", Font.BOLD, 20);
         mediumLabel.setFont(mediumFont);
         mediumLabel.setForeground(Color.white);
-        mediumLabel.setBounds(870, 250, 200, 50);
-        mediumLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        mediumLabel.setBounds(850, 300, 200, 50);
+        mediumLabel.setHorizontalAlignment(SwingConstants.CENTER);*/
         this.add(mediumLabel);
         for (int roundNum = 1; roundNum <= 5; roundNum++) {
             JButton roundButton = new JButton("Round " + roundNum);
@@ -94,7 +94,7 @@ public class RoundPanel extends  JPanel {
             roundButton.setBackground(Color.blue.darker());
             roundButton.setForeground(Color.white);
             roundButton.setEnabled(roundNum <= currentRound[1]);
-            roundButton.setBounds(872, 200 + (roundNum * 100), 200, 50);
+            roundButton.setBounds(850, 300 + (roundNum * 100), 200, 50);
             this.add(roundButton);
             mediumDifficulty.add(roundButton);
 
@@ -121,11 +121,11 @@ public class RoundPanel extends  JPanel {
         // HARD DIFFICULTY
         hardDifficulty = new ArrayList<>();
         JLabel hardLabel = new JLabel("Hard Difficulty");
-        Font hardFont = new Font("Constantia", Font.BOLD, 20);
+        /*Font hardFont = new Font("Constantia", Font.BOLD, 20);
         hardLabel.setFont(hardFont);
         hardLabel.setForeground(Color.white);
-        hardLabel.setBounds(1320, 250, 200, 50);
-        hardLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        hardLabel.setBounds(1300, 300, 200, 50);
+        hardLabel.setHorizontalAlignment(SwingConstants.CENTER);*/
         this.add(hardLabel);
         for (int roundNum = 1; roundNum <= 5; roundNum++) {
             JButton roundButton = new JButton("Round " + roundNum);
@@ -134,7 +134,7 @@ public class RoundPanel extends  JPanel {
             roundButton.setBackground(Color.blue.darker());
             roundButton.setForeground(Color.white);
             roundButton.setEnabled(roundNum <= currentRound[2]);
-            roundButton.setBounds(1320, 200 + (roundNum * 100), 200, 50);
+            roundButton.setBounds(1400, 300 + (roundNum * 100), 200, 50);
             this.add(roundButton);
             hardDifficulty.add(roundButton);
 
@@ -168,7 +168,7 @@ public class RoundPanel extends  JPanel {
         roundLB = new JLabel();
         roundLB.setLayout(null);
         roundLB.setBounds(0,0,1920,1080);
-        roundIMG = new ImageIcon("FINALTEST/images/GamePanel/roundBG-RoundPanel.png");
+        roundIMG = new ImageIcon("FINALTEST/images/MainIBG/roundBG-RoundPanel.png");
         roundLB.setIcon(roundIMG);
         this.add(roundLB);
 
