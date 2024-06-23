@@ -28,7 +28,6 @@ public class Item extends GameObject {
                 this.isActive = false; // make the item cold after collection
                 itemImage = null; // remove the item image on the map
                 System.out.println("ITEM COLLECTED");
-
             }
         }
 

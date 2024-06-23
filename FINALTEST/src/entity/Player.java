@@ -15,6 +15,8 @@ public class Player extends GameObject {
 
     ImageIcon myAmeL, myAmeR, myAmeU, myAmeD, myAmeDefaultR, myAmeDefaultL;
 
+
+
     //#endregion
 
     //#region Player Init

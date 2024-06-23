@@ -1,7 +1,6 @@
 package game;
 
 import ai.AIManager;
-import controller.Controller;
 import controller.NPCController;
 import controller.PlayerController;
 import core.Position;
@@ -10,17 +9,13 @@ import core.physics2d.Physics2D;
 import display.Camera;
 import display.SubPanels;
 import entity.*;
+
 import input.KeyInputs;
 
 import display.GamePanel;
 import map.GameMap;
 import menu.RoundPanel;
-//import sun.security.mscapi.CPublicKey;
-import tile.TileManager;
 
-import javax.swing.*;
-import java.awt.*;
-import java.sql.Time;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -43,9 +38,6 @@ public class Game {
     protected Timer time;
     private AIManager aiManager;
     private NPCController NPCController = new NPCController();
-    private int score = 0;
-
-
     //#endregion
 
     public Game(Size windowsSize, int width, int height, RoundPanel roundPanel) {
@@ -61,7 +53,6 @@ public class Game {
 
         time = new Timer();
         aiManager = new AIManager();
-
 
         AddPlayer(new Position(1500, 1000)); // This adds a player
         AddEnemy(new Position(600, 500)); // This adds an enemy
@@ -130,7 +121,6 @@ public class Game {
         item.game = this; // Connect the enemy to the game master
         item.name = "Item";
         item.getCollision().setLayerMask(0, true);
-
     }
 
     //#endregion
@@ -150,8 +140,6 @@ public class Game {
             // GameObjects enemy index = 1
             aiManager.update(this, gameObjects.get(1));
             entityCollision.tileChecker(gameObjects);
-
-
         }
         if (subPanels.roundOver && !isPaused) {
             subPanels.setRoundOverPanel(frame, this, roundPanel);
