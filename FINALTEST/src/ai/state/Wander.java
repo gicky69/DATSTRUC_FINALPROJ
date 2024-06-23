@@ -30,10 +30,11 @@ public class Wander extends AIState {
     @Override
     public void update(Game game, GameObject entity) {
         if (targets.isEmpty()) {
+            System.out.println("Find Target again NIGGA");
             getRandomPosition(game, entity);
         }
 
-        move(entity);
+        move(game, entity);
 
         if (arrived(entity)) {
             entity.movement.stop();
@@ -58,16 +59,22 @@ public class Wander extends AIState {
 
         //System.out.println("Target Position: " + targetPosition.getfX() + ", " + targetPosition.getfY());
 
-        pf.printInfo = 2;
+        pf.printInfo = 0;
         targets = pathfinder.findPath(startPosition, targetPosition, game.getMap());
         System.out.println("Path: " + targets.get(0).getfX() + ", " + targets.get(0).getfY());
         currentPathIndex = 1;
+
+        if (targets.size() <= 1) {
+            targets.clear();
+            targets = pathfinder.findPath(startPosition, targetPosition, game.getMap());
+        }
+
         System.out.println("CurrentPathIndex: " + currentPathIndex);
         System.out.println("target size: " + targets.size());
-        move(entity);
+        move(game, entity);
     }
 
-    private void move(GameObject entity) {
+    private void move(Game game, GameObject entity) {
         if (currentPathIndex < targets.size()) {
             System.out.println("Moving...");
             Position start = entity.getPosition();

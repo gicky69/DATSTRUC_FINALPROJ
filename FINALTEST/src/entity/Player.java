@@ -6,6 +6,8 @@ import core.Position;
 
 import javax.swing.*;
 import java.awt.*;
+
+import core.gameplay.footstep;
 import display.GamePanel;
 import display.ImageLoader;
 import display.SubPanels;
@@ -36,6 +38,9 @@ public class Player extends GameObject {
         this.gamePanel = gamePanel;
         this.subPanels = subPanels;
         imageLoader = new ImageLoader();
+
+        // Initialize Footstep
+        footstep = new footstep(0f, 0f);
 
         imageLoader.loadImage("player");
         frames = imageLoader.loadSpriteSheet("player", 48, 64, 4, 4);
@@ -77,15 +82,27 @@ public class Player extends GameObject {
             direction = "right";
             deltaX += entitySpeed;
             imageLoader.currentDirectionIndex = 3;
-        } if (!controller.isRequestingUp() && !controller.isRequestingDown() && !controller.isRequestingLeft() && !controller.isRequestingRight()) {
+        }
+
+        if (!controller.isRequestingUp() && !controller.isRequestingDown() && !controller.isRequestingLeft() && !controller.isRequestingRight()) {
             deltaX = 0;
             deltaY = 0;
+            footstep.setRadius(0.0f);
+            footstep.setNoise(0.0f);
             imageLoader.currentFrameIndex = 0;
-        } if (controller.isSprinting()) {
-            entitySpeed = 5;
-        } else {
-            entitySpeed = 3;
+        }
+
+        if (controller.isSprinting()) {
+            footstep.setRadius(5.5f);
+            footstep.setNoise(3.5f);
+            entitySpeed = 6;
+    } else if (deltaX != 0 || deltaY != 0) {
+            footstep.setRadius(1.5f);
+            footstep.setNoise(1.0f);
+            entitySpeed = 4;
         } if (controller.isSneaking()) {
+            footstep.setNoise(0.5f);
+            footstep.setRadius(0.5f);
             entitySpeed = 1.5;
             imageLoader.frameDelay = 350;
         } if (controller.isPaused()) {
@@ -102,6 +119,8 @@ public class Player extends GameObject {
                 deltaY = (int) (deltaY / length * entitySpeed);
             }
         }
+
+        System.out.println("Footstep: " + footstep.getRadius() + ", " + footstep.getNoise());
 
         position = new Position(position.getX() + deltaX, position.getY());
 
@@ -154,6 +173,11 @@ public class Player extends GameObject {
 
     public Controller getController() {
         return controller;
+    }
+
+    // get Footstep
+    public footstep getFootstep() {
+        return footstep;
     }
 
 }

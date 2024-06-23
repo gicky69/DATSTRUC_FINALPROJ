@@ -58,7 +58,7 @@ public class pathfinder {
         int pathc = 0;
 
         openedNodes.add(sgpos);
-        totalCosts[tgpos.getX()][tgpos.getY()] = -99999; //Set the identifier for target node
+        totalCosts[tgpos.getX()][tgpos.getY()] = -9999; //Set the identifier for target node
 
         antiLoop[0]=0;
         // Scan to create pathfinding
@@ -107,7 +107,7 @@ public class pathfinder {
             cnodex = nodex;
             cnodey = nodey-1;
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
-                if (totalCosts[cnodex][cnodey] == -99) {
+                if (totalCosts[cnodex][cnodey] == -9999) {
                     //System.out.println("Target Found at: (" + cnodex+ ", " + cnodey +")");
                     break;
                 }
@@ -116,7 +116,7 @@ public class pathfinder {
             cnodex = nodex-1;
             cnodey = nodey;
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
-                if (totalCosts[cnodex][cnodey] == -99) {
+                if (totalCosts[cnodex][cnodey] == -9999) {
                     //System.out.println("Target Found at: (" + cnodex+ ", " + cnodey +")");
                     break;
                 }
@@ -125,7 +125,7 @@ public class pathfinder {
             cnodex = nodex+1;
             cnodey = nodey;
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
-                if (totalCosts[cnodex][cnodey] == -99) {
+                if (totalCosts[cnodex][cnodey] == -9999) {
                     //System.out.println("Target Found at: (" + cnodex+ ", " + cnodey +")");
                     break;
                 }
@@ -134,7 +134,7 @@ public class pathfinder {
             cnodex = nodex;
             cnodey = nodey+1;
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
-                if (totalCosts[cnodex][cnodey] == -99) {
+                if (totalCosts[cnodex][cnodey] == -9999) {
                     //System.out.println("Target Found at: (" + cnodex+ ", " + cnodey +")");
                     break;
                 }
@@ -147,7 +147,7 @@ public class pathfinder {
             cnodey = nodey-1;
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
                 if (totalCosts[cnodex][nodey] != -1 && totalCosts[nodex][cnodey] != -1) {
-                    if (totalCosts[cnodex][cnodey] == -99) {
+                    if (totalCosts[cnodex][cnodey] == -9999) {
                         //System.out.println("Target diagonally Found at: (" + cnodex+ ", " + cnodey +")");
                         break;
                     }
@@ -158,7 +158,7 @@ public class pathfinder {
             cnodey = nodey-1;
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
                 if (totalCosts[cnodex][nodey] != -1 && totalCosts[nodex][cnodey] != -1) {
-                    if (totalCosts[cnodex][cnodey] == -99) {
+                    if (totalCosts[cnodex][cnodey] == -9999) {
                         //System.out.println("Target diagonally Found at: (" + cnodex+ ", " + cnodey +")");
                         break;
                     }
@@ -169,7 +169,7 @@ public class pathfinder {
             cnodey = nodey+1;
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
                 if (totalCosts[cnodex][nodey] != -1 && totalCosts[nodex][cnodey] != -1) {
-                    if (totalCosts[cnodex][cnodey] == -99) {
+                    if (totalCosts[cnodex][cnodey] == -9999) {
                         //System.out.println("Target diagonally Found at: (" + cnodex+ ", " + cnodey +")");
                         break;
                     }
@@ -180,7 +180,7 @@ public class pathfinder {
             cnodey = nodey+1;
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
                 if (totalCosts[cnodex][nodey] != -1 && totalCosts[nodex][cnodey] != -1) {
-                    if (totalCosts[cnodex][cnodey] == -99) {
+                    if (totalCosts[cnodex][cnodey] == -9999) {
                         //System.out.println("Target diagonally Found at: (" + cnodex+ ", " + cnodey +")");
                         break;
                     }
@@ -317,12 +317,12 @@ public class pathfinder {
         //pathc = 0;
         if (failed) {
             path.clear();
-            //System.out.println("Cannot find a path from origin to target");
+            System.out.println("Cannot find a path from origin to target");
             path.add(target);
             return path;
         }
 
-        moveCosts[sgpos.getX()][sgpos.getY()] = -9999; //Set the identifier for start node
+        moveCosts[sgpos.getX()][sgpos.getY()] = -19999; //Set the identifier for start node
 
         openedNodes.clear();
         Position currentpos = tgpos;
@@ -352,7 +352,7 @@ public class pathfinder {
             cnodex = nodex;
             cnodey = nodey-1;
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
-                if (moveCosts[cnodex][cnodey] == -2) {
+                if (moveCosts[cnodex][cnodey] == -19999) {
                     path.add(new Position(cnodex*tileSizeX, cnodey*tileSizeX));
                     break;
                 }
@@ -361,7 +361,7 @@ public class pathfinder {
             cnodex = nodex-1;
             cnodey = nodey;
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
-                if (moveCosts[cnodex][cnodey] == -2) {
+                if (moveCosts[cnodex][cnodey] == -19999) {
                     path.add(new Position(cnodex*tileSizeX, cnodey*tileSizeX));
                     break;
                 }
@@ -370,7 +370,7 @@ public class pathfinder {
             cnodex = nodex+1;
             cnodey = nodey;
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
-                if (moveCosts[cnodex][cnodey] == -2) {
+                if (moveCosts[cnodex][cnodey] == -19999) {
                     path.add(new Position(cnodex*tileSizeX, cnodey*tileSizeX));
                     break;
                 }
@@ -379,7 +379,7 @@ public class pathfinder {
             cnodex = nodex;
             cnodey = nodey+1;
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
-                if (moveCosts[cnodex][cnodey] == -2) {
+                if (moveCosts[cnodex][cnodey] == -19999) {
                     path.add(new Position(cnodex*tileSizeX, cnodey*tileSizeX));
                     break;
                 }
@@ -392,7 +392,7 @@ public class pathfinder {
             cnodey = nodey-1;
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
                 if (totalCosts[cnodex][nodey] != -1 && totalCosts[nodex][cnodey] != -1) {
-                    if (moveCosts[cnodex][cnodey] == -2) {
+                    if (moveCosts[cnodex][cnodey] == -19999) {
                         path.add(new Position(cnodex*tileSizeX, cnodey*tileSizeX));
                         break;
                     }
@@ -403,7 +403,7 @@ public class pathfinder {
             cnodey = nodey-1;
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
                 if (totalCosts[cnodex][nodey] != -1 && totalCosts[nodex][cnodey] != -1) {
-                    if (moveCosts[cnodex][cnodey] == -2) {
+                    if (moveCosts[cnodex][cnodey] == -19999) {
                         path.add(new Position(cnodex*tileSizeX, cnodey*tileSizeX));
                         break;
                     }
@@ -414,7 +414,7 @@ public class pathfinder {
             cnodey = nodey+1;
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
                 if (totalCosts[cnodex][nodey] != -1 && totalCosts[nodex][cnodey] != -1) {
-                    if (moveCosts[cnodex][cnodey] == -2) {
+                    if (moveCosts[cnodex][cnodey] == -19999) {
                         path.add(new Position(cnodex*tileSizeX, cnodey*tileSizeX));
                         break;
                     }
@@ -425,7 +425,7 @@ public class pathfinder {
             cnodey = nodey+1;
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
                 if (totalCosts[cnodex][nodey] != -1 && totalCosts[nodex][cnodey] != -1) {
-                    if (moveCosts[cnodex][cnodey] == -2) {
+                    if (moveCosts[cnodex][cnodey] == -19999) {
                         path.add(new Position(cnodex*tileSizeX, cnodey*tileSizeX));
                         break;
                     }

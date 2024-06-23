@@ -2,6 +2,7 @@ package entity;
 
 import controller.Controller;
 import core.Movement;
+import core.gameplay.footstep;
 import core.physics2d.Collision;
 import core.Position;
 import core.Size;
@@ -16,6 +17,7 @@ public abstract class GameObject {
     protected Size size;
     protected Collision collision;
     protected Controller controller;
+    protected footstep footstep;
 
     public double entitySpeed = 3f;
     public String direction = "";

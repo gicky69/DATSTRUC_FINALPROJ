@@ -24,39 +24,12 @@ public class Movement {
             position.setfY(position.getfY() - yvel * 4);
         }
 
-//        //# Face towards player
-//        lookdirection = Vector2D.getAngleInDegrees(position, pos);
+        //# region Collision
 
-//        //# region Collision
-//        // Enemy collision with the Wall
-//        // Move towards the target with relative velocity times speed
-//
-//        // allow diagonal movement
-//        collisionOn = false;
-//        game.entityCollision.tileChecker(game.getGameObjects());
-//        if (collisionOn) {
-//            position = new Position(oldPosX, position.getfY());
-//        }
-//
-//        oldPosX = position.getfX();
-//
-//        //  Horizontal Movement
-//        collisionOn = false;
-//        game.entityCollision.tileChecker(game.getGameObjects());
-//        if (collisionOn) {
-//            position = new Position(oldPosX, oldPosY);
-//        }
-//
-//        position = new Position(position.getfX(), position.getfY() - yvel * (float) EnemySpeed);
-//
-//        // Vertical Movement
-//        collisionOn = false;
-//        game.entityCollision.tileChecker(game.getGameObjects());
-//        if (collisionOn) {
-//            position = new Position(position.getX(), oldPosY);
-//        }
-//
-//        //# endregion
+
+
+
+        //#endregion
     }
 
     public void stop() {

@@ -13,8 +13,6 @@ public class GameMap {
     TileManager tileManager;
 
     private List<Tile> gridMap;
-    private pathfinder pf;
-    private List<Position> pathToFollow;
 
     // Game
     private Game game;
@@ -23,7 +21,6 @@ public class GameMap {
 
     public GameMap(TileManager TM) {
         this.tileManager = TM;
-        this.pf = new pathfinder();
         map = tileManager.getMap();
         setGameTiles();
     }
@@ -47,15 +44,5 @@ public class GameMap {
             }
         }
     }
-
-    public void isPathable(int x, int y) {
-        if (map[y][x] == 1) {
-            System.out.println("Pathable");
-        } else {
-            System.out.println("Not Pathable");
-        }
-
-    }
-
     //# endregion
 }
