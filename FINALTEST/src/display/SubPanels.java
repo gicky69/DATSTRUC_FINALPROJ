@@ -8,10 +8,7 @@ import menu.RoundPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,8 +22,8 @@ public class SubPanels {
     public JPanel pausePanel, roundOverPanel;
     public boolean roundOver = false;
     int roundDetail;
-    JLabel pauseLB, resumeBGLB, quitBGLB;
-    ImageIcon pauseIMG, resumeNC, resumeC, quitNC, quitC;
+    JLabel pauseLB, resumeBGLB, quitBGLB, roundOverLB, nextLB, goBackLB;
+    ImageIcon pauseIMG, resumeNC, resumeC, quitNC, quitC, nextNC, nextC, goBackC, goBackNC, roundOverBG;
 
     public void setRoundDetail(int roundDetail, RoundPanel roundPanel) {
         this.roundDetail = roundDetail;
@@ -172,8 +169,113 @@ public class SubPanels {
         this.gamePanel = gamePanel;
         this.roundPanel = roundPanel;
         roundOverPanel = new JPanel();
-        roundOverPanel.setSize(500, 500);
+        roundOverPanel.setLayout(null);
+        roundOverPanel.setSize(1920, 1080);
         roundOverPanel.setVisible(false);
+
+        roundOverLB = new JLabel();
+        roundOverLB.setLayout(null);
+        roundOverLB.setBounds(0,0,1920,1080);
+        roundOverBG = new ImageIcon("FINALTEST/images/MainIBG/roundoverBGIMG-RoundPanel.png");
+        roundOverLB.setIcon(roundOverBG);
+
+
+        nextLB = new JLabel();
+        nextNC = new ImageIcon("FINALTEST/images/buttons/nextNC-RoundPanel.png");
+        nextC = new ImageIcon("FINALTEST/images/buttons/nextC-RoundPanel.png");
+        nextLB.setLayout(null);
+        nextLB.setBounds(550,350,250,150);
+        nextLB.setIcon(nextNC);
+        roundOverPanel.add(nextLB);
+
+        goBackLB = new JLabel();
+        goBackNC = new ImageIcon("FINALTEST/images/buttons/backNotClicked-AllPanel.png");
+        goBackC = new ImageIcon("FINALTEST/images/buttons/backClicked-AllPanel.png");
+        goBackLB.setLayout(null);
+        goBackLB.setBounds(1150,350,250,150);
+        goBackLB.setIcon(goBackNC);
+        roundOverPanel.add(goBackLB);
+
+        nextLB.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                roundOver = false;
+                roundOverPanel.setVisible(false);
+                updateScore(roundPanel.accessPanel.playerInUse);
+                updateRoundDetails();
+                roundPanel.roundDetail++;
+                double width = roundPanel.getWidth();
+                double height = roundPanel.getHeight();
+                new Thread(new GameLoop(new Game(new Size((int)width, (int)height),(int)width, (int)height, roundPanel))).start();
+
+                gamePanel.revalidate();
+                gamePanel.repaint();
+                game.isPaused = false;
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                nextLB.setIcon(nextC);
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                nextLB.setIcon(nextNC);
+            }
+        });
+
+        goBackLB.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                roundOver = false;
+                roundOverPanel.setVisible(false);
+                updateScore(roundPanel.accessPanel.playerInUse);
+                updateRoundDetails();
+                roundPanel.updateDisplay();
+                roundPanel.mainFrame.frame.setVisible(true);
+                gamePanel.revalidate();
+                gamePanel.repaint();
+                game.isPaused = false;
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                goBackLB.setIcon(goBackC);
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                goBackLB.setIcon(goBackNC);
+
+            }
+        });
+
+
+        roundOverPanel.add(roundOverLB);
 
         JButton nextRound = new JButton("Next Round");
         JButton roundPanelButton = new JButton("Go Back");
@@ -188,7 +290,7 @@ public class SubPanels {
         int centerY = (gamePanel.getHeight() - roundOverPanel.getHeight()) / 2;
         roundOverPanel.setLocation(centerX,centerY);
 
-        nextRound.addActionListener(e -> {
+        /*nextRound.addActionListener(e -> {
             roundOver = false;
             roundOverPanel.setVisible(false);
             updateScore(roundPanel.accessPanel.playerInUse);
@@ -201,9 +303,9 @@ public class SubPanels {
             gamePanel.revalidate();
             gamePanel.repaint();
             game.isPaused = false;
-        });
+        });*/
 
-        roundPanelButton.addActionListener(e -> {
+        /*roundPanelButton.addActionListener(e -> {
             roundOver = false;
             roundOverPanel.setVisible(false);
             updateScore(roundPanel.accessPanel.playerInUse);
@@ -213,7 +315,7 @@ public class SubPanels {
             gamePanel.revalidate();
             gamePanel.repaint();
             game.isPaused = false;
-        });
+        });*/
 
     }
 
