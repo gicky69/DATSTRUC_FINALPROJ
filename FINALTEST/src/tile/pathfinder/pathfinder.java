@@ -44,6 +44,9 @@ public class pathfinder {
             }
         }
 
+        totalCosts[tgpos.getX()][tgpos.getY()] = 0;
+        totalCosts[sgpos.getX()][sgpos.getY()] = 0;
+
         //System.out.println("size (" + width + ", " + height + ")");
 
         //System.out.println("start: (" + sgpos.getX() + ", " + sgpos.getY() + ")");
