@@ -48,25 +48,4 @@ public class NPCController implements Controller {
     public boolean isPaused() {
         return false;
     }
-
-    public void moveToTarget(Position target, Position current) {
-        double deltaX = target.getX() - current.getX();
-        double deltaY = target.getY() - current.getY();
-
-        // Directions
-        up = deltaY < 0 && Math.abs(deltaY) > Position.PROXIMITY_RANGE;
-        down = deltaY > 0 && Math.abs(deltaY) > Position.PROXIMITY_RANGE;
-        left = deltaX < 0 && Math.abs(deltaX) > Position.PROXIMITY_RANGE;
-        right = deltaX < 0 && Math.abs(deltaX) > Position.PROXIMITY_RANGE;
-        //
-
-
-    }
-
-    public void stop() {
-        up = false;
-        down = false;
-        right = false;
-        left = false;
-    }
 }
