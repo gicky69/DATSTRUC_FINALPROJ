@@ -47,7 +47,7 @@ public class SubPanels {
         pauseLB = new JLabel();
         pauseLB.setLayout(null);
         pauseLB.setBounds(0,0,500,500);
-        pauseIMG = new ImageIcon("FINALTEST/images/MainIBG/pauseIMG-PausePanel.png");
+        pauseIMG = new ImageIcon("FINALTEST/images/MainIBG/pauseBG-PausePanel.png");
         pauseLB.setIcon(pauseIMG);
         pausePanel.setSize(500, 500);
 
@@ -63,7 +63,7 @@ public class SubPanels {
         resumeBGLB = new JLabel();
         resumeNC = new ImageIcon("FINALTEST/images/buttons/resumeNotClicked-PausePanel.png");
         resumeBGLB.setLayout(null);
-        resumeBGLB.setBounds(50,250,150,100);
+        resumeBGLB.setBounds(175,170,150,100);
         resumeBGLB.setIcon(resumeNC);
 
         resumeBGLB.addMouseListener(new MouseListener() {
@@ -101,7 +101,7 @@ public class SubPanels {
         quitBGLB = new JLabel();
         quitNC = new ImageIcon("FINALTEST/images/buttons/quitNotClicked-PausePanel.png");
         quitBGLB.setLayout(null);
-        quitBGLB.setBounds(295,250,150,100);
+        quitBGLB.setBounds(175,240,150,100);
         quitBGLB.setIcon(quitNC);
 
         quitBGLB.addMouseListener(new MouseListener() {
