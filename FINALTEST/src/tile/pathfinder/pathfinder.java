@@ -17,7 +17,7 @@ public class pathfinder {
 
     public static int printInfo = 0;
     private static int[] antiLoop = new int[1];
-    private static int maxLoops = 500;
+    private static int maxLoops = 3200;
     private static boolean failed = false;
 
     public static List<Position> findPath(Position start, Position target, GameMap gameMap) {
@@ -36,7 +36,6 @@ public class pathfinder {
 
         Position tgpos = new Position (start.gridX(), start.gridY()); //start grid pos
         Position sgpos = new Position (target.gridX(), target.gridY()); //target grid pos
-        System.out.println("tgpos: " + tgpos.getX() + ", " + tgpos.getY());
 
         // Get the walls
         for (int i=0;i<width;i++) {

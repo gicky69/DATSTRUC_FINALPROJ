@@ -12,7 +12,7 @@ import java.util.List;
 
 public class Wander extends AIState {
     private List<Position> targets;
-    private pathfinder pf;
+    private final pathfinder pf;
     private int currentPathIndex = 1;
     Position targetPosition;
 
@@ -33,8 +33,6 @@ public class Wander extends AIState {
             getRandomPosition(game, entity);
         }
 
-//        System.out.println("Current Position: " + entity.getPosition().getfX() + ", " + entity.getPosition().getfY());
-
         move(entity);
 
         if (arrived(entity)) {
@@ -54,9 +52,12 @@ public class Wander extends AIState {
 
         Position startPosition = entity.getPosition();
 
+        System.out.println("Current Position: " + entity.getPosition().getfX() + ", " + entity.getPosition().getfY());
+
         System.out.println("Target Position: " + targetPosition.getfX() + ", " + targetPosition.getfY());
 
-        targets = pf.findPath(startPosition, targetPosition, game.getMap());
+        pf.printInfo = 2;
+        targets = pathfinder.findPath(startPosition, targetPosition, game.getMap());
         System.out.println("Path: " + targets.get(0).getfX() + ", " + targets.get(0).getfY());
         currentPathIndex = 1;
         System.out.println("CurrentPathIndex: " + currentPathIndex);
