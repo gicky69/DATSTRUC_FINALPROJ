@@ -18,9 +18,11 @@ public class pathfinder {
     public static int printInfo = 0;
     private static int[] antiLoop = new int[1];
     private static int maxLoops = 3200;
-    private static boolean failed = false;
 
     public static List<Position> findPath(Position start, Position target, GameMap gameMap) {
+
+        boolean failed = false;
+
         float tileSizeX = 40;
         float tileSizeY = 40;
 
@@ -56,8 +58,9 @@ public class pathfinder {
         int pathc = 0;
 
         openedNodes.add(sgpos);
-        totalCosts[tgpos.getX()][tgpos.getY()] = -2; //Set the identifier for target node
+        totalCosts[tgpos.getX()][tgpos.getY()] = -99999; //Set the identifier for target node
 
+        antiLoop[0]=0;
         // Scan to create pathfinding
         while (true) {
             if (antiLoop[0]>maxLoops) {
@@ -104,7 +107,8 @@ public class pathfinder {
             cnodex = nodex;
             cnodey = nodey-1;
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
-                if (totalCosts[cnodex][cnodey] == -2) {
+                if (totalCosts[cnodex][cnodey] == -99) {
+                    //System.out.println("Target Found at: (" + cnodex+ ", " + cnodey +")");
                     break;
                 }
             }
@@ -112,7 +116,8 @@ public class pathfinder {
             cnodex = nodex-1;
             cnodey = nodey;
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
-                if (totalCosts[cnodex][cnodey] == -2) {
+                if (totalCosts[cnodex][cnodey] == -99) {
+                    //System.out.println("Target Found at: (" + cnodex+ ", " + cnodey +")");
                     break;
                 }
             }
@@ -120,7 +125,8 @@ public class pathfinder {
             cnodex = nodex+1;
             cnodey = nodey;
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
-                if (totalCosts[cnodex][cnodey] == -2) {
+                if (totalCosts[cnodex][cnodey] == -99) {
+                    //System.out.println("Target Found at: (" + cnodex+ ", " + cnodey +")");
                     break;
                 }
             }
@@ -128,7 +134,8 @@ public class pathfinder {
             cnodex = nodex;
             cnodey = nodey+1;
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
-                if (totalCosts[cnodex][cnodey] == -2) {
+                if (totalCosts[cnodex][cnodey] == -99) {
+                    //System.out.println("Target Found at: (" + cnodex+ ", " + cnodey +")");
                     break;
                 }
             }
@@ -140,7 +147,8 @@ public class pathfinder {
             cnodey = nodey-1;
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
                 if (totalCosts[cnodex][nodey] != -1 && totalCosts[nodex][cnodey] != -1) {
-                    if (totalCosts[cnodex][cnodey] == -2) {
+                    if (totalCosts[cnodex][cnodey] == -99) {
+                        //System.out.println("Target diagonally Found at: (" + cnodex+ ", " + cnodey +")");
                         break;
                     }
                 }
@@ -150,7 +158,8 @@ public class pathfinder {
             cnodey = nodey-1;
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
                 if (totalCosts[cnodex][nodey] != -1 && totalCosts[nodex][cnodey] != -1) {
-                    if (totalCosts[cnodex][cnodey] == -2) {
+                    if (totalCosts[cnodex][cnodey] == -99) {
+                        //System.out.println("Target diagonally Found at: (" + cnodex+ ", " + cnodey +")");
                         break;
                     }
                 }
@@ -160,7 +169,8 @@ public class pathfinder {
             cnodey = nodey+1;
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
                 if (totalCosts[cnodex][nodey] != -1 && totalCosts[nodex][cnodey] != -1) {
-                    if (totalCosts[cnodex][cnodey] == -2) {
+                    if (totalCosts[cnodex][cnodey] == -99) {
+                        //System.out.println("Target diagonally Found at: (" + cnodex+ ", " + cnodey +")");
                         break;
                     }
                 }
@@ -170,7 +180,8 @@ public class pathfinder {
             cnodey = nodey+1;
             if (cnodex>=0 && cnodey>=0 && cnodex<width && cnodey<height) {
                 if (totalCosts[cnodex][nodey] != -1 && totalCosts[nodex][cnodey] != -1) {
-                    if (totalCosts[cnodex][cnodey] == -2) {
+                    if (totalCosts[cnodex][cnodey] == -99) {
+                        //System.out.println("Target diagonally Found at: (" + cnodex+ ", " + cnodey +")");
                         break;
                     }
                 }
@@ -306,19 +317,21 @@ public class pathfinder {
         //pathc = 0;
         if (failed) {
             path.clear();
-            System.out.println("Cannot find a path from origin to target");
+            //System.out.println("Cannot find a path from origin to target");
             path.add(target);
             return path;
         }
 
-        moveCosts[sgpos.getX()][sgpos.getY()] = -2; //Set the identifier for start node
+        moveCosts[sgpos.getX()][sgpos.getY()] = -9999; //Set the identifier for start node
 
         openedNodes.clear();
         Position currentpos = tgpos;
 
         int countup = 0;
+        antiLoop[0]=0;
         // Draw a path from the end to start
         while (true) {
+            //System.out.println("b loop: " + antiLoop[0]);
             if (antiLoop[0]>maxLoops) {
                 failed = true;
                 break;
@@ -524,11 +537,63 @@ public class pathfinder {
             pathc++;
             //System.out.println("path cost: " + currentMoveCost);
             if (currentMoveCost==-1) {
+                failed = true;
                 break;
             }
         }
 
         if (failed) {
+            //System.out.println("Enemy");
+            //System.out.println("");
+            for(int i=0;i< 20;i++) {
+                //System.out.println("");
+                for (int j = 0; j < 20; j++) {
+
+                    int relx = j+(int)(tgpos.getX())-10;
+                    int rely = i+(int)(tgpos.getY())-10;
+                    //System.out.println("relx: (" + relx + ")");
+
+                    // check if the tile is pathable or not
+                    if (relx>0 && rely>0 && relx<width && rely<height) {
+                        if (i==10 && j==10) {
+                            //System.out.print("E");
+                        } else if (totalCosts[relx][rely] == -1) {
+                            //System.out.print("X");
+                        } else if (totalCosts[relx][rely] == 0) {
+                            //System.out.print("0");
+                        } else {
+                            //System.out.print("1");
+                        }
+                    }
+                }
+            }
+            //System.out.println("");
+            //System.out.println("Target");
+            //System.out.println("");
+            for(int i=0;i< 20;i++) {
+                //System.out.println("");
+                for (int j = 0; j < 20; j++) {
+
+                    int relx = j+(int)(sgpos.getX())-10;
+                    int rely = i+(int)(sgpos.getY())-10;
+                    //System.out.println("relx: (" + relx + ")");
+
+                    // check if the tile is pathable or not
+                    if (relx>0 && rely>0 && relx<width && rely<height) {
+                        if (i==10 && j==10) {
+                            //System.out.print("T");
+                        } else if (totalCosts[relx][rely] == -1) {
+                            //System.out.print("X");
+                        } else if (totalCosts[relx][rely] == 0) {
+                            //System.out.print("0");
+                        } else {
+                            //System.out.print("1");
+                        }
+                    }
+                }
+            }
+            //System.out.println("");
+
             path.clear();
             System.out.println("Cannot draw the path from the end to the start, this error should never ever happen, if this is happening please contact .lednar at Discord, or tell CarlAndrew to contact Randell");
             path.add(target);
