@@ -17,7 +17,7 @@ public abstract class GameObject {
     protected Collision collision;
     protected Controller controller;
 
-    public int entitySpeed = 3;
+    public double entitySpeed = 3f;
     public String direction = "";
     public boolean collisionOn = false;
     public Game game;
