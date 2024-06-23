@@ -95,7 +95,6 @@ public class GamePanel extends JFrame {
 
         renderer.renderMap(this, g2);
         renderer.render(game, g2, player);
-        imageLoader.loadImages();
 
         g2.dispose();
         bufferStrategy.show();

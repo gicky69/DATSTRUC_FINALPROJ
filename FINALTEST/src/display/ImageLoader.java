@@ -8,8 +8,10 @@ import java.net.URL;
 public class ImageLoader {
 
     final String imagePath = "/sprite/";
-    int frameDelay = 1000; // milliseconds
-    int frameDelayCounter = 0;
+    public int currentFrameIndex = 0;
+    public int currentDirectionIndex = 0;
+    public long lastFrameTime = System.currentTimeMillis();
+    public long frameDelay = 120; // milli
 
     public ImageIcon loadImage(String entity) {
         URL url = this.getClass().getResource(imagePath + entity + "/spritesheet.png");
@@ -30,7 +32,7 @@ public class ImageLoader {
         bGr.drawImage(image, 0, 0, null);
         bGr.dispose();
 
-        // Extract all frames
+        // Extract all frames and load it based on movement of entity
         Image[][] frames = new Image[rows][cols];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
@@ -41,8 +43,5 @@ public class ImageLoader {
         return frames;
     }
 
-    public void loadImages() {
-        loadImage("player");
-    }
 
 }

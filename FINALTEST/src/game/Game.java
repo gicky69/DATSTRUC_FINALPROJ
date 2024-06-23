@@ -79,7 +79,7 @@ public class Game {
 
     // Adds player as an object
     public void AddPlayer(Position pos) {
-        Player player = new Player(pos, new PlayerController(input), frame, subPanels, imageLoader);
+        Player player = new Player(pos, new PlayerController(input), frame, subPanels);
         gameObjects.add(player);
         camera.focusOn(player);
         player.game = this; // Connect the player to the game master

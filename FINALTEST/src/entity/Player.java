@@ -25,23 +25,19 @@ public class Player extends GameObject {
     public boolean itemCollected = false;
     private SubPanels subPanels;
     private Image[][] frames;
-    private ImageLoader imageLoader;
-    private int currentFrameIndex = 0;
-    private int currentDirectionIndex = 0;
-    private long lastFrameTime = System.currentTimeMillis();
-    private long frameDelay = 120; // milli
-
+    public ImageLoader imageLoader;
     private Rectangle hitbox;
 
-    public Player(Position pos, Controller controller, GamePanel gamePanel, SubPanels subPanels, ImageLoader imageLoader) {
+    public Player(Position pos, Controller controller, GamePanel gamePanel, SubPanels subPanels) {
 
         super();
         this.position = pos;
         this.controller = controller;
         this.gamePanel = gamePanel;
         this.subPanels = subPanels;
-        this.imageLoader = imageLoader;
+        imageLoader = new ImageLoader();
 
+        imageLoader.loadImage("player");
         frames = imageLoader.loadSpriteSheet("player", 48, 64, 4, 4);
         hitbox = new Rectangle(position.getX(), position.getY(), frames[0][0].getWidth(null), frames[0][0].getHeight(null));
 
@@ -60,38 +56,38 @@ public class Player extends GameObject {
         int oldPosY = position.getY();
 
         long currentTime = System.currentTimeMillis();
-        if (currentTime - lastFrameTime >= frameDelay) {
-            currentFrameIndex = (currentFrameIndex + 1) % frames[currentDirectionIndex].length;
-            lastFrameTime = currentTime;
+        if (currentTime - imageLoader.lastFrameTime >= imageLoader.frameDelay) {
+            imageLoader.currentFrameIndex = (imageLoader.currentFrameIndex + 1) % frames[imageLoader.currentDirectionIndex].length;
+            imageLoader.lastFrameTime = currentTime;
         }
 
         if (controller.isRequestingUp()) {
             direction = "up";
             deltaY -= entitySpeed;
-            currentDirectionIndex = 2;
+            imageLoader.currentDirectionIndex = 2;
         } if (controller.isRequestingDown()) {
             direction = "down";
             deltaY += entitySpeed;
-            currentDirectionIndex = 0;
+            imageLoader.currentDirectionIndex = 0;
         } if (controller.isRequestingLeft()) {
             direction = "left";
             deltaX -= entitySpeed;
-            currentDirectionIndex = 1;
+            imageLoader.currentDirectionIndex = 1;
         } if (controller.isRequestingRight()) {
             direction = "right";
             deltaX += entitySpeed;
-            currentDirectionIndex = 3;
+            imageLoader.currentDirectionIndex = 3;
         } if (!controller.isRequestingUp() && !controller.isRequestingDown() && !controller.isRequestingLeft() && !controller.isRequestingRight()) {
             deltaX = 0;
             deltaY = 0;
-            currentFrameIndex = 0;
+            imageLoader.currentFrameIndex = 0;
         } if (controller.isSprinting()) {
             entitySpeed = 5;
         } else {
             entitySpeed = 3;
         } if (controller.isSneaking()) {
             entitySpeed = 1.5;
-            frameDelay = 350;
+            imageLoader.frameDelay = 350;
         } if (controller.isPaused()) {
             game.togglePause();
         }
@@ -128,9 +124,10 @@ public class Player extends GameObject {
 
     }
 
+    // is used for renderer class
     @Override
     public Image getSprite() {
-        return frames[currentDirectionIndex][currentFrameIndex];
+        return frames[imageLoader.currentDirectionIndex][imageLoader.currentFrameIndex];
     }
 
     public void finishStatus() {
