@@ -23,6 +23,7 @@ public class GamePanel extends JFrame {
 
     private Renderer renderer;
     public Camera camera;
+    public ImageLoader imageLoader;
 
     // screen settings
     public final int screenWidth = 1600;
@@ -39,12 +40,14 @@ public class GamePanel extends JFrame {
     //panels and boolean
     public boolean roundOver = false;
 
-    public GamePanel(int width, int height, KeyInputs input, Camera camera, Game game, SubPanels subPanels, RoundPanel roundPanel) {
+    public GamePanel(int width, int height, KeyInputs input, Camera camera, Game game,
+                     SubPanels subPanels, RoundPanel roundPanel, ImageLoader imageLoader) {
         this.subPanels = subPanels;
         this.roundPanel = roundPanel;
         this.camera = camera;
         this.game = game;
         this.renderer = new Renderer();
+        this.imageLoader = imageLoader;
         tileManager = new TileManager(this, subPanels, roundPanel);
         subPanels.setPausePanel(this, game);
         subPanels.setRoundOverPanel(this, game, roundPanel);
