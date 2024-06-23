@@ -7,7 +7,7 @@ import java.net.URL;
 
 public class ImageLoader {
 
-    final String imagePath = "/sprite/";
+    final String imagePath = "/Sprite/";
     public int currentFrameIndex = 0;
     public int currentDirectionIndex = 0;
     public long lastFrameTime = System.currentTimeMillis();

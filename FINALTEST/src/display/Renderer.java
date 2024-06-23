@@ -39,6 +39,7 @@ public class Renderer {
                 Rectangle hitbox = player.getHitbox();
                 graphics.drawRect(hitbox.x - camera.getPosition().getX()-30, hitbox.y - camera.getPosition().getY()-40, hitbox.width, hitbox.height);
             }
+
         });
 
 

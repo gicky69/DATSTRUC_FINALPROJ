@@ -1,6 +1,7 @@
 package display;
 
 import core.Size;
+import entity.Item;
 import game.Game;
 import game.GameLoop;
 import menu.RoundPanel;
@@ -9,10 +10,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 // This class is used to create subpanels for the game frame
 public class SubPanels {
-
     GamePanel gamePanel;
     RoundPanel roundPanel;
     public JPanel pausePanel, roundOverPanel;
@@ -92,13 +97,13 @@ public class SubPanels {
         nextRound.addActionListener(e -> {
             roundOver = false;
             roundOverPanel.setVisible(false);
-
+            updateScore(roundPanel.accessPanel.playerInUse);
             updateRoundDetails();
             roundPanel.roundDetail++;
-            System.out.println("ROUND DETAIL ON SUBPANELS: " + roundDetail);
             double width = roundPanel.getWidth();
             double height = roundPanel.getHeight();
             new Thread(new GameLoop(new Game(new Size((int)width, (int)height),(int)width, (int)height, roundPanel))).start();
+
             gamePanel.revalidate();
             gamePanel.repaint();
             game.isPaused = false;
@@ -107,7 +112,7 @@ public class SubPanels {
         roundPanelButton.addActionListener(e -> {
             roundOver = false;
             roundOverPanel.setVisible(false);
-
+            updateScore(roundPanel.accessPanel.playerInUse);
             updateRoundDetails();
             roundPanel.updateDisplay();
             roundPanel.mainFrame.frame.setVisible(true);
@@ -130,7 +135,72 @@ public class SubPanels {
                 currentDifficultyindex = 2;
                 break;
         }
+
         roundPanel.updatePlayerRoundData(roundPanel.accessPanel.playerInUse, currentDifficultyindex);
+
+    }
+
+    // will update score based on difficulty
+    public void updateScore(String playerID) {
+        String filePath = "FINALTEST/Database/playerdata.txt";
+        List<String> fileContent = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(":");
+                if (data[0].equals(playerID)) {
+                    String[] roundDataStrings = data[2].split(",");
+                    int[] roundData = new int[roundDataStrings.length];
+
+                    for (int i = 0; i < roundDataStrings.length; i++) {
+                        roundData[i] = Integer.parseInt(roundDataStrings[i]);
+                    }
+
+                    Map<String, Integer> difficultyIndexMap = new HashMap<>();
+                    difficultyIndexMap.put("easy", 0);
+                    difficultyIndexMap.put("medium", 1);
+                    difficultyIndexMap.put("hard", 2);
+
+                    // check conditions for updating the round data
+                    int difficultyIndexNum = difficultyIndexMap.get(gamePanel.roundPanel.currentDifficulty);
+
+                    // add scores to player data
+                    if (difficultyIndexNum == 0) {
+                        roundData[difficultyIndexNum] += 10;
+                    } else if (difficultyIndexNum == 1) {
+                        roundData[difficultyIndexNum] += 25;
+                    } else if (difficultyIndexNum == 2) {
+                        roundData[difficultyIndexNum] += 40;
+                    }
+
+
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0; i < roundData.length; i++) {
+                        if (i > 0) {
+                            sb.append(",");
+                        }
+                        sb.append(roundData[i]);
+                    }
+                    data[2] = sb.toString();
+                    line = String.join(":", data);
+                }
+                fileContent.add(line);
+
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Write the updated data back to the file
+        try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
+            for (String line : fileContent) {
+                writer.println(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 

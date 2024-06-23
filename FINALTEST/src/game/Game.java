@@ -62,6 +62,7 @@ public class Game {
 //        AddObject(2, new Position(600, 500)); // This creates an object called wall (this is to test the linecast collision)
         addWalls();
         AddItem(new Position(500, 1500)); // This creates an item
+        AddItem(new Position(1000, 1000));
         entityCollision = new EntityCollision(frame);
     }
 
@@ -119,7 +120,7 @@ public class Game {
     }
 
     public void AddItem(Position pos) {
-        Item item = new Item(pos);
+        Item item = new Item(pos, roundPanel);
         gameObjects.add(item);
         item.game = this; // Connect the enemy to the game master
         item.name = "Item";
