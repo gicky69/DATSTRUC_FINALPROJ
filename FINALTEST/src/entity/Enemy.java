@@ -5,9 +5,11 @@ import core.Position;
 import core.Vector2D;
 import core.physics2d.Collider;
 //import tile.pathfinder.pathfinder.Node;
+import display.ImageLoader;
 import tile.pathfinder.pathfinder;
 //import tile.Pathfinder;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
@@ -28,7 +30,10 @@ public class Enemy extends GameObject {
 
     private List<Position> pathToFollow;
     private int currentPathIndex;
-
+    /*public ImageLoader imageLoader;
+    private Rectangle hitbox;
+    private Image[][] frames;*/
+    ImageIcon enemy;
     // Build Lines
     private static final int RAYS = 360;
 
@@ -38,6 +43,13 @@ public class Enemy extends GameObject {
         this.position = position;
         this.pf = new pathfinder();
         movement = new Movement();
+        //imageLoader = new ImageLoader();
+
+        enemy = new ImageIcon("FINALTEST/images/Sprite/enemy/main_enemy-GamePanel.gif");
+
+        /*imageLoader.loadImage("Enemy");
+        frames = imageLoader.loadSpriteSheet("Enemy", 48, 64, 4, 4);
+        hitbox = new Rectangle(position.getX(), position.getY(), frames[0][0].getWidth(null), frames[0][0].getHeight(null));*/
     }
 
     //#endregion
@@ -158,14 +170,42 @@ public class Enemy extends GameObject {
 
     @Override
     public Image getSprite() {
-        BufferedImage image = new BufferedImage(64, 64, BufferedImage.TYPE_INT_RGB);
+
+        //Update animation based on time
+        /*long currentTime = System.currentTimeMillis();
+        if (currentTime - lastFrameTime >= frameDelay) {
+            currentFrameIndex++;
+            lastFrameTime = currentTime;
+            if (currentFrameIndex >= frames[0].length) {
+                currentFrameIndex = 0;
+            }
+        }
+
+        // Choose the correct sprite based on direction
+        int directionIndex;
+        if (lookdirection >= 0 && lookdirection < 90) {
+            directionIndex = 0; // Facing Right (First Row)
+        } else if (lookdirection >= 90 && lookdirection < 180) {
+            directionIndex = 1; // Facing Down (Second Row)
+        } else if (lookdirection >= 180 && lookdirection < 270) {
+            directionIndex = 2; // Facing Left (Third Row)
+        } else {
+            directionIndex = 3; // Facing Up (Fourth Row)
+        }
+
+        return frames[directionIndex][currentFrameIndex];*/
+        Image enemyImage = enemy.getImage();
+
+        /*BufferedImage image = new BufferedImage(64, 64, BufferedImage.TYPE_INT_RGB);
         Graphics2D graphics = image.createGraphics();
 
         graphics.setColor(Color.RED);
         graphics.fillRect(0, 0, 64, 64);
 
-        graphics.dispose();
-        return image;
+        graphics.dispose();*/
+
+        //return frames[imageLoader.currentDirectionIndex][imageLoader.currentFrameIndex];
+        return enemyImage;
     }
     //#endregion
 }
