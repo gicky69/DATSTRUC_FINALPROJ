@@ -52,7 +52,7 @@ public class Position {
 
     public boolean isInRangeOf(Position position) {
 //        System.out.println("Current Position " + getfX() + " " + getfY());
-        System.out.println("Target Position " + position.getfX() + " " + position.getfY());
+        //System.out.println("Target Position " + position.getfX() + " " + position.getfY());
         boolean inRange = Math.abs(x - position.getfX()) < PROXIMITY_RANGE && Math.abs(y - position.getfY()) < PROXIMITY_RANGE;
 //        System.out.println("In range: " + inRange);
         return inRange;
