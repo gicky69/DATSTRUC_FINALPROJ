@@ -1,7 +1,9 @@
 import display.SubPanels;
 import menu.*;
+import menu.Frame;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class Main {
     Frame mainFrame;
@@ -15,7 +17,11 @@ public class Main {
     SubPanels subPanels;
 
     public Main() {
-        mainFrame = new Frame(1600,900);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double screenWidth = screenSize.getWidth();
+        double screenHeight = screenSize.getHeight();
+
+        mainFrame = new Frame((int) screenWidth, (int) screenHeight);
         subPanels = new SubPanels();
         loginPanel = new AccessPanel(mainFrame, subPanels);
 

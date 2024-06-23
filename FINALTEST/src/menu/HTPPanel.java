@@ -3,6 +3,7 @@ package menu;
 import display.SubPanels;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -20,6 +21,10 @@ public class HTPPanel extends JPanel {
         this.accessPanel = accessPanel;
         this.add(temp);
         this.setLayout(null);
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double screenWidth = screenSize.getWidth();
+        double screenHeight = screenSize.getHeight();
 
         backButton = new JLabel();
         backButton.setLayout(null);
@@ -45,8 +50,11 @@ public class HTPPanel extends JPanel {
 
         htp1bgLabel = new JLabel();
         htp1BG = new ImageIcon("FINALTEST/images/MainIBG/htp1-HTPPanel.png");
+        Image image = htp1BG.getImage();
+        Image scaledImage = image.getScaledInstance((int) screenWidth, (int) screenHeight, Image.SCALE_SMOOTH);
+        ImageIcon scaledImageIcon = new ImageIcon(scaledImage);
         htp1bgLabel.setBounds(0,0,1920,1080);
-        htp1bgLabel.setIcon(htp1BG);
+        htp1bgLabel.setIcon(scaledImageIcon);
         this.add(htp1bgLabel);
 
         htp2bgLabel = new JLabel();
@@ -54,6 +62,7 @@ public class HTPPanel extends JPanel {
         htp2BG = new ImageIcon("FINALTEST/images/MainIBG/htp2-HTPPanel.png");
         htp2bgLabel.setIcon(htp2BG);
         htp2bgLabel.setBounds(0,0,1920,1080);
+
 
         nextLabel.addMouseListener(new MouseListener() {
             @Override

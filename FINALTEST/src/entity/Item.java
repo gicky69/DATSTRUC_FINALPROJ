@@ -1,6 +1,7 @@
 package entity;
 
 import core.Position;
+import menu.RoundPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,11 +10,17 @@ public class Item extends GameObject {
 
     private ImageIcon itemImage;
     private boolean isActive;
+    private RoundPanel roundPanel;
 
-    public Item(Position position) {
+    public Item(Position position, RoundPanel roundPanel) {
         this.position = position; // from gameobject position, instantiate the position of the item
         itemImage = new ImageIcon("FINALTEST/images/Items/money.gif");
         this.isActive = true;
+        this.roundPanel = roundPanel;
+
+        JLabel itemCollectedLabel = new JLabel();
+        itemCollectedLabel.setBounds(10, 10, 200, 30); // Set the position and size of the JLabel
+
     }
 
 
@@ -28,6 +35,7 @@ public class Item extends GameObject {
                 this.isActive = false; // make the item cold after collection
                 itemImage = null; // remove the item image on the map
                 System.out.println("ITEM COLLECTED");
+
             }
         }
 
@@ -41,4 +49,5 @@ public class Item extends GameObject {
             return null;
         }
     }
+
 }

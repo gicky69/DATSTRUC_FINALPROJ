@@ -25,36 +25,28 @@ public class MenuPanel extends JPanel {
     String playerInUse;
 
     public MenuPanel(Frame mainFrame, SubPanels subPanels, AccessPanel accessPanel) {
+        // screensize of user
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double screenWidth = screenSize.getWidth();
+        double screenHeight = screenSize.getHeight();
+
         this.mainFrame = mainFrame;
         this.subPanels = subPanels;
         this.accessPanel = accessPanel;
-        this.setSize(mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
+        this.setSize((int) screenWidth, (int) screenHeight);
         this.setLayout(null);
+        int buttonWidth = 250;
 
         playLabel = new JLabel("Play");
-        playLabel.setBounds(840,770,250,150);
+        playLabel.setBounds((int) (screenWidth/2)-(buttonWidth/2),770,250,150);
         playImagec = new ImageIcon("FINALTEST/images/buttons/playClicked-MenuPanel.png");
         playImagenc = new ImageIcon("FINALTEST/images/buttons/playNotClicked-MenuPanel.png");
         playLabel.setIcon(playImagenc);
         playLabel.setVisible(true);
         this.add(playLabel);
 
-        /*shopLabel = new JLabel("Shop");
-        shopLabel.setBounds(1650,100,250,150);
-        shopImagenc = new ImageIcon("FINALTEST/images/buttons/shopNotClicked-MenuPanel.png");
-        shopImagec = new ImageIcon("FINALTEST/images/buttons/shopClicked-MenuPanel.png");
-        shopLabel.setIcon(shopImagenc);
-        this.add(shopLabel);
-
-        settingsLabel = new JLabel("Settings");
-        settingsLabel.setBounds(1650,0,250,150);
-        settingImagenc = new ImageIcon("FINALTEST/images/buttons/settingsNotClicked-MenuPanel.png");
-        settingImagec = new ImageIcon("FINALTEST/images/buttons/settingsClicked-MenuPanel.png");
-        settingsLabel.setIcon(settingImagenc);
-        this.add(settingsLabel);*/
-
         htpLabel = new JLabel("How to Play");
-        htpLabel.setBounds(255,750,250,150);
+        htpLabel.setBounds((((int) screenWidth/2)-500)-(buttonWidth/2),750,250,150);
         htpImagenc = new ImageIcon("FINALTEST/images/buttons/rulesNotClicked-MenuPanel.png");
         htpImagec = new ImageIcon("FINALTEST/images/buttons/rulesClicked-MenuPanel.png");
         htpLabel.setIcon(htpImagenc);
@@ -62,16 +54,19 @@ public class MenuPanel extends JPanel {
         this.add(htpLabel);
 
         exitLabel = new JLabel("Exit");
-        exitLabel.setBounds(1430,750,250,150);
+        exitLabel.setBounds((((int) screenWidth/2)+500)-(buttonWidth/2),750,250,150);
         exitImagenc = new ImageIcon("FINALTEST/images/buttons/exitNotClicked-MenuPanel.png");
         exitImagec = new ImageIcon("FINALTEST/images/buttons/exitClicked-MenuPanel.png");
         exitLabel.setIcon(exitImagenc);
         this.add(exitLabel);
 
         menuBGLabel = new JLabel();
-        menuBGLabel.setBounds(0,0, 1920,1080);
         menuBGImg = new ImageIcon("FINALTEST/images/MainIBG/mainMenuBG-MenuPanel.png");
-        menuBGLabel.setIcon(menuBGImg);
+        Image image = menuBGImg.getImage();
+        Image scaledImage = image.getScaledInstance((int) screenWidth, (int) screenHeight, Image.SCALE_SMOOTH);
+        ImageIcon scaledImageIcon = new ImageIcon(scaledImage);
+        menuBGLabel.setIcon(scaledImageIcon);
+        menuBGLabel.setBounds(0, 0, (int) screenWidth, (int) screenHeight);
         this.add(menuBGLabel);
 
 

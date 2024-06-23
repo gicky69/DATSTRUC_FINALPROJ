@@ -13,8 +13,9 @@ import java.awt.event.ComponentEvent;
 import java.awt.image.BufferStrategy;
 
 
+
 public class GamePanel extends JFrame {
-    private final Game game;
+    public final Game game;
     public Frame menuFrame;
     private SubPanels subPanels;
     public TileManager tileManager;
@@ -36,9 +37,6 @@ public class GamePanel extends JFrame {
     public final int maxWorldRow = 40;
     public final int worldWidth = tileSize * maxWorldCol;
     public final int worldHeight = tileSize * maxWorldRow;
-
-    //panels and boolean
-    public boolean roundOver = false;
 
     public GamePanel(int width, int height, KeyInputs input, Camera camera, Game game,
                      SubPanels subPanels, RoundPanel roundPanel, ImageLoader imageLoader) {
