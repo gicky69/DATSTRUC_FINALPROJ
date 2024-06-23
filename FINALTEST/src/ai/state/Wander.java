@@ -33,7 +33,7 @@ public class Wander extends AIState {
             getRandomPosition(game, entity);
         }
 
-        System.out.println("Current Position: " + entity.getPosition().getfX() + ", " + entity.getPosition().getfY());
+//        System.out.println("Current Position: " + entity.getPosition().getfX() + ", " + entity.getPosition().getfY());
 
         move(entity);
 
@@ -46,15 +46,18 @@ public class Wander extends AIState {
     private void getRandomPosition(Game game, GameObject entity) {
         int x, y;
         do {
-            x = (int) (Math.random() * game.getMap().map[0].length);
-            y = (int) (Math.random() * game.getMap().map.length);
-        } while (game.getMap().map[y][x] != 0 || game.getMap().map[y][x] == 2);
+            x = 1 + (int) (Math.random() * 78);
+            y = 1 + (int) (Math.random() * 38);
+            System.out.println("Random Position: " + x + ", " + y);
+            targetPosition = new Position(x * 40, y * 40);
+        } while ((game.getMap().map[y][x] != 0 && game.getMap().map[y][x] != 2) || (targetPosition.getfX() < 50 && targetPosition.getfY() < 50) || (targetPosition.getfX() > 3150 || targetPosition.getfY() > 1500));
 
         Position startPosition = entity.getPosition();
-        targetPosition = new Position(x * 40, y * 40);
+
         System.out.println("Target Position: " + targetPosition.getfX() + ", " + targetPosition.getfY());
 
         targets = pf.findPath(startPosition, targetPosition, game.getMap());
+        System.out.println("Path: " + targets.get(0).getfX() + ", " + targets.get(0).getfY());
         currentPathIndex = 1;
         System.out.println("CurrentPathIndex: " + currentPathIndex);
         System.out.println("target size: " + targets.size());
@@ -68,6 +71,7 @@ public class Wander extends AIState {
             Position target = targets.get(currentPathIndex);
             entity.movement.MoveTowards(start, target);
             if (entity.getPosition().getfX() == target.getfX() && entity.getPosition().getfY() == target.getfY()) {
+                System.out.println("Target reached");
                 currentPathIndex++;
             }
         }
