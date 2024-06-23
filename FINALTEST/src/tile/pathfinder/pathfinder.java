@@ -524,6 +524,7 @@ public class pathfinder {
             pathc++;
             //System.out.println("path cost: " + currentMoveCost);
             if (currentMoveCost==-1) {
+                failed = true;
                 break;
             }
         }

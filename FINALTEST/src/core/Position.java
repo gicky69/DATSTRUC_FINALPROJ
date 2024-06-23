@@ -56,6 +56,7 @@ public class Position {
         boolean inRange = Math.abs(x - position.getfX()) < PROXIMITY_RANGE && Math.abs(y - position.getfY()) < PROXIMITY_RANGE;
 //        System.out.println("In range: " + inRange);
         return inRange;
+        //
     }
 
     public void setfX(float v) {
