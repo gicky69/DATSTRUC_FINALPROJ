@@ -7,6 +7,7 @@ import core.Position;
 import core.Size;
 import core.physics2d.Physics2D;
 import display.Camera;
+import display.ImageLoader;
 import display.SubPanels;
 import entity.*;
 
@@ -30,6 +31,7 @@ public class Game {
     private KeyInputs input;
     public Physics2D p2d;
     private Camera camera;
+    private ImageLoader imageLoader;
     public EntityCollision entityCollision;
     public SubPanels subPanels;
     public RoundPanel roundPanel;
@@ -42,10 +44,11 @@ public class Game {
 
     public Game(Size windowsSize, int width, int height, RoundPanel roundPanel) {
         this.roundPanel = roundPanel;
+        imageLoader = new ImageLoader();
         input = new KeyInputs();
         camera = new Camera(windowsSize);
         subPanels = new SubPanels();
-        frame = new GamePanel(width, height, input, camera, this, subPanels, roundPanel);
+        frame = new GamePanel(width, height, input, camera, this, subPanels, roundPanel, imageLoader);
         map = new GameMap(frame.getTileManager());
         gameObjects = new ArrayList<>();
         p2d = new Physics2D();

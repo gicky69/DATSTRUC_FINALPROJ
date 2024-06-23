@@ -16,8 +16,8 @@ public class Renderer {
         // Draw the Player's sprite
         game.getGameObjects().forEach(gameObject -> {
             graphics.drawImage(gameObject.getSprite(),
-                    gameObject.getPosition().getX() - camera.getPosition().getX() - 64,
-                    gameObject.getPosition().getY() - camera.getPosition().getY() - 64,
+                    gameObject.getPosition().getX() - camera.getPosition().getX() - 30,
+                    gameObject.getPosition().getY() - camera.getPosition().getY() - 40,
                     null
             );
 
@@ -29,6 +29,13 @@ public class Renderer {
 
             // display item collection state
             graphics.drawString("Item Collection Status: " + player.itemCollected,20,90);
+
+            // Draw the player's hitbox for debugging
+            if (player != null) {
+                graphics.setColor(Color.RED);
+                Rectangle hitbox = player.getHitbox();
+                graphics.drawRect(hitbox.x - camera.getPosition().getX()-30, hitbox.y - camera.getPosition().getY()-40, hitbox.width, hitbox.height);
+            }
         });
     }
 

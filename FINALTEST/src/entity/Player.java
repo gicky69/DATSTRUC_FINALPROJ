@@ -7,6 +7,7 @@ import core.Position;
 import javax.swing.*;
 import java.awt.*;
 import display.GamePanel;
+import display.ImageLoader;
 import display.SubPanels;
 
 public class Player extends GameObject {
@@ -14,8 +15,6 @@ public class Player extends GameObject {
     //#region Design and Animation Init
 
     ImageIcon myAmeL, myAmeR, myAmeU, myAmeD, myAmeDefaultR, myAmeDefaultL;
-
-
 
     //#endregion
 
@@ -25,6 +24,9 @@ public class Player extends GameObject {
     private GamePanel gamePanel;
     public boolean itemCollected = false;
     private SubPanels subPanels;
+    private Image[][] frames;
+    public ImageLoader imageLoader;
+    private Rectangle hitbox;
 
     public Player(Position pos, Controller controller, GamePanel gamePanel, SubPanels subPanels) {
 
@@ -33,13 +35,11 @@ public class Player extends GameObject {
         this.controller = controller;
         this.gamePanel = gamePanel;
         this.subPanels = subPanels;
+        imageLoader = new ImageLoader();
 
-        myAmeDefaultR = new ImageIcon("FINALTEST/images/GamePanel/MC_Default_Right-GamePanel.gif");
-        myAmeDefaultL = new ImageIcon("FINALTEST/images/GamePanel/MC_Default_Left-GamePanel.gif");
-        myAmeL = new ImageIcon("FINALTEST/images/GamePanel/MC_Left-GamePanel.gif");
-        myAmeR = new ImageIcon("FINALTEST/images/GamePanel/MC_Right-GamePanel.gif");
-        myAmeU = new ImageIcon("FINALTEST/images/GamePanel/MC_UP-GamePanel.gif");
-        myAmeD = new ImageIcon("FINALTEST/images/GamePanel/MC_Down-GamePanel.gif");
+        imageLoader.loadImage("player");
+        frames = imageLoader.loadSpriteSheet("player", 48, 64, 4, 4);
+        hitbox = new Rectangle(position.getX(), position.getY(), frames[0][0].getWidth(null), frames[0][0].getHeight(null));
 
     }
 
@@ -47,41 +47,52 @@ public class Player extends GameObject {
 
     @Override
     public void update() {
+
+        // Update the player's state and frame
         int deltaX = 0;
         int deltaY = 0;
 
         int oldPosX = position.getX();
         int oldPosY = position.getY();
 
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - imageLoader.lastFrameTime >= imageLoader.frameDelay) {
+            imageLoader.currentFrameIndex = (imageLoader.currentFrameIndex + 1) % frames[imageLoader.currentDirectionIndex].length;
+            imageLoader.lastFrameTime = currentTime;
+        }
+
         if (controller.isRequestingUp()) {
             direction = "up";
             deltaY -= entitySpeed;
-        }
-        if (controller.isRequestingDown()) {
+            imageLoader.currentDirectionIndex = 2;
+        } if (controller.isRequestingDown()) {
             direction = "down";
             deltaY += entitySpeed;
-        }
-        if (controller.isRequestingLeft()) {
+            imageLoader.currentDirectionIndex = 0;
+        } if (controller.isRequestingLeft()) {
             direction = "left";
             deltaX -= entitySpeed;
-        }
-        if (controller.isRequestingRight()) {
+            imageLoader.currentDirectionIndex = 1;
+        } if (controller.isRequestingRight()) {
             direction = "right";
             deltaX += entitySpeed;
-        }
-
-        if (controller.isSprinting()) {
-            entitySpeed = 7;
-        } else {
+            imageLoader.currentDirectionIndex = 3;
+        } if (!controller.isRequestingUp() && !controller.isRequestingDown() && !controller.isRequestingLeft() && !controller.isRequestingRight()) {
+            deltaX = 0;
+            deltaY = 0;
+            imageLoader.currentFrameIndex = 0;
+        } if (controller.isSprinting()) {
             entitySpeed = 5;
-        }
-
-        if (controller.isSneaking()) {
+        } else {
             entitySpeed = 3;
-        }
-        if (controller.isPaused()) {
+        } if (controller.isSneaking()) {
+            entitySpeed = 1.5;
+            imageLoader.frameDelay = 350;
+        } if (controller.isPaused()) {
             game.togglePause();
         }
+
+        hitbox.setLocation(position.getX(), position.getY());
 
         // Normalize speed if more than one key is pressed
         double length = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
@@ -113,24 +124,10 @@ public class Player extends GameObject {
 
     }
 
+    // is used for renderer class
     @Override
     public Image getSprite() {
-        Image image = myAmeDefaultR.getImage();
-
-        // Change sprite lng
-        if (controller.isRequestingUp()){
-            image = myAmeU.getImage();
-        }
-        if (controller.isRequestingDown()){
-            image = myAmeD.getImage();
-        }
-        if (controller.isRequestingLeft()){
-            image = myAmeL.getImage();
-        }
-        if (controller.isRequestingRight()){
-            image = myAmeR.getImage();
-        }
-        return image;
+        return frames[imageLoader.currentDirectionIndex][imageLoader.currentFrameIndex];
     }
 
     public void finishStatus() {
@@ -149,6 +146,10 @@ public class Player extends GameObject {
             gamePanel.revalidate();
             gamePanel.repaint();
         }
+    }
+
+    public Rectangle getHitbox() {
+        return hitbox;
     }
 
     public Controller getController() {
