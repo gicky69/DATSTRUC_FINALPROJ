@@ -49,17 +49,14 @@ public class Wander extends AIState {
             System.out.println("Random Position: " + x + ", " + y);
             targetPosition = new Position(x * 40, y * 40);
         } while ((game.getMap().map[y][x] != 0 && game.getMap().map[y][x] != 2)
-                && !(targetPosition.getfX() < 50 && targetPosition.getfY() < 50)
-                && !(targetPosition.getfX() > 3150 && targetPosition.getfY() > 1500)
-                && (game.getMap().map[y+2][x] == 0 && game.getMap().map[y-2][x] == 0
-                && game.getMap().map[y][x+2] == 0 && game.getMap().map[y][x-2] == 0));
-
+                && (targetPosition.getfX() > 50 && targetPosition.getfX() < 3150)
+                && (targetPosition.getfY() > 50 && targetPosition.getfY() < 1500));
 
         Position startPosition = entity.getPosition();
 
-        System.out.println("Current Position: " + entity.getPosition().getfX() + ", " + entity.getPosition().getfY());
+        //System.out.println("Current Position: " + entity.getPosition().getfX() + ", " + entity.getPosition().getfY());
 
-        System.out.println("Target Position: " + targetPosition.getfX() + ", " + targetPosition.getfY());
+        //System.out.println("Target Position: " + targetPosition.getfX() + ", " + targetPosition.getfY());
 
         pf.printInfo = 2;
         targets = pathfinder.findPath(startPosition, targetPosition, game.getMap());
