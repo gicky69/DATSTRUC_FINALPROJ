@@ -17,7 +17,7 @@ public class AccessPanel extends JPanel {
     Frame mainFrame;
     MenuPanel menuPanel;
     SubPanels subPanels;
-    JLabel loginButton, registerButton, resetButton, logInBGLabel, loginBGLabel;
+    JLabel loginButton, registerButton, resetButton, loginBG;
     JLabel usernameLabel, passwordLabel;
     JTextField usernameField; JPasswordField passwordField;
     ImageIcon logInIMG, logInHighlight, loginBGImg, registerIMG, registerHighlight, resetIMG, resetHighlight, loginBGIMG;
@@ -36,66 +36,72 @@ public class AccessPanel extends JPanel {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double screenWidth = screenSize.getWidth();
         double screenHeight = screenSize.getHeight();
-        int buttonWidth = (int) (screenWidth * 0.14);
 
+        int textFieldWidth = 630;
+        int textFieldHeight = 55;
         usernameLabel = new JLabel("Username");
-        usernameLabel.setBounds((((int) screenWidth/2)-500)-(buttonWidth/2),(int) screenHeight-400, 200, 50);
-        Font userNameText = new Font("DePixel", Font.BOLD, 22);
+        usernameLabel.setBounds((((int) screenWidth/2))-(textFieldWidth/2),(int) screenHeight-800, textFieldWidth, textFieldHeight);
+        Font userNameText = new Font("DePixel", Font.BOLD, 25);
         usernameLabel.setFont(userNameText);
         usernameLabel.setForeground(Color.WHITE);
         this.add(usernameLabel);
 
         usernameField = new JTextField("admin");
-        usernameField.setBounds((((int) screenWidth/2)-300)-(buttonWidth/2),(int) screenHeight-400, 400, 50);
-        Font userNameFont = new Font("DePixel", Font.PLAIN, 20);
-        usernameField.setFont(userNameFont);
-        usernameField.setBackground(new Color(196,216,255));
+        usernameField.setBounds((((int) screenWidth/2))-(textFieldWidth/2),(int) screenHeight-730, textFieldWidth, textFieldHeight);
+        usernameField.setFont(new Font("DePixel", Font.PLAIN, 22));
         usernameField.setHorizontalAlignment(JTextField.LEFT);
         this.add(usernameField);
 
         passwordLabel = new JLabel("Password");
-        passwordLabel.setBounds((((int) screenWidth/2)-500)-(buttonWidth/2),(int) screenHeight-270, 200, 50);
-        passwordLabel.setFont(new Font("DePixel", Font.BOLD, 22));
+        passwordLabel.setBounds((((int) screenWidth/2))-(textFieldWidth/2),(int) screenHeight-620, textFieldWidth, textFieldHeight);
+        Font passwordText = new Font("DePixel", Font.BOLD, 25);
+        passwordLabel.setFont(passwordText);
         passwordLabel.setForeground(Color.WHITE);
         this.add(passwordLabel);
 
         passwordField = new JPasswordField("admin");
-        passwordField.setBounds((((int) screenWidth/2)-300)-(buttonWidth/2),(int) screenHeight-270, 400, 50);
+        passwordField.setBounds((((int) screenWidth/2))-(textFieldWidth/2),(int) screenHeight-560, textFieldWidth, textFieldHeight);
         passwordField.setFont(new Font("DePixel", Font.PLAIN, 22));
-        passwordField.setBackground(new Color(196,216,255));
         passwordField.setHorizontalAlignment(JTextField.LEFT);
         this.add(passwordField);
 
-        loginButton = new JLabel("Login");
-        loginButton.setBounds((((int) screenWidth/2)+550)-(buttonWidth/2), (int) screenHeight-750, 250, 150);
-        logInIMG = new ImageIcon("RobberyBob/resources/images/Buttons/loginNotClicked-AccessPanel.png");
-        logInHighlight = new ImageIcon("RobberyBob/resources/images/Buttons/loginClicked-AccessPanel.png");
-        loginButton.setIcon(logInIMG);
-        this.add(loginButton);
+        double buttonLabelWidth = screenWidth/7.5;
+        double buttonLabelHeight = screenHeight/7.5;
+        double y = screenHeight/1.9;
 
-        registerButton = new JLabel("Register");
-        registerButton.setBounds((((int) screenWidth/2)+550)-(buttonWidth/2), (int) screenHeight-550, 250, 150);
-        registerIMG = new ImageIcon("RobberyBob/resources/images/Buttons/registerNotClicked-AccessPanel.png");
-        registerHighlight = new ImageIcon("RobberyBob/resources/images/Buttons/registerClicked-AccessPanel.png");
-        registerButton.setIcon(registerIMG);
-        this.add(registerButton);
 
-        resetButton = new JLabel("Reset");
-        resetButton.setBounds((((int) screenWidth/2)+550)-(buttonWidth/2), (int) screenHeight-350, 250, 150);
-        resetIMG = new ImageIcon("RobberyBob/resources/images/Buttons/resetNotClicked-AccessPanel.png");
-        resetHighlight = new ImageIcon("RobberyBob/resources/images/Buttons/resetClicked-AccessPanel.png");
-        resetButton.setIcon(resetIMG);
-        this.add(resetButton);
+        loginButton = new JLabel();
+        Image loginButtonNC = new ImageIcon("RobberyBob/resources/images/AccessPanel/loginNotClicked.png"
+            ).getImage().getScaledInstance((int) buttonLabelWidth, (int) buttonLabelHeight, Image.SCALE_REPLICATE);
+        Image loginButtonC = new ImageIcon("RobberyBob/resources/images/AccessPanel/loginClicked.png"
+        )   .getImage().getScaledInstance((int) buttonLabelWidth, (int) buttonLabelHeight, Image.SCALE_REPLICATE);
+        loginButton.setIcon(new ImageIcon(loginButtonNC));
+        loginButton.setBounds((int) ((screenWidth-buttonLabelWidth)/2)-150, (int) y, (int) buttonLabelWidth, (int)buttonLabelHeight);
 
-        logInBGLabel = new JLabel();
-        logInBGLabel.setBounds(0,0, (int) screenWidth,(int)screenHeight);
-        loginBGIMG = new ImageIcon("RobberyBob/resources/images/MainIBG/accessBG-AccessPanel.png");
-        Image loginBGImage = loginBGIMG.getImage();
-        Image scaledLoginBGImage = loginBGImage.getScaledInstance((int) screenWidth, (int) screenHeight, Image.SCALE_REPLICATE);
-        ImageIcon finalloginBGIMG = new ImageIcon(scaledLoginBGImage);
-        logInBGLabel.setIcon(finalloginBGIMG);
-        this.add(logInBGLabel);
+        resetButton = new JLabel();
+        Image resetButtonNC = new ImageIcon("RobberyBob/resources/images/AccessPanel/resetNotClicked.png"
+            ).getImage().getScaledInstance((int) buttonLabelWidth, (int) buttonLabelHeight, Image.SCALE_REPLICATE);
+        Image resetButtonC = new ImageIcon("RobberyBob/resources/images/AccessPanel/resetClicked.png"
+            ).getImage().getScaledInstance((int) buttonLabelWidth, (int) buttonLabelHeight, Image.SCALE_REPLICATE);
+        resetButton.setIcon(new ImageIcon(resetButtonNC));
+        resetButton.setBounds((int) ((screenWidth-buttonLabelWidth)/2)+150, (int) y, (int) buttonLabelWidth, (int)buttonLabelHeight);
 
+        registerButton = new JLabel();
+        Image registerButtonNC = new ImageIcon("RobberyBob/resources/images/AccessPanel/registerNotClicked.png"
+            ).getImage().getScaledInstance((int) buttonLabelWidth, (int) buttonLabelHeight, Image.SCALE_REPLICATE);
+        Image registerButtonC = new ImageIcon("RobberyBob/resources/images/AccessPanel/registerClicked.png"
+            ).getImage().getScaledInstance((int) buttonLabelWidth, (int) buttonLabelHeight, Image.SCALE_REPLICATE);
+        registerButton.setIcon(new ImageIcon(registerButtonNC));
+        registerButton.setBounds((int) (screenWidth-buttonLabelWidth)/2, (int) (screenHeight/2) + 150, (int) buttonLabelWidth, (int)buttonLabelHeight);
+
+
+        loginBG = new JLabel();
+        loginBGImg = new ImageIcon("RobberyBob/resources/images/AccessPanel/menuPanelBG.png");
+        Image image = loginBGImg.getImage();
+        Image scaledImage = image.getScaledInstance((int) screenWidth, (int) screenHeight, Image.SCALE_REPLICATE);
+        ImageIcon scaledImageIcon = new ImageIcon(scaledImage);
+        loginBG.setIcon(scaledImageIcon);
+        loginBG.setBounds(0, 0,  (int) screenWidth, (int) screenHeight);
 
         loginButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -115,16 +121,17 @@ public class AccessPanel extends JPanel {
                     System.out.println("User Access Failed.");
                     JOptionPane.showMessageDialog(null, "Invalid username or password.", "Warning", JOptionPane.WARNING_MESSAGE);
                 }
+                loginButton.setIcon(new ImageIcon(loginButtonNC));
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                loginButton.setIcon(logInHighlight);
+                loginButton.setIcon(new ImageIcon(loginButtonC));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                loginButton.setIcon(logInIMG);
+                loginButton.setIcon(new ImageIcon(loginButtonNC));
 
             }
         });
@@ -141,17 +148,19 @@ public class AccessPanel extends JPanel {
                     System.out.println("Registration Failed");
                 }
 
+                registerButton.setIcon(new ImageIcon(registerButtonNC));
+
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                registerButton.setIcon(registerHighlight);
+                registerButton.setIcon(new ImageIcon(registerButtonC));
 
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                registerButton.setIcon(registerIMG);
+                registerButton.setIcon(new ImageIcon(registerButtonNC));
 
             }
         });
@@ -160,7 +169,7 @@ public class AccessPanel extends JPanel {
         resetButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                resetButton.setIcon(resetIMG);
+                resetButton.setIcon(new ImageIcon(resetButtonNC));
                 usernameField.setText("");
                 passwordField.setText("");
 
@@ -168,15 +177,21 @@ public class AccessPanel extends JPanel {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                resetButton.setIcon(resetHighlight);
+                resetButton.setIcon(new ImageIcon(resetButtonC));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                resetButton.setIcon(resetIMG);
+                resetButton.setIcon(new ImageIcon(resetButtonNC));
 
             }
         });
+
+        this.add(loginButton);
+        this.add(resetButton);
+        this.add(registerButton);
+        this.add(loginBG);
+
     }
 
 
