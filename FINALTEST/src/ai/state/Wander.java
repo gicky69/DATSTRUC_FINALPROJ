@@ -16,6 +16,10 @@ public class Wander extends AIState {
     private int currentPathIndex = 1;
     Position targetPosition;
 
+    String state = "Stand";
+
+    private boolean seen = false;
+
     public Wander() {
         super();
         targets = new ArrayList<>();
@@ -24,7 +28,7 @@ public class Wander extends AIState {
 
     @Override
     protected AITransition initializeTransition() {
-        return new AITransition("Stand", ((game, entity) -> arrived(entity)));
+        return state == "Pursue" ? new AITransition("Pursue", ((game, entity) -> seen)) : new AITransition("Stand", ((game, entity) -> arrived(entity)));
     }
 
     @Override
@@ -39,6 +43,17 @@ public class Wander extends AIState {
         if (arrived(entity)) {
             entity.movement.stop();
         }
+    }
+
+    private boolean seeing(Game game, GameObject entity) {
+        boolean track = entity.los.LineOfSight(entity.getPosition().getX(), entity.getPosition().getY(), game.getPlayer().getPosition().getX(), game.getPlayer().getPosition().getY(), game.getMap());
+
+        if (track){
+            System.out.println("Tracking!");
+        } else {
+            System.out.println("Not tracking!");
+        }
+        return track;
     }
 
     //#region AI Movement

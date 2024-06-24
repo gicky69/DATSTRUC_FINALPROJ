@@ -7,6 +7,7 @@ import core.physics2d.Collision;
 import core.Position;
 import core.Size;
 import game.Game;
+import core.gameplay.los;
 
 import java.awt.*;
 
@@ -25,11 +26,13 @@ public abstract class GameObject {
     public Game game;
     public String name = "entity";
     public Movement movement;
+    public los los;
 
     public GameObject() {
         size = new Size(64, 64);
         collision = new Collision();
         movement = new Movement();
+        los = new los();
         collision.BoxCollision(size.getWidth(), size.getHeight());
     }
 

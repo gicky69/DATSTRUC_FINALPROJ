@@ -1,6 +1,7 @@
 package ai;
 
 import ai.state.AIState;
+import ai.state.Pursue;
 import ai.state.Stand;
 import ai.state.Wander;
 import entity.GameObject;
@@ -25,6 +26,9 @@ public class AIManager {
     private void transitionTo(String nextState) {
         System.out.println("Transitioning to " + nextState);
         switch (nextState) {
+            case "Pursue":
+                currentAIState = new Pursue();
+                break;
             case "Wander":
                 currentAIState = new Wander();
                 break;

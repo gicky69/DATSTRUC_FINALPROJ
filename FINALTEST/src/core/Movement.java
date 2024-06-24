@@ -7,6 +7,8 @@ public class Movement {
     private float xvel;
     private float yvel;
 
+
+
     public void MoveTowards(Position position, Position pos) {
         float oldPosX = position.getfX();
         float oldPosY = position.getfY();
@@ -25,7 +27,6 @@ public class Movement {
         }
 
         //# region Collision
-
 
 
 

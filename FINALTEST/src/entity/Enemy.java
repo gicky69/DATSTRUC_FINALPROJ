@@ -1,8 +1,10 @@
 package entity;
 
+import ai.AIManager;
 import core.Movement;
 import core.Position;
 import core.Vector2D;
+import core.gameplay.los;
 import core.physics2d.Collider;
 //import tile.pathfinder.pathfinder.Node;
 import display.ImageLoader;
@@ -110,10 +112,6 @@ public class Enemy extends GameObject {
 
     }
 
-    public void Wander() {
-
-    }
-
     public void Pursue() {
         Position target = game.getGameObjects().get(0).getPosition(); // Get Player
         Position start = position;
@@ -129,6 +127,7 @@ public class Enemy extends GameObject {
         GameObject target = game.getGameObjects().get(0); // Get Player
         MoveAwayFrom(target.position); // Move towards the player's position
     }
+
     //#endregion
 
     //#region Enemy Actions
