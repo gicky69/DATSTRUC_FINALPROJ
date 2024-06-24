@@ -175,10 +175,9 @@ public class SubPanels {
 
         roundOverLB = new JLabel();
         roundOverLB.setLayout(null);
-        roundOverLB.setBounds(0,0,1920,1080);
+        roundOverLB.setSize(1920,1080);
         roundOverBG = new ImageIcon("FINALTEST/images/MainIBG/roundoverBGIMG-RoundPanel.png");
         roundOverLB.setIcon(roundOverBG);
-
 
         nextLB = new JLabel();
         nextNC = new ImageIcon("FINALTEST/images/buttons/nextNC-RoundPanel.png");
@@ -276,19 +275,20 @@ public class SubPanels {
 
 
         roundOverPanel.add(roundOverLB);
+        gamePanel.add(roundOverPanel);
 
-        JButton nextRound = new JButton("Next Round");
+        /*JButton nextRound = new JButton("Next Round");
         JButton roundPanelButton = new JButton("Go Back");
         nextRound.setSize(100, 50);
         roundPanelButton.setSize(100, 50);
         roundOverPanel.add(nextRound);
         roundOverPanel.add(roundPanelButton);
-        gamePanel.add(roundOverPanel);
+        gamePanel.add(roundOverPanel);*/
 
         // Calculate the center position of the GamePanel
         int centerX = (gamePanel.getWidth() - roundOverPanel.getWidth()) / 2;
         int centerY = (gamePanel.getHeight() - roundOverPanel.getHeight()) / 2;
-        roundOverPanel.setLocation(centerX,centerY);
+        //roundOverPanel.setLocation(centerX,centerY); remove so that fully insert si bg image ni round over
 
         /*nextRound.addActionListener(e -> {
             roundOver = false;
