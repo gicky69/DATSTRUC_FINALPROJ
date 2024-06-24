@@ -165,6 +165,8 @@ public class Player extends GameObject {
             gamePanel.revalidate();
             gamePanel.repaint();
         }
+
+        // if enemy has caught player
     }
 
     public Rectangle getHitbox() {

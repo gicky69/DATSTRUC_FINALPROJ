@@ -168,23 +168,29 @@ public class SubPanels {
     public void setRoundOverPanel(GamePanel gamePanel, Game game, RoundPanel roundPanel) {
         this.gamePanel = gamePanel;
         this.roundPanel = roundPanel;
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double screenWidth = screenSize.getWidth();
+        double screenHeight = screenSize.getHeight();
+        int buttonWidth = (int) (screenWidth * 0.14);
+
         roundOverPanel = new JPanel();
         roundOverPanel.setLayout(null);
-        roundOverPanel.setSize(1920, 1080);
+        roundOverPanel.setSize((int) screenWidth, (int) screenHeight);
         roundOverPanel.setVisible(false);
 
         roundOverLB = new JLabel();
-        roundOverLB.setLayout(null);
-        roundOverLB.setBounds(0,0,1920,1080);
+        roundOverLB.setBounds(0,0,(int)screenWidth,(int) screenHeight);
         roundOverBG = new ImageIcon("FINALTEST/images/MainIBG/roundoverBGIMG-RoundPanel.png");
-        roundOverLB.setIcon(roundOverBG);
-
+        Image scaledRoundOverBG = roundOverBG.getImage();
+        Image finalScaledRoundOverBG = scaledRoundOverBG.getScaledInstance((int)screenWidth, (int)screenHeight, Image.SCALE_SMOOTH);
+        roundOverLB.setIcon(new ImageIcon(finalScaledRoundOverBG));
 
         nextLB = new JLabel();
         nextNC = new ImageIcon("FINALTEST/images/buttons/nextNC-RoundPanel.png");
         nextC = new ImageIcon("FINALTEST/images/buttons/nextC-RoundPanel.png");
         nextLB.setLayout(null);
-        nextLB.setBounds(550,350,250,150);
+        nextLB.setBounds((int) (screenWidth/2)-(buttonWidth/2),(int) screenHeight-550,250,150);
         nextLB.setIcon(nextNC);
         roundOverPanel.add(nextLB);
 
@@ -192,9 +198,10 @@ public class SubPanels {
         goBackNC = new ImageIcon("FINALTEST/images/buttons/backNotClicked-AllPanel.png");
         goBackC = new ImageIcon("FINALTEST/images/buttons/backClicked-AllPanel.png");
         goBackLB.setLayout(null);
-        goBackLB.setBounds(1150,350,250,150);
+        goBackLB.setBounds((int) (screenWidth/2)-(buttonWidth/2),(int) screenHeight-420,250,150);
         goBackLB.setIcon(goBackNC);
         roundOverPanel.add(goBackLB);
+
 
         nextLB.addMouseListener(new MouseListener() {
             @Override

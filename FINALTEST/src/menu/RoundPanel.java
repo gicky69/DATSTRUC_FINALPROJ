@@ -41,7 +41,7 @@ public class RoundPanel extends  JPanel {
 
         // EASY DIFFICULTY
         easyDifficulty = new ArrayList<>();
-        JLabel easyLabel = new JLabel("Easy Difficulty");
+        JLabel easyLabel = new JLabel("");
         this.add(easyLabel);
         for (int roundNum = 1; roundNum <= 5; roundNum++) {
             JButton roundButton = new JButton("Round " + roundNum);
@@ -74,7 +74,7 @@ public class RoundPanel extends  JPanel {
 
         // MEDIUM DIFFICULTY
         mediumDifficulty = new ArrayList<>();
-        JLabel mediumLabel = new JLabel("Medium Difficulty");
+        JLabel mediumLabel = new JLabel("");
         /*Font mediumFont = new Font("Constantia", Font.BOLD, 20);
         mediumLabel.setFont(mediumFont);
         mediumLabel.setForeground(Color.white);
@@ -109,7 +109,7 @@ public class RoundPanel extends  JPanel {
 
         // HARD DIFFICULTY
         hardDifficulty = new ArrayList<>();
-        JLabel hardLabel = new JLabel("Hard Difficulty");
+        JLabel hardLabel = new JLabel("");
         /*Font hardFont = new Font("Constantia", Font.BOLD, 20);
         hardLabel.setFont(hardFont);
         hardLabel.setForeground(Color.white);
