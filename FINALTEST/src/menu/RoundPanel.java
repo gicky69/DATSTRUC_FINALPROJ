@@ -35,15 +35,13 @@ public class RoundPanel extends  JPanel {
         this.add(temp);
         this.setLayout(null);
 
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double screenWidth = screenSize.getWidth();
+        double screenHeight = screenSize.getHeight();
 
         // EASY DIFFICULTY
         easyDifficulty = new ArrayList<>();
         JLabel easyLabel = new JLabel("Easy Difficulty");
-        /*Font easyFont = new Font("Constantia", Font.BOLD, 20);
-        easyLabel.setFont(easyFont);
-        easyLabel.setForeground(Color.white);
-        easyLabel.setBounds(420, 250, 200, 50);
-        easyLabel.setHorizontalAlignment(SwingConstants.CENTER);*/
         this.add(easyLabel);
         for (int roundNum = 1; roundNum <= 5; roundNum++) {
             JButton roundButton = new JButton("Round " + roundNum);
@@ -53,7 +51,7 @@ public class RoundPanel extends  JPanel {
             roundButton.setForeground(Color.white);
 
             roundButton.setEnabled(roundNum <= currentRound[0]);
-            roundButton.setBounds(300, 300 + (roundNum * 100), 200, 50);
+            roundButton.setBounds(((int) screenWidth/2)/4, 300 + (roundNum * 100), 200, 50);
             this.add(roundButton);
             easyDifficulty.add(roundButton);
 
@@ -65,11 +63,7 @@ public class RoundPanel extends  JPanel {
                 mainFrame.frame.getContentPane().setVisible(false);
                 currentDifficulty = "easy";
 
-                // will get screen size of user
-                Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-                double width = screenSize.getWidth();
-                double height = screenSize.getHeight();
-                new Thread(new GameLoop(new Game(new Size((int)width, (int)height),(int)width, (int)height, this))).start();
+                new Thread(new GameLoop(new Game(new Size((int)screenWidth, (int)screenHeight),(int)screenWidth, (int)screenHeight, this))).start();
 
                 mainFrame.frame.setVisible(false);
                 mainFrame.update();
@@ -94,7 +88,7 @@ public class RoundPanel extends  JPanel {
             roundButton.setBackground(Color.blue.darker());
             roundButton.setForeground(Color.white);
             roundButton.setEnabled(roundNum <= currentRound[1]);
-            roundButton.setBounds(850, 300 + (roundNum * 100), 200, 50);
+            roundButton.setBounds(((int) screenWidth/2)-(250/2), 300 + (roundNum * 100), 200, 50);
             this.add(roundButton);
             mediumDifficulty.add(roundButton);
 
@@ -105,12 +99,7 @@ public class RoundPanel extends  JPanel {
                 subPanels.setRoundDetail(roundDetail, this);
                 mainFrame.frame.getContentPane().setVisible(false);
                 currentDifficulty = "medium";
-
-                // will get screen size of user
-                Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-                double width = screenSize.getWidth();
-                double height = screenSize.getHeight();
-                new Thread(new GameLoop(new Game(new Size((int)width, (int)height),(int)width, (int)height, this))).start();
+                new Thread(new GameLoop(new Game(new Size((int)screenWidth, (int)screenHeight),(int)screenWidth, (int)screenHeight, this))).start();
 
                 mainFrame.frame.setVisible(false);
                 mainFrame.update();
@@ -134,7 +123,7 @@ public class RoundPanel extends  JPanel {
             roundButton.setBackground(Color.blue.darker());
             roundButton.setForeground(Color.white);
             roundButton.setEnabled(roundNum <= currentRound[2]);
-            roundButton.setBounds(1400, 300 + (roundNum * 100), 200, 50);
+            roundButton.setBounds(((int) screenWidth/2)+((int) screenWidth/2)/2, 300 + (roundNum * 100), 200, 50);
             this.add(roundButton);
             hardDifficulty.add(roundButton);
 
@@ -147,10 +136,7 @@ public class RoundPanel extends  JPanel {
                 currentDifficulty = "hard";
 
                 // will get screen size of user
-                Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-                double width = screenSize.getWidth();
-                double height = screenSize.getHeight();
-                new Thread(new GameLoop(new Game(new Size((int)width, (int)height),(int)width, (int)height, this))).start();
+                new Thread(new GameLoop(new Game(new Size((int)screenWidth, (int)screenHeight),(int)screenWidth, (int)screenHeight, this))).start();
 
                 mainFrame.frame.setVisible(false);
                 mainFrame.update();
@@ -166,10 +152,13 @@ public class RoundPanel extends  JPanel {
         this.add(backButton);
 
         roundLB = new JLabel();
-        roundLB.setLayout(null);
-        roundLB.setBounds(0,0,1920,1080);
+        roundLB.setBounds(0,0,(int) screenWidth, (int) screenHeight);
         roundIMG = new ImageIcon("FINALTEST/images/MainIBG/roundBG-RoundPanel.png");
-        roundLB.setIcon(roundIMG);
+        Image image = roundIMG.getImage();
+        Image scaledImage = image.getScaledInstance((int) screenWidth, (int) screenHeight, Image.SCALE_SMOOTH);
+        ImageIcon scaledRoundLB = new ImageIcon(scaledImage);
+        roundLB.setIcon(scaledRoundLB);
+        roundLB.setVisible(true);
         this.add(roundLB);
 
 
