@@ -40,8 +40,14 @@ public class MenuPanel extends JPanel {
         playLabel = new JLabel("Play");
         playLabel.setBounds((int) (screenWidth/2)-(buttonWidth/2),770,250,150);
         playImagec = new ImageIcon("FINALTEST/images/buttons/playClicked-MenuPanel.png");
+        Image scaledPlayImagec = playImagec.getImage();
+        Image finalScaledPlayImagec = scaledPlayImagec.getScaledInstance(buttonWidth, -1, Image.SCALE_SMOOTH);
+        playLabel.setIcon(new ImageIcon(finalScaledPlayImagec));
+
         playImagenc = new ImageIcon("FINALTEST/images/buttons/playNotClicked-MenuPanel.png");
-        playLabel.setIcon(playImagenc);
+        Image scaledPlayImagenc = playImagenc.getImage();
+        Image finalScaledPlayImagenc = scaledPlayImagenc.getScaledInstance(buttonWidth, -1, Image.SCALE_SMOOTH);
+
         playLabel.setVisible(true);
         this.add(playLabel);
 
@@ -97,12 +103,12 @@ public class MenuPanel extends JPanel {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                playLabel.setIcon(playImagec);
+                playLabel.setIcon(new ImageIcon(finalScaledPlayImagec));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                playLabel.setIcon(playImagenc);
+                playLabel.setIcon(new ImageIcon(finalScaledPlayImagenc));
 
             }
         });
