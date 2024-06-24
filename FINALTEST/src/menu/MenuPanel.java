@@ -35,10 +35,10 @@ public class MenuPanel extends JPanel {
         this.accessPanel = accessPanel;
         this.setSize((int) screenWidth, (int) screenHeight);
         this.setLayout(null);
-        int buttonWidth = 250;
+        int buttonWidth = (int) (screenWidth * 0.14);
 
-        playLabel = new JLabel("Play");
-        playLabel.setBounds((int) (screenWidth/2)-(buttonWidth/2),770,250,150);
+        playLabel = new JLabel();
+        playLabel.setBounds((int) (screenWidth/2)-(buttonWidth/2),(int) (screenHeight-250),250,150);
         playImagec = new ImageIcon("FINALTEST/images/buttons/playClicked-MenuPanel.png");
         Image scaledPlayImagec = playImagec.getImage();
         Image finalScaledPlayImagec = scaledPlayImagec.getScaledInstance(buttonWidth, -1, Image.SCALE_SMOOTH);
@@ -52,7 +52,7 @@ public class MenuPanel extends JPanel {
         this.add(playLabel);
 
         htpLabel = new JLabel("How to Play");
-        htpLabel.setBounds((((int) screenWidth/2)-500)-(buttonWidth/2),750,250,150);
+        htpLabel.setBounds((((int) screenWidth/2)-500)-(buttonWidth/2),(int) screenHeight-300,250,150);
         htpImagenc = new ImageIcon("FINALTEST/images/buttons/rulesNotClicked-MenuPanel.png");
         htpImagec = new ImageIcon("FINALTEST/images/buttons/rulesClicked-MenuPanel.png");
         htpLabel.setIcon(htpImagenc);
@@ -60,7 +60,7 @@ public class MenuPanel extends JPanel {
         this.add(htpLabel);
 
         exitLabel = new JLabel("Exit");
-        exitLabel.setBounds((((int) screenWidth/2)+500)-(buttonWidth/2),750,250,150);
+        exitLabel.setBounds((((int) screenWidth/2)+500)-(buttonWidth/2),(int) screenHeight-300,250,150);
         exitImagenc = new ImageIcon("FINALTEST/images/buttons/exitNotClicked-MenuPanel.png");
         exitImagec = new ImageIcon("FINALTEST/images/buttons/exitClicked-MenuPanel.png");
         exitLabel.setIcon(exitImagenc);
