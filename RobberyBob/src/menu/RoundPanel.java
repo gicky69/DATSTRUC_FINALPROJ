@@ -7,6 +7,7 @@ import game.GameLoop;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.*;
@@ -27,6 +28,10 @@ public class RoundPanel extends  JPanel {
     JLabel backButton, roundLB;
     ImageIcon backButtonIMG, backButtonHighlight, roundIMG;
 
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    double screenWidth = screenSize.getWidth();
+    double screenHeight = screenSize.getHeight();
+
     public RoundPanel(Frame mainFrame, SubPanels subPanels, AccessPanel accessPanel) {
         this.mainFrame = mainFrame;
         this.subPanels = subPanels;
@@ -35,114 +40,99 @@ public class RoundPanel extends  JPanel {
         this.add(temp);
         this.setLayout(null);
 
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        double screenWidth = screenSize.getWidth();
-        double screenHeight = screenSize.getHeight();
-
-        // EASY DIFFICULTY
         easyDifficulty = new ArrayList<>();
-        JLabel easyLabel = new JLabel("");
-        this.add(easyLabel);
-        for (int roundNum = 1; roundNum <= 5; roundNum++) {
-            JButton roundButton = new JButton("Round " + roundNum);
-            Font roundFont = new Font("Constantia", Font.BOLD, 20);
-            roundButton.setFont(roundFont);
-            roundButton.setBackground(Color.blue.darker());
-            roundButton.setForeground(Color.white);
-
-            roundButton.setEnabled(roundNum <= currentRound[0]);
-            roundButton.setBounds(((int) screenWidth/2)/4, 300 + (roundNum * 100), 200, 50);
-            this.add(roundButton);
-            easyDifficulty.add(roundButton);
-
-            // unique id for each round
-            int roundDetail = 10+roundNum;
-
-            roundButton.addActionListener(e -> {
-                subPanels.setRoundDetail(roundDetail, this);
-                mainFrame.frame.getContentPane().setVisible(false);
-                currentDifficulty = "easy";
-
-                new Thread(new GameLoop(new Game(new Size((int)screenWidth, (int)screenHeight),(int)screenWidth, (int)screenHeight, this))).start();
-
-                mainFrame.frame.setVisible(false);
-                mainFrame.update();
-
-            });
-        }
-
-
-        // MEDIUM DIFFICULTY
         mediumDifficulty = new ArrayList<>();
-        JLabel mediumLabel = new JLabel("");
-        /*Font mediumFont = new Font("Constantia", Font.BOLD, 20);
-        mediumLabel.setFont(mediumFont);
-        mediumLabel.setForeground(Color.white);
-        mediumLabel.setBounds(850, 300, 200, 50);
-        mediumLabel.setHorizontalAlignment(SwingConstants.CENTER);*/
-        this.add(mediumLabel);
-        for (int roundNum = 1; roundNum <= 5; roundNum++) {
-            JButton roundButton = new JButton("Round " + roundNum);
-            Font roundFont = new Font("Constantia", Font.BOLD, 20);
-            roundButton.setFont(roundFont);
-            roundButton.setBackground(Color.blue.darker());
-            roundButton.setForeground(Color.white);
-            roundButton.setEnabled(roundNum <= currentRound[1]);
-            roundButton.setBounds(((int) screenWidth/2)-(250/2), 300 + (roundNum * 100), 200, 50);
-            this.add(roundButton);
-            mediumDifficulty.add(roundButton);
-
-            // unique id for each round
-            int roundDetail = 20+roundNum;
-
-            roundButton.addActionListener(e -> {
-                subPanels.setRoundDetail(roundDetail, this);
-                mainFrame.frame.getContentPane().setVisible(false);
-                currentDifficulty = "medium";
-                new Thread(new GameLoop(new Game(new Size((int)screenWidth, (int)screenHeight),(int)screenWidth, (int)screenHeight, this))).start();
-
-                mainFrame.frame.setVisible(false);
-                mainFrame.update();
-
-            });
-        }
-
-        // HARD DIFFICULTY
         hardDifficulty = new ArrayList<>();
-        JLabel hardLabel = new JLabel("");
-        /*Font hardFont = new Font("Constantia", Font.BOLD, 20);
-        hardLabel.setFont(hardFont);
-        hardLabel.setForeground(Color.white);
-        hardLabel.setBounds(1300, 300, 200, 50);
-        hardLabel.setHorizontalAlignment(SwingConstants.CENTER);*/
-        this.add(hardLabel);
-        for (int roundNum = 1; roundNum <= 5; roundNum++) {
-            JButton roundButton = new JButton("Round " + roundNum);
-            Font roundFont = new Font("Constantia", Font.BOLD, 20);
-            roundButton.setFont(roundFont);
-            roundButton.setBackground(Color.blue.darker());
-            roundButton.setForeground(Color.white);
-            roundButton.setEnabled(roundNum <= currentRound[2]);
-            roundButton.setBounds(((int) screenWidth/2)+((int) screenWidth/2)/2, 300 + (roundNum * 100), 200, 50);
-            this.add(roundButton);
-            hardDifficulty.add(roundButton);
 
-            // unique id for each round
-            int roundDetail = 30+roundNum;
 
-            roundButton.addActionListener(e -> {
-                subPanels.setRoundDetail(roundDetail, this);
-                mainFrame.frame.getContentPane().setVisible(false);
-                currentDifficulty = "hard";
+        createDifficultyButtons(easyDifficulty, currentRound[0], ((int) screenWidth/2)/4, "easy");
+        createDifficultyButtons(mediumDifficulty, currentRound[1], ((int) screenWidth/2)-(250/2), "medium");
+        createDifficultyButtons(hardDifficulty, currentRound[2], ((int) screenWidth/2)+((int) screenWidth/2)/2, "hard");
 
-                // will get screen size of user
-                new Thread(new GameLoop(new Game(new Size((int)screenWidth, (int)screenHeight),(int)screenWidth, (int)screenHeight, this))).start();
-
-                mainFrame.frame.setVisible(false);
-                mainFrame.update();
-
-            });
-        }
+//        // EASY DIFFICULTY
+//        easyDifficulty = new ArrayList<>();
+//        JLabel easyLabel = new JLabel("");
+//        this.add(easyLabel);
+//        for (int roundNum = 1; roundNum <= 5; roundNum++) {
+//            JButton roundButton = new JButton("Round " + roundNum);
+//            Font roundFont = new Font("Constantia", Font.BOLD, 20);
+//            roundButton.setFont(roundFont);
+//            roundButton.setBackground(Color.blue.darker());
+//            roundButton.setForeground(Color.white);
+//
+//            roundButton.setEnabled(roundNum <= currentRound[0]);
+//            roundButton.setBounds(((int) screenWidth/2)/4, 300 + (roundNum * 100), 200, 50);
+//            this.add(roundButton);
+//            easyDifficulty.add(roundButton);
+//
+//            // unique id for each round
+//            int roundDetail = 10+roundNum;
+//
+//            roundButton.addActionListener(e -> {
+//                subPanels.setRoundDetail(roundDetail, this);
+//                mainFrame.frame.getContentPane().setVisible(false);
+//                mainFrame.frame.setVisible(false);
+//                mainFrame.update();
+//                currentDifficulty = "easy";
+//                new Thread(new GameLoop(new Game(new Size((int)screenWidth, (int)screenHeight),(int)screenWidth, (int)screenHeight, this))).start();
+//
+//            });
+//        }
+//
+//
+//        // MEDIUM DIFFICULTY
+//        mediumDifficulty = new ArrayList<>();
+//        for (int roundNum = 1; roundNum <= 5; roundNum++) {
+//            JButton roundButton = new JButton("Round " + roundNum);
+//            Font roundFont = new Font("Constantia", Font.BOLD, 20);
+//            roundButton.setFont(roundFont);
+//            roundButton.setBackground(Color.blue.darker());
+//            roundButton.setForeground(Color.white);
+//            roundButton.setEnabled(roundNum <= currentRound[1]);
+//            roundButton.setBounds(((int) screenWidth/2)-(250/2), 300 + (roundNum * 100), 200, 50);
+//            this.add(roundButton);
+//            mediumDifficulty.add(roundButton);
+//
+//            // unique id for each round
+//            int roundDetail = 20+roundNum;
+//
+//            roundButton.addActionListener(e -> {
+//                subPanels.setRoundDetail(roundDetail, this);
+//                mainFrame.frame.getContentPane().setVisible(false);
+//                mainFrame.frame.setVisible(false);
+//                mainFrame.update();
+//                currentDifficulty = "medium";
+//                new Thread(new GameLoop(new Game(new Size((int)screenWidth, (int)screenHeight),(int)screenWidth, (int)screenHeight, this))).start();
+//
+//            });
+//        }
+//
+//        // HARD DIFFICULTY
+//        hardDifficulty = new ArrayList<>();
+//        for (int roundNum = 1; roundNum <= 5; roundNum++) {
+//            JButton roundButton = new JButton("Round " + roundNum);
+//            Font roundFont = new Font("Constantia", Font.BOLD, 20);
+//            roundButton.setFont(roundFont);
+//            roundButton.setBackground(Color.blue.darker());
+//            roundButton.setForeground(Color.white);
+//            roundButton.setEnabled(roundNum <= currentRound[2]);
+//            roundButton.setBounds(((int) screenWidth/2)+((int) screenWidth/2)/2, 300 + (roundNum * 100), 200, 50);
+//            this.add(roundButton);
+//            hardDifficulty.add(roundButton);
+//
+//            // unique id for each round
+//            int roundDetail = 30+roundNum;
+//
+//            roundButton.addActionListener(e -> {
+//                subPanels.setRoundDetail(roundDetail, this);
+//                mainFrame.frame.getContentPane().setVisible(false);
+//                mainFrame.frame.setVisible(false);
+//                mainFrame.update();
+//                currentDifficulty = "hard";
+//                new Thread(new GameLoop(new Game(new Size((int)screenWidth, (int)screenHeight),(int)screenWidth, (int)screenHeight, this))).start();
+//
+//            });
+//        }
 
         backButton = new JLabel("Back");
         backButton.setBounds(20, 50, 250, 150);
@@ -162,38 +152,24 @@ public class RoundPanel extends  JPanel {
         this.add(roundLB);
 
 
-        backButton.addMouseListener(new MouseListener() {
+        backButton.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {
                 mainFrame.frame.getContentPane().removeAll();
-
                 MenuPanel menuPanel = new MenuPanel(mainFrame, subPanels, accessPanel);
                 menuPanel.setBounds(0,0,mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
                 mainFrame.frame.add(menuPanel);
                 mainFrame.update();
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
                 backButton.setIcon(backButtonHighlight);
-
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 backButton.setIcon(backButtonIMG);
-
             }
         });
 
@@ -287,6 +263,44 @@ public class RoundPanel extends  JPanel {
         updateDifficultyButtons(mediumDifficulty, currentRound[1]);
         updateDifficultyButtons(hardDifficulty, currentRound[2]);
         System.out.println("ROUND DETAIL ON ROUNDPANEL: " + roundDetail);
+    }
+
+    private void createDifficultyButtons(List<JButton> difficultyButtons, int currentRound, int xPosition, String difficulty) {
+        for (int roundNum=1; roundNum<=5; roundNum++) {
+            JButton roundButton = createRoundButton(roundNum, currentRound, xPosition, difficulty);
+            this.add(roundButton);
+            difficultyButtons.add(roundButton);
+        }
+    }
+
+    private JButton createRoundButton(int roundNum, int currentRound, int xPosition, String difficulty) {
+        JButton roundButton = new JButton("Round " + roundNum);
+        roundButton.setFont(new Font("DePixel", Font.BOLD, 20));
+        roundButton.setForeground(Color.BLACK);
+        roundButton.setEnabled(roundNum <= currentRound);
+        roundButton.setBounds(xPosition, 300 + (roundNum * 100), 200, 50);
+
+        int roundDetail = getRoundDetail(difficulty, roundNum);
+
+        roundButton.addActionListener(e -> {
+            subPanels.setRoundDetail(roundDetail, this);
+            mainFrame.frame.getContentPane().setVisible(false);
+            mainFrame.frame.setVisible(false);
+            mainFrame.update();
+            currentDifficulty = difficulty;
+            new Thread(new GameLoop(new Game(new Size((int)screenWidth, (int)screenHeight),(int)screenWidth, (int)screenHeight, this))).start();
+        });
+
+        return roundButton;
+    }
+
+    private int getRoundDetail(String difficulty, int roundNum) {
+        Map<String, Integer> difficultyIndexMap = new HashMap<>();
+        difficultyIndexMap.put("easy", 10);
+        difficultyIndexMap.put("medium", 20);
+        difficultyIndexMap.put("hard", 30);
+
+        return difficultyIndexMap.get(difficulty) + roundNum;
     }
 
     private void updateDifficultyButtons(List<JButton> difficultyButtons, int currentRound) {

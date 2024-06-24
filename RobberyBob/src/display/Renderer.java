@@ -16,8 +16,8 @@ public class Renderer {
         // Draw the Player's sprite
         game.getGameObjects().forEach(gameObject -> {
             graphics.drawImage(gameObject.getSprite(),
-                    gameObject.getPosition().getX() - camera.getPosition().getX() - 30,
-                    gameObject.getPosition().getY() - camera.getPosition().getY() - 40,
+                    gameObject.getPosition().getX() - camera.getPosition().getX()-30,
+                    gameObject.getPosition().getY() - camera.getPosition().getY()-30,
                     null
             );
 

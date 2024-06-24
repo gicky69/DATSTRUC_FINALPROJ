@@ -13,6 +13,7 @@ public class ImageLoader {
     public long lastFrameTime = System.currentTimeMillis();
     public long frameDelay = 120; // milli
 
+    // load image and convert into bigger scale.
     public ImageIcon loadImage(String entity) {
         System.out.println(imagePath+entity+"/spritesheet.png");
         URL url = this.getClass().getResource(imagePath + entity + "/spritesheet.png");
