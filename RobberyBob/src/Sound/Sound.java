@@ -46,7 +46,7 @@ public class Sound {
 
             // Set volume
             FloatControl setVolume = (FloatControl) clipBGM.getControl(FloatControl.Type.MASTER_GAIN);
-            setVolume.setValue(-12.0f);
+            setVolume.setValue(0.0f);
 
             clipBGM.start();
             clipBGM.loop(Clip.LOOP_CONTINUOUSLY);
@@ -56,6 +56,16 @@ public class Sound {
             System.out.println("Error in playing sound/music.");
         }
     }
+
+    public void setVolume(float volume) {
+        if (clipBGM != null) {
+            FloatControl volumeControl = (FloatControl) clipBGM.getControl(FloatControl.Type.MASTER_GAIN);
+            volumeControl.setValue(volume);
+        } else {
+            System.out.println("clipBGM is null. Unable to set volume.");
+        }
+    }
+
     public void stopMusic() {
 
         if (clipBGM != null) {

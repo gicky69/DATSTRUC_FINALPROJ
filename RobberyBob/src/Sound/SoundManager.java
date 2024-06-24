@@ -8,38 +8,46 @@ import java.util.List;
 
 public class SoundManager {
     private Sound sound;
-    private List<String> tracks; // List of tracks to play
+    private List<String> bgmTracks; // List of bgm tracks to play
+    private List<String> sfxTracks;
 
     public SoundManager() {
         this.sound = new Sound();
-        this.tracks = new ArrayList<>();
-        importFX("RobberyBob/resources/sounds/footstep.wav");
-        importBGM("");
+        this.bgmTracks = new ArrayList<>();
+        this.sfxTracks = new ArrayList<>();
     }
 
-    private void importBGM(String directoryPath) {
+    public void importBGM(String directoryPath) {
         File folder = new File(directoryPath); // will create a file from the directory path
         File[] listOfFiles = folder.listFiles(); // list of all files in the directory
 
         if (listOfFiles != null) {
             for (File file : listOfFiles) {
                 if (file.isFile()) {
-                    tracks.add(file.getPath());
+                    bgmTracks.add(file.getPath());
+                }
+            }
+        }
+
+        System.out.println(bgmTracks);
+    }
+
+    public void importFX(String directoryPath) {
+        File folder = new File(directoryPath); // will create a file from the directory path
+        File[] listOfFiles = folder.listFiles(); // list of all files in the directory
+
+        if (listOfFiles != null) {
+            for (File file : listOfFiles) {
+                if (file.isFile()) {
+                    sfxTracks.add(file.getPath());
                 }
             }
         }
     }
 
-    private void importFX(String directoryPath) {
-        File folder = new File(directoryPath); // will create a file from the directory path
-        File[] listOfFiles = folder.listFiles(); // list of all files in the directory
-
-        if (listOfFiles != null) {
-            for (File file : listOfFiles) {
-                if (file.isFile()) {
-                    tracks.add(file.getPath());
-                }
-            }
+    public void playBGM() {
+        for (String track : bgmTracks) {
+            sound.bgMusic(track);
         }
     }
 }
