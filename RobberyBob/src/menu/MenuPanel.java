@@ -15,8 +15,8 @@ public class MenuPanel extends JPanel {
     ShopPanel shopPanel;
     SettingsPanel settingsPanel;
     HTPPanel htpPanel;
-    JLabel playLabel,  shopLabel, settingsLabel, htpLabel, exitLabel, menuBGLabel;
-    ImageIcon playImagenc, playImagec, shopImagenc, shopImagec, settingImagenc, settingImagec, htpImagenc, htpImagec, exitImagenc, exitImagec, menuBGImg;
+    JLabel playLabel, menuTitleLabel,  shopLabel, settingsLabel, rulesLabel, exitLabel, menuBGLabel;
+    ImageIcon menuBGImg;
     SubPanels subPanels;
 
     public MenuPanel(Frame mainFrame, SubPanels subPanels, AccessPanel accessPanel) {
@@ -30,51 +30,55 @@ public class MenuPanel extends JPanel {
         this.accessPanel = accessPanel;
         this.setSize((int) screenWidth, (int) screenHeight);
         this.setLayout(null);
-        int buttonWidth = (int) (screenWidth * 0.14);
+
+        // buttons' width and height
+        double buttonLabelWidth = screenWidth/5.5;
+        double buttonLabelHeight = screenHeight/5.5;
 
         playLabel = new JLabel();
-        playLabel.setBounds((int) (screenWidth/2)-(buttonWidth/2),(int) (screenHeight-250),250,150);
-        playImagec = new ImageIcon("RobberyBob/resources/images/buttons/playClicked-MenuPanel.png");
-        Image scaledPlayImagec = playImagec.getImage();
-        Image finalScaledPlayImagec = scaledPlayImagec.getScaledInstance(buttonWidth, -1, Image.SCALE_REPLICATE);
+        Image playImageNC = new ImageIcon("RobberyBob/resources/images/MenuPanel/playNotClicked.png"
+            ).getImage().getScaledInstance((int) buttonLabelWidth, (int) buttonLabelHeight, Image.SCALE_REPLICATE);
+        Image playImageC = new ImageIcon("RobberyBob/resources/images/MenuPanel/playClicked.png"
+            ).getImage().getScaledInstance((int) buttonLabelWidth, (int) buttonLabelHeight, Image.SCALE_REPLICATE);
+        playLabel.setIcon(new ImageIcon(playImageNC));
+        playLabel.setBounds((int) (screenWidth-buttonLabelWidth)/2, (int) screenHeight/2, (int) buttonLabelWidth, (int)buttonLabelHeight);
 
-        playImagenc = new ImageIcon("RobberyBob/resources/images/buttons/playNotClicked-MenuPanel.png");
-        Image scaledPlayImagenc = playImagenc.getImage();
-        Image finalScaledPlayImagenc = scaledPlayImagenc.getScaledInstance(buttonWidth, -1, Image.SCALE_REPLICATE);
-        playLabel.setIcon(new ImageIcon(finalScaledPlayImagenc));
+        rulesLabel = new JLabel();
+        Image rulesImageNC = new ImageIcon("RobberyBob/resources/images/MenuPanel/rulesNotClicked.png"
+            ).getImage().getScaledInstance((int) buttonLabelWidth, (int) buttonLabelHeight, Image.SCALE_REPLICATE);
+        Image rulesImageC = new ImageIcon("RobberyBob/resources/images/MenuPanel/rulesClicked.png"
+            ).getImage().getScaledInstance((int) buttonLabelWidth, (int) buttonLabelHeight, Image.SCALE_REPLICATE);
+        rulesLabel.setIcon(new ImageIcon(rulesImageNC));
+        rulesLabel.setBounds((int) (screenWidth-buttonLabelWidth)/2, (int) (screenHeight/2) + 100, (int) buttonLabelWidth, (int)buttonLabelHeight);
 
-        playLabel.setVisible(true);
-        this.add(playLabel);
+        exitLabel = new JLabel();
+        Image exitImageNC = new ImageIcon("RobberyBob/resources/images/MenuPanel/exitNotClicked.png"
+            ).getImage().getScaledInstance((int) buttonLabelWidth, (int) buttonLabelHeight, Image.SCALE_REPLICATE);
+        Image exitImageC = new ImageIcon("RobberyBob/resources/images/MenuPanel/exitClicked.png"
+            ).getImage().getScaledInstance((int) buttonLabelWidth, (int) buttonLabelHeight, Image.SCALE_REPLICATE);
+        exitLabel.setIcon(new ImageIcon(exitImageNC));
+        exitLabel.setBounds((int) (screenWidth-buttonLabelWidth)/2, (int) (screenHeight/2) + 220, (int) buttonLabelWidth, (int)buttonLabelHeight);
 
-        htpLabel = new JLabel("How to Play");
-        htpLabel.setBounds((((int) screenWidth/2)-500)-(buttonWidth/2),(int) screenHeight-300,250,150);
-        htpImagenc = new ImageIcon("RobberyBob/resources/images/buttons/rulesNotClicked-MenuPanel.png");
-        htpImagec = new ImageIcon("RobberyBob/resources/images/buttons/rulesClicked-MenuPanel.png");
-        htpLabel.setIcon(htpImagenc);
-        htpLabel.setVisible(true);
-        this.add(htpLabel);
-
-        exitLabel = new JLabel("Exit");
-        exitLabel.setBounds((((int) screenWidth/2)+500)-(buttonWidth/2),(int) screenHeight-300,250,150);
-        exitImagenc = new ImageIcon("RobberyBob/resources/images/buttons/exitNotClicked-MenuPanel.png");
-        exitImagec = new ImageIcon("RobberyBob/resources/images/buttons/exitClicked-MenuPanel.png");
-        exitLabel.setIcon(exitImagenc);
-        this.add(exitLabel);
+        menuTitleLabel = new JLabel();
+        double menuTitleWidth = screenWidth/1.5;
+        double menuTitleHeight = screenHeight-700;
+        Image menuTitleImgScaled = new ImageIcon("RobberyBob/resources/images/MenuPanel/menuPanelTitle.png"
+            ).getImage().getScaledInstance((int) menuTitleWidth, (int) menuTitleHeight, Image.SCALE_REPLICATE);
+        menuTitleLabel.setIcon(new ImageIcon(menuTitleImgScaled));
+        menuTitleLabel.setBounds((int) (screenWidth/2)-(int) (screenWidth/3), 50, (int) menuTitleWidth, (int)menuTitleHeight);
 
         menuBGLabel = new JLabel();
-        menuBGImg = new ImageIcon("RobberyBob/resources/images/MainIBG/mainMenuBG-MenuPanel.png");
+        menuBGImg = new ImageIcon("RobberyBob/resources/images/MenuPanel/menuPanelBG.png");
         Image image = menuBGImg.getImage();
         Image scaledImage = image.getScaledInstance((int) screenWidth, (int) screenHeight, Image.SCALE_REPLICATE);
         ImageIcon scaledImageIcon = new ImageIcon(scaledImage);
         menuBGLabel.setIcon(scaledImageIcon);
-        menuBGLabel.setBounds(0, 0, (int) screenWidth, (int) screenHeight);
-        this.add(menuBGLabel);
-
+        menuBGLabel.setBounds(0, 0,  (int) screenWidth, (int) screenHeight);
 
         playLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                playLabel.setIcon(new ImageIcon(finalScaledPlayImagec));
+                playLabel.setIcon(new ImageIcon(playImageNC));
                 mainFrame.frame.getContentPane().removeAll();
 
                 // view round panel
@@ -90,17 +94,17 @@ public class MenuPanel extends JPanel {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                playLabel.setIcon(new ImageIcon(finalScaledPlayImagec));
+                playLabel.setIcon(new ImageIcon(playImageC));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                playLabel.setIcon(new ImageIcon(finalScaledPlayImagenc));
+                playLabel.setIcon(new ImageIcon(playImageNC));
 
             }
         });
 
-        htpLabel.addMouseListener(new MouseAdapter() {
+        rulesLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 mainFrame.frame.getContentPane().removeAll();
@@ -116,13 +120,13 @@ public class MenuPanel extends JPanel {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                htpLabel.setIcon(htpImagec);
+                rulesLabel.setIcon(new ImageIcon(rulesImageC));
 
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                htpLabel.setIcon(htpImagenc);
+                rulesLabel.setIcon(new ImageIcon(rulesImageNC));
 
             }
         });
@@ -135,15 +139,22 @@ public class MenuPanel extends JPanel {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                exitLabel.setIcon(exitImagec);
+                exitLabel.setIcon(new ImageIcon(exitImageC));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                exitLabel.setIcon(exitImagenc);
+                exitLabel.setIcon(new ImageIcon(exitImageNC));
 
             }
         });
+
+        // add components to the panel
+        this.add(playLabel);
+        this.add(rulesLabel);
+        this.add(exitLabel);
+        this.add(menuTitleLabel);
+        this.add(menuBGLabel);
 
     }
 }

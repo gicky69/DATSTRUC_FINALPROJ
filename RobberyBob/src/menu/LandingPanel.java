@@ -23,18 +23,18 @@ public class LandingPanel extends JPanel {
         this.setLayout(null);
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenWidth = (int) screenSize.getWidth();
-        int screenHeight = (int) screenSize.getHeight();
+        double screenWidth = screenSize.getWidth();
+        double screenHeight = screenSize.getHeight();
 
         JLabel pressToStart = new JLabel("Click Anywhere to Start");
         int pressToStartWidth = 400;
-        pressToStart.setBounds((screenWidth/2)-(pressToStartWidth/2), screenHeight-300,pressToStartWidth,100);
-        pressToStart.setFont(new Font("DePixel", Font.BOLD, 20));
+        pressToStart.setBounds((int) (screenWidth/2)-(pressToStartWidth/2), (int)screenHeight-300,pressToStartWidth,100);
+        pressToStart.setFont(new Font("DePixel", Font.BOLD, 22));
         pressToStart.setHorizontalAlignment(SwingConstants.CENTER);
         pressToStart.setForeground(Color.WHITE);
 
         // Create a Timer with a delay of 500 ms
-        Timer timer = new Timer(1000, new ActionListener() {
+        Timer timer = new Timer(1200, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Toggle visibility of the JLabel
@@ -44,10 +44,23 @@ public class LandingPanel extends JPanel {
 
         timer.start();
 
-        JLabel background = new JLabel();
-        Image img = new ImageIcon("RobberyBob/resources/images/MenuPanel/landingPageBG.png").getImage().getScaledInstance(screenWidth, screenHeight, Image.SCALE_REPLICATE);
-        background.setIcon(new ImageIcon(img));
-        background.setBounds(0,0, screenWidth, screenHeight);
+        JLabel menuTitleLabel = new JLabel();
+        double menuTitleWidth = screenWidth/1.45;
+        double menuTitleHeight = screenHeight/3.2;
+        Image menuTitleImgScaled = new ImageIcon("RobberyBob/resources/images/MenuPanel/menuPanelTitle.png"
+            ).getImage().getScaledInstance((int) menuTitleWidth, (int) menuTitleHeight, Image.SCALE_REPLICATE);
+        menuTitleLabel.setIcon(new ImageIcon(menuTitleImgScaled));
+        menuTitleLabel.setBounds((int) (screenWidth-menuTitleWidth)/2, (int) (screenHeight/4.5), (int) menuTitleWidth, (int) menuTitleHeight);
+        System.out.println(screenHeight);
+        System.out.println(screenHeight/2);
+
+        JLabel menuBGLabel = new JLabel();
+        ImageIcon menuBGImg = new ImageIcon("RobberyBob/resources/images/MenuPanel/menuPanelBG.png");
+        Image image = menuBGImg.getImage();
+        Image scaledImage = image.getScaledInstance((int) screenWidth, (int) screenHeight, Image.SCALE_REPLICATE);
+        ImageIcon scaledImageIcon = new ImageIcon(scaledImage);
+        menuBGLabel.setIcon(scaledImageIcon);
+        menuBGLabel.setBounds(0, 0,  (int) screenWidth, (int) screenHeight);
 
 
         this.addMouseListener(new MouseAdapter() {
@@ -64,7 +77,8 @@ public class LandingPanel extends JPanel {
         });
 
         this.add(pressToStart);
-        this.add(background);
+        this.add(menuTitleLabel);
+        this.add(menuBGLabel);
         mainFrame.frame.add(this);
 
     }
