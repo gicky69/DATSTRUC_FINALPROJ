@@ -69,7 +69,6 @@ public class AccessPanel extends JPanel {
         double buttonLabelHeight = screenHeight/7.5;
         double y = screenHeight/1.9;
 
-
         loginButton = new JLabel();
         Image loginButtonNC = new ImageIcon("RobberyBob/resources/images/AccessPanel/loginNotClicked.png"
             ).getImage().getScaledInstance((int) buttonLabelWidth, (int) buttonLabelHeight, Image.SCALE_REPLICATE);
@@ -93,7 +92,6 @@ public class AccessPanel extends JPanel {
             ).getImage().getScaledInstance((int) buttonLabelWidth, (int) buttonLabelHeight, Image.SCALE_REPLICATE);
         registerButton.setIcon(new ImageIcon(registerButtonNC));
         registerButton.setBounds((int) (screenWidth-buttonLabelWidth)/2, (int) (screenHeight/2) + 150, (int) buttonLabelWidth, (int)buttonLabelHeight);
-
 
         loginBG = new JLabel();
         loginBGImg = new ImageIcon("RobberyBob/resources/images/AccessPanel/menuPanelBG.png");
