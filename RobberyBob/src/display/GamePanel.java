@@ -8,8 +8,6 @@ import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.image.BufferStrategy;
 
 
@@ -27,8 +25,6 @@ public class GamePanel extends JFrame {
     public ImageLoader imageLoader;
 
     // screen settings
-    public final int screenWidth = 1600;
-    public final int screenHeight = 1000;
     public final int tileSize = 40;
 
     // world settings

@@ -5,6 +5,7 @@ import controller.NPCController;
 import controller.PlayerController;
 import core.Position;
 import core.Size;
+import core.gameplay.los;
 import core.physics2d.Physics2D;
 import display.Camera;
 import display.ImageLoader;
@@ -165,7 +166,6 @@ public class Game {
 
     //#endregion
 
-
     //#region Getters
     public GameMap getMap() {
         return map;
@@ -173,6 +173,10 @@ public class Game {
 
     public Timer getTime() {
         return time;
+    }
+
+    public Player getPlayer() {
+        return (Player) gameObjects.get(0);
     }
 
     //#endregion
