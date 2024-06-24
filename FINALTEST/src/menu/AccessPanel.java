@@ -24,7 +24,6 @@ public class AccessPanel extends JPanel {
     public AccessPanel(Frame mainFrame, SubPanels subPanels) {
         this.mainFrame = mainFrame;
         this.subPanels = subPanels;
-
         mainFrame.frame.setVisible(true);
         userValidation = new UserValidation();
         menuPanel = new MenuPanel(mainFrame, subPanels, this);
@@ -32,15 +31,20 @@ public class AccessPanel extends JPanel {
         this.setSize(mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
         this.setLayout(null);
 
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double screenWidth = screenSize.getWidth();
+        double screenHeight = screenSize.getHeight();
+        int buttonWidth = (int) (screenWidth * 0.14);
+
         usernameLabel = new JLabel("Username");
-        usernameLabel.setBounds(260, 640, 200, 50);
+        usernameLabel.setBounds((((int) screenWidth/2)-500)-(buttonWidth/2),(int) screenHeight-400, 200, 50);
         Font userNameText = new Font("Constantia", Font.BOLD, 30);
         usernameLabel.setFont(userNameText);
         usernameLabel.setForeground(Color.WHITE);
         this.add(usernameLabel);
 
         usernameField = new JTextField("admin");
-        usernameField.setBounds(460, 645, 400, 50);
+        usernameField.setBounds((((int) screenWidth/2)-300)-(buttonWidth/2),(int) screenHeight-400, 400, 50);
         Font userNameFont = new Font("Cascadia Code", Font.BOLD, 30);
         usernameField.setFont(userNameFont);
         usernameField.setForeground(Color.blue);
@@ -49,14 +53,14 @@ public class AccessPanel extends JPanel {
         this.add(usernameField);
 
         passwordLabel = new JLabel("Password");
-        passwordLabel.setBounds(260, 765, 200, 50);
+        passwordLabel.setBounds((((int) screenWidth/2)-500)-(buttonWidth/2),(int) screenHeight-270, 200, 50);
         Font passwordText = new Font("Constantia", Font.BOLD, 30);
         passwordLabel.setFont(passwordText);
         passwordLabel.setForeground(Color.WHITE);
         this.add(passwordLabel);
 
         passwordField = new JPasswordField("admin");
-        passwordField.setBounds(460, 770, 400, 50);
+        passwordField.setBounds((((int) screenWidth/2)-300)-(buttonWidth/2),(int) screenHeight-270, 400, 50);
         Font passwordFont = new Font("Cascadia Code", Font.BOLD, 30);
         passwordField.setFont(passwordFont);
         passwordField.setForeground(Color.blue);
@@ -65,30 +69,33 @@ public class AccessPanel extends JPanel {
         this.add(passwordField);
 
         loginButton = new JLabel("Login");
-        loginButton.setBounds(1300, 250, 250, 150);
+        loginButton.setBounds((((int) screenWidth/2)+550)-(buttonWidth/2), (int) screenHeight-750, 250, 150);
         logInIMG = new ImageIcon("FINALTEST/images/Buttons/loginNotClicked-AccessPanel.png");
         logInHighlight = new ImageIcon("FINALTEST/images/Buttons/loginClicked-AccessPanel.png");
         loginButton.setIcon(logInIMG);
         this.add(loginButton);
 
         registerButton = new JLabel("Register");
-        registerButton.setBounds(1300, 450, 250, 150);
+        registerButton.setBounds((((int) screenWidth/2)+550)-(buttonWidth/2), (int) screenHeight-550, 250, 150);
         registerIMG = new ImageIcon("FINALTEST/images/Buttons/registerNotClicked-AccessPanel.png");
         registerHighlight = new ImageIcon("FINALTEST/images/Buttons/registerClicked-AccessPanel.png");
         registerButton.setIcon(registerIMG);
         this.add(registerButton);
 
         resetButton = new JLabel("Reset");
-        resetButton.setBounds(1300, 650, 250, 150);
+        resetButton.setBounds((((int) screenWidth/2)+550)-(buttonWidth/2), (int) screenHeight-350, 250, 150);
         resetIMG = new ImageIcon("FINALTEST/images/Buttons/resetNotClicked-AccessPanel.png");
         resetHighlight = new ImageIcon("FINALTEST/images/Buttons/resetClicked-AccessPanel.png");
         resetButton.setIcon(resetIMG);
         this.add(resetButton);
 
         logInBGLabel = new JLabel();
-        logInBGLabel.setBounds(0,0, 1920,1080);
+        logInBGLabel.setBounds(0,0, (int) screenWidth,(int)screenHeight);
         loginBGIMG = new ImageIcon("FINALTEST/images/MainIBG/accessBG-AccessPanel.png");
-        logInBGLabel.setIcon(loginBGIMG);
+        Image loginBGImage = loginBGIMG.getImage();
+        Image scaledLoginBGImage = loginBGImage.getScaledInstance((int) screenWidth, (int) screenHeight, Image.SCALE_SMOOTH);
+        ImageIcon finalloginBGIMG = new ImageIcon(scaledLoginBGImage);
+        logInBGLabel.setIcon(finalloginBGIMG);
         this.add(logInBGLabel);
 
 
@@ -133,23 +140,6 @@ public class AccessPanel extends JPanel {
 
             }
         });
-
-        /*loginButton.addActionListener(e -> {
-            // will store true/false
-            boolean isLoginSuccessful = userValidation.login(usernameField.getText(), passwordField.getText());
-
-            if (isLoginSuccessful) {
-                mainFrame.frame.getContentPane().removeAll();
-                menuPanel.setBounds(0, 0, mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
-                mainFrame.frame.add(menuPanel);
-                menuPanel.requestFocusInWindow();
-                mainFrame.update();
-                System.out.println("User Access Successful");
-            } else {
-                System.out.println("User Access Failed.");
-                JOptionPane.showMessageDialog(null, "Invalid username or password.", "Warning", JOptionPane.WARNING_MESSAGE);
-            }
-        });*/
 
         registerButton.addMouseListener(new MouseListener() {
             @Override
