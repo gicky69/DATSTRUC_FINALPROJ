@@ -20,7 +20,6 @@ public class LandingPanel extends JPanel {
         this.mainFrame = mainFrame;
         this.setSize(mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
         subPanels = new SubPanels();
-        this.setBackground(Color.orange);
         this.setLayout(null);
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -45,6 +44,11 @@ public class LandingPanel extends JPanel {
 
         timer.start();
 
+        JLabel background = new JLabel();
+        Image img = new ImageIcon("RobberyBob/resources/images/MenuPanel/landingPageBG.png").getImage().getScaledInstance(screenWidth, screenHeight, Image.SCALE_REPLICATE);
+        background.setIcon(new ImageIcon(img));
+        background.setBounds(0,0, screenWidth, screenHeight);
+
 
         this.addMouseListener(new MouseAdapter() {
             @Override
@@ -60,6 +64,7 @@ public class LandingPanel extends JPanel {
         });
 
         this.add(pressToStart);
+        this.add(background);
         mainFrame.frame.add(this);
 
     }

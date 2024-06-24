@@ -1,14 +1,11 @@
 package menu;
 
-import core.Size;
 import display.SubPanels;
-import game.Game;
-import game.GameLoop;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public class MenuPanel extends JPanel {
 
@@ -18,11 +15,9 @@ public class MenuPanel extends JPanel {
     ShopPanel shopPanel;
     SettingsPanel settingsPanel;
     HTPPanel htpPanel;
-    //JButton playButton, shopButton, settingsButton, tutorialButton, exitButton;
     JLabel playLabel,  shopLabel, settingsLabel, htpLabel, exitLabel, menuBGLabel;
     ImageIcon playImagenc, playImagec, shopImagenc, shopImagec, settingImagenc, settingImagec, htpImagenc, htpImagec, exitImagenc, exitImagec, menuBGImg;
     SubPanels subPanels;
-    String playerInUse;
 
     public MenuPanel(Frame mainFrame, SubPanels subPanels, AccessPanel accessPanel) {
         // screensize of user
@@ -76,9 +71,9 @@ public class MenuPanel extends JPanel {
         this.add(menuBGLabel);
 
 
-        playLabel.addMouseListener(new MouseListener() {
+        playLabel.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {
                 playLabel.setIcon(new ImageIcon(finalScaledPlayImagec));
                 mainFrame.frame.getContentPane().removeAll();
 
@@ -92,15 +87,6 @@ public class MenuPanel extends JPanel {
 
             }
 
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
 
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -114,112 +100,9 @@ public class MenuPanel extends JPanel {
             }
         });
 
-        /*shopLabel.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                mainFrame.frame.getContentPane().removeAll();
-                mainFrame.frame.setTitle("Shop");
-                shopPanel = new ShopPanel(mainFrame, accessPanel);
-                mainFrame.frame.add(shopPanel);
-                shopPanel.setBounds(0, 0, mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
-                shopPanel.requestFocusInWindow();
-                mainFrame.frame.revalidate();
-                mainFrame.frame.repaint();
-
-            }
-
+        htpLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                shopLabel.setIcon(shopImagec);
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                shopLabel.setIcon(shopImagenc);
-
-            }
-        });
-
-        settingsLabel.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                settingsLabel.setIcon(settingImagec);
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                settingsLabel.setIcon(settingImagenc);
-
-            }
-        });
-
-        settingsLabel.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                mainFrame.frame.setTitle("Settings");
-                mainFrame.frame.getContentPane().removeAll();
-                settingsPanel = new SettingsPanel(mainFrame, accessPanel);
-                mainFrame.frame.add(settingsPanel);
-                settingsPanel.setBounds(0, 0, mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
-                settingsPanel.requestFocusInWindow();
-                mainFrame.frame.revalidate();
-                mainFrame.frame.repaint();
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                settingsLabel.setIcon(settingImagec);
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                settingsLabel.setIcon(settingImagenc);
-
-            }
-        });*/
-
-        htpLabel.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
                 mainFrame.frame.getContentPane().removeAll();
                 mainFrame.frame.setTitle("Tutorial");
                 htpPanel = new HTPPanel(mainFrame, accessPanel);
@@ -228,16 +111,6 @@ public class MenuPanel extends JPanel {
                 htpPanel.requestFocusInWindow();
                 mainFrame.frame.revalidate();
                 mainFrame.frame.repaint();
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
 
             }
 
@@ -254,27 +127,15 @@ public class MenuPanel extends JPanel {
             }
         });
 
-        exitLabel.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            System.exit(0);
-            }
-
+        exitLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
+                System.exit(0);
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
                 exitLabel.setIcon(exitImagec);
-
-
             }
 
             @Override

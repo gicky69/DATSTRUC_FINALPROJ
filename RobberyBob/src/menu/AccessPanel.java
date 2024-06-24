@@ -6,6 +6,7 @@ import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.*;
@@ -96,9 +97,9 @@ public class AccessPanel extends JPanel {
         this.add(logInBGLabel);
 
 
-        loginButton.addMouseListener(new MouseListener() {
+        loginButton.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {
                 // will store true/false
                 playerInUse = userValidation.login(usernameField.getText(), passwordField.getText());
 
@@ -117,16 +118,6 @@ public class AccessPanel extends JPanel {
             }
 
             @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
             public void mouseEntered(MouseEvent e) {
                 loginButton.setIcon(logInHighlight);
             }
@@ -138,9 +129,9 @@ public class AccessPanel extends JPanel {
             }
         });
 
-        registerButton.addMouseListener(new MouseListener() {
+        registerButton.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {
                 boolean isRegisterSuccessful = userValidation.register(usernameField.getText(), passwordField.getText());
                 if (isRegisterSuccessful) {
                     System.out.println("Registration Successful");
@@ -149,16 +140,6 @@ public class AccessPanel extends JPanel {
                 else {
                     System.out.println("Registration Failed");
                 }
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
 
             }
 
@@ -176,21 +157,12 @@ public class AccessPanel extends JPanel {
         });
 
 
-        resetButton.addMouseListener(new MouseListener() {
+        resetButton.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {
                 resetButton.setIcon(resetIMG);
                 usernameField.setText("");
                 passwordField.setText("");
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
 
             }
 
@@ -225,6 +197,7 @@ public class AccessPanel extends JPanel {
                         return null;
                     }
                 }
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -245,20 +218,7 @@ public class AccessPanel extends JPanel {
                 return false;
             }
             else {
-//                try (BufferedReader reader = new BufferedReader(new FileReader(DB_UserCredentials))) {
-//                    String line;
-//                    while ((line = reader.readLine()) != null) {
-//                        String[] user = line.split(":");
-//                        if (user[1].equals(username)) {
-//                            JOptionPane.showMessageDialog(null, "Username already exists.", "Warning", JOptionPane.WARNING_MESSAGE);
-//                            return false;
-//                        }
 //
-//                    }
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-
                 try (BufferedWriter writer = new BufferedWriter(new FileWriter(DB_UserCredentials, true))) {
                     writer.write(userID + ":" + username + ":" + password); //add credentials to db
                     writer.newLine();
