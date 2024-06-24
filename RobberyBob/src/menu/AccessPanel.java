@@ -1,6 +1,7 @@
 package menu;
 
 import display.SubPanels;
+import org.w3c.dom.css.RGBColor;
 import tile.TileManager;
 
 import javax.swing.*;
@@ -38,62 +39,58 @@ public class AccessPanel extends JPanel {
 
         usernameLabel = new JLabel("Username");
         usernameLabel.setBounds((((int) screenWidth/2)-500)-(buttonWidth/2),(int) screenHeight-400, 200, 50);
-        Font userNameText = new Font("Constantia", Font.BOLD, 30);
+        Font userNameText = new Font("DePixel", Font.BOLD, 22);
         usernameLabel.setFont(userNameText);
         usernameLabel.setForeground(Color.WHITE);
         this.add(usernameLabel);
 
         usernameField = new JTextField("admin");
         usernameField.setBounds((((int) screenWidth/2)-300)-(buttonWidth/2),(int) screenHeight-400, 400, 50);
-        Font userNameFont = new Font("Cascadia Code", Font.BOLD, 30);
+        Font userNameFont = new Font("DePixel", Font.PLAIN, 20);
         usernameField.setFont(userNameFont);
-        usernameField.setForeground(Color.blue);
-        usernameField.setBackground(Color.white);
-        usernameField.setHorizontalAlignment(JTextField.CENTER);
+        usernameField.setBackground(new Color(196,216,255));
+        usernameField.setHorizontalAlignment(JTextField.LEFT);
         this.add(usernameField);
 
         passwordLabel = new JLabel("Password");
         passwordLabel.setBounds((((int) screenWidth/2)-500)-(buttonWidth/2),(int) screenHeight-270, 200, 50);
-        Font passwordText = new Font("Constantia", Font.BOLD, 30);
-        passwordLabel.setFont(passwordText);
+        passwordLabel.setFont(new Font("DePixel", Font.BOLD, 22));
         passwordLabel.setForeground(Color.WHITE);
         this.add(passwordLabel);
 
         passwordField = new JPasswordField("admin");
         passwordField.setBounds((((int) screenWidth/2)-300)-(buttonWidth/2),(int) screenHeight-270, 400, 50);
-        Font passwordFont = new Font("Cascadia Code", Font.BOLD, 30);
-        passwordField.setFont(passwordFont);
-        passwordField.setForeground(Color.blue);
-        passwordField.setBackground(Color.white);
-        passwordField.setHorizontalAlignment(JTextField.CENTER);
+        passwordField.setFont(new Font("DePixel", Font.PLAIN, 22));
+        passwordField.setBackground(new Color(196,216,255));
+        passwordField.setHorizontalAlignment(JTextField.LEFT);
         this.add(passwordField);
 
         loginButton = new JLabel("Login");
         loginButton.setBounds((((int) screenWidth/2)+550)-(buttonWidth/2), (int) screenHeight-750, 250, 150);
-        logInIMG = new ImageIcon("FINALTEST/images/Buttons/loginNotClicked-AccessPanel.png");
-        logInHighlight = new ImageIcon("FINALTEST/images/Buttons/loginClicked-AccessPanel.png");
+        logInIMG = new ImageIcon("RobberyBob/resources/images/Buttons/loginNotClicked-AccessPanel.png");
+        logInHighlight = new ImageIcon("RobberyBob/resources/images/Buttons/loginClicked-AccessPanel.png");
         loginButton.setIcon(logInIMG);
         this.add(loginButton);
 
         registerButton = new JLabel("Register");
         registerButton.setBounds((((int) screenWidth/2)+550)-(buttonWidth/2), (int) screenHeight-550, 250, 150);
-        registerIMG = new ImageIcon("FINALTEST/images/Buttons/registerNotClicked-AccessPanel.png");
-        registerHighlight = new ImageIcon("FINALTEST/images/Buttons/registerClicked-AccessPanel.png");
+        registerIMG = new ImageIcon("RobberyBob/resources/images/Buttons/registerNotClicked-AccessPanel.png");
+        registerHighlight = new ImageIcon("RobberyBob/resources/images/Buttons/registerClicked-AccessPanel.png");
         registerButton.setIcon(registerIMG);
         this.add(registerButton);
 
         resetButton = new JLabel("Reset");
         resetButton.setBounds((((int) screenWidth/2)+550)-(buttonWidth/2), (int) screenHeight-350, 250, 150);
-        resetIMG = new ImageIcon("FINALTEST/images/Buttons/resetNotClicked-AccessPanel.png");
-        resetHighlight = new ImageIcon("FINALTEST/images/Buttons/resetClicked-AccessPanel.png");
+        resetIMG = new ImageIcon("RobberyBob/resources/images/Buttons/resetNotClicked-AccessPanel.png");
+        resetHighlight = new ImageIcon("RobberyBob/resources/images/Buttons/resetClicked-AccessPanel.png");
         resetButton.setIcon(resetIMG);
         this.add(resetButton);
 
         logInBGLabel = new JLabel();
         logInBGLabel.setBounds(0,0, (int) screenWidth,(int)screenHeight);
-        loginBGIMG = new ImageIcon("FINALTEST/images/MainIBG/accessBG-AccessPanel.png");
+        loginBGIMG = new ImageIcon("RobberyBob/resources/images/MainIBG/accessBG-AccessPanel.png");
         Image loginBGImage = loginBGIMG.getImage();
-        Image scaledLoginBGImage = loginBGImage.getScaledInstance((int) screenWidth, (int) screenHeight, Image.SCALE_SMOOTH);
+        Image scaledLoginBGImage = loginBGImage.getScaledInstance((int) screenWidth, (int) screenHeight, Image.SCALE_REPLICATE);
         ImageIcon finalloginBGIMG = new ImageIcon(scaledLoginBGImage);
         logInBGLabel.setIcon(finalloginBGIMG);
         this.add(logInBGLabel);
@@ -178,21 +175,13 @@ public class AccessPanel extends JPanel {
             }
         });
 
-        /*registerButton.addActionListener(e -> {
-            boolean isRegisterSuccessful = userValidation.register(usernameField.getText(), passwordField.getText());
-            if (isRegisterSuccessful) {
-                System.out.println("Registration Successful");
-                JOptionPane.showMessageDialog(null, "Registration Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
-            }
-            else {
-                System.out.println("Registration Failed");
-            }
-        });*/
 
         resetButton.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
+                resetButton.setIcon(resetIMG);
+                usernameField.setText("");
+                passwordField.setText("");
             }
 
             @Override
@@ -221,8 +210,8 @@ public class AccessPanel extends JPanel {
 
     static class UserValidation {
 
-        static final String DB_UserCredentials = "FINALTEST/Database/users.txt";
-        static final String DB_UserData = "FINALTEST/Database/playerdata.txt";
+        static final String DB_UserCredentials = "RobberyBob/resources/Database/users.txt";
+        static final String DB_UserData = "RobberyBob/resources/Database/playerdata.txt";
 
         public String login(String username, String password) {
 

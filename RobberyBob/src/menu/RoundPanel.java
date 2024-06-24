@@ -146,14 +146,14 @@ public class RoundPanel extends  JPanel {
 
         backButton = new JLabel("Back");
         backButton.setBounds(20, 50, 250, 150);
-        backButtonHighlight = new ImageIcon("FINALTEST/images/buttons/backClicked-AllPanel.png");
-        backButtonIMG = new ImageIcon("FINALTEST/images/buttons/backNotClicked-AllPanel.png");
+        backButtonHighlight = new ImageIcon("RobberyBob/resources/images/buttons/backClicked-AllPanel.png");
+        backButtonIMG = new ImageIcon("RobberyBob/resources/images/buttons/backNotClicked-AllPanel.png");
         backButton.setIcon(backButtonIMG);
         this.add(backButton);
 
         roundLB = new JLabel();
         roundLB.setBounds(0,0,(int) screenWidth, (int) screenHeight);
-        roundIMG = new ImageIcon("FINALTEST/images/MainIBG/roundBG-RoundPanel.png");
+        roundIMG = new ImageIcon("RobberyBob/resources/images/MainIBG/roundBG-RoundPanel.png");
         Image image = roundIMG.getImage();
         Image scaledImage = image.getScaledInstance((int) screenWidth, (int) screenHeight, Image.SCALE_SMOOTH);
         ImageIcon scaledRoundLB = new ImageIcon(scaledImage);
@@ -200,7 +200,7 @@ public class RoundPanel extends  JPanel {
     }
 
     private int[] getPlayerRoundData(String playerId) {
-        String filePath = "FINALTEST/Database/playerdata.txt"; // Replace with the path to your text file
+        String filePath = "RobberyBob/resources/Database/playerdata.txt"; // Replace with the path to your text file
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -228,7 +228,7 @@ public class RoundPanel extends  JPanel {
 
     public void updatePlayerRoundData(String playerID, int difficultyIndex) {
         System.out.println("RUNNING updatePlayerRoundData()");
-        String filePath = "FINALTEST/Database/playerdata.txt";
+        String filePath = "RobberyBob/resources/Database/playerdata.txt";
         List<String> fileContent = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {

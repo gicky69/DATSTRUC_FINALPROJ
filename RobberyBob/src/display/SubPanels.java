@@ -2,6 +2,7 @@ package display;
 
 import core.Size;
 import entity.Item;
+import entity.Player;
 import game.Game;
 import game.GameLoop;
 import menu.RoundPanel;
@@ -21,6 +22,7 @@ public class SubPanels {
     RoundPanel roundPanel;
     public JPanel pausePanel, roundOverPanel;
     public boolean roundOver = false;
+    Player player;
     int roundDetail;
     JLabel pauseLB, resumeBGLB, quitBGLB, roundOverLB, nextLB, goBackLB;
     ImageIcon pauseIMG, resumeNC, resumeC, quitNC, quitC, nextNC, nextC, goBackC, goBackNC, roundOverBG;
@@ -44,7 +46,7 @@ public class SubPanels {
         pauseLB = new JLabel();
         pauseLB.setLayout(null);
         pauseLB.setBounds(0,0,500,500);
-        pauseIMG = new ImageIcon("FINALTEST/images/MainIBG/pauseBG-PausePanel.png");
+        pauseIMG = new ImageIcon("RobberyBob/resources/images/MainIBG/pauseBG-PausePanel.png");
         pauseLB.setIcon(pauseIMG);
         pausePanel.setSize(500, 500);
 
@@ -58,7 +60,7 @@ public class SubPanels {
         });
 
         resumeBGLB = new JLabel();
-        resumeNC = new ImageIcon("FINALTEST/images/buttons/resumeNotClicked-PausePanel.png");
+        resumeNC = new ImageIcon("RobberyBob/resources/images/buttons/resumeNotClicked-PausePanel.png");
         resumeBGLB.setLayout(null);
         resumeBGLB.setBounds(175,170,150,100);
         resumeBGLB.setIcon(resumeNC);
@@ -68,7 +70,6 @@ public class SubPanels {
             public void mouseClicked(MouseEvent e) {
                 game.isPaused = false;
                 pausePanel.setVisible(false);
-
             }
 
             @Override
@@ -83,20 +84,18 @@ public class SubPanels {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                resumeC = new ImageIcon("FINALTEST/images/buttons/resumeClicked-PausePanel.png");
+                resumeC = new ImageIcon("RobberyBob/resources/images/buttons/resumeClicked-PausePanel.png");
                 resumeBGLB.setIcon(resumeC);
-
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 resumeBGLB.setIcon(resumeNC);
-
             }
         });
 
         quitBGLB = new JLabel();
-        quitNC = new ImageIcon("FINALTEST/images/buttons/quitNotClicked-PausePanel.png");
+        quitNC = new ImageIcon("RobberyBob/resources/images/buttons/quitNotClicked-PausePanel.png");
         quitBGLB.setLayout(null);
         quitBGLB.setBounds(175,240,150,100);
         quitBGLB.setIcon(quitNC);
@@ -126,7 +125,7 @@ public class SubPanels {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                quitC = new ImageIcon("FINALTEST/images/buttons/quitClicked-PausePanel.png");
+                quitC = new ImageIcon("RobberyBob/resources/images/buttons/quitClicked-PausePanel.png");
                 quitBGLB.setIcon(quitC);
 
             }
@@ -138,71 +137,81 @@ public class SubPanels {
             }
         });
 
-
-        /*JButton resumeButton = new JButton("Resume");
-        JButton quitRoundButton = new JButton("Quit Round");
-        resumeButton.setSize(100, 50);*/
         pausePanel.add(resumeBGLB);
         pausePanel.add(quitBGLB);
         pausePanel.add(pauseLB);
-
-        /*resumeButton.addActionListener(e -> {
-            game.isPaused = false;
-            pausePanel.setVisible(false);
-        });*/
-
-        /*quitRoundButton.addActionListener(e -> {
-            game.isPaused = false;
-            roundOver = true;
-            pausePanel.setVisible(false);
-            roundPanel.updateDisplay();
-            roundPanel.mainFrame.frame.setVisible(true);
-            gamePanel.revalidate();
-            gamePanel.repaint();
-        });*/
 
         gamePanel.setLayout(null);
         gamePanel.add(pausePanel);
 
     }
-    public void setRoundOverPanel(GamePanel gamePanel, Game game, RoundPanel roundPanel) {
+    public void setRoundOverPanel(GamePanel gamePanel, Game game, RoundPanel roundPanel, Player player) {
         this.gamePanel = gamePanel;
         this.roundPanel = roundPanel;
+        this.player = player;
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        double screenWidth = screenSize.getWidth();
-        double screenHeight = screenSize.getHeight();
-        int buttonWidth = (int) (screenWidth * 0.14);
+        int screenWidth = (int) screenSize.getWidth();
+        int screenHeight = (int) screenSize.getHeight();
+        int buttonWidth = 250;
 
         roundOverPanel = new JPanel();
         roundOverPanel.setLayout(null);
-        roundOverPanel.setSize((int) screenWidth, (int) screenHeight);
+        roundOverPanel.setSize(screenWidth, screenHeight);
         roundOverPanel.setVisible(false);
 
+        // BACKGROUND image
         roundOverLB = new JLabel();
-        roundOverLB.setBounds(0,0,(int)screenWidth,(int) screenHeight);
-        roundOverBG = new ImageIcon("FINALTEST/images/MainIBG/roundoverBGIMG-RoundPanel.png");
+        roundOverLB.setBounds(0,0,screenWidth, screenHeight);
+        roundOverBG = new ImageIcon("RobberyBob/resources/images/MainIBG/roundoverBGIMG-RoundPanel.png");
         Image scaledRoundOverBG = roundOverBG.getImage();
-        Image finalScaledRoundOverBG = scaledRoundOverBG.getScaledInstance((int)screenWidth, (int)screenHeight, Image.SCALE_SMOOTH);
+        Image finalScaledRoundOverBG = scaledRoundOverBG.getScaledInstance(screenWidth, screenHeight, Image.SCALE_SMOOTH);
         roundOverLB.setIcon(new ImageIcon(finalScaledRoundOverBG));
 
+        // SCORES
+        JLabel greeting = new JLabel("Mission Accomplished!");
+        int greetingWidth = 650;
+        greeting.setBounds((screenWidth/2)-(greetingWidth/2),screenHeight-700,greetingWidth,100);
+        greeting.setFont(new Font("DePixel", Font.BOLD, 35));
+        greeting.setHorizontalAlignment(SwingConstants.CENTER);
+        greeting.setForeground(Color.WHITE);
+
+        JLabel scoreLabel = new JLabel();
+        int scoreLabelWidth = 600;
+        scoreLabel.setBounds((screenWidth/2)-(scoreLabelWidth/2),screenHeight-660,scoreLabelWidth,100);
+        scoreLabel.setFont(new Font("DePixel", Font.BOLD, 20));
+        scoreLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        scoreLabel.setForeground(Color.WHITE);
+        switch (roundPanel.currentDifficulty) {
+            case "easy":
+                scoreLabel.setText("You have scored " + 10 * player.itemsCollected + " points!");
+                break;
+            case "medium":
+                scoreLabel.setText("You have scored " + 25 * player.itemsCollected + " points!");
+                break;
+            case "hard":
+                scoreLabel.setText("You have scored " + 40 * player.itemsCollected + " points!");
+                break;
+        }
         nextLB = new JLabel();
-        nextNC = new ImageIcon("FINALTEST/images/buttons/nextNC-RoundPanel.png");
-        nextC = new ImageIcon("FINALTEST/images/buttons/nextC-RoundPanel.png");
-        nextLB.setLayout(null);
-        nextLB.setBounds((int) (screenWidth/2)-(buttonWidth/2),(int) screenHeight-550,250,150);
+        nextNC = new ImageIcon("RobberyBob/resources/images/buttons/nextNC-RoundPanel.png");
+        nextC = new ImageIcon("RobberyBob/resources/images/buttons/nextC-RoundPanel.png");
+        nextLB.setBounds((screenWidth/2)-(buttonWidth/2),screenHeight-550,250,150);
         nextLB.setIcon(nextNC);
-        roundOverPanel.add(nextLB);
 
         goBackLB = new JLabel();
-        goBackNC = new ImageIcon("FINALTEST/images/buttons/backNotClicked-AllPanel.png");
-        goBackC = new ImageIcon("FINALTEST/images/buttons/backClicked-AllPanel.png");
-        goBackLB.setLayout(null);
-        goBackLB.setBounds((int) (screenWidth/2)-(buttonWidth/2),(int) screenHeight-420,250,150);
+        goBackNC = new ImageIcon("RobberyBob/resources/images/buttons/backNotClicked-AllPanel.png");
+        goBackC = new ImageIcon("RobberyBob/resources/images/buttons/backClicked-AllPanel.png");
+        goBackLB.setBounds((screenWidth/2)-(buttonWidth/2),screenHeight-420,250,150);
         goBackLB.setIcon(goBackNC);
+
+
+        // add to round over panel
+        roundOverPanel.add(greeting);
+        roundOverPanel.add(scoreLabel);
+        roundOverPanel.add(nextLB);
         roundOverPanel.add(goBackLB);
-
-
+        
         nextLB.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -281,7 +290,6 @@ public class SubPanels {
             }
         });
 
-
         roundOverPanel.add(roundOverLB);
 
         JButton nextRound = new JButton("Next Round");
@@ -297,32 +305,6 @@ public class SubPanels {
         int centerY = (gamePanel.getHeight() - roundOverPanel.getHeight()) / 2;
         roundOverPanel.setLocation(centerX,centerY);
 
-        /*nextRound.addActionListener(e -> {
-            roundOver = false;
-            roundOverPanel.setVisible(false);
-            updateScore(roundPanel.accessPanel.playerInUse);
-            updateRoundDetails();
-            roundPanel.roundDetail++;
-            double width = roundPanel.getWidth();
-            double height = roundPanel.getHeight();
-            new Thread(new GameLoop(new Game(new Size((int)width, (int)height),(int)width, (int)height, roundPanel))).start();
-
-            gamePanel.revalidate();
-            gamePanel.repaint();
-            game.isPaused = false;
-        });*/
-
-        /*roundPanelButton.addActionListener(e -> {
-            roundOver = false;
-            roundOverPanel.setVisible(false);
-            updateScore(roundPanel.accessPanel.playerInUse);
-            updateRoundDetails();
-            roundPanel.updateDisplay();
-            roundPanel.mainFrame.frame.setVisible(true);
-            gamePanel.revalidate();
-            gamePanel.repaint();
-            game.isPaused = false;
-        });*/
 
     }
 
@@ -345,7 +327,7 @@ public class SubPanels {
 
     // will update score based on difficulty
     public void updateScore(String playerID) {
-        String filePath = "FINALTEST/Database/playerdata.txt";
+        String filePath = "RobberyBob/resources/Database/playerdata.txt";
         List<String> fileContent = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
@@ -370,13 +352,12 @@ public class SubPanels {
 
                     // add scores to player data
                     if (difficultyIndexNum == 0) {
-                        roundData[difficultyIndexNum] += 10;
+                        roundData[difficultyIndexNum] += 10 * player.itemsCollected;
                     } else if (difficultyIndexNum == 1) {
-                        roundData[difficultyIndexNum] += 25;
+                        roundData[difficultyIndexNum] += 25 * player.itemsCollected;
                     } else if (difficultyIndexNum == 2) {
-                        roundData[difficultyIndexNum] += 40;
+                        roundData[difficultyIndexNum] += 40 * player.itemsCollected;
                     }
-
 
                     StringBuilder sb = new StringBuilder();
                     for (int i = 0; i < roundData.length; i++) {

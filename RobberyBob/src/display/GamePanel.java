@@ -48,7 +48,6 @@ public class GamePanel extends JFrame {
         this.imageLoader = imageLoader;
         tileManager = new TileManager(this, subPanels, roundPanel);
         subPanels.setPausePanel(this, game);
-        subPanels.setRoundOverPanel(this, game, roundPanel);
 
         // frame settings
         this.setLayout(null);
@@ -75,21 +74,6 @@ public class GamePanel extends JFrame {
         Graphics2D g2 = (Graphics2D) g;
 
         g2.clearRect(0,0, getWidth(), getHeight());
-//        tileManager.draw(g2);
-
-        // Drawing the game object's sprites.
-//        for (GameObject gameObject : game.getGameObjects()) {
-//
-//            if (gameObject instanceof Player) {
-//                g2.drawImage(gameObject.getSprite(), player.getPosition().getX(), player.getPosition().getY(), null);
-//            } else {
-//                if (gameObject instanceof Enemy) {
-//                    g2.drawImage(gameObject.getSprite(), gameObject.getPosition().getX(), gameObject.getPosition().getY(), null);
-//                    ((Enemy) gameObject).drawFOV(g2);
-//                }
-//            }
-//
-//        }
 
         renderer.renderMap(this, g2);
         renderer.render(game, g2, player);

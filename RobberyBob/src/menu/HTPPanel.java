@@ -29,39 +29,39 @@ public class HTPPanel extends JPanel {
         backButton = new JLabel();
         backButton.setLayout(null);
         backButton.setBounds(50, 25, 250, 150);
-        backButtonHighlight = new ImageIcon("FINALTEST/images/buttons/backClicked-AllPanel.png");
-        backButtonIMG = new ImageIcon("FINALTEST/images/buttons/backNotClicked-AllPanel.png");
+        backButtonHighlight = new ImageIcon("RobberyBob/resources/images/buttons/backClicked-AllPanel.png");
+        backButtonIMG = new ImageIcon("RobberyBob/resources/images/buttons/backNotClicked-AllPanel.png");
         backButton.setIcon(backButtonIMG);
         this.add(backButton);
 
         nextLabel = new JLabel();
         nextLabel.setLayout(null);
-        nextIMG = new ImageIcon("FINALTEST/images/buttons/nextButton-HTPPanel.png");
+        nextIMG = new ImageIcon("RobberyBob/resources/images/buttons/nextButton-HTPPanel.png");
         nextLabel.setIcon(nextIMG);
         nextLabel.setBounds(1750,500, 150,150);
         this.add(nextLabel);
 
         backLabel = new JLabel();
         backLabel.setLayout(null);
-        backIMG = new ImageIcon("FINALTEST/images/buttons/backButton-HTPPanel.png");
+        backIMG = new ImageIcon("RobberyBob/resources/images/buttons/backButton-HTPPanel.png");
         backLabel.setIcon(backIMG);
         backLabel.setBounds(25,500, 150, 150);
         //this.add(backLabel);
 
         htp1bgLabel = new JLabel();
-        htp1BG = new ImageIcon("FINALTEST/images/MainIBG/htp1-HTPPanel.png");
+        htp1BG = new ImageIcon("RobberyBob/resources/images/MainIBG/htp1-HTPPanel.png");
         Image image = htp1BG.getImage();
-        Image scaledImage = image.getScaledInstance((int) screenWidth, (int) screenHeight, Image.SCALE_SMOOTH);
+        Image scaledImage = image.getScaledInstance((int) screenWidth, (int) screenHeight, Image.SCALE_REPLICATE);
         ImageIcon scaledImageIcon = new ImageIcon(scaledImage);
-        htp1bgLabel.setBounds(0,0,1920,1080);
+        htp1bgLabel.setBounds(0,0,(int) screenWidth,(int) screenHeight);
         htp1bgLabel.setIcon(scaledImageIcon);
         this.add(htp1bgLabel);
 
         htp2bgLabel = new JLabel();
         htp2bgLabel.setLayout(null);
-        htp2BG = new ImageIcon("FINALTEST/images/MainIBG/htp2-HTPPanel.png");
+        htp2BG = new ImageIcon("RobberyBob/resources/images/MainIBG/htp2-HTPPanel.png");
         htp2bgLabel.setIcon(htp2BG);
-        htp2bgLabel.setBounds(0,0,1920,1080);
+        htp2bgLabel.setBounds(0,0,(int) screenWidth,(int) screenHeight);
 
 
         nextLabel.addMouseListener(new MouseListener() {
@@ -99,7 +99,7 @@ public class HTPPanel extends JPanel {
 
                     @Override
                     public void mouseEntered(MouseEvent e) {
-                        backIMGClicked = new ImageIcon("FINALTEST/images/buttons/backButtonClicked-HTPPanel.png");
+                        backIMGClicked = new ImageIcon("RobberyBob/resources/images/buttons/backButtonClicked-HTPPanel.png");
                         backLabel.setIcon(backIMGClicked);
 
                     }
@@ -126,7 +126,7 @@ public class HTPPanel extends JPanel {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                nextIMGClicked = new ImageIcon("FINALTEST/images/buttons/nextButtonClicked-HTPPanel.png");
+                nextIMGClicked = new ImageIcon("RobberyBob/resources/images/buttons/nextButtonClicked-HTPPanel.png");
                 nextLabel.setIcon(nextIMGClicked);
 
             }

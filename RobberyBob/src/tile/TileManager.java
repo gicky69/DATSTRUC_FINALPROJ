@@ -31,7 +31,7 @@ public class TileManager {
         tile = new Tile[5];
         tileMap = new int[gamePanel.maxWorldRow][gamePanel.maxWorldCol];
         getTileImage();
-        loadMap("FINALTEST/resources/Map/map" + roundPanel.roundDetail +".txt");
+        loadMap("RobberyBob/resources/Map/map" + roundPanel.roundDetail +".txt");
     }
 
     // map is imported from txt.

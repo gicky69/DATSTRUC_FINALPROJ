@@ -25,6 +25,7 @@ public class Player extends GameObject {
     private Controller controller;
     private GamePanel gamePanel;
     public boolean itemCollected = false;
+    public int itemsCollected;
     private SubPanels subPanels;
     private Image[][] frames;
     public ImageLoader imageLoader;
@@ -158,8 +159,9 @@ public class Player extends GameObject {
         if (gamePanel.tileManager.tileMap[playerTileY][playerTileX] == 3 && itemCollected) {
             subPanels.roundOver = true;
             System.out.println("ROUND OVER");
+            System.out.println("Items collected: " + itemsCollected);
             gamePanel.roundPanel.updateDisplay();
-            subPanels.setRoundOverPanel(gamePanel, game, gamePanel.roundPanel);
+            subPanels.setRoundOverPanel(gamePanel, game, gamePanel.roundPanel, this);
             subPanels.roundOverPanel.setVisible(true);
 
             gamePanel.revalidate();

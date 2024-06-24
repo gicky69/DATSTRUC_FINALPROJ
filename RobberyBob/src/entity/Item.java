@@ -14,7 +14,7 @@ public class Item extends GameObject {
 
     public Item(Position position, RoundPanel roundPanel) {
         this.position = position; // from gameobject position, instantiate the position of the item
-        itemImage = new ImageIcon("FINALTEST/images/Items/money.gif");
+        itemImage = new ImageIcon("RobberyBob/resources/images/Items/money.gif");
         this.isActive = true;
         this.roundPanel = roundPanel;
 
@@ -34,7 +34,7 @@ public class Item extends GameObject {
                 player.itemCollected = true; // set player collection status to true
                 this.isActive = false; // make the item cold after collection
                 itemImage = null; // remove the item image on the map
-                System.out.println("ITEM COLLECTED");
+                player.itemsCollected++;
 
             }
         }

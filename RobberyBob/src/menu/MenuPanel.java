@@ -39,37 +39,37 @@ public class MenuPanel extends JPanel {
 
         playLabel = new JLabel();
         playLabel.setBounds((int) (screenWidth/2)-(buttonWidth/2),(int) (screenHeight-250),250,150);
-        playImagec = new ImageIcon("FINALTEST/images/buttons/playClicked-MenuPanel.png");
+        playImagec = new ImageIcon("RobberyBob/resources/images/buttons/playClicked-MenuPanel.png");
         Image scaledPlayImagec = playImagec.getImage();
-        Image finalScaledPlayImagec = scaledPlayImagec.getScaledInstance(buttonWidth, -1, Image.SCALE_SMOOTH);
-        playLabel.setIcon(new ImageIcon(finalScaledPlayImagec));
+        Image finalScaledPlayImagec = scaledPlayImagec.getScaledInstance(buttonWidth, -1, Image.SCALE_REPLICATE);
 
-        playImagenc = new ImageIcon("FINALTEST/images/buttons/playNotClicked-MenuPanel.png");
+        playImagenc = new ImageIcon("RobberyBob/resources/images/buttons/playNotClicked-MenuPanel.png");
         Image scaledPlayImagenc = playImagenc.getImage();
-        Image finalScaledPlayImagenc = scaledPlayImagenc.getScaledInstance(buttonWidth, -1, Image.SCALE_SMOOTH);
+        Image finalScaledPlayImagenc = scaledPlayImagenc.getScaledInstance(buttonWidth, -1, Image.SCALE_REPLICATE);
+        playLabel.setIcon(new ImageIcon(finalScaledPlayImagenc));
 
         playLabel.setVisible(true);
         this.add(playLabel);
 
         htpLabel = new JLabel("How to Play");
         htpLabel.setBounds((((int) screenWidth/2)-500)-(buttonWidth/2),(int) screenHeight-300,250,150);
-        htpImagenc = new ImageIcon("FINALTEST/images/buttons/rulesNotClicked-MenuPanel.png");
-        htpImagec = new ImageIcon("FINALTEST/images/buttons/rulesClicked-MenuPanel.png");
+        htpImagenc = new ImageIcon("RobberyBob/resources/images/buttons/rulesNotClicked-MenuPanel.png");
+        htpImagec = new ImageIcon("RobberyBob/resources/images/buttons/rulesClicked-MenuPanel.png");
         htpLabel.setIcon(htpImagenc);
         htpLabel.setVisible(true);
         this.add(htpLabel);
 
         exitLabel = new JLabel("Exit");
         exitLabel.setBounds((((int) screenWidth/2)+500)-(buttonWidth/2),(int) screenHeight-300,250,150);
-        exitImagenc = new ImageIcon("FINALTEST/images/buttons/exitNotClicked-MenuPanel.png");
-        exitImagec = new ImageIcon("FINALTEST/images/buttons/exitClicked-MenuPanel.png");
+        exitImagenc = new ImageIcon("RobberyBob/resources/images/buttons/exitNotClicked-MenuPanel.png");
+        exitImagec = new ImageIcon("RobberyBob/resources/images/buttons/exitClicked-MenuPanel.png");
         exitLabel.setIcon(exitImagenc);
         this.add(exitLabel);
 
         menuBGLabel = new JLabel();
-        menuBGImg = new ImageIcon("FINALTEST/images/MainIBG/mainMenuBG-MenuPanel.png");
+        menuBGImg = new ImageIcon("RobberyBob/resources/images/MainIBG/mainMenuBG-MenuPanel.png");
         Image image = menuBGImg.getImage();
-        Image scaledImage = image.getScaledInstance((int) screenWidth, (int) screenHeight, Image.SCALE_SMOOTH);
+        Image scaledImage = image.getScaledInstance((int) screenWidth, (int) screenHeight, Image.SCALE_REPLICATE);
         ImageIcon scaledImageIcon = new ImageIcon(scaledImage);
         menuBGLabel.setIcon(scaledImageIcon);
         menuBGLabel.setBounds(0, 0, (int) screenWidth, (int) screenHeight);
@@ -79,6 +79,7 @@ public class MenuPanel extends JPanel {
         playLabel.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                playLabel.setIcon(new ImageIcon(finalScaledPlayImagec));
                 mainFrame.frame.getContentPane().removeAll();
 
                 // view round panel

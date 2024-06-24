@@ -146,7 +146,7 @@ public class Game {
             entityCollision.tileChecker(gameObjects);
         }
         if (subPanels.roundOver && !isPaused) {
-            subPanels.setRoundOverPanel(frame, this, roundPanel);
+            subPanels.setRoundOverPanel(frame, this, roundPanel, player);
             isPaused = !isPaused;
         }
     }
