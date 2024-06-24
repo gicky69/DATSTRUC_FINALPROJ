@@ -68,7 +68,8 @@ public class TileManager {
                 try {
                     for (int i = 0; i < tile.length; i++) {
                         tile[i] = new Tile();
-                        tile[i].image = ImageIO.read(getClass().getResourceAsStream("/Tile/Tile" + i + ".png"));
+
+                        tile[i].image = ImageIO.read(getClass().getResourceAsStream("/images/Tile/Tile" + i + ".png"));
                         tile[i].setLength(40);
                         if (tile[i].image == null) {
                             System.out.println("Tile " + i +" not loaded");

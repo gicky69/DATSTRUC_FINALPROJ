@@ -7,13 +7,14 @@ import java.net.URL;
 
 public class ImageLoader {
 
-    final String imagePath = "/Sprite/";
+    final String imagePath = "/images/Sprite/";
     public int currentFrameIndex = 0;
     public int currentDirectionIndex = 0;
     public long lastFrameTime = System.currentTimeMillis();
     public long frameDelay = 120; // milli
 
     public ImageIcon loadImage(String entity) {
+        System.out.println(imagePath+entity+"/spritesheet.png");
         URL url = this.getClass().getResource(imagePath + entity + "/spritesheet.png");
         assert url != null;
         ImageIcon original = new ImageIcon(url);

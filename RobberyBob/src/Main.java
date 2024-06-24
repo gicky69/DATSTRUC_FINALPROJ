@@ -1,36 +1,35 @@
 import display.SubPanels;
 import menu.*;
 import menu.Frame;
+import Sound.*;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class Main {
     Frame mainFrame;
-    JButton startButton;
-    JButton exitButton;
-    AccessPanel loginPanel;
-    MenuPanel menuPanel;
-    ShopPanel shopPanel;
-    SettingsPanel settingsPanel;
-    HTPPanel htpPanel;
-    SubPanels subPanels;
+    LandingPanel landingPanel;
+    SoundManager soundManager;
+    Sound sound;
 
     public Main() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        double screenWidth = screenSize.getWidth();
-        double screenHeight = screenSize.getHeight();
+        int screenWidth = (int)screenSize.getWidth();
+        int screenHeight = (int)screenSize.getHeight();
 
-        mainFrame = new Frame((int) screenWidth, (int) screenHeight);
-        subPanels = new SubPanels();
-        loginPanel = new AccessPanel(mainFrame, subPanels);
+        soundManager = new SoundManager();
+        soundManager.importFX("/resources/sound/sfx/");
+        soundManager.importBGM("RobberyBob/resources/sound/bgm/");
 
-        mainFrame.frame.add(loginPanel);
-        loginPanel.requestFocusInWindow();
+        soundManager.playBGM();
+        mainFrame = new Frame(screenWidth, screenHeight);
+        landingPanel = new LandingPanel(mainFrame);
+
+        mainFrame.frame.add(landingPanel);
+        landingPanel.requestFocusInWindow();
         mainFrame.frame.revalidate();
         mainFrame.frame.repaint();
         mainFrame.frame.setVisible(true);
-
     }
 
     public static void main(String[] args) {
