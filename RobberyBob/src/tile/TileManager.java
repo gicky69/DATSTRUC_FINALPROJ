@@ -41,7 +41,7 @@ public class TileManager {
             String line;
             int row = 0;
             while ((line = br.readLine()) != null) {
-                String[] tokens = line.split(" ");
+                String[] tokens = line.trim().split(" ");
                 for (int col = 0; col < tokens.length; col++) {
                     tileMap[row][col] = Integer.parseInt(tokens[col]);
 //                    tileMap[row][col] = Character.getNumericValue(line.charAt(col));
