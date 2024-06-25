@@ -1,9 +1,6 @@
-package Sound;
+package sound;
 
 import javax.sound.sampled.*;
-import javax.swing.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,7 +10,14 @@ public class Sound {
     Clip clipFX, clipBGM;
     int gameBoardMusic;
 
-    public void sound(String filepath) { //sound("link")
+
+    public Sound() {
+
+
+
+    }
+
+    public void fx(String filepath) { //sound("link")
         try {
 
             Path path = Paths.get(filepath);
@@ -24,7 +28,7 @@ public class Sound {
 
             // Set volume
             FloatControl setVolume = (FloatControl) clipFX.getControl(FloatControl.Type.MASTER_GAIN);
-            setVolume.setValue(-8.0f);
+            setVolume.setValue(-4.0f);
 
             clipFX.start();
 
@@ -34,6 +38,7 @@ public class Sound {
             System.out.println("Error in playing sound/music.");
         }
     }
+
     public void bgMusic(String filepath) {
         try {
             Path path = Paths.get(filepath);
@@ -61,8 +66,26 @@ public class Sound {
         if (clipBGM != null) {
             FloatControl volumeControl = (FloatControl) clipBGM.getControl(FloatControl.Type.MASTER_GAIN);
             volumeControl.setValue(volume);
-        } else {
-            System.out.println("clipBGM is null. Unable to set volume.");
+        }
+    }
+
+    public void fadeVolume(float targetVolume, long durationMillis) {
+        if (clipBGM != null) {
+            FloatControl volumeControl = (FloatControl) clipBGM.getControl(FloatControl.Type.MASTER_GAIN);
+            float currentVolume = volumeControl.getValue();
+            float volumeStep = (targetVolume - currentVolume) / (durationMillis / 100); // Adjust volume every 100ms
+
+            new Thread(() -> {
+                while (Math.abs(volumeControl.getValue() - targetVolume) > Math.abs(volumeStep)) {
+                    volumeControl.setValue(volumeControl.getValue() + volumeStep);
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                volumeControl.setValue(targetVolume); // Ensure the target volume is accurately set
+            }).start();
         }
     }
 
@@ -76,6 +99,9 @@ public class Sound {
             System.out.println("clipBGM is null. Unable to stop and close.");
         }
     }
+
+
+
     public int randomMusicGen() {
         Random rand = new Random();
         gameBoardMusic = rand.nextInt(6);
