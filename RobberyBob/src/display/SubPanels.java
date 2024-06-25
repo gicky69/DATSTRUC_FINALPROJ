@@ -22,10 +22,7 @@ public class SubPanels {
     RoundPanel roundPanel;
     public JPanel pausePanel, roundOverPanel;
     public boolean roundOver = false;
-    Player player;
     int roundDetail;
-    JLabel pauseLB, resumeBGLB, quitBGLB, roundOverLB, nextLB, goBackLB;
-    ImageIcon pauseIMG, resumeNC, resumeC, quitNC, quitC, nextNC, nextC, goBackC, goBackNC, roundOverBG;
 
     public void setRoundDetail(int roundDetail, RoundPanel roundPanel) {
         this.roundDetail = roundDetail;
@@ -43,10 +40,10 @@ public class SubPanels {
         pausePanel.setLayout(null);
         pausePanel.setVisible(false);
 
-        pauseLB = new JLabel();
+        JLabel pauseLB = new JLabel();
         pauseLB.setLayout(null);
         pauseLB.setBounds(0,0,500,500);
-        pauseIMG = new ImageIcon("RobberyBob/resources/images/MainIBG/pauseBG-PausePanel.png");
+        ImageIcon pauseIMG = new ImageIcon("RobberyBob/resources/images/MainIBG/pauseBG-PausePanel.png");
         pauseLB.setIcon(pauseIMG);
         pausePanel.setSize(500, 500);
 
@@ -59,13 +56,13 @@ public class SubPanels {
             }
         });
 
-        resumeBGLB = new JLabel();
-        resumeNC = new ImageIcon("RobberyBob/resources/images/buttons/resumeNotClicked-PausePanel.png");
-        resumeBGLB.setLayout(null);
-        resumeBGLB.setBounds(175,170,150,100);
-        resumeBGLB.setIcon(resumeNC);
+        JLabel resumeButton = new JLabel();
+        ImageIcon resumeButtonNC = new ImageIcon("RobberyBob/resources/images/buttons/resumeNotClicked-PausePanel.png");
+        resumeButton.setLayout(null);
+        resumeButton.setBounds(175,170,150,100);
+        resumeButton.setIcon(resumeButtonNC);
 
-        resumeBGLB.addMouseListener(new MouseListener() {
+        resumeButton.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 game.isPaused = false;
@@ -84,23 +81,23 @@ public class SubPanels {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                resumeC = new ImageIcon("RobberyBob/resources/images/buttons/resumeClicked-PausePanel.png");
-                resumeBGLB.setIcon(resumeC);
+                ImageIcon resumeButtonImageC = new ImageIcon("RobberyBob/resources/images/buttons/resumeClicked-PausePanel.png");
+                resumeButton.setIcon(resumeButtonImageC);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                resumeBGLB.setIcon(resumeNC);
+                resumeButton.setIcon(resumeButtonNC);
             }
         });
 
-        quitBGLB = new JLabel();
-        quitNC = new ImageIcon("RobberyBob/resources/images/buttons/quitNotClicked-PausePanel.png");
-        quitBGLB.setLayout(null);
-        quitBGLB.setBounds(175,240,150,100);
-        quitBGLB.setIcon(quitNC);
+        JLabel quitButton = new JLabel();
+        ImageIcon quitButtonNC = new ImageIcon("RobberyBob/resources/images/buttons/quitNotClicked-PausePanel.png");
+        quitButton.setLayout(null);
+        quitButton.setBounds(175,240,150,100);
+        quitButton.setIcon(quitButtonNC);
 
-        quitBGLB.addMouseListener(new MouseListener() {
+        quitButton.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 game.isPaused = false;
@@ -125,94 +122,150 @@ public class SubPanels {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                quitC = new ImageIcon("RobberyBob/resources/images/buttons/quitClicked-PausePanel.png");
-                quitBGLB.setIcon(quitC);
+                ImageIcon quitImageC = new ImageIcon("RobberyBob/resources/images/buttons/quitClicked-PausePanel.png");
+                quitButton.setIcon(quitImageC);
 
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                quitBGLB.setIcon(quitNC);
+                quitButton.setIcon(quitButtonNC);
 
             }
         });
 
-        pausePanel.add(resumeBGLB);
-        pausePanel.add(quitBGLB);
+        pausePanel.add(resumeButton);
+        pausePanel.add(quitButton);
         pausePanel.add(pauseLB);
 
         gamePanel.setLayout(null);
         gamePanel.add(pausePanel);
 
     }
-    public void setRoundOverPanel(GamePanel gamePanel, Game game, RoundPanel roundPanel, Player player) {
+    public void setRoundOverPanel(GamePanel gamePanel, Game game, RoundPanel roundPanel) {
         this.gamePanel = gamePanel;
         this.roundPanel = roundPanel;
-        this.player = player;
+
+        System.out.println("CALLING SETROUNDOVER");
+
+        Player player = gamePanel.getPlayer();
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenWidth = (int) screenSize.getWidth();
         int screenHeight = (int) screenSize.getHeight();
-        int buttonWidth = 250;
 
         roundOverPanel = new JPanel();
         roundOverPanel.setLayout(null);
         roundOverPanel.setSize(screenWidth, screenHeight);
         roundOverPanel.setVisible(false);
 
-        // BACKGROUND image
-        roundOverLB = new JLabel();
-        roundOverLB.setBounds(0,0,screenWidth, screenHeight);
-        roundOverBG = new ImageIcon("RobberyBob/resources/images/MainIBG/roundoverBGIMG-RoundPanel.png");
-        Image scaledRoundOverBG = roundOverBG.getImage();
-        Image finalScaledRoundOverBG = scaledRoundOverBG.getScaledInstance(screenWidth, screenHeight, Image.SCALE_SMOOTH);
-        roundOverLB.setIcon(new ImageIcon(finalScaledRoundOverBG));
+        JLabel background = new JLabel();
+        Image bgWin = new ImageIcon("RobberyBob/resources/images/RoundOverPanel/backgroundWin.png"
+            ).getImage().getScaledInstance(screenWidth, screenHeight, Image.SCALE_REPLICATE);
+        Image bgLose = new ImageIcon("RobberyBob/resources/images/RoundOverPanel/backgroundLose.png"
+        ).getImage().getScaledInstance(screenWidth, screenHeight, Image.SCALE_REPLICATE);
+        background.setBounds(0, 0,  (int) screenWidth, (int) screenHeight);
+
+        // buttons' width and height
+        double buttonLabelWidth = screenWidth/6;
+        double buttonLabelHeight = screenHeight/13.5;
+
+        JLabel nextButton = new JLabel();
+        Image nextButtonNC = new ImageIcon("RobberyBob/resources/images/RoundOverPanel/nextButtonNotClicked.png"
+            ).getImage().getScaledInstance((int) buttonLabelWidth, (int) buttonLabelHeight, Image.SCALE_REPLICATE);
+        Image nextButtonC = new ImageIcon("RobberyBob/resources/images/RoundOverPanel/nextButtonClicked.png"
+            ).getImage().getScaledInstance((int) buttonLabelWidth, (int) buttonLabelHeight, Image.SCALE_REPLICATE);
+        nextButton.setIcon(new ImageIcon(nextButtonNC));
+        nextButton.setVisible(false);
+
+        JLabel retryButton = new JLabel();
+        Image retryButtonNC = new ImageIcon("RobberyBob/resources/images/RoundOverPanel/retryButtonNotClicked.png"
+        ).getImage().getScaledInstance((int) buttonLabelWidth, (int) buttonLabelHeight, Image.SCALE_REPLICATE);
+        Image retryButtonC = new ImageIcon("RobberyBob/resources/images/RoundOverPanel/retryButtonClicked.png"
+        ).getImage().getScaledInstance((int) buttonLabelWidth, (int) buttonLabelHeight, Image.SCALE_REPLICATE);
+        retryButton.setIcon(new ImageIcon(retryButtonNC));
+        retryButton.setVisible(false);
+
+        JLabel backButton = new JLabel();
+        Image backButtonNC = new ImageIcon("RobberyBob/resources/images/RoundOverPanel/backButtonNotClicked.png"
+            ).getImage().getScaledInstance((int) buttonLabelWidth, (int) buttonLabelHeight, Image.SCALE_REPLICATE);
+        Image backButtonC = new ImageIcon("RobberyBob/resources/images/RoundOverPanel/backButtonClicked.png"
+            ).getImage().getScaledInstance((int) buttonLabelWidth, (int) buttonLabelHeight, Image.SCALE_REPLICATE);
+        backButton.setIcon(new ImageIcon(backButtonNC));
+
+        JLabel stage = new JLabel();
+        Image stage1Image = new ImageIcon("RobberyBob/resources/images/RoundOverPanel/stage.png"
+        ).getImage().getScaledInstance((int) screenWidth, (int) screenHeight, Image.SCALE_REPLICATE);
+        Image stage2Image = new ImageIcon("RobberyBob/resources/images/RoundOverPanel/stage2.png"
+            ).getImage().getScaledInstance((int) screenWidth, (int) screenHeight, Image.SCALE_REPLICATE);
+        stage.setBounds(0, 0,  (int) screenWidth, (int) screenHeight);
 
         // SCORES
-        JLabel greeting = new JLabel("Mission Accomplished!");
-        int greetingWidth = 650;
-        greeting.setBounds((screenWidth/2)-(greetingWidth/2),screenHeight-700,greetingWidth,100);
-        greeting.setFont(new Font("DePixel", Font.BOLD, 35));
+        JLabel greeting = new JLabel("");
+        int greetingWidth = 700;
+        greeting.setBounds((screenWidth/2)-(greetingWidth/2),(int) (screenHeight/1.95),greetingWidth,100);
+        greeting.setFont(new Font("DePixel", Font.BOLD, 60));
         greeting.setHorizontalAlignment(SwingConstants.CENTER);
         greeting.setForeground(Color.WHITE);
 
         JLabel scoreLabel = new JLabel();
         int scoreLabelWidth = 600;
-        scoreLabel.setBounds((screenWidth/2)-(scoreLabelWidth/2),screenHeight-660,scoreLabelWidth,100);
-        scoreLabel.setFont(new Font("DePixel", Font.BOLD, 20));
+        scoreLabel.setBounds((screenWidth/2)-(scoreLabelWidth/2),(int) (screenHeight/1.3),scoreLabelWidth,100);
+        scoreLabel.setFont(new Font("DePixel", Font.BOLD, 68));
         scoreLabel.setHorizontalAlignment(SwingConstants.CENTER);
         scoreLabel.setForeground(Color.WHITE);
+        scoreLabel.setVisible(false);
         switch (roundPanel.currentDifficulty) {
             case "easy":
-                scoreLabel.setText("You have scored " + 10 * player.itemsCollected + " points!");
+                scoreLabel.setText(10 * player.itemsCollected + " points!");
                 break;
             case "medium":
-                scoreLabel.setText("You have scored " + 25 * player.itemsCollected + " points!");
+                scoreLabel.setText(25 * player.itemsCollected + " points!");
                 break;
             case "hard":
-                scoreLabel.setText("You have scored " + 40 * player.itemsCollected + " points!");
+                scoreLabel.setText(40 * player.itemsCollected + " points!");
                 break;
         }
-        nextLB = new JLabel();
-        nextNC = new ImageIcon("RobberyBob/resources/images/buttons/nextNC-RoundPanel.png");
-        nextC = new ImageIcon("RobberyBob/resources/images/buttons/nextC-RoundPanel.png");
-        nextLB.setBounds((screenWidth/2)-(buttonWidth/2),screenHeight-550,250,150);
-        nextLB.setIcon(nextNC);
 
-        goBackLB = new JLabel();
-        goBackNC = new ImageIcon("RobberyBob/resources/images/buttons/backNotClicked-AllPanel.png");
-        goBackC = new ImageIcon("RobberyBob/resources/images/buttons/backClicked-AllPanel.png");
-        goBackLB.setBounds((screenWidth/2)-(buttonWidth/2),screenHeight-420,250,150);
-        goBackLB.setIcon(goBackNC);
+        System.out.println(player.caught);
+        // Check if player is caught
+        if (player.caught) {
+            background.setIcon(new ImageIcon(bgLose));
+            stage.setIcon(new ImageIcon(stage2Image));
+            retryButton.setBounds((int) (screenWidth-buttonLabelWidth)/2, (int) (screenHeight/1.4), (int) buttonLabelWidth, (int)buttonLabelHeight);
+            backButton.setBounds((int) (screenWidth-buttonLabelWidth)/2, (int) (screenHeight/1.2), (int) buttonLabelWidth, (int)buttonLabelHeight);
+            retryButton.setVisible(true);
+            greeting.setText("YOU GOT CAUGHT!");
 
+        } else {
+            greeting.setText("YOU SCORED:");
+            background.setIcon(new ImageIcon(bgWin));
+            stage.setIcon(new ImageIcon(stage1Image));
+            nextButton.setBounds((int) ((screenWidth-buttonLabelWidth)/1.05), (int) (screenHeight/1.3), (int) buttonLabelWidth, (int)buttonLabelHeight);
+            backButton.setBounds((int) 50, (int) (screenHeight/1.3), (int) buttonLabelWidth, (int)buttonLabelHeight);
+            nextButton.setVisible(true);
+            scoreLabel.setVisible(true);
+
+            Timer timer = new Timer(600, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // Toggle visibility of the JLabel
+                    scoreLabel.setVisible(!scoreLabel.isVisible());
+                }
+            });
+
+            timer.start();        }
 
         // add to round over panel
         roundOverPanel.add(greeting);
         roundOverPanel.add(scoreLabel);
-        roundOverPanel.add(nextLB);
-        roundOverPanel.add(goBackLB);
+        roundOverPanel.add(backButton);
+        roundOverPanel.add(retryButton);
+        roundOverPanel.add(nextButton);
+        roundOverPanel.add(stage);
+        roundOverPanel.add(background);
         
-        nextLB.addMouseListener(new MouseListener() {
+        nextButton.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 roundOver = false;
@@ -242,17 +295,17 @@ public class SubPanels {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                nextLB.setIcon(nextC);
+                nextButton.setIcon(new ImageIcon(nextButtonC));
 
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                nextLB.setIcon(nextNC);
+                nextButton.setIcon(new ImageIcon(nextButtonNC));
             }
         });
 
-        goBackLB.addMouseListener(new MouseListener() {
+        backButton.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 roundOver = false;
@@ -279,18 +332,17 @@ public class SubPanels {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                goBackLB.setIcon(goBackC);
+                backButton.setIcon(new ImageIcon(backButtonC));
 
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                goBackLB.setIcon(goBackNC);
+                backButton.setIcon(new ImageIcon(backButtonNC));
 
             }
         });
 
-        roundOverPanel.add(roundOverLB);
 
         JButton nextRound = new JButton("Next Round");
         JButton roundPanelButton = new JButton("Go Back");
@@ -327,6 +379,7 @@ public class SubPanels {
 
     // will update score based on difficulty
     public void updateScore(String playerID) {
+        Player player = gamePanel.getPlayer();
         String filePath = "RobberyBob/resources/Database/playerdata.txt";
         List<String> fileContent = new ArrayList<>();
 

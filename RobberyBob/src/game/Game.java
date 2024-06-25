@@ -26,7 +26,7 @@ public class Game {
 
     //#region Back-end Init
 
-    private GamePanel frame;
+    private GamePanel gamePanel;
     private GameMap map;
     private List<GameObject> gameObjects;
     private KeyInputs input;
@@ -38,6 +38,8 @@ public class Game {
     public RoundPanel roundPanel;
     public boolean isPaused = false;
 
+    private Player player;
+
     protected Timer time;
     private AIManager aiManager;
     private NPCController NPCController = new NPCController();
@@ -45,16 +47,15 @@ public class Game {
 
     public Game(Size windowsSize, int width, int height, RoundPanel roundPanel) {
         this.roundPanel = roundPanel;
+        subPanels = new SubPanels();
         imageLoader = new ImageLoader();
         input = new KeyInputs();
         camera = new Camera(windowsSize);
-        subPanels = new SubPanels();
-        frame = new GamePanel(width, height, input, camera, this, subPanels, roundPanel, imageLoader);
-        map = new GameMap(frame.getTileManager());
+        gamePanel = new GamePanel(width, height, input, camera, this, subPanels, roundPanel, imageLoader);
+        map = new GameMap(gamePanel.getTileManager());
         gameObjects = new ArrayList<>();
         p2d = new Physics2D();
         p2d.game = this;
-
         time = new Timer();
         aiManager = new AIManager();
 
@@ -65,7 +66,7 @@ public class Game {
         addWalls();
         AddItem(new Position(500, 1500)); // This creates an item
         AddItem(new Position(1000, 1000));
-        entityCollision = new EntityCollision(frame);
+        entityCollision = new EntityCollision(gamePanel);
     }
 
     //#region Entity Management
@@ -82,18 +83,18 @@ public class Game {
 
     // Adds player as an object
     public void AddPlayer(Position pos) {
-        Player player = new Player(pos, new PlayerController(input), frame, subPanels);
+        Player player = new Player(pos, new PlayerController(input), gamePanel, subPanels);
         gameObjects.add(player);
         camera.focusOn(player);
         player.game = this; // Connect the player to the game master
         player.getCollision().setLayerMask(0, true);
         player.name = "Player";
-        frame.setPlayer(player);
+        gamePanel.setPlayer(player);
     }
 
     // Adds enemy
     public void AddEnemy(Position pos) {
-        Enemy enemy = new Enemy(pos);
+        Enemy enemy = new Enemy(pos, gamePanel, subPanels);
         gameObjects.add(enemy);
         enemy.game = this; // Connect the enemy to the game master
         enemy.name = "Enemy";
@@ -135,12 +136,12 @@ public class Game {
 
     // Updates each elements ng gameObjects list.
     public void update() {
-        Player player = frame.getPlayer();
+        Player player = gamePanel.getPlayer();
         if (player.getController().isPaused()) {
             isPaused = !isPaused;
         }
         if (!isPaused) {
-            camera.update(this, frame);
+            camera.update(this, gamePanel);
             gameObjects.forEach(GameObject::update);
             map.update();
             // GameObjects enemy index = 1
@@ -148,7 +149,7 @@ public class Game {
             entityCollision.tileChecker(gameObjects);
         }
         if (subPanels.roundOver && !isPaused) {
-            subPanels.setRoundOverPanel(frame, this, roundPanel, player);
+            subPanels.setRoundOverPanel(gamePanel, this, roundPanel);
             isPaused = !isPaused;
         }
     }
@@ -156,7 +157,7 @@ public class Game {
     // Renders yung frame which is yung GamePanel.
     public void render() {
         if (!isPaused) {
-            frame.render(this);
+            gamePanel.render(this);
         }
     }
 
@@ -181,4 +182,5 @@ public class Game {
     }
 
     //#endregion
+
 }

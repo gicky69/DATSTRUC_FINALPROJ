@@ -63,6 +63,10 @@ public class GamePanel extends JFrame {
         this.player = player;
     }
 
+    public Player getPlayer(Player player) {
+        return this.player;
+    }
+
     public void render(Game game) {
         // Draw the Player's sprite
         BufferStrategy bufferStrategy = getBufferStrategy();

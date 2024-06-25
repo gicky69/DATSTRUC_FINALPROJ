@@ -31,6 +31,7 @@ public class Player extends GameObject {
     public ImageLoader imageLoader;
     private Rectangle hitbox;
 
+
     public Player(Position pos, Controller controller, GamePanel gamePanel, SubPanels subPanels) {
 
         super();
@@ -38,6 +39,7 @@ public class Player extends GameObject {
         this.controller = controller;
         this.gamePanel = gamePanel;
         this.subPanels = subPanels;
+        this.caught = false;
         imageLoader = new ImageLoader();
 
         // Initialize Footstep
@@ -53,6 +55,8 @@ public class Player extends GameObject {
 
     @Override
     public void update() {
+
+        System.out.println("UPDATE PLAYER");
 
         // Update the player's state and frame
         int deltaX = 0;
@@ -156,12 +160,12 @@ public class Player extends GameObject {
         int playerTileY = position.getY() / gamePanel.tileSize;
 
         // 2D array, will check if player's position is on finish part and if item is collected
-        if (gamePanel.tileManager.tileMap[playerTileY][playerTileX] == 3 && itemCollected) {
+        if ((gamePanel.tileManager.tileMap[playerTileY][playerTileX] == 3 && itemCollected) && !caught){
             subPanels.roundOver = true;
             System.out.println("ROUND OVER");
             System.out.println("Items collected: " + itemsCollected);
             gamePanel.roundPanel.updateDisplay();
-            subPanels.setRoundOverPanel(gamePanel, game, gamePanel.roundPanel, this);
+            subPanels.setRoundOverPanel(gamePanel, game, gamePanel.roundPanel);
             subPanels.roundOverPanel.setVisible(true);
 
             gamePanel.revalidate();
