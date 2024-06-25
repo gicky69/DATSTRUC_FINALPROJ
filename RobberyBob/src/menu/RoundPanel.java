@@ -4,6 +4,7 @@ import core.Size;
 import display.SubPanels;
 import game.Game;
 import game.GameLoop;
+import sound.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,6 +25,7 @@ public class RoundPanel extends  JPanel {
     public List<JButton> easyDifficulty;
     public List<JButton> mediumDifficulty;
     public List<JButton> hardDifficulty;
+    SoundManager soundManager;
     JLabel temp = new JLabel("Round Panel");
     JLabel backButton, roundLB;
     ImageIcon backButtonIMG, backButtonHighlight, roundIMG;
@@ -32,7 +34,8 @@ public class RoundPanel extends  JPanel {
     double screenWidth = screenSize.getWidth();
     double screenHeight = screenSize.getHeight();
 
-    public RoundPanel(Frame mainFrame, SubPanels subPanels, AccessPanel accessPanel) {
+    public RoundPanel(Frame mainFrame, SubPanels subPanels, AccessPanel accessPanel, SoundManager soundManager) {
+        this.soundManager = soundManager;
         this.mainFrame = mainFrame;
         this.subPanels = subPanels;
         this.accessPanel = accessPanel;
@@ -156,7 +159,7 @@ public class RoundPanel extends  JPanel {
             @Override
             public void mousePressed(MouseEvent e) {
                 mainFrame.frame.getContentPane().removeAll();
-                MenuPanel menuPanel = new MenuPanel(mainFrame, subPanels, accessPanel);
+                MenuPanel menuPanel = new MenuPanel(mainFrame, subPanels, accessPanel, soundManager);
                 menuPanel.setBounds(0,0,mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
                 mainFrame.frame.add(menuPanel);
                 mainFrame.update();

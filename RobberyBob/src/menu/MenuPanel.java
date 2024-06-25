@@ -9,18 +9,16 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class MenuPanel extends JPanel {
-    SoundManager soundManager = new SoundManager();
+    SoundManager soundManager;
     Frame mainFrame;
     RoundPanel roundPanel;
     AccessPanel accessPanel;
-    ShopPanel shopPanel;
-    SettingsPanel settingsPanel;
     HTPPanel htpPanel;
     JLabel playLabel, menuTitleLabel,  shopLabel, settingsLabel, rulesLabel, exitLabel, menuBGLabel;
     ImageIcon menuBGImg;
     SubPanels subPanels;
 
-    public MenuPanel(Frame mainFrame, SubPanels subPanels, AccessPanel accessPanel) {
+    public MenuPanel(Frame mainFrame, SubPanels subPanels, AccessPanel accessPanel, SoundManager soundManager) {
         // screensize of user
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double screenWidth = screenSize.getWidth();
@@ -84,7 +82,7 @@ public class MenuPanel extends JPanel {
                 mainFrame.frame.getContentPane().removeAll();
 
                 // view round panel
-                roundPanel = new RoundPanel(mainFrame, subPanels, accessPanel);
+                roundPanel = new RoundPanel(mainFrame, subPanels, accessPanel, soundManager);
                 roundPanel.setBounds(0, 0, mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
                 mainFrame.frame.add(roundPanel);
                 mainFrame.frame.setTitle("Choose Difficulty & Round");
@@ -109,9 +107,10 @@ public class MenuPanel extends JPanel {
         rulesLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
+                soundManager.playButtonSound();
                 mainFrame.frame.getContentPane().removeAll();
                 mainFrame.frame.setTitle("Tutorial");
-                htpPanel = new HTPPanel(mainFrame, accessPanel);
+                htpPanel = new HTPPanel(mainFrame, accessPanel, soundManager);
                 mainFrame.frame.add(htpPanel);
                 htpPanel.setBounds(0, 0, mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
                 htpPanel.requestFocusInWindow();
@@ -136,6 +135,7 @@ public class MenuPanel extends JPanel {
         exitLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
+                soundManager.playButtonSound();
                 System.exit(0);
             }
 

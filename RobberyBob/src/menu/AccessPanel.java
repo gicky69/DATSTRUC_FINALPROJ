@@ -32,7 +32,7 @@ public class AccessPanel extends JPanel {
         this.soundManager = soundManager;
         mainFrame.frame.setVisible(true);
         userValidation = new UserValidation();
-        menuPanel = new MenuPanel(mainFrame, subPanels, this);
+        menuPanel = new MenuPanel(mainFrame, subPanels, this, soundManager);
 
         this.setSize(mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
         this.setLayout(null);
