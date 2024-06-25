@@ -31,7 +31,7 @@ public class TileManager {
         tile = new Tile[5];
         tileMap = new int[gamePanel.maxWorldRow][gamePanel.maxWorldCol];
         getTileImage();
-        loadMap("FINALTEST/resources/Map/map" + roundPanel.roundDetail +".txt");
+        loadMap("FINALTEST/resources/Map/map" + roundPanel. roundDetail + ".txt");
     }
 
     // map is imported from txt.
@@ -41,7 +41,7 @@ public class TileManager {
             String line;
             int row = 0;
             while ((line = br.readLine()) != null) {
-                String[] tokens = line.split(" ");
+                String[] tokens = line.trim().split(" ");
                 for (int col = 0; col < tokens.length; col++) {
                     tileMap[row][col] = Integer.parseInt(tokens[col]);
 //                    tileMap[row][col] = Character.getNumericValue(line.charAt(col));
@@ -127,8 +127,17 @@ public class TileManager {
 //                if (gamePanel.camera.getPosition().getY() > 0 && gamePanel.camera.getPosition().getY() < gamePanel.getWorldHeight() - gamePanel.screenHeight) {
 //                    worldY -= gamePanel.player.getPosition().getY() - gamePanel.screenHeight / 2;
 //                }
+//                System.out.println("MaxWorldCol: " + gamePanel.maxWorldCol + " MaxWorldRow: " + gamePanel.maxWorldRow);
+//                System.out.println("Row: " + row + " Col: " + col);
 
-                g2.drawImage(tile[tileMap[row][col]].image, worldX, worldY, null);
+                if (tileMap[row][col] >= 10) {
+                    g2.setColor(Color.BLACK);
+                    g2.fillRect(worldX, worldY, gamePanel.tileSize, gamePanel.tileSize);
+                }
+                else {
+                    g2.drawImage(tile[tileMap[row][col]].image, worldX, worldY, null);
+                }
+
                 col++;
 
                 if (col == gamePanel.maxWorldCol) {

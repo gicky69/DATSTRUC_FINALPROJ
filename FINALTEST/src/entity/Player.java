@@ -99,7 +99,7 @@ public class Player extends GameObject {
     } else if (deltaX != 0 || deltaY != 0) {
             footstep.setRadius(1.5f);
             footstep.setNoise(1.0f);
-            entitySpeed = 4;
+            entitySpeed = 3;
         } if (controller.isSneaking()) {
             footstep.setNoise(0.5f);
             footstep.setRadius(0.5f);
