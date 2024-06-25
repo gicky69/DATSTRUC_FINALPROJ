@@ -23,6 +23,7 @@ public abstract class GameObject {
     public double entitySpeed = 3f;
     public String direction = "";
     public boolean collisionOn = false;
+    public boolean caught = false;
     public Game game;
     public String name = "entity";
     public Movement movement;

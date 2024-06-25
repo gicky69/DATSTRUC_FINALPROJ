@@ -7,7 +7,9 @@ import core.Vector2D;
 import core.gameplay.los;
 import core.physics2d.Collider;
 //import tile.pathfinder.pathfinder.Node;
+import display.GamePanel;
 import display.ImageLoader;
+import display.SubPanels;
 import tile.pathfinder.pathfinder;
 //import tile.Pathfinder;
 
@@ -19,6 +21,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Enemy extends GameObject {
+
+    private GamePanel gamePanel;
+    private SubPanels subPanels;
 
     //#region Enemy Init
     private int EnemySpeed = 3;
@@ -41,8 +46,10 @@ public class Enemy extends GameObject {
 
     LinkedList<Line2D.Float> lines;
 
-    public Enemy(Position position) {
+    public Enemy(Position position, GamePanel gamePanel, SubPanels subPanels) {
         this.position = position;
+        this.gamePanel = gamePanel;
+        this.subPanels = subPanels;
         this.pf = new pathfinder();
         movement = new Movement();
         //imageLoader = new ImageLoader();
@@ -58,6 +65,23 @@ public class Enemy extends GameObject {
 
     @Override
     public void update() {
+        System.out.println("UPDATE ENEMY");
+        Player player = gamePanel.getPlayer();
+        if (this.getBounds().intersects(player.getBounds())) {
+            player.caught = true;
+            System.out.println("IS CAUGHT: " + player.caught);
+
+            subPanels.roundOver = true;
+            System.out.println("ROUND OVER");
+            gamePanel.roundPanel.updateDisplay();
+            player.itemsCollected = 0; // set to 0 after caught
+            subPanels.setRoundOverPanel(gamePanel, game, gamePanel.roundPanel);
+            subPanels.roundOverPanel.setVisible(true);
+
+            gamePanel.revalidate();
+            gamePanel.repaint();
+        }
+
 //        if (Pursuing) {
 //            Pursue();
 //        } else {
