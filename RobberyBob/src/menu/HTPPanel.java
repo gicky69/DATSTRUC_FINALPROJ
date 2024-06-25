@@ -14,7 +14,6 @@ public class HTPPanel extends JPanel {
     SoundManager soundManager;
     JLabel backButton;
     ImageIcon backButtonIMG, backButtonHighlight;
-    String playerInUse;
     ImageIcon htpBGImage, htpBoardImage, nextIMG, nextIMGClicked, backIMG, backIMGClicked;
     JLabel htpBG, htpBoard, nextLabel, backLabel;
     JLabel temp = new JLabel("How to Play Panel");
@@ -68,6 +67,15 @@ public class HTPPanel extends JPanel {
         instruction4.setForeground(Color.WHITE);
         instruction4.setBounds((int) ((screenWidth/2)-htpTitleWidth/2)-150, (int) (screenHeight/2)+255, htpTitleWidth, htpTitleHeight);
         this.add(instruction4);
+
+        JLabel instructions5 = new JLabel("<html><div style='text-align: center;'>" +
+                "<div style='font-size:28px'> ONE RULE: </div>Steal the item and go to the " +
+                "safe zone, but don't get" +
+                "caught!</html>");
+        instructions5.setFont(new Font("DePixel", Font.BOLD, 24));
+        instructions5.setForeground(Color.WHITE);
+        instructions5.setBounds((int) ((screenWidth/2)-htpTitleWidth/2)+400, (int) (screenHeight/2), htpTitleWidth, 150);
+        this.add(instructions5);
 
         htpBoard = new JLabel();
         htpBoardImage = new ImageIcon("RobberyBob/resources/images/HTPPanel/rulesBoard.png");
