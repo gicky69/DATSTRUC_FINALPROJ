@@ -1,18 +1,19 @@
-package Sound;
+package sound;
 
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SoundManager {
-    private Sound sound;
+    private Sound bgmSound;
+    private Sound sfxSound;
     private List<String> bgmTracks; // List of bgm tracks to play
     private List<String> sfxTracks;
 
     public SoundManager() {
-        this.sound = new Sound();
+        this.bgmSound = new Sound();
+        this.sfxSound = new Sound();
         this.bgmTracks = new ArrayList<>();
         this.sfxTracks = new ArrayList<>();
     }
@@ -29,6 +30,7 @@ public class SoundManager {
             }
         }
 
+        Collections.reverse(bgmTracks);
         System.out.println(bgmTracks);
     }
 
@@ -43,11 +45,26 @@ public class SoundManager {
                 }
             }
         }
+        Collections.reverse(sfxTracks);
+        System.out.println(sfxTracks);
     }
 
     public void playBGM() {
         for (String track : bgmTracks) {
-            sound.bgMusic(track);
+            bgmSound.bgMusic(track);
         }
+    }
+
+    public void playButtonSound() {
+        sfxSound.fx(sfxTracks.getFirst());
+    }
+
+    public void playScreenTransitionSound() {
+        sfxSound.fx(sfxTracks.get(1));
+    }
+
+    public void setBGMVolume(float volume) {
+        bgmSound.fadeVolume(volume, 1500);
+
     }
 }

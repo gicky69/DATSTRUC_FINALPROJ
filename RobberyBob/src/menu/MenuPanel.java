@@ -1,6 +1,7 @@
 package menu;
 
 import display.SubPanels;
+import sound.SoundManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,7 +9,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class MenuPanel extends JPanel {
-
+    SoundManager soundManager = new SoundManager();
     Frame mainFrame;
     RoundPanel roundPanel;
     AccessPanel accessPanel;
@@ -78,6 +79,7 @@ public class MenuPanel extends JPanel {
         playLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
+                soundManager.playButtonSound();
                 playLabel.setIcon(new ImageIcon(playImageNC));
                 mainFrame.frame.getContentPane().removeAll();
 

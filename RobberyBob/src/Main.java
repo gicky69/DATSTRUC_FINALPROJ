@@ -1,9 +1,7 @@
-import display.SubPanels;
 import menu.*;
 import menu.Frame;
-import Sound.*;
+import sound.*;
 
-import javax.swing.*;
 import java.awt.*;
 
 public class Main {
@@ -18,12 +16,12 @@ public class Main {
         int screenHeight = (int)screenSize.getHeight();
 
         soundManager = new SoundManager();
-        soundManager.importFX("/resources/sound/sfx/");
+        soundManager.importFX("RobberyBob/resources/sound/sfx/");
         soundManager.importBGM("RobberyBob/resources/sound/bgm/");
 
         soundManager.playBGM();
         mainFrame = new Frame(screenWidth, screenHeight);
-        landingPanel = new LandingPanel(mainFrame);
+        landingPanel = new LandingPanel(mainFrame, soundManager);
 
         mainFrame.frame.add(landingPanel);
         landingPanel.requestFocusInWindow();

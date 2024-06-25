@@ -1,7 +1,7 @@
 package menu;
 
 import display.SubPanels;
-import Sound.*;
+import sound.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,10 +14,11 @@ public class LandingPanel extends JPanel {
     Frame mainFrame;
     AccessPanel accessPanel;
     SubPanels subPanels;
-    Sound sound;
+    SoundManager soundManager;
 
-    public LandingPanel(Frame mainFrame) {
+    public LandingPanel(Frame mainFrame, SoundManager soundManager) {
         this.mainFrame = mainFrame;
+        this.soundManager = soundManager;
         this.setSize(mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
         subPanels = new SubPanels();
         this.setLayout(null);
@@ -66,13 +67,15 @@ public class LandingPanel extends JPanel {
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
+                soundManager.playScreenTransitionSound();
                 System.out.println("Clicked");
                 mainFrame.frame.getContentPane().removeAll();
-                accessPanel = new AccessPanel(mainFrame, subPanels);
+                accessPanel = new AccessPanel(mainFrame, subPanels, soundManager);
                 mainFrame.frame.add(accessPanel);
                 accessPanel.requestFocusInWindow();
                 mainFrame.frame.revalidate();
                 mainFrame.frame.repaint();
+                soundManager.setBGMVolume(-14.0f);
             }
         });
 

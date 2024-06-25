@@ -2,6 +2,8 @@ package menu;
 
 import display.SubPanels;
 import org.w3c.dom.css.RGBColor;
+import sound.Sound;
+import sound.SoundManager;
 import tile.TileManager;
 
 import javax.swing.*;
@@ -13,6 +15,7 @@ import java.io.*;
 import java.util.UUID;
 
 public class AccessPanel extends JPanel {
+    SoundManager soundManager;
     UserValidation userValidation;
     Frame mainFrame;
     MenuPanel menuPanel;
@@ -23,9 +26,10 @@ public class AccessPanel extends JPanel {
     ImageIcon logInIMG, logInHighlight, loginBGImg, registerIMG, registerHighlight, resetIMG, resetHighlight, loginBGIMG;
     public String playerInUse;
 
-    public AccessPanel(Frame mainFrame, SubPanels subPanels) {
+    public AccessPanel(Frame mainFrame, SubPanels subPanels, SoundManager soundManager) {
         this.mainFrame = mainFrame;
         this.subPanels = subPanels;
+        this.soundManager = soundManager;
         mainFrame.frame.setVisible(true);
         userValidation = new UserValidation();
         menuPanel = new MenuPanel(mainFrame, subPanels, this);
@@ -106,6 +110,7 @@ public class AccessPanel extends JPanel {
             public void mousePressed(MouseEvent e) {
                 // will store true/false
                 playerInUse = userValidation.login(usernameField.getText(), passwordField.getText());
+                soundManager.playButtonSound();
 
                 if (playerInUse != null) {
                     System.out.println("FROM ACCESS: " + playerInUse);
@@ -137,6 +142,7 @@ public class AccessPanel extends JPanel {
         registerButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
+                soundManager.playButtonSound();
                 boolean isRegisterSuccessful = userValidation.register(usernameField.getText(), passwordField.getText());
                 if (isRegisterSuccessful) {
                     System.out.println("Registration Successful");
@@ -167,6 +173,7 @@ public class AccessPanel extends JPanel {
         resetButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
+                soundManager.playButtonSound();
                 resetButton.setIcon(new ImageIcon(resetButtonNC));
                 usernameField.setText("");
                 passwordField.setText("");
