@@ -52,8 +52,6 @@ public class LandingPanel extends JPanel {
             ).getImage().getScaledInstance((int) menuTitleWidth, (int) menuTitleHeight, Image.SCALE_REPLICATE);
         menuTitleLabel.setIcon(new ImageIcon(menuTitleImgScaled));
         menuTitleLabel.setBounds((int) (screenWidth-menuTitleWidth)/2, (int) (screenHeight/4.5), (int) menuTitleWidth, (int) menuTitleHeight);
-        System.out.println(screenHeight);
-        System.out.println(screenHeight/2);
 
         JLabel menuBGLabel = new JLabel();
         ImageIcon menuBGImg = new ImageIcon("RobberyBob/resources/images/MenuPanel/menuPanelBG.png");

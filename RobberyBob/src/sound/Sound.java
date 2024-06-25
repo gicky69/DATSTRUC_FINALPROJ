@@ -28,7 +28,11 @@ public class Sound {
 
             // Set volume
             FloatControl setVolume = (FloatControl) clipFX.getControl(FloatControl.Type.MASTER_GAIN);
-            setVolume.setValue(-4.0f);
+            if (filepath.contains("buttonHover")) {
+                setVolume.setValue(-10.0f);
+            } else {
+                setVolume.setValue(-4.0f);
+            }
 
             clipFX.start();
 
@@ -44,8 +48,6 @@ public class Sound {
             Path path = Paths.get(filepath);
 
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(path.toFile());
-            System.out.println(path);
-
             clipBGM = AudioSystem.getClip();
             clipBGM.open(audioInputStream);
 

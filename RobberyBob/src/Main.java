@@ -8,16 +8,16 @@ public class Main {
     Frame mainFrame;
     LandingPanel landingPanel;
     SoundManager soundManager;
-    Sound sound;
 
     public Main() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenWidth = (int)screenSize.getWidth();
         int screenHeight = (int)screenSize.getHeight();
 
+        // directory for sfx and bgm
         soundManager = new SoundManager();
         soundManager.importFX("RobberyBob/resources/sound/sfx/");
-        soundManager.importBGM("RobberyBob/resources/sound/bgm/");
+        soundManager.importBGM("RobberyBob/resources/sound/bgm/landingPage/");
 
         soundManager.playBGM();
         mainFrame = new Frame(screenWidth, screenHeight);

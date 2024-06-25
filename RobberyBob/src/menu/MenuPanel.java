@@ -19,7 +19,7 @@ public class MenuPanel extends JPanel {
     SubPanels subPanels;
 
     public MenuPanel(Frame mainFrame, SubPanels subPanels, AccessPanel accessPanel, SoundManager soundManager) {
-        // screensize of user
+        // screen size of user
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double screenWidth = screenSize.getWidth();
         double screenHeight = screenSize.getHeight();
@@ -31,8 +31,8 @@ public class MenuPanel extends JPanel {
         this.setLayout(null);
 
         // buttons' width and height
-        double buttonLabelWidth = screenWidth/5.5;
-        double buttonLabelHeight = screenHeight/5.5;
+        double buttonLabelWidth = screenWidth/5;
+        double buttonLabelHeight = screenHeight/11.5;
 
         playLabel = new JLabel();
         Image playImageNC = new ImageIcon("RobberyBob/resources/images/MenuPanel/playNotClicked.png"
@@ -48,7 +48,7 @@ public class MenuPanel extends JPanel {
         Image rulesImageC = new ImageIcon("RobberyBob/resources/images/MenuPanel/rulesClicked.png"
             ).getImage().getScaledInstance((int) buttonLabelWidth, (int) buttonLabelHeight, Image.SCALE_REPLICATE);
         rulesLabel.setIcon(new ImageIcon(rulesImageNC));
-        rulesLabel.setBounds((int) (screenWidth-buttonLabelWidth)/2, (int) (screenHeight/2) + 100, (int) buttonLabelWidth, (int)buttonLabelHeight);
+        rulesLabel.setBounds((int) (screenWidth-buttonLabelWidth)/2, (int) (screenHeight/2) + 110, (int) buttonLabelWidth, (int)buttonLabelHeight);
 
         exitLabel = new JLabel();
         Image exitImageNC = new ImageIcon("RobberyBob/resources/images/MenuPanel/exitNotClicked.png"
@@ -77,7 +77,7 @@ public class MenuPanel extends JPanel {
         playLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                soundManager.playButtonSound();
+                soundManager.playPressed();
                 playLabel.setIcon(new ImageIcon(playImageNC));
                 mainFrame.frame.getContentPane().removeAll();
 
@@ -95,6 +95,7 @@ public class MenuPanel extends JPanel {
             @Override
             public void mouseEntered(MouseEvent e) {
                 playLabel.setIcon(new ImageIcon(playImageC));
+                soundManager.playHover();
             }
 
             @Override
@@ -107,7 +108,7 @@ public class MenuPanel extends JPanel {
         rulesLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                soundManager.playButtonSound();
+                soundManager.playPressed();
                 mainFrame.frame.getContentPane().removeAll();
                 mainFrame.frame.setTitle("Tutorial");
                 htpPanel = new HTPPanel(mainFrame, accessPanel, soundManager);
@@ -122,7 +123,7 @@ public class MenuPanel extends JPanel {
             @Override
             public void mouseEntered(MouseEvent e) {
                 rulesLabel.setIcon(new ImageIcon(rulesImageC));
-
+                soundManager.playHover();
             }
 
             @Override
@@ -135,13 +136,14 @@ public class MenuPanel extends JPanel {
         exitLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                soundManager.playButtonSound();
+                soundManager.playPressed();
                 System.exit(0);
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
                 exitLabel.setIcon(new ImageIcon(exitImageC));
+                soundManager.playHover();
             }
 
             @Override

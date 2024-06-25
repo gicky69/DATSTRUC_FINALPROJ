@@ -1,16 +1,12 @@
 package menu;
 
 import display.SubPanels;
-import org.w3c.dom.css.RGBColor;
-import sound.Sound;
 import sound.SoundManager;
-import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.*;
 import java.util.UUID;
 
@@ -23,7 +19,7 @@ public class AccessPanel extends JPanel {
     JLabel loginButton, registerButton, resetButton, loginBG;
     JLabel usernameLabel, passwordLabel;
     JTextField usernameField; JPasswordField passwordField;
-    ImageIcon logInIMG, logInHighlight, loginBGImg, registerIMG, registerHighlight, resetIMG, resetHighlight, loginBGIMG;
+    ImageIcon loginBGImg;
     public String playerInUse;
 
     public AccessPanel(Frame mainFrame, SubPanels subPanels, SoundManager soundManager) {
@@ -110,10 +106,9 @@ public class AccessPanel extends JPanel {
             public void mousePressed(MouseEvent e) {
                 // will store true/false
                 playerInUse = userValidation.login(usernameField.getText(), passwordField.getText());
-                soundManager.playButtonSound();
+                soundManager.playPressed();
 
                 if (playerInUse != null) {
-                    System.out.println("FROM ACCESS: " + playerInUse);
                     mainFrame.frame.getContentPane().removeAll();
                     menuPanel.setBounds(0, 0, mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
                     mainFrame.frame.add(menuPanel);
@@ -130,19 +125,19 @@ public class AccessPanel extends JPanel {
             @Override
             public void mouseEntered(MouseEvent e) {
                 loginButton.setIcon(new ImageIcon(loginButtonC));
+                soundManager.playHover();
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 loginButton.setIcon(new ImageIcon(loginButtonNC));
-
             }
         });
 
         registerButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                soundManager.playButtonSound();
+                soundManager.playPressed();
                 boolean isRegisterSuccessful = userValidation.register(usernameField.getText(), passwordField.getText());
                 if (isRegisterSuccessful) {
                     System.out.println("Registration Successful");
@@ -159,13 +154,12 @@ public class AccessPanel extends JPanel {
             @Override
             public void mouseEntered(MouseEvent e) {
                 registerButton.setIcon(new ImageIcon(registerButtonC));
-
+                soundManager.playHover();
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 registerButton.setIcon(new ImageIcon(registerButtonNC));
-
             }
         });
 
@@ -173,22 +167,21 @@ public class AccessPanel extends JPanel {
         resetButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                soundManager.playButtonSound();
+                soundManager.playPressed();
                 resetButton.setIcon(new ImageIcon(resetButtonNC));
                 usernameField.setText("");
                 passwordField.setText("");
-
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
                 resetButton.setIcon(new ImageIcon(resetButtonC));
+                soundManager.playHover();
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 resetButton.setIcon(new ImageIcon(resetButtonNC));
-
             }
         });
 
