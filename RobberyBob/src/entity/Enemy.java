@@ -47,7 +47,7 @@ public class Enemy extends GameObject {
         movement = new Movement();
         //imageLoader = new ImageLoader();
 
-        enemy = new ImageIcon("FINALTEST/images/Sprite/enemy/main_enemy-GamePanel.gif");
+        enemy = new ImageIcon("RobberyBob/resources/images/Sprite/enemy/main_enemy-GamePanel.gif");
 
         /*imageLoader.loadImage("Enemy");
         frames = imageLoader.loadSpriteSheet("Enemy", 48, 64, 4, 4);

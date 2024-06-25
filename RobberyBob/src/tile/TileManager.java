@@ -31,7 +31,7 @@ public class TileManager {
         tile = new Tile[35];
         tileMap = new int[gamePanel.maxWorldRow][gamePanel.maxWorldCol];
         getTileImage();
-        loadMap("RobberyBob/resources/Map/maptest.txt");
+        loadMap("RobberyBob/resources/Map/map" + roundPanel.roundDetail + ".txt");
     }
 
     // map is imported from txt.
@@ -75,7 +75,7 @@ public class TileManager {
                         } else {
                             loadedTiles.add(i);
                         }
-                        if (i == 1) {
+                        if (i == 1 || i == 4) { // floors
                             tile[i].collision = false;
                         }
 
