@@ -1,6 +1,7 @@
 package menu;
 
 import display.SubPanels;
+import sound.SoundManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,15 +11,17 @@ import java.awt.event.MouseListener;
 public class HTPPanel extends JPanel {
     Frame mainFrame;
     AccessPanel accessPanel;
+    SoundManager soundManager;
     JLabel backButton;
     ImageIcon backButtonIMG, backButtonHighlight;
     String playerInUse;
-    ImageIcon htp1BG, htp2BG, nextIMG, nextIMGClicked, backIMG, backIMGClicked;
-    JLabel htp1bgLabel, htp2bgLabel, nextLabel, backLabel;
+    ImageIcon htpBGImage, htpBoardImage, nextIMG, nextIMGClicked, backIMG, backIMGClicked;
+    JLabel htpBG, htpBoard, nextLabel, backLabel;
     JLabel temp = new JLabel("How to Play Panel");
-    public HTPPanel(Frame mainFrame, AccessPanel accessPanel) {
+    public HTPPanel(Frame mainFrame, AccessPanel accessPanel, SoundManager soundManager) {
         this.mainFrame = mainFrame;
         this.accessPanel = accessPanel;
+        this.soundManager = soundManager;
         this.add(temp);
         this.setLayout(null);
 
@@ -34,117 +37,61 @@ public class HTPPanel extends JPanel {
         backButton.setIcon(backButtonIMG);
         this.add(backButton);
 
-        nextLabel = new JLabel();
-        nextLabel.setLayout(null);
-        nextIMG = new ImageIcon("RobberyBob/resources/images/buttons/nextButton-HTPPanel.png");
-        nextLabel.setIcon(nextIMG);
-        nextLabel.setBounds(1750,500, 150,150);
-        this.add(nextLabel);
+        JLabel htpTitle = new JLabel("HOW TO PLAY");
+        int htpTitleWidth = 480;
+        int htpTitleHeight = 110;
+        htpTitle.setFont(new Font("DePixel", Font.BOLD, 48));
+        htpTitle.setForeground(Color.WHITE);
+        htpTitle.setBounds((int) ((screenWidth/2)-htpTitleWidth/2), htpTitleHeight, htpTitleWidth, htpTitleHeight);
+        this.add(htpTitle);
 
-        backLabel = new JLabel();
-        backLabel.setLayout(null);
-        backIMG = new ImageIcon("RobberyBob/resources/images/buttons/backButton-HTPPanel.png");
-        backLabel.setIcon(backIMG);
-        backLabel.setBounds(25,500, 150, 150);
-        //this.add(backLabel);
+        JLabel instruction1 = new JLabel("Press to move up");
+        instruction1.setFont(new Font("DePixel", Font.BOLD, 30));
+        instruction1.setForeground(Color.WHITE);
+        instruction1.setBounds((int) ((screenWidth/2)-htpTitleWidth/2)-150, (int) (screenHeight/2)-255, htpTitleWidth, htpTitleHeight);
+        this.add(instruction1);
 
-        htp1bgLabel = new JLabel();
-        htp1BG = new ImageIcon("RobberyBob/resources/images/MainIBG/htp1-HTPPanel.png");
-        Image image = htp1BG.getImage();
+        JLabel instruction2 = new JLabel("Press to move left");
+        instruction2.setFont(new Font("DePixel", Font.BOLD, 30));
+        instruction2.setForeground(Color.WHITE);
+        instruction2.setBounds((int) ((screenWidth/2)-htpTitleWidth/2)-150, (int) (screenHeight/2)-100, htpTitleWidth, htpTitleHeight);
+        this.add(instruction2);
+
+        JLabel instruction3 = new JLabel("Press to move right");
+        instruction3.setFont(new Font("DePixel", Font.BOLD, 30));
+        instruction3.setForeground(Color.WHITE);
+        instruction3.setBounds((int) ((screenWidth/2)-htpTitleWidth/2)-150, (int) (screenHeight/2)+70, htpTitleWidth, htpTitleHeight);
+        this.add(instruction3);
+
+        JLabel instruction4 = new JLabel("Press to move down");
+        instruction4.setFont(new Font("DePixel", Font.BOLD, 30));
+        instruction4.setForeground(Color.WHITE);
+        instruction4.setBounds((int) ((screenWidth/2)-htpTitleWidth/2)-150, (int) (screenHeight/2)+255, htpTitleWidth, htpTitleHeight);
+        this.add(instruction4);
+
+        htpBoard = new JLabel();
+        htpBoardImage = new ImageIcon("RobberyBob/resources/images/HTPPanel/rulesBoard.png");
+        Image imageBoard = htpBoardImage.getImage();
+        Image scaledImageBoard = imageBoard.getScaledInstance((int) screenWidth, (int) screenHeight, Image.SCALE_REPLICATE);
+        ImageIcon scaledImageIconBoard = new ImageIcon(scaledImageBoard);
+        htpBoard.setIcon(scaledImageIconBoard);
+        htpBoard.setBounds((int) ((screenWidth/2)-(screenWidth/2)), 0,  (int) screenWidth, (int) screenHeight);
+        this.add(htpBoard);
+
+        htpBG = new JLabel();
+        htpBGImage = new ImageIcon("RobberyBob/resources/images/HTPPanel/menuPanelBG.png");
+        Image image = htpBGImage.getImage();
         Image scaledImage = image.getScaledInstance((int) screenWidth, (int) screenHeight, Image.SCALE_REPLICATE);
         ImageIcon scaledImageIcon = new ImageIcon(scaledImage);
-        htp1bgLabel.setBounds(0,0,(int) screenWidth,(int) screenHeight);
-        htp1bgLabel.setIcon(scaledImageIcon);
-        this.add(htp1bgLabel);
-
-        htp2bgLabel = new JLabel();
-        htp2bgLabel.setLayout(null);
-        htp2BG = new ImageIcon("RobberyBob/resources/images/MainIBG/htp2-HTPPanel.png");
-        htp2bgLabel.setIcon(htp2BG);
-        htp2bgLabel.setBounds(0,0,(int) screenWidth,(int) screenHeight);
-
-
-        nextLabel.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                mainFrame.frame.getContentPane().removeAll();
-                mainFrame.frame.add(backLabel);
-                mainFrame.frame.add(backButton);
-                mainFrame.frame.add(htp2bgLabel);
-                mainFrame.frame.revalidate();
-                mainFrame.frame.repaint();
-
-                backLabel.addMouseListener(new MouseListener() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        mainFrame.frame.getContentPane().removeAll();
-                        mainFrame.frame.add(nextLabel);
-                        mainFrame.frame.add(backButton);
-                        mainFrame.frame.add(htp1bgLabel);
-                        mainFrame.frame.revalidate();
-                        mainFrame.frame.repaint();
-
-
-                    }
-
-                    @Override
-                    public void mousePressed(MouseEvent e) {
-
-                    }
-
-                    @Override
-                    public void mouseReleased(MouseEvent e) {
-
-                    }
-
-                    @Override
-                    public void mouseEntered(MouseEvent e) {
-                        backIMGClicked = new ImageIcon("RobberyBob/resources/images/buttons/backButtonClicked-HTPPanel.png");
-                        backLabel.setIcon(backIMGClicked);
-
-                    }
-
-                    @Override
-                    public void mouseExited(MouseEvent e) {
-                        backLabel.setIcon(backIMG);
-                    }
-                });
-
-
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                nextIMGClicked = new ImageIcon("RobberyBob/resources/images/buttons/nextButtonClicked-HTPPanel.png");
-                nextLabel.setIcon(nextIMGClicked);
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                nextLabel.setIcon(nextIMG);
-
-            }
-        });
-
-
+        htpBG.setIcon(scaledImageIcon);
+        htpBG.setBounds(0, 0,  (int) screenWidth, (int) screenHeight);
+        this.add(htpBG);
 
         backButton.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 mainFrame.frame.getContentPane().removeAll();
-                mainFrame.frame.add(new MenuPanel(mainFrame, new SubPanels(), accessPanel));
+                mainFrame.frame.add(new MenuPanel(mainFrame, new SubPanels(), accessPanel, soundManager));
                 mainFrame.frame.setTitle("Robbery Bob");
                 mainFrame.frame.revalidate();
                 mainFrame.frame.repaint();

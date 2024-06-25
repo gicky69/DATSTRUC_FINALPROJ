@@ -27,12 +27,12 @@ public class LandingPanel extends JPanel {
         double screenWidth = screenSize.getWidth();
         double screenHeight = screenSize.getHeight();
 
-        JLabel pressToStart = new JLabel("Click Anywhere to Start");
+        JLabel pressToStart = new JLabel("CLICK TO START");
         int pressToStartWidth = 400;
         pressToStart.setBounds((int) (screenWidth/2)-(pressToStartWidth/2), (int)screenHeight-300,pressToStartWidth,100);
-        pressToStart.setFont(new Font("DePixel", Font.BOLD, 22));
+        pressToStart.setFont(new Font("DePixel", Font.BOLD, 24));
         pressToStart.setHorizontalAlignment(SwingConstants.CENTER);
-        pressToStart.setForeground(Color.WHITE);
+        pressToStart.setForeground(Color.CYAN);
 
         // Create a Timer with a delay of 500 ms
         Timer timer = new Timer(1200, new ActionListener() {
