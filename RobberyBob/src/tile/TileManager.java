@@ -28,10 +28,10 @@ public class TileManager {
         this.subPanels = subPanels;
         this.roundPanel = roundPanel;
 
-        tile = new Tile[5];
+        tile = new Tile[35];
         tileMap = new int[gamePanel.maxWorldRow][gamePanel.maxWorldCol];
         getTileImage();
-        loadMap("RobberyBob/resources/Map/map" + roundPanel.roundDetail +".txt");
+        loadMap("RobberyBob/resources/Map/maptest.txt");
     }
 
     // map is imported from txt.
@@ -41,7 +41,7 @@ public class TileManager {
             String line;
             int row = 0;
             while ((line = br.readLine()) != null) {
-                String[] tokens = line.trim().split(" ");
+                String[] tokens = line.split(" ");
                 for (int col = 0; col < tokens.length; col++) {
                     tileMap[row][col] = Integer.parseInt(tokens[col]);
 //                    tileMap[row][col] = Character.getNumericValue(line.charAt(col));
@@ -68,7 +68,6 @@ public class TileManager {
                 try {
                     for (int i = 0; i < tile.length; i++) {
                         tile[i] = new Tile();
-
                         tile[i].image = ImageIO.read(getClass().getResourceAsStream("/images/Tile/Tile" + i + ".png"));
                         tile[i].setLength(40);
                         if (tile[i].image == null) {
@@ -76,12 +75,13 @@ public class TileManager {
                         } else {
                             loadedTiles.add(i);
                         }
+                        if (i == 1) {
+                            tile[i].collision = false;
+                        }
 
                         if (i == 0) {
-                            tile[i].collision = true;
                             tile[i].pathable = false;
                         } else if (i == 2){
-                            tile[i].collision = true;
                             tile[i].pathable = false;
                         }
                     }
@@ -130,6 +130,7 @@ public class TileManager {
 //                }
 
                 g2.drawImage(tile[tileMap[row][col]].image, worldX, worldY, null);
+
                 col++;
 
                 if (col == gamePanel.maxWorldCol) {
