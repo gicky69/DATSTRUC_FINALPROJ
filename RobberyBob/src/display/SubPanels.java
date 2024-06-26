@@ -140,6 +140,7 @@ public class SubPanels {
     public void setRoundOverPanel(GamePanel gamePanel, Game game, RoundPanel roundPanel) {
         this.gamePanel = gamePanel;
         this.roundPanel = roundPanel;
+        SoundManager soundManager1 = new SoundManager();
 
         System.out.println("CALLING SETROUNDOVER");
 
@@ -336,13 +337,40 @@ public class SubPanels {
             }
         });
 
+        retryButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                soundManager1.playPressed();
+                roundOver = false;
+                roundOverPanel.setVisible(false);
+                updateScore(roundPanel.accessPanel.playerInUse);
+                player.itemsCollected = 0;
+                updateRoundDetails();
+                player.caught = false;
+                double width = roundPanel.getWidth();
+                double height = roundPanel.getHeight();
+                new Thread(new GameLoop(new Game(new Size((int)width, (int)height),(int)width, (int)height, roundPanel))).start();
 
-        JButton nextRound = new JButton("Next Round");
-        JButton roundPanelButton = new JButton("Go Back");
-        nextRound.setSize(100, 50);
-        roundPanelButton.setSize(100, 50);
-        roundOverPanel.add(nextRound);
-        roundOverPanel.add(roundPanelButton);
+                roundOverPanel.setFocusable(false);
+                gamePanel.revalidate();
+                gamePanel.repaint();
+                game.isPaused = false;
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                soundManager.playHover();
+                retryButton.setIcon(new ImageIcon(retryButtonC));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                retryButton.setIcon(new ImageIcon(retryButtonNC));
+            }
+        });
+
+
         gamePanel.add(roundOverPanel);
 
         // Calculate the center position of the GamePanel

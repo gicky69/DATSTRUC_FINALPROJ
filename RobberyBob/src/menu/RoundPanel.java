@@ -56,6 +56,8 @@ public class RoundPanel extends  JPanel {
             ).getImage().getScaledInstance((int) difficultyLabelWidth, (int) difficultyLabelHeight, Image.SCALE_REPLICATE);
         difficultyLabel.setIcon(new ImageIcon(difficultyLabelImage));
         difficultyLabel.setBounds((int) ((screenWidth/2)-(difficultyLabelWidth/2)), (int)(screenHeight*.06), (int) difficultyLabelWidth, (int) difficultyLabelHeight);
+        difficultyLabel.setMinimumSize(new Dimension((int) difficultyLabelWidth, (int) difficultyLabelHeight));
+        difficultyLabel.setMaximumSize(new Dimension((int) difficultyLabelWidth, (int) difficultyLabelHeight));
         this.add(difficultyLabel);
 
         double diffLabelWidth = screenWidth/5.5;
@@ -96,6 +98,8 @@ public class RoundPanel extends  JPanel {
             ).getImage().getScaledInstance((int) (backButtonWidth), (int) (backButtonHeight), Image.SCALE_REPLICATE);
         backButton.setBounds((int) (screenWidth/2-backButtonWidth/2), (int) (screenHeight/1.25), (int) backButtonWidth, (int) backButtonHeight);
         backButton.setIcon(new ImageIcon(backButtonImageNC));
+        backButton.setMinimumSize(new Dimension((int) backButtonWidth, (int) backButtonHeight));
+        backButton.setMaximumSize(new Dimension((int) backButtonWidth, (int) backButtonHeight));
         this.add(backButton);
 
         JLabel roundPanelBG = new JLabel();
@@ -105,6 +109,8 @@ public class RoundPanel extends  JPanel {
         ImageIcon scaledImageIcon = new ImageIcon(scaledImage);
         roundPanelBG.setIcon(scaledImageIcon);
         roundPanelBG.setBounds(0, 0,  (int) screenWidth, (int) screenHeight);
+        roundPanelBG.setMinimumSize(new Dimension((int) screenWidth, (int) screenHeight));
+        roundPanelBG.setMaximumSize(new Dimension((int) screenWidth, (int) screenHeight));
         this.add(roundPanelBG);
 
         backButton.addMouseListener(new MouseAdapter() {
@@ -245,8 +251,9 @@ public class RoundPanel extends  JPanel {
         String imagePathC = "RobberyBob/resources/images/RoundPanel/round" + roundNum + "Clicked.png";
         Image roundButtonImageNC = new ImageIcon(imagePathNC).getImage().getScaledInstance((int) buttonLabelWidth, (int) buttonLabelHeight, Image.SCALE_REPLICATE);
         Image roundButtonImageC = new ImageIcon(imagePathC).getImage().getScaledInstance((int) buttonLabelWidth, (int) buttonLabelHeight, Image.SCALE_REPLICATE);
-
         roundButton.setIcon(new ImageIcon(roundButtonImageNC));
+        roundButton.setMinimumSize(new Dimension((int) buttonLabelWidth, (int) buttonLabelHeight));
+        roundButton.setMaximumSize(new Dimension((int) buttonLabelWidth, (int) buttonLabelHeight));
 
         roundButton.addMouseListener(new MouseAdapter() {
             @Override
