@@ -44,12 +44,16 @@ public class AccessPanel extends JPanel {
         Font userNameText = new Font("DePixel", Font.BOLD, 25);
         usernameLabel.setFont(userNameText);
         usernameLabel.setForeground(Color.WHITE);
+        usernameLabel.setMinimumSize(textFieldSize);
+        usernameLabel.setMaximumSize(textFieldSize);
         this.add(usernameLabel);
 
         usernameField = new JTextField("admin");
         usernameField.setBounds((((int) screenWidth/2))-(textFieldSize.width/2),(int) screenHeight-730, textFieldSize.width, textFieldSize.height);
         usernameField.setFont(new Font("DePixel", Font.PLAIN, 22));
         usernameField.setHorizontalAlignment(JTextField.LEFT);
+        usernameField.setMinimumSize(textFieldSize);
+        usernameField.setMaximumSize(textFieldSize);
         this.add(usernameField);
 
         passwordLabel = new JLabel("Password");
@@ -57,12 +61,16 @@ public class AccessPanel extends JPanel {
         Font passwordText = new Font("DePixel", Font.BOLD, 25);
         passwordLabel.setFont(passwordText);
         passwordLabel.setForeground(Color.WHITE);
+        passwordLabel.setMinimumSize(textFieldSize);
+        passwordLabel.setMaximumSize(textFieldSize);
         this.add(passwordLabel);
 
         passwordField = new JPasswordField("admin");
         passwordField.setBounds((((int) screenWidth/2))-(textFieldSize.width/2),(int) screenHeight-560, textFieldSize.width, textFieldSize.height);
         passwordField.setFont(new Font("DePixel", Font.PLAIN, 22));
         passwordField.setHorizontalAlignment(JTextField.LEFT);
+        passwordField.setMinimumSize(textFieldSize);
+        passwordField.setMaximumSize(textFieldSize);
         this.add(passwordField);
 
         double buttonLabelWidth = screenWidth/7.5;
