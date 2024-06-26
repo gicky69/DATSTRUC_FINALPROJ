@@ -14,12 +14,14 @@ public class Main {
         int screenWidth = (int)screenSize.getWidth();
         int screenHeight = (int)screenSize.getHeight();
 
+        System.out.println(screenWidth + " " + screenHeight);
+
         // directory for sfx and bgm
         soundManager = new SoundManager();
         soundManager.importFX("RobberyBob/resources/sound/sfx/");
         soundManager.importBGM("RobberyBob/resources/sound/bgm/landingPage/");
 
-        soundManager.playBGM();
+        //soundManager.playBGM();
         mainFrame = new Frame(screenWidth, screenHeight);
         landingPanel = new LandingPanel(mainFrame, soundManager);
 

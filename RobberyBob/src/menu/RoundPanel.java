@@ -222,7 +222,6 @@ public class RoundPanel extends  JPanel {
                         roundData[i] = Integer.parseInt(roundDataStrings[i]);
                     }
 
-
                     Map<String, Integer> difficultyIndexMap = new HashMap<>();
                     difficultyIndexMap.put("easy", 0);
                     difficultyIndexMap.put("medium", 1);

@@ -18,7 +18,8 @@ public class AccessPanel extends JPanel {
     SubPanels subPanels;
     JLabel loginButton, registerButton, resetButton, loginBG;
     JLabel usernameLabel, passwordLabel;
-    JTextField usernameField; JPasswordField passwordField;
+    public JTextField usernameField;
+    public JPasswordField passwordField;
     ImageIcon loginBGImg;
     public String playerInUse;
 
@@ -37,32 +38,39 @@ public class AccessPanel extends JPanel {
         double screenWidth = screenSize.getWidth();
         double screenHeight = screenSize.getHeight();
 
-        int textFieldWidth = 630;
-        int textFieldHeight = 55;
+        Dimension textFieldSize = new Dimension(630, 55);
         usernameLabel = new JLabel("Username");
-        usernameLabel.setBounds((((int) screenWidth/2))-(textFieldWidth/2),(int) screenHeight-800, textFieldWidth, textFieldHeight);
+        usernameLabel.setBounds((((int) screenWidth/2))-(textFieldSize.width/2),(int) screenHeight-800, textFieldSize.width, textFieldSize.height);
         Font userNameText = new Font("DePixel", Font.BOLD, 25);
         usernameLabel.setFont(userNameText);
         usernameLabel.setForeground(Color.WHITE);
+        usernameLabel.setMinimumSize(textFieldSize);
+        usernameLabel.setMaximumSize(textFieldSize);
         this.add(usernameLabel);
 
         usernameField = new JTextField("admin");
-        usernameField.setBounds((((int) screenWidth/2))-(textFieldWidth/2),(int) screenHeight-730, textFieldWidth, textFieldHeight);
+        usernameField.setBounds((((int) screenWidth/2))-(textFieldSize.width/2),(int) screenHeight-730, textFieldSize.width, textFieldSize.height);
         usernameField.setFont(new Font("DePixel", Font.PLAIN, 22));
         usernameField.setHorizontalAlignment(JTextField.LEFT);
+        usernameField.setMinimumSize(textFieldSize);
+        usernameField.setMaximumSize(textFieldSize);
         this.add(usernameField);
 
         passwordLabel = new JLabel("Password");
-        passwordLabel.setBounds((((int) screenWidth/2))-(textFieldWidth/2),(int) screenHeight-620, textFieldWidth, textFieldHeight);
+        passwordLabel.setBounds((((int) screenWidth/2))-(textFieldSize.width/2),(int) screenHeight-620, textFieldSize.width, textFieldSize.height);
         Font passwordText = new Font("DePixel", Font.BOLD, 25);
         passwordLabel.setFont(passwordText);
         passwordLabel.setForeground(Color.WHITE);
+        passwordLabel.setMinimumSize(textFieldSize);
+        passwordLabel.setMaximumSize(textFieldSize);
         this.add(passwordLabel);
 
         passwordField = new JPasswordField("admin");
-        passwordField.setBounds((((int) screenWidth/2))-(textFieldWidth/2),(int) screenHeight-560, textFieldWidth, textFieldHeight);
+        passwordField.setBounds((((int) screenWidth/2))-(textFieldSize.width/2),(int) screenHeight-560, textFieldSize.width, textFieldSize.height);
         passwordField.setFont(new Font("DePixel", Font.PLAIN, 22));
         passwordField.setHorizontalAlignment(JTextField.LEFT);
+        passwordField.setMinimumSize(textFieldSize);
+        passwordField.setMaximumSize(textFieldSize);
         this.add(passwordField);
 
         double buttonLabelWidth = screenWidth/7.5;
@@ -76,6 +84,8 @@ public class AccessPanel extends JPanel {
         )   .getImage().getScaledInstance((int) buttonLabelWidth, (int) buttonLabelHeight, Image.SCALE_REPLICATE);
         loginButton.setIcon(new ImageIcon(loginButtonNC));
         loginButton.setBounds((int) ((screenWidth-buttonLabelWidth)/2)-150, (int) y, (int) buttonLabelWidth, (int)buttonLabelHeight);
+        loginButton.setMaximumSize(new Dimension((int) buttonLabelWidth, (int) buttonLabelHeight));
+        loginButton.setMinimumSize(new Dimension((int) buttonLabelWidth, (int) buttonLabelHeight));
 
         resetButton = new JLabel();
         Image resetButtonNC = new ImageIcon("RobberyBob/resources/images/AccessPanel/resetNotClicked.png"
@@ -84,6 +94,9 @@ public class AccessPanel extends JPanel {
             ).getImage().getScaledInstance((int) buttonLabelWidth, (int) buttonLabelHeight, Image.SCALE_REPLICATE);
         resetButton.setIcon(new ImageIcon(resetButtonNC));
         resetButton.setBounds((int) ((screenWidth-buttonLabelWidth)/2)+150, (int) y, (int) buttonLabelWidth, (int)buttonLabelHeight);
+        resetButton.setMinimumSize(new Dimension((int) buttonLabelWidth, (int) buttonLabelHeight));
+        resetButton.setMaximumSize(new Dimension((int) buttonLabelWidth, (int) buttonLabelHeight));
+
 
         registerButton = new JLabel();
         Image registerButtonNC = new ImageIcon("RobberyBob/resources/images/AccessPanel/registerNotClicked.png"
@@ -92,6 +105,9 @@ public class AccessPanel extends JPanel {
             ).getImage().getScaledInstance((int) buttonLabelWidth, (int) buttonLabelHeight, Image.SCALE_REPLICATE);
         registerButton.setIcon(new ImageIcon(registerButtonNC));
         registerButton.setBounds((int) (screenWidth-buttonLabelWidth)/2, (int) (screenHeight/2) + 150, (int) buttonLabelWidth, (int)buttonLabelHeight);
+        registerButton.setMinimumSize(new Dimension((int) buttonLabelWidth, (int) buttonLabelHeight));
+        registerButton.setMaximumSize(new Dimension((int) buttonLabelWidth, (int) buttonLabelHeight));
+
 
         loginBG = new JLabel();
         loginBGImg = new ImageIcon("RobberyBob/resources/images/AccessPanel/menuPanelBG.png");
@@ -105,7 +121,7 @@ public class AccessPanel extends JPanel {
             @Override
             public void mousePressed(MouseEvent e) {
                 // will store true/false
-                playerInUse = userValidation.login(usernameField.getText(), passwordField.getText());
+                playerInUse = userValidation.login(usernameField.getText(), passwordField.getText(), usernameField, passwordField);
                 soundManager.playPressed();
 
                 if (playerInUse != null) {
@@ -138,7 +154,7 @@ public class AccessPanel extends JPanel {
             @Override
             public void mousePressed(MouseEvent e) {
                 soundManager.playPressed();
-                boolean isRegisterSuccessful = userValidation.register(usernameField.getText(), passwordField.getText());
+                boolean isRegisterSuccessful = userValidation.register(usernameField.getText(), passwordField.getText(), usernameField, passwordField);
                 if (isRegisterSuccessful) {
                     System.out.println("Registration Successful");
                     JOptionPane.showMessageDialog(null, "Registration Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -192,13 +208,15 @@ public class AccessPanel extends JPanel {
 
     }
 
-
     static class UserValidation {
-
         static final String DB_UserCredentials = "RobberyBob/resources/Database/users.txt";
         static final String DB_UserData = "RobberyBob/resources/Database/playerdata.txt";
+        JTextField userNameField;
+        JPasswordField passwordField;
 
-        public String login(String username, String password) {
+        public String login(String username, String password, JTextField userNameField, JPasswordField passwordField) {
+            this.userNameField = userNameField;
+            this.passwordField = passwordField;
 
             try (BufferedReader reader = new BufferedReader(new FileReader(DB_UserCredentials))) {
                 String line;
@@ -206,8 +224,6 @@ public class AccessPanel extends JPanel {
                     String[] user = line.split(":");
                     if (user[1].equals(username) && user[2].equals(password)) {
                         return user[0];
-                    } else{
-                        return null;
                     }
                 }
 
@@ -218,7 +234,24 @@ public class AccessPanel extends JPanel {
             return null;
         }
 
-        public boolean register(String username, String password) {
+        public boolean usernameExists(String username) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(DB_UserCredentials))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    String[] user = line.split(":");
+                    if (user.length > 1 && user[1].equals(username)) {
+                        return true;
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+
+        public boolean register(String username, String password, JTextField userNameField, JPasswordField passwordField) {
+            this.userNameField = userNameField;
+            this.passwordField = passwordField;
 
             UUID userID = UUID.randomUUID();
 
@@ -229,23 +262,29 @@ public class AccessPanel extends JPanel {
             } else if (username.contains(",") || username.contains(":")) {
                 JOptionPane.showMessageDialog(null, "Invalid username or password.", "Warning", JOptionPane.WARNING_MESSAGE);
                 return false;
+            } else if (usernameExists(username)) {
+                JOptionPane.showMessageDialog(null, "Username already exists.", "Warning", JOptionPane.WARNING_MESSAGE);
+                return false;
             }
             else {
 //
                 try (BufferedWriter writer = new BufferedWriter(new FileWriter(DB_UserCredentials, true))) {
+                    System.out.println("Adding credentials to txt");
                     writer.write(userID + ":" + username + ":" + password); //add credentials to db
                     writer.newLine();
 
                     //add player data to txt
                     try (BufferedWriter writer2 = new BufferedWriter(new FileWriter(DB_UserData, true))) {
-                        writer2.write(userID + ":" + "1,1,1"); //add player data to db (not finished)
+                        System.out.println("Adding player data to txt");
+                        writer2.write(userID + ":" + "1,1,1" + ":" + "0,0,0" );
                         writer2.newLine();
-                        writer2.flush();
-
 
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
+                    userNameField.setText("");
+                    passwordField.setText("");
 
                     return true;
                 } catch (IOException e) {
