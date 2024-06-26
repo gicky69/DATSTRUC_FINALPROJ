@@ -4,6 +4,7 @@ import entity.Player;
 import input.KeyInputs;
 import game.Game;
 import menu.RoundPanel;
+import sound.SoundManager;
 import tile.TileManager;
 
 import javax.swing.*;
