@@ -38,30 +38,29 @@ public class AccessPanel extends JPanel {
         double screenWidth = screenSize.getWidth();
         double screenHeight = screenSize.getHeight();
 
-        int textFieldWidth = 630;
-        int textFieldHeight = 55;
+        Dimension textFieldSize = new Dimension(630, 55);
         usernameLabel = new JLabel("Username");
-        usernameLabel.setBounds((((int) screenWidth/2))-(textFieldWidth/2),(int) screenHeight-800, textFieldWidth, textFieldHeight);
+        usernameLabel.setBounds((((int) screenWidth/2))-(textFieldSize.width/2),(int) screenHeight-800, textFieldSize.width, textFieldSize.height);
         Font userNameText = new Font("DePixel", Font.BOLD, 25);
         usernameLabel.setFont(userNameText);
         usernameLabel.setForeground(Color.WHITE);
         this.add(usernameLabel);
 
         usernameField = new JTextField("admin");
-        usernameField.setBounds((((int) screenWidth/2))-(textFieldWidth/2),(int) screenHeight-730, textFieldWidth, textFieldHeight);
+        usernameField.setBounds((((int) screenWidth/2))-(textFieldSize.width/2),(int) screenHeight-730, textFieldSize.width, textFieldSize.height);
         usernameField.setFont(new Font("DePixel", Font.PLAIN, 22));
         usernameField.setHorizontalAlignment(JTextField.LEFT);
         this.add(usernameField);
 
         passwordLabel = new JLabel("Password");
-        passwordLabel.setBounds((((int) screenWidth/2))-(textFieldWidth/2),(int) screenHeight-620, textFieldWidth, textFieldHeight);
+        passwordLabel.setBounds((((int) screenWidth/2))-(textFieldSize.width/2),(int) screenHeight-620, textFieldSize.width, textFieldSize.height);
         Font passwordText = new Font("DePixel", Font.BOLD, 25);
         passwordLabel.setFont(passwordText);
         passwordLabel.setForeground(Color.WHITE);
         this.add(passwordLabel);
 
         passwordField = new JPasswordField("admin");
-        passwordField.setBounds((((int) screenWidth/2))-(textFieldWidth/2),(int) screenHeight-560, textFieldWidth, textFieldHeight);
+        passwordField.setBounds((((int) screenWidth/2))-(textFieldSize.width/2),(int) screenHeight-560, textFieldSize.width, textFieldSize.height);
         passwordField.setFont(new Font("DePixel", Font.PLAIN, 22));
         passwordField.setHorizontalAlignment(JTextField.LEFT);
         this.add(passwordField);
@@ -77,6 +76,8 @@ public class AccessPanel extends JPanel {
         )   .getImage().getScaledInstance((int) buttonLabelWidth, (int) buttonLabelHeight, Image.SCALE_REPLICATE);
         loginButton.setIcon(new ImageIcon(loginButtonNC));
         loginButton.setBounds((int) ((screenWidth-buttonLabelWidth)/2)-150, (int) y, (int) buttonLabelWidth, (int)buttonLabelHeight);
+        loginButton.setMaximumSize(new Dimension((int) buttonLabelWidth, (int) buttonLabelHeight));
+        loginButton.setMinimumSize(new Dimension((int) buttonLabelWidth, (int) buttonLabelHeight));
 
         resetButton = new JLabel();
         Image resetButtonNC = new ImageIcon("RobberyBob/resources/images/AccessPanel/resetNotClicked.png"
@@ -85,6 +86,9 @@ public class AccessPanel extends JPanel {
             ).getImage().getScaledInstance((int) buttonLabelWidth, (int) buttonLabelHeight, Image.SCALE_REPLICATE);
         resetButton.setIcon(new ImageIcon(resetButtonNC));
         resetButton.setBounds((int) ((screenWidth-buttonLabelWidth)/2)+150, (int) y, (int) buttonLabelWidth, (int)buttonLabelHeight);
+        resetButton.setMinimumSize(new Dimension((int) buttonLabelWidth, (int) buttonLabelHeight));
+        resetButton.setMaximumSize(new Dimension((int) buttonLabelWidth, (int) buttonLabelHeight));
+
 
         registerButton = new JLabel();
         Image registerButtonNC = new ImageIcon("RobberyBob/resources/images/AccessPanel/registerNotClicked.png"
@@ -93,6 +97,9 @@ public class AccessPanel extends JPanel {
             ).getImage().getScaledInstance((int) buttonLabelWidth, (int) buttonLabelHeight, Image.SCALE_REPLICATE);
         registerButton.setIcon(new ImageIcon(registerButtonNC));
         registerButton.setBounds((int) (screenWidth-buttonLabelWidth)/2, (int) (screenHeight/2) + 150, (int) buttonLabelWidth, (int)buttonLabelHeight);
+        registerButton.setMinimumSize(new Dimension((int) buttonLabelWidth, (int) buttonLabelHeight));
+        registerButton.setMaximumSize(new Dimension((int) buttonLabelWidth, (int) buttonLabelHeight));
+
 
         loginBG = new JLabel();
         loginBGImg = new ImageIcon("RobberyBob/resources/images/AccessPanel/menuPanelBG.png");
