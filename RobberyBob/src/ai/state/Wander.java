@@ -62,27 +62,32 @@ public class Wander extends AIState {
             move(game, entity);
         }
 
-
         if (arrived(entity)) {
             entity.movement.stop();
         }
     }
 
     private boolean seeing(Game game, GameObject entity) {
-        boolean track = entity.los.LineOfSight(entity.getPosition().getX(), entity.getPosition().getY(), game.getPlayer().getPosition().getX(), game.getPlayer().getPosition().getY(), game.getMap());
+        boolean track = entity.los.LineOfSight(entity.getPosition().getX(), entity.getPosition().getY(), game.getPlayer().getPosition().getX(), game.getPlayer().getPosition().getY(), game.getMap(), 25 * game.getRoundDetail());
 
         return track;
     }
 
     //#region AI Movement
     private void getRandomPosition(Game game, GameObject entity) {
-        int x, y;
+        double radius = 100.0; // Define your radius here
+        Position currentPos = entity.getPosition();
+
+        double angle, x, y;
         do {
-            x = 1 + (int) (Math.random() * 78);
-            y = 1 + (int) (Math.random() * 38);
+            angle = Math.random() * 2 * Math.PI;
+            double distance = Math.random() * radius;
+            x = currentPos.getfX() + distance * Math.cos(angle);
+            y = currentPos.getfY() + distance * Math.sin(angle);
+
             System.out.println("Random Position: " + x + ", " + y);
-            targetPosition = new Position(x * 40, y * 40);
-        } while ((game.getMap().map[y][x] == 0 || game.getMap().map[y][x] == 2)
+            targetPosition = new Position((int)x, (int)y);
+        } while ((game.getMap().map[(int)y/40][(int)x/40] == 0 || game.getMap().map[(int)y/40][(int)x/40] == 2)
                 || !(targetPosition.getfX() > 50 && targetPosition.getfX() < 3150)
                 || !(targetPosition.getfY() > 50 && targetPosition.getfY() < 1500));
         //

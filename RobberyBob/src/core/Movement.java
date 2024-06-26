@@ -22,8 +22,8 @@ public class Movement {
             position.setfY(pos.getfY());
         }
         else {
-            position.setfX(position.getfX() - xvel * 4);
-            position.setfY(position.getfY() - yvel * 4);
+            position.setfX(position.getfX() - xvel * 3);
+            position.setfY(position.getfY() - yvel * 3);
         }
 
         //# region Collision

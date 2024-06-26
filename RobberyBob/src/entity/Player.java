@@ -31,6 +31,8 @@ public class Player extends GameObject {
     public ImageLoader imageLoader;
     private Rectangle hitbox;
 
+    private int stamina = 150;
+
 
     public Player(Position pos, Controller controller, GamePanel gamePanel, SubPanels subPanels) {
 
@@ -97,17 +99,22 @@ public class Player extends GameObject {
             imageLoader.currentFrameIndex = 0;
         }
 
-        if (controller.isSprinting()) {
+        if (controller.isSprinting() && stamina > 0) {
             footstep.setRadius(2.5f);
             footstep.setNoise(3.5f);
-            entitySpeed = 6;
+
+            // reduce stamina
+            stamina -= 1;
+            entitySpeed = 5;
     } else if (deltaX != 0 || deltaY != 0) {
             footstep.setRadius(0.7f);
             footstep.setNoise(1.0f);
+            stamina += 1;
             entitySpeed = 3;
         } if (controller.isSneaking()) {
             footstep.setNoise(0.2f);
             footstep.setRadius(0.5f);
+            stamina += 1;
             entitySpeed = 1.5;
             imageLoader.frameDelay = 350;
         } if (controller.isPaused()) {

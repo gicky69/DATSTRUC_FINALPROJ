@@ -42,7 +42,11 @@ public class pathfinder {
         // Get the walls
         for (int i=0;i<width;i++) {
             for (int j=0;j<height;j++) {
-                if (gameMap.map[j][i] == 0 || gameMap.map[j][i] == 2) {
+                if (gameMap.map[j][i] == 0 || gameMap.map[j][i] == 2
+                        || gameMap.map[j][i] == 21 || gameMap.map[j][i] == 9
+                        || gameMap.map[j][i] == 8 || gameMap.map[j][i] == 17
+                        || gameMap.map[j][i] == 31 || gameMap.map[j][i] == 33
+                        || gameMap.map[j][i] == 34 || gameMap.map[j][i] == 10) {
                     totalCosts[i][j] = -1;
                 }
             }

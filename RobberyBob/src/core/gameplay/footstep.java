@@ -33,14 +33,6 @@ public class footstep {
 
 
     public void draw(Graphics2D g2d, Position playerPosition, Game game) {
-        int radiusInPixels = (int) (radius * 100); // Convert radius to pixels if necessary
-        int diameter = radiusInPixels * 2;
-
-        Position camera = game.getCamera().getPosition();
-
-        float topLeftX = playerPosition.getfX() - camera.getfX() - radiusInPixels - 7;
-        float topLeftY = playerPosition.getfY() - camera.getfY() - radiusInPixels - 5;
-
-        g2d.drawOval((int)topLeftX, (int)topLeftY, diameter, diameter);
+        System.out.printf(":d");
     }
 }

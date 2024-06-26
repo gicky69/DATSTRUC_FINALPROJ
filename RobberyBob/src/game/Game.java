@@ -41,7 +41,8 @@ public class Game {
     private Player player;
 
     protected Timer time;
-    private AIManager aiManager;
+    private AIManager AIManager;
+    private List<AIManager> aiManagers;
     private NPCController NPCController = new NPCController();
     //#endregion
 
@@ -57,16 +58,49 @@ public class Game {
         p2d = new Physics2D();
         p2d.game = this;
         time = new Timer();
-        aiManager = new AIManager();
+        aiManagers = new ArrayList<>();
 
 
         AddPlayer(new Position(1500, 1000)); // This adds a player
-        AddEnemy(new Position(600, 500));
+
+        // Set Enemy Position to a valid position
+        int x = 0, y = 0;
+        for (int i=0;i< 5;i++) {
+            do {
+                x = randomPositionX();
+                y = randomPositionY();
+                AddEnemy(new Position(x * 40, y * 40));
+            }
+            while ((getMap().map[y][x] == 0 || getMap().map[y][x] == 2)
+                    || x > 50 && x < 3150
+                    || y > 50 && y < 1500);
+        }
+
+        // Add Items
+        int x1 = 0, y1 = 0;
+        for (int i=0;i< 5;i++) {
+            do {
+                x1 = randomPositionX();
+                y1 = randomPositionY();
+                AddItem(new Position(x1 * 40, y1 * 40));
+            }
+            while ((getMap().map[y1][x1] == 0 || getMap().map[y1][x1] == 2)
+                    || x1 > 50 && x1 < 3150
+                    || y1 > 50 && y1 < 1500);
+        }
+
+
 //        AddObject(2, new Position(600, 500)); // This creates an object called wall (this is to test the linecast collision)
         addWalls();
-        AddItem(new Position(500, 1500)); // This creates an item
-        AddItem(new Position(1000, 1000));
         entityCollision = new EntityCollision(gamePanel);
+    }
+
+    private int randomPositionY() {
+        return 1 + (int) (Math.random() * 38);
+    }
+
+    private int randomPositionX() {
+        return 1 + (int) (Math.random() * 78);
     }
 
     //#region Entity Management
@@ -99,6 +133,8 @@ public class Game {
         enemy.game = this; // Connect the enemy to the game master
         enemy.name = "Enemy";
         enemy.setController(NPCController);
+        AIManager aiManager = new AIManager();
+        aiManagers.add(aiManager);
     }
 
     // Adds an object
@@ -145,7 +181,10 @@ public class Game {
             gameObjects.forEach(GameObject::update);
             map.update();
             // GameObjects enemy index = 1
-            aiManager.update(this, gameObjects.get(1));
+            // Update each AIManager
+            for (int i = 0; i < aiManagers.size(); i++) {
+                aiManagers.get(i).update(this, gameObjects.get(i + 1)); // i + 1 because the first GameObject is the player
+            }
             entityCollision.tileChecker(gameObjects);
         }
         if (subPanels.roundOver && !isPaused) {
@@ -179,6 +218,10 @@ public class Game {
 
     public Player getPlayer() {
         return (Player) gameObjects.get(0);
+    }
+
+    public int getRoundDetail() {
+        return roundPanel.roundDetail;
     }
 
     //#endregion

@@ -34,6 +34,7 @@ public class Enemy extends GameObject {
     private int deltaY = 3;
 
     private boolean Pursuing = true;
+    boolean seen = false;
 
     private List<Position> pathToFollow;
     private int currentPathIndex;
@@ -66,7 +67,9 @@ public class Enemy extends GameObject {
     @Override
     public void update() {
         Player player = gamePanel.getPlayer();
-        if (this.getBounds().intersects(player.getBounds())) {
+        seen = this.los.LineOfSight(position.getX(), position.getY(), player.getPosition().getX(), player.getPosition().getY(), game.getMap(), 25 * game.getRoundDetail());
+        if (this.getBounds().intersects(player.getBounds()) && seen) {
+            seen = false;
             player.caught = true;
             System.out.println("IS CAUGHT: " + player.caught);
 
