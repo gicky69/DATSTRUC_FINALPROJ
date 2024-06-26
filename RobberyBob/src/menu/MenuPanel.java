@@ -54,7 +54,6 @@ public class MenuPanel extends JPanel {
         rulesLabel.setMinimumSize(new Dimension((int) buttonLabelWidth, (int) buttonLabelHeight));
         rulesLabel.setMaximumSize(new Dimension((int) buttonLabelWidth, (int) buttonLabelHeight));
 
-
         exitLabel = new JLabel();
         Image exitImageNC = new ImageIcon("RobberyBob/resources/images/MenuPanel/exitNotClicked.png"
             ).getImage().getScaledInstance((int) buttonLabelWidth, (int) buttonLabelHeight, Image.SCALE_REPLICATE);
@@ -68,14 +67,13 @@ public class MenuPanel extends JPanel {
 
         menuTitleLabel = new JLabel();
         double menuTitleWidth = screenWidth/1.5;
-        double menuTitleHeight = screenHeight-700;
+        double menuTitleHeight = screenHeight/3;
         Image menuTitleImgScaled = new ImageIcon("RobberyBob/resources/images/MenuPanel/menuPanelTitle.png"
             ).getImage().getScaledInstance((int) menuTitleWidth, (int) menuTitleHeight, Image.SCALE_REPLICATE);
         menuTitleLabel.setIcon(new ImageIcon(menuTitleImgScaled));
         menuTitleLabel.setBounds((int) (screenWidth/2)-(int) (screenWidth/3), 50, (int) menuTitleWidth, (int)menuTitleHeight);
         menuTitleLabel.setMinimumSize(new Dimension((int) menuTitleWidth, (int) menuTitleHeight));
         menuTitleLabel.setMaximumSize(new Dimension((int) menuTitleWidth, (int) menuTitleHeight));
-
 
         menuBGLabel = new JLabel();
         menuBGImg = new ImageIcon("RobberyBob/resources/images/MenuPanel/menuPanelBG.png");
