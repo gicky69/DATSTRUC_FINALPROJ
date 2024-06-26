@@ -31,7 +31,7 @@ public class Renderer {
             graphics.drawString("Item Collection Status: " + player.itemCollected,20,90);
 
             // draw player footstep radius
-            player.getFootstep().draw((Graphics2D) graphics, player.getPosition());
+            player.getFootstep().draw((Graphics2D) graphics, player.getPosition(), game);
 
             // Draw the player's hitbox for debugging
             if (player != null) {

@@ -98,15 +98,15 @@ public class Player extends GameObject {
         }
 
         if (controller.isSprinting()) {
-            footstep.setRadius(5.5f);
+            footstep.setRadius(2.5f);
             footstep.setNoise(3.5f);
             entitySpeed = 6;
     } else if (deltaX != 0 || deltaY != 0) {
-            footstep.setRadius(1.5f);
+            footstep.setRadius(0.7f);
             footstep.setNoise(1.0f);
             entitySpeed = 3;
         } if (controller.isSneaking()) {
-            footstep.setNoise(0.5f);
+            footstep.setNoise(0.2f);
             footstep.setRadius(0.5f);
             entitySpeed = 1.5;
             imageLoader.frameDelay = 350;

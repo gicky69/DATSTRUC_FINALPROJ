@@ -65,7 +65,6 @@ public class Enemy extends GameObject {
 
     @Override
     public void update() {
-        System.out.println("UPDATE ENEMY");
         Player player = gamePanel.getPlayer();
         if (this.getBounds().intersects(player.getBounds())) {
             player.caught = true;

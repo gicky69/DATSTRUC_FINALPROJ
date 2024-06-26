@@ -1,7 +1,6 @@
 package ai.state;
 
 import ai.AITransition;
-import core.Movement;
 import core.Position;
 import entity.GameObject;
 import game.Game;
@@ -15,10 +14,13 @@ public class Wander extends AIState {
     private final pathfinder pf;
     private int currentPathIndex = 1;
     Position targetPosition;
+    Position lastSeenPosition;
+    long lastSeenTime;
 
-    String state = "Stand";
 
     private boolean seen = false;
+    private boolean lostSight = false;
+    private boolean move = true;
 
     public Wander() {
         super();
@@ -28,17 +30,38 @@ public class Wander extends AIState {
 
     @Override
     protected AITransition initializeTransition() {
-        return state == "Pursue" ? new AITransition("Pursue", ((game, entity) -> seen)) : new AITransition("Stand", ((game, entity) -> arrived(entity)));
+        return new AITransition("Stand", ((game, entity) -> arrived(entity)));
     }
 
     @Override
     public void update(Game game, GameObject entity) {
-        if (targets.isEmpty()) {
-            System.out.println("Find Target again NIGGA");
+        boolean prevSeen = seen;
+        seen = seeing(game, entity);
+        System.out.println("Seen: " + seen);
+
+        if (seen) {
+            lastSeenPosition = game.getPlayer().getPosition();
+            lastSeenTime = System.currentTimeMillis();
+        }
+
+        if (prevSeen && !seen) {
+            lostSight = true;
+        }
+
+        // Delay for 5 seconds then wander
+        if (lostSight && System.currentTimeMillis() - lastSeenTime > 5000) {
+            targets.clear();
+            lostSight = false;
+        }
+
+        if (!seen && targets.isEmpty()){
             getRandomPosition(game, entity);
         }
 
-        move(game, entity);
+        if (move) {
+            move(game, entity);
+        }
+
 
         if (arrived(entity)) {
             entity.movement.stop();
@@ -48,11 +71,6 @@ public class Wander extends AIState {
     private boolean seeing(Game game, GameObject entity) {
         boolean track = entity.los.LineOfSight(entity.getPosition().getX(), entity.getPosition().getY(), game.getPlayer().getPosition().getX(), game.getPlayer().getPosition().getY(), game.getMap());
 
-        if (track){
-            System.out.println("Tracking!");
-        } else {
-            System.out.println("Not tracking!");
-        }
         return track;
     }
 
@@ -90,6 +108,13 @@ public class Wander extends AIState {
     }
 
     private void move(Game game, GameObject entity) {
+        if (seen) {
+            targets.clear();
+            targets = pathfinder.findPath(entity.getPosition(), lastSeenPosition, game.getMap());
+            currentPathIndex = 1;
+        }
+
+
         if (currentPathIndex < targets.size()) {
             System.out.println("Moving...");
             Position start = entity.getPosition();
