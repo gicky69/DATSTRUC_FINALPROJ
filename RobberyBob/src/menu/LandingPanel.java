@@ -19,8 +19,8 @@ public class LandingPanel extends JPanel {
     public LandingPanel(Frame mainFrame, SoundManager soundManager) {
         this.mainFrame = mainFrame;
         this.soundManager = soundManager;
+        this.subPanels = new SubPanels();
         this.setSize(mainFrame.frame.getWidth(), mainFrame.frame.getHeight());
-        subPanels = new SubPanels();
         this.setLayout(null);
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

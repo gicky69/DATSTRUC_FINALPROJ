@@ -59,9 +59,9 @@ public class Game {
         time = new Timer();
         aiManager = new AIManager();
 
+
         AddPlayer(new Position(1500, 1000)); // This adds a player
         AddEnemy(new Position(600, 500));
-        AddEnemy(new Position(1000, 1000));
 //        AddObject(2, new Position(600, 500)); // This creates an object called wall (this is to test the linecast collision)
         addWalls();
         AddItem(new Position(500, 1500)); // This creates an item
@@ -149,7 +149,7 @@ public class Game {
             entityCollision.tileChecker(gameObjects);
         }
         if (subPanels.roundOver && !isPaused) {
-            subPanels.setRoundOverPanel(gamePanel, this, roundPanel);
+            subPanels.roundOverPanel.setVisible(true);
             isPaused = !isPaused;
         }
     }

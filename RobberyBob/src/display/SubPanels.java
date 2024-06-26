@@ -264,19 +264,23 @@ public class SubPanels {
         roundOverPanel.add(nextButton);
         roundOverPanel.add(stage);
         roundOverPanel.add(background);
-        
+
+
         nextButton.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 roundOver = false;
                 roundOverPanel.setVisible(false);
                 updateScore(roundPanel.accessPanel.playerInUse);
+                player.itemsCollected = 0;
                 updateRoundDetails();
+                player.caught = false;
                 roundPanel.roundDetail++;
                 double width = roundPanel.getWidth();
                 double height = roundPanel.getHeight();
                 new Thread(new GameLoop(new Game(new Size((int)width, (int)height),(int)width, (int)height, roundPanel))).start();
 
+                roundOverPanel.setFocusable(false);
                 gamePanel.revalidate();
                 gamePanel.repaint();
                 game.isPaused = false;
@@ -312,8 +316,11 @@ public class SubPanels {
                 roundOverPanel.setVisible(false);
                 updateScore(roundPanel.accessPanel.playerInUse);
                 updateRoundDetails();
+                player.itemsCollected = 0;
+                player.caught = false;
                 roundPanel.updateDisplay();
                 roundPanel.mainFrame.frame.setVisible(true);
+                gamePanel.setVisible(false);
                 gamePanel.revalidate();
                 gamePanel.repaint();
                 game.isPaused = false;

@@ -36,7 +36,7 @@ public class GamePanel extends JFrame {
 
     public GamePanel(int width, int height, KeyInputs input, Camera camera, Game game,
                      SubPanels subPanels, RoundPanel roundPanel, ImageLoader imageLoader) {
-        this.subPanels = subPanels;
+        this.subPanels = new SubPanels();
         this.roundPanel = roundPanel;
         this.camera = camera;
         this.game = game;
@@ -44,6 +44,8 @@ public class GamePanel extends JFrame {
         this.imageLoader = imageLoader;
         tileManager = new TileManager(this, subPanels, roundPanel);
         subPanels.setPausePanel(this, game);
+
+
 
         // frame settings
         this.setLayout(null);
