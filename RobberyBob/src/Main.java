@@ -14,6 +14,8 @@ public class Main {
         int screenWidth = (int)screenSize.getWidth();
         int screenHeight = (int)screenSize.getHeight();
 
+        System.out.println(screenWidth + " " + screenHeight);
+
         // directory for sfx and bgm
         soundManager = new SoundManager();
         soundManager.importFX("RobberyBob/resources/sound/sfx/");
