@@ -286,6 +286,7 @@ public class RoundPanel extends  JPanel {
         int roundDetail = getRoundDetail(difficulty, roundNum);
 
         roundButton.addActionListener(e -> {
+            System.out.println("round button clicked");
             subPanels.setRoundDetail(roundDetail, this);
             mainFrame.frame.getContentPane().setVisible(false);
             mainFrame.frame.setVisible(false);

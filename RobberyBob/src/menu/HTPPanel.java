@@ -28,12 +28,16 @@ public class HTPPanel extends JPanel {
         double screenWidth = screenSize.getWidth();
         double screenHeight = screenSize.getHeight();
 
-        backButton = new JLabel();
-        backButton.setLayout(null);
-        backButton.setBounds(50, 25, 250, 150);
-        backButtonHighlight = new ImageIcon("RobberyBob/resources/images/buttons/backClicked-AllPanel.png");
-        backButtonIMG = new ImageIcon("RobberyBob/resources/images/buttons/backNotClicked-AllPanel.png");
-        backButton.setIcon(backButtonIMG);
+
+        JLabel backButton = new JLabel();
+        double backButtonWidth = screenWidth/6;
+        double backButtonHeight = screenHeight/13.5;
+        Image backButtonNC = new ImageIcon("RobberyBob/resources/images/HTPPanel/backButtonNotClicked.png"
+            ).getImage().getScaledInstance((int) backButtonWidth, (int) backButtonHeight, Image.SCALE_REPLICATE);
+        Image backButtonC = new ImageIcon("RobberyBob/resources/images/HTPPanel/backButtonClicked.png"
+            ).getImage().getScaledInstance((int) backButtonWidth, (int) backButtonHeight, Image.SCALE_REPLICATE);
+        backButton.setBounds(50, 50,  (int) backButtonWidth, (int) backButtonHeight);
+        backButton.setIcon(new ImageIcon(backButtonNC));
         this.add(backButton);
 
         JLabel htpTitle = new JLabel("HOW TO PLAY");
@@ -118,13 +122,13 @@ public class HTPPanel extends JPanel {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                backButton.setIcon(backButtonHighlight);
+                backButton.setIcon(new ImageIcon(backButtonC));
 
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                backButton.setIcon(backButtonIMG);
+                backButton.setIcon(new ImageIcon(backButtonNC));
 
             }
         });

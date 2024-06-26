@@ -162,7 +162,7 @@ public class Player extends GameObject {
         // 2D array, will check if player's position is on finish part and if item is collected
         if ((gamePanel.tileManager.tileMap[playerTileY][playerTileX] == 3 && itemCollected) && !caught){
             subPanels.roundOver = true;
-            System.out.println("ROUND OVER");
+            System.out.println("ROUND OVER FROM PLYER");
             System.out.println("Items collected: " + itemsCollected);
             gamePanel.roundPanel.updateDisplay();
             subPanels.setRoundOverPanel(gamePanel, game, gamePanel.roundPanel);
