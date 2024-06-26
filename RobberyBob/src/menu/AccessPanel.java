@@ -18,7 +18,8 @@ public class AccessPanel extends JPanel {
     SubPanels subPanels;
     JLabel loginButton, registerButton, resetButton, loginBG;
     JLabel usernameLabel, passwordLabel;
-    JTextField usernameField; JPasswordField passwordField;
+    public JTextField usernameField;
+    public JPasswordField passwordField;
     ImageIcon loginBGImg;
     public String playerInUse;
 
@@ -105,7 +106,7 @@ public class AccessPanel extends JPanel {
             @Override
             public void mousePressed(MouseEvent e) {
                 // will store true/false
-                playerInUse = userValidation.login(usernameField.getText(), passwordField.getText());
+                playerInUse = userValidation.login(usernameField.getText(), passwordField.getText(), usernameField, passwordField);
                 soundManager.playPressed();
 
                 if (playerInUse != null) {
@@ -138,7 +139,7 @@ public class AccessPanel extends JPanel {
             @Override
             public void mousePressed(MouseEvent e) {
                 soundManager.playPressed();
-                boolean isRegisterSuccessful = userValidation.register(usernameField.getText(), passwordField.getText());
+                boolean isRegisterSuccessful = userValidation.register(usernameField.getText(), passwordField.getText(), usernameField, passwordField);
                 if (isRegisterSuccessful) {
                     System.out.println("Registration Successful");
                     JOptionPane.showMessageDialog(null, "Registration Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -192,13 +193,15 @@ public class AccessPanel extends JPanel {
 
     }
 
-
     static class UserValidation {
-
         static final String DB_UserCredentials = "RobberyBob/resources/Database/users.txt";
         static final String DB_UserData = "RobberyBob/resources/Database/playerdata.txt";
+        JTextField userNameField;
+        JPasswordField passwordField;
 
-        public String login(String username, String password) {
+        public String login(String username, String password, JTextField userNameField, JPasswordField passwordField) {
+            this.userNameField = userNameField;
+            this.passwordField = passwordField;
 
             try (BufferedReader reader = new BufferedReader(new FileReader(DB_UserCredentials))) {
                 String line;
@@ -206,8 +209,6 @@ public class AccessPanel extends JPanel {
                     String[] user = line.split(":");
                     if (user[1].equals(username) && user[2].equals(password)) {
                         return user[0];
-                    } else{
-                        return null;
                     }
                 }
 
@@ -218,7 +219,24 @@ public class AccessPanel extends JPanel {
             return null;
         }
 
-        public boolean register(String username, String password) {
+        public boolean usernameExists(String username) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(DB_UserCredentials))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    String[] user = line.split(":");
+                    if (user.length > 1 && user[1].equals(username)) {
+                        return true;
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+
+        public boolean register(String username, String password, JTextField userNameField, JPasswordField passwordField) {
+            this.userNameField = userNameField;
+            this.passwordField = passwordField;
 
             UUID userID = UUID.randomUUID();
 
@@ -229,23 +247,29 @@ public class AccessPanel extends JPanel {
             } else if (username.contains(",") || username.contains(":")) {
                 JOptionPane.showMessageDialog(null, "Invalid username or password.", "Warning", JOptionPane.WARNING_MESSAGE);
                 return false;
+            } else if (usernameExists(username)) {
+                JOptionPane.showMessageDialog(null, "Username already exists.", "Warning", JOptionPane.WARNING_MESSAGE);
+                return false;
             }
             else {
 //
                 try (BufferedWriter writer = new BufferedWriter(new FileWriter(DB_UserCredentials, true))) {
+                    System.out.println("Adding credentials to txt");
                     writer.write(userID + ":" + username + ":" + password); //add credentials to db
                     writer.newLine();
 
                     //add player data to txt
                     try (BufferedWriter writer2 = new BufferedWriter(new FileWriter(DB_UserData, true))) {
-                        writer2.write(userID + ":" + "1,1,1"); //add player data to db (not finished)
+                        System.out.println("Adding player data to txt");
+                        writer2.write(userID + ":" + "1,1,1" + ":" + "0,0,0" );
                         writer2.newLine();
-                        writer2.flush();
-
 
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
+                    userNameField.setText("");
+                    passwordField.setText("");
 
                     return true;
                 } catch (IOException e) {

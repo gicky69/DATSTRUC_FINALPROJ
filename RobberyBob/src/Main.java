@@ -19,7 +19,7 @@ public class Main {
         soundManager.importFX("RobberyBob/resources/sound/sfx/");
         soundManager.importBGM("RobberyBob/resources/sound/bgm/landingPage/");
 
-        soundManager.playBGM();
+        //soundManager.playBGM();
         mainFrame = new Frame(screenWidth, screenHeight);
         landingPanel = new LandingPanel(mainFrame, soundManager);
 
