@@ -31,7 +31,6 @@ public class RoundPanel extends  JPanel {
     SoundManager soundManager;
     JLabel temp = new JLabel("Round Panel");
     JLabel backButton, roundLB;
-    ImageIcon backButtonIMG, backButtonHighlight, roundIMG;
 
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     double screenWidth = screenSize.getWidth();
@@ -262,11 +261,11 @@ public class RoundPanel extends  JPanel {
         roundButton.setMinimumSize(new Dimension((int) buttonLabelWidth, (int) buttonLabelHeight));
         roundButton.setMaximumSize(new Dimension((int) buttonLabelWidth, (int) buttonLabelHeight));
 
-        if (roundButton.isEnabled()) {
             roundButton.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent e) {
                     soundManager.playPressed();
+                    soundManager.stopBGM();
                     updateRoundDetail();
                     System.out.println("round button clicked");
                     subPanels.setRoundDetail(roundDetail, RoundPanel.this);
@@ -288,7 +287,7 @@ public class RoundPanel extends  JPanel {
                     roundButton.setIcon(new ImageIcon(roundButtonImageNC));
                 }
             });
-        }
+
 
         return roundButton;
     }

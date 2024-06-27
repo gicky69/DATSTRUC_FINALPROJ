@@ -20,6 +20,9 @@ import menu.RoundPanel;
 import sound.Sound;
 import sound.SoundManager;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.SQLOutput;
 import java.util.List;
 import java.util.ArrayList;
@@ -40,6 +43,7 @@ public class Game {
     public SubPanels subPanels;
     public RoundPanel roundPanel;
     public boolean isPaused = false;
+    SoundManager soundManager;
 
     private Player player;
 
@@ -63,8 +67,12 @@ public class Game {
         time = new Timer();
         aiManagers = new ArrayList<>();
 
+        soundManager = new SoundManager();
+        soundManager.importBGM("RobberyBob/resources/sound/bgm/game");
+        soundManager.playBGM();
 
-        AddPlayer(new Position(2841, 900)); // This adds a player
+        Position playerPosition = getSpawnCoordinates(roundPanel.roundDetail);
+        AddPlayer(playerPosition); //This adds a player
 
         // Set Enemy Position to a valid position
         AddEnemy2(); // Ang galing talaga ng name
@@ -93,11 +101,36 @@ public class Game {
         entityCollision = new EntityCollision(gamePanel);
     }
 
+    private Position getSpawnCoordinates(int roundDetail) {
+        String filePath = "RobberyBob/resources/database/playerspawn.txt";
+        String line;
+        Position position = null;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(":");
+                int round = Integer.parseInt(parts[0]);
+                if (round == roundDetail) {
+                    String[] coords = parts[1].split(",");
+                    int x = Integer.parseInt(coords[0]);
+                    int y = Integer.parseInt(coords[1]);
+                    position = new Position(x, y);
+                    break;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Player Spawn:" + position.getX() + ", " + position.getY());
+        return position;
+    }
+
     private void AddEnemy2() {
         int x = 0, y = 0;
         System.out.println("Round Detail: " + roundPanel.roundDetail);
         System.out.println("Max Enemy Count: " + (int) (roundPanel.roundDetail / 3));
-        int playerX = 2900 / 40; // Assuming player position is also in pixels
+        int playerX = 2841 / 40; // Assuming player position is also in pixels
         int playerY = 749 / 40;
         int safeRadius = 10; // Safe radius in tiles around the player
 
@@ -215,6 +248,8 @@ public class Game {
         }
         if (subPanels.roundOver && !isPaused) {
             isPaused = !isPaused;
+            soundManager.stopBGM();
+
         }
     }
 

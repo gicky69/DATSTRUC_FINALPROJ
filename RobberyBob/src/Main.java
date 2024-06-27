@@ -18,10 +18,10 @@ public class Main {
 
         // directory for sfx and bgm
         soundManager = new SoundManager();
-        soundManager.importFX("RobberyBob/resources/sound/sfx/");
+        soundManager.importFX("RobberyBob/resources/sound/sfx/menuPanel");
         soundManager.importBGM("RobberyBob/resources/sound/bgm/landingPage/");
 
-        //soundManager.playBGM();
+        soundManager.playBGM();
         mainFrame = new Frame(screenWidth, screenHeight);
         landingPanel = new LandingPanel(mainFrame, soundManager);
 

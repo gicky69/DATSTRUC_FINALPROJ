@@ -71,6 +71,13 @@ public class SoundManager {
         }
     }
 
+    public void stopBGM() {
+        if (!bgmTracks.isEmpty()) {
+            bgmSound.stopMusic();
+        }
+
+    }
+
     public void playPressed() {
         if (!buttonClickedSound.isEmpty()) {
             sfxSound.fx(buttonClickedSound);
@@ -85,6 +92,14 @@ public class SoundManager {
         if (!buttonHoveredSound.isEmpty()) {
             sfxSound.fx(buttonHoveredSound);
         }
+    }
+
+    public void playRoundWin() {
+        sfxSound.fx(sfxTracks.get(3));
+    }
+
+    public void playRoundLose() {
+        sfxSound.fx(sfxTracks.get(2));
     }
 
     public void setBGMVolume(float volume) {
