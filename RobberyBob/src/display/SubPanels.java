@@ -306,6 +306,10 @@ public class SubPanels {
         roundOverPanel.add(stage);
         roundOverPanel.add(background);
 
+        if (roundPanel.roundDetail == 15 || roundPanel.roundDetail == 25 || roundPanel.roundDetail == 35) {
+            nextButton.setVisible(false);
+        }
+
 
         nextButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -318,6 +322,9 @@ public class SubPanels {
                 updateRoundDetails();
                 player.caught = false;
                 roundPanel.roundDetail++;
+
+                System.out.println("round detail: " + roundPanel.roundDetail);
+
                 double width = roundPanel.getWidth();
                 double height = roundPanel.getHeight();
                 new Thread(new GameLoop(new Game(new Size((int)width, (int)height),(int)width, (int)height, roundPanel))).start();
