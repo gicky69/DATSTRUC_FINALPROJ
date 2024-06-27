@@ -20,6 +20,7 @@ public class GamePanel extends JFrame {
     public TileManager tileManager;
     public RoundPanel roundPanel;
     public Player player;
+    public SoundManager soundManager = new SoundManager();
 
     private Renderer renderer;
     public Camera camera;
@@ -44,9 +45,7 @@ public class GamePanel extends JFrame {
         this.renderer = new Renderer();
         this.imageLoader = imageLoader;
         tileManager = new TileManager(this, subPanels, roundPanel);
-        subPanels.setPausePanel(this, game);
-
-
+        subPanels.setPausePanel(this, game, roundPanel);
 
         // frame settings
         this.setLayout(null);

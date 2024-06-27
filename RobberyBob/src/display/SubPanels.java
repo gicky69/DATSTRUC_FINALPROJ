@@ -25,7 +25,7 @@ public class SubPanels {
     public JPanel pausePanel, roundOverPanel;
     public boolean roundOver = false;
     int roundDetail;
-    SoundManager soundManager = new SoundManager();
+    // directory for sfx and bgm
 
     public void setRoundDetail(int roundDetail, RoundPanel roundPanel) {
         this.roundDetail = roundDetail;
@@ -37,18 +37,37 @@ public class SubPanels {
         return roundDetail;
     }
 
-    public void setPausePanel(GamePanel gamePanel, Game game) {
+    public void setPausePanel(GamePanel gamePanel, Game game, RoundPanel roundPanel) {
         this.gamePanel = gamePanel;
+        this.roundPanel = roundPanel;
         pausePanel = new JPanel();
         pausePanel.setLayout(null);
         pausePanel.setVisible(false);
+        pausePanel.setSize(1000,500);
 
-        JLabel pauseLB = new JLabel();
-        pauseLB.setLayout(null);
-        pauseLB.setBounds(0,0,500,500);
-        ImageIcon pauseIMG = new ImageIcon("RobberyBob/resources/images/MainIBG/pauseBG-PausePanel.png");
-        pauseLB.setIcon(pauseIMG);
-        pausePanel.setSize(500, 500);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double screenWidth = screenSize.getWidth();
+        double screenHeight = screenSize.getHeight();
+
+        SoundManager soundManager = new SoundManager();
+        soundManager.importFX("RobberyBob/resources/sound/sfx/");
+        soundManager.importBGM("RobberyBob/resources/sound/bgm/landingPage/");
+
+//        JLabel pauseLB = new JLabel();
+//        pauseLB.setLayout(null);
+//        pauseLB.setBounds(0,0,500,500);
+//        ImageIcon pauseIMG = new ImageIcon("RobberyBob/resources/images/PausePanel/PausePanelBG.png");
+//        pauseLB.setIcon(pauseIMG);
+
+        JLabel pausePanelBG = new JLabel();
+        int pausePanelBGWidth = 1000;
+        int pausePanelBGHeight = 600;
+        Image pauseLBImage = new ImageIcon("RobberyBob/resources/images/PausePanel/PausePanelBG.png"
+            ).getImage().getScaledInstance(pausePanelBGWidth, pausePanelBGHeight, Image.SCALE_REPLICATE);
+        pausePanelBG.setBounds((int) (1000/2)-(pausePanelBGWidth/2),0,pausePanelBGWidth,pausePanelBGHeight);
+        pausePanelBG.setIcon(new ImageIcon(pauseLBImage));
+        pausePanel.add(pausePanelBG);
+
 
         gamePanel.addComponentListener(new ComponentAdapter() {
             @Override
@@ -59,11 +78,26 @@ public class SubPanels {
             }
         });
 
+        double buttonLabelWidth = screenWidth/5;
+        double buttonLabelHeight = screenHeight/11.5;
+
         JLabel resumeButton = new JLabel();
-        ImageIcon resumeButtonNC = new ImageIcon("RobberyBob/resources/images/buttons/resumeNotClicked-PausePanel.png");
-        resumeButton.setLayout(null);
-        resumeButton.setBounds(175,170,150,100);
-        resumeButton.setIcon(resumeButtonNC);
+        Image resumeButtonNC = new ImageIcon("RobberyBob/resources/images/PausePanel/resumeButtonNotClicked.png"
+            ).getImage().getScaledInstance((int) buttonLabelWidth, (int) (buttonLabelHeight), Image.SCALE_REPLICATE);
+        Image resumeButtonC = new ImageIcon("RobberyBob/resources/images/PausePanel/resumeButtonClicked.png"
+            ).getImage().getScaledInstance((int)(buttonLabelWidth), (int)(buttonLabelHeight), Image.SCALE_REPLICATE);
+        resumeButton.setBounds((int)  (pausePanelBGWidth/2-buttonLabelWidth/2),(int) (500/3), (int)buttonLabelWidth,(int) buttonLabelHeight);
+        resumeButton.setIcon(new ImageIcon(resumeButtonNC));
+        pausePanel.add(resumeButton);
+
+        JLabel quitButton = new JLabel();
+        Image quitButtonNC = new ImageIcon("RobberyBob/resources/images/PausePanel/quitButtonNotClicked.png"
+        ).getImage().getScaledInstance((int) buttonLabelWidth, (int) (buttonLabelHeight), Image.SCALE_REPLICATE);
+        Image quitButtonC = new ImageIcon("RobberyBob/resources/images/PausePanel/quitButtonClicked.png"
+        ).getImage().getScaledInstance((int)(buttonLabelWidth), (int)(buttonLabelHeight), Image.SCALE_REPLICATE);
+        quitButton.setBounds((int)  (pausePanelBGWidth/2-buttonLabelWidth/2),(int) (500/1.9), (int)buttonLabelWidth,(int) buttonLabelHeight);
+        quitButton.setIcon(new ImageIcon(quitButtonNC));
+        pausePanel.add(quitButton);
 
         resumeButton.addMouseListener(new MouseListener() {
             @Override
@@ -84,21 +118,15 @@ public class SubPanels {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                ImageIcon resumeButtonImageC = new ImageIcon("RobberyBob/resources/images/buttons/resumeClicked-PausePanel.png");
+                ImageIcon resumeButtonImageC = new ImageIcon(resumeButtonC);
                 resumeButton.setIcon(resumeButtonImageC);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                resumeButton.setIcon(resumeButtonNC);
+                resumeButton.setIcon(new ImageIcon(resumeButtonNC));
             }
         });
-
-        JLabel quitButton = new JLabel();
-        ImageIcon quitButtonNC = new ImageIcon("RobberyBob/resources/images/buttons/quitNotClicked-PausePanel.png");
-        quitButton.setLayout(null);
-        quitButton.setBounds(175,240,150,100);
-        quitButton.setIcon(quitButtonNC);
 
         quitButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -107,8 +135,8 @@ public class SubPanels {
                 game.isPaused = false;
                 roundOver = true;
                 pausePanel.setVisible(false);
-                roundPanel.updateDisplay();
                 roundPanel.mainFrame.frame.setVisible(true);
+                gamePanel.setVisible(false);
                 gamePanel.revalidate();
                 gamePanel.repaint();
 
@@ -117,21 +145,20 @@ public class SubPanels {
             @Override
             public void mouseEntered(MouseEvent e) {
                 soundManager.playHover();
-                ImageIcon quitImageC = new ImageIcon("RobberyBob/resources/images/buttons/quitClicked-PausePanel.png");
-                quitButton.setIcon(quitImageC);
+                quitButton.setIcon(new ImageIcon(quitButtonC));
 
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                quitButton.setIcon(quitButtonNC);
+                quitButton.setIcon(new ImageIcon(quitButtonNC));
 
             }
         });
 
         pausePanel.add(resumeButton);
         pausePanel.add(quitButton);
-        pausePanel.add(pauseLB);
+        pausePanel.add(pausePanelBG);
 
         gamePanel.setLayout(null);
         gamePanel.add(pausePanel);
@@ -140,7 +167,10 @@ public class SubPanels {
     public void setRoundOverPanel(GamePanel gamePanel, Game game, RoundPanel roundPanel) {
         this.gamePanel = gamePanel;
         this.roundPanel = roundPanel;
-        SoundManager soundManager1 = new SoundManager();
+
+        SoundManager soundManager = new SoundManager();
+        soundManager.importFX("RobberyBob/resources/sound/sfx/");
+        soundManager.importBGM("RobberyBob/resources/sound/bgm/landingPage/");
 
         System.out.println("CALLING SETROUNDOVER");
 
@@ -310,8 +340,17 @@ public class SubPanels {
                 soundManager.playPressed();
                 roundOver = false;
                 roundOverPanel.setVisible(false);
+
+//                if (!player.caught) {
+//                    System.out.println("updating score and round details");
+//                    updateScore(roundPanel.accessPanel.playerInUse);
+//                    updateRoundDetails();
+//                }
+
+                System.out.println("updating score and round details");
                 updateScore(roundPanel.accessPanel.playerInUse);
                 updateRoundDetails();
+
                 player.itemsCollected = 0;
                 player.caught = false;
                 roundPanel.updateDisplay();
@@ -340,21 +379,22 @@ public class SubPanels {
         retryButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                soundManager1.playPressed();
+                soundManager.playPressed();
                 roundOver = false;
                 roundOverPanel.setVisible(false);
-                updateScore(roundPanel.accessPanel.playerInUse);
                 player.itemsCollected = 0;
-                updateRoundDetails();
                 player.caught = false;
                 double width = roundPanel.getWidth();
                 double height = roundPanel.getHeight();
                 new Thread(new GameLoop(new Game(new Size((int)width, (int)height),(int)width, (int)height, roundPanel))).start();
 
                 roundOverPanel.setFocusable(false);
+                gamePanel.setVisible(false);
                 gamePanel.revalidate();
                 gamePanel.repaint();
                 game.isPaused = false;
+
+
 
             }
 
@@ -394,7 +434,7 @@ public class SubPanels {
                 break;
         }
 
-        roundPanel.updatePlayerRoundData(roundPanel.accessPanel.playerInUse, currentDifficultyindex);
+        roundPanel.updatePlayerRoundData(roundPanel.accessPanel.playerInUse, currentDifficultyindex, gamePanel);
 
     }
 
@@ -425,12 +465,25 @@ public class SubPanels {
                     int difficultyIndexNum = difficultyIndexMap.get(gamePanel.roundPanel.currentDifficulty);
 
                     // add scores to player data
-                    if (difficultyIndexNum == 0) {
-                        roundData[difficultyIndexNum] += 10 * player.itemsCollected;
-                    } else if (difficultyIndexNum == 1) {
-                        roundData[difficultyIndexNum] += 25 * player.itemsCollected;
-                    } else if (difficultyIndexNum == 2) {
-                        roundData[difficultyIndexNum] += 40 * player.itemsCollected;
+                    if (!player.caught) {
+                        if (difficultyIndexNum == 0) {
+                            roundData[difficultyIndexNum] += 10 * player.itemsCollected;
+                        } else if (difficultyIndexNum == 1) {
+                            roundData[difficultyIndexNum] += 25 * player.itemsCollected;
+                        } else if (difficultyIndexNum == 2) {
+                            roundData[difficultyIndexNum] += 40 * player.itemsCollected;
+                        }
+                    } else {
+                        if (roundData[difficultyIndexNum] > 0) {
+                            System.out.println("checker");
+                            if (difficultyIndexNum == 0) {
+                                roundData[difficultyIndexNum] -= 7;
+                            } else if (difficultyIndexNum == 1) {
+                                roundData[difficultyIndexNum] -= 14;
+                            } else if (difficultyIndexNum == 2) {
+                                roundData[difficultyIndexNum] -= 21;
+                            }
+                        }
                     }
 
                     StringBuilder sb = new StringBuilder();
@@ -444,7 +497,6 @@ public class SubPanels {
                     line = String.join(":", data);
                 }
                 fileContent.add(line);
-
             }
 
         } catch (IOException e) {

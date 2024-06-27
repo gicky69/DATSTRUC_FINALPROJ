@@ -13,6 +13,10 @@ public class Renderer {
         this.camera = game.getCamera();
         this.player = player;
 
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double screenWidth = screenSize.getWidth();
+        double screenHeight = screenSize.getHeight();
+
         // Draw the Player's sprite
         game.getGameObjects().forEach(gameObject -> {
             graphics.drawImage(gameObject.getSprite(),
@@ -22,13 +26,11 @@ public class Renderer {
             );
 
             // draw player position
-            graphics.setColor(Color.BLACK);
-            graphics.drawString("Player Position: ",20,50);
-            graphics.drawString("X: " + player.getPosition().getX() +" Y: "
-                    + player.getPosition().getY(),20,70);
+            graphics.setColor(Color.WHITE);
+            graphics.setFont(new Font("DePixel", Font.PLAIN, 15));
+            graphics.drawString("Stamina: " + player.stamina,(int) (screenWidth/1.1),(int) (screenHeight/5));
+            graphics.drawString("Items Collected: " + player.itemsCollected,(int) (screenWidth/1.14),(int) (screenHeight/5)+20);
 
-            // display item collection state
-            graphics.drawString("Item Collection Status: " + player.itemCollected,20,90);
 
             // draw player footstep radius
             player.getFootstep().draw((Graphics2D) graphics, player.getPosition(), game);
