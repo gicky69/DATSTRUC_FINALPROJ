@@ -52,6 +52,8 @@ public class LandingPanel extends JPanel {
             ).getImage().getScaledInstance((int) menuTitleWidth, (int) menuTitleHeight, Image.SCALE_REPLICATE);
         menuTitleLabel.setIcon(new ImageIcon(menuTitleImgScaled));
         menuTitleLabel.setBounds((int) (screenWidth-menuTitleWidth)/2, (int) (screenHeight/4.5), (int) menuTitleWidth, (int) menuTitleHeight);
+        menuTitleLabel.setMinimumSize(new Dimension((int) menuTitleWidth, (int) menuTitleHeight));
+        menuTitleLabel.setMaximumSize(new Dimension((int) menuTitleWidth, (int) menuTitleHeight));
 
         JLabel menuBGLabel = new JLabel();
         ImageIcon menuBGImg = new ImageIcon("RobberyBob/resources/images/MenuPanel/menuPanelBG.png");
@@ -60,6 +62,8 @@ public class LandingPanel extends JPanel {
         ImageIcon scaledImageIcon = new ImageIcon(scaledImage);
         menuBGLabel.setIcon(scaledImageIcon);
         menuBGLabel.setBounds(0, 0,  (int) screenWidth, (int) screenHeight);
+        menuBGLabel.setMinimumSize(new Dimension((int) screenWidth, (int) screenHeight));
+        menuBGLabel.setMaximumSize(new Dimension((int) screenWidth, (int) screenHeight));
 
 
         this.addMouseListener(new MouseAdapter() {

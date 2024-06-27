@@ -6,6 +6,7 @@ import entity.Player;
 import game.Game;
 import game.GameLoop;
 import menu.RoundPanel;
+import sound.SoundManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,9 +21,11 @@ import java.util.Map;
 public class SubPanels {
     GamePanel gamePanel;
     RoundPanel roundPanel;
+
     public JPanel pausePanel, roundOverPanel;
     public boolean roundOver = false;
     int roundDetail;
+    SoundManager soundManager = new SoundManager();
 
     public void setRoundDetail(int roundDetail, RoundPanel roundPanel) {
         this.roundDetail = roundDetail;
@@ -97,9 +100,10 @@ public class SubPanels {
         quitButton.setBounds(175,240,150,100);
         quitButton.setIcon(quitButtonNC);
 
-        quitButton.addMouseListener(new MouseListener() {
+        quitButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                soundManager.playPressed();
                 game.isPaused = false;
                 roundOver = true;
                 pausePanel.setVisible(false);
@@ -111,17 +115,8 @@ public class SubPanels {
             }
 
             @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
             public void mouseEntered(MouseEvent e) {
+                soundManager.playHover();
                 ImageIcon quitImageC = new ImageIcon("RobberyBob/resources/images/buttons/quitClicked-PausePanel.png");
                 quitButton.setIcon(quitImageC);
 
@@ -145,6 +140,7 @@ public class SubPanels {
     public void setRoundOverPanel(GamePanel gamePanel, Game game, RoundPanel roundPanel) {
         this.gamePanel = gamePanel;
         this.roundPanel = roundPanel;
+        SoundManager soundManager1 = new SoundManager();
 
         System.out.println("CALLING SETROUNDOVER");
 
@@ -163,7 +159,7 @@ public class SubPanels {
         Image bgWin = new ImageIcon("RobberyBob/resources/images/RoundOverPanel/backgroundWin.png"
             ).getImage().getScaledInstance(screenWidth, screenHeight, Image.SCALE_REPLICATE);
         Image bgLose = new ImageIcon("RobberyBob/resources/images/RoundOverPanel/backgroundLose.png"
-        ).getImage().getScaledInstance(screenWidth, screenHeight, Image.SCALE_REPLICATE);
+            ).getImage().getScaledInstance(screenWidth, screenHeight, Image.SCALE_REPLICATE);
         background.setBounds(0, 0,  (int) screenWidth, (int) screenHeight);
 
         // buttons' width and height
@@ -176,6 +172,8 @@ public class SubPanels {
         Image nextButtonC = new ImageIcon("RobberyBob/resources/images/RoundOverPanel/nextButtonClicked.png"
             ).getImage().getScaledInstance((int) buttonLabelWidth, (int) buttonLabelHeight, Image.SCALE_REPLICATE);
         nextButton.setIcon(new ImageIcon(nextButtonNC));
+        nextButton.setMinimumSize(new Dimension((int) buttonLabelWidth, (int) buttonLabelHeight));
+        nextButton.setMaximumSize(new Dimension((int) buttonLabelWidth, (int) buttonLabelHeight));
         nextButton.setVisible(false);
 
         JLabel retryButton = new JLabel();
@@ -184,6 +182,8 @@ public class SubPanels {
         Image retryButtonC = new ImageIcon("RobberyBob/resources/images/RoundOverPanel/retryButtonClicked.png"
         ).getImage().getScaledInstance((int) buttonLabelWidth, (int) buttonLabelHeight, Image.SCALE_REPLICATE);
         retryButton.setIcon(new ImageIcon(retryButtonNC));
+        retryButton.setMinimumSize(new Dimension((int) buttonLabelWidth, (int) buttonLabelHeight));
+        retryButton.setMaximumSize(new Dimension((int) buttonLabelWidth, (int) buttonLabelHeight));
         retryButton.setVisible(false);
 
         JLabel backButton = new JLabel();
@@ -192,13 +192,17 @@ public class SubPanels {
         Image backButtonC = new ImageIcon("RobberyBob/resources/images/RoundOverPanel/backButtonClicked.png"
             ).getImage().getScaledInstance((int) buttonLabelWidth, (int) buttonLabelHeight, Image.SCALE_REPLICATE);
         backButton.setIcon(new ImageIcon(backButtonNC));
+        backButton.setMinimumSize(new Dimension((int) buttonLabelWidth, (int) buttonLabelHeight));
+        backButton.setMaximumSize(new Dimension((int) buttonLabelWidth, (int) buttonLabelHeight));
 
         JLabel stage = new JLabel();
         Image stage1Image = new ImageIcon("RobberyBob/resources/images/RoundOverPanel/stage.png"
-        ).getImage().getScaledInstance((int) screenWidth, (int) screenHeight, Image.SCALE_REPLICATE);
+            ).getImage().getScaledInstance((int) screenWidth, (int) screenHeight, Image.SCALE_REPLICATE);
         Image stage2Image = new ImageIcon("RobberyBob/resources/images/RoundOverPanel/stage2.png"
             ).getImage().getScaledInstance((int) screenWidth, (int) screenHeight, Image.SCALE_REPLICATE);
         stage.setBounds(0, 0,  (int) screenWidth, (int) screenHeight);
+        stage.setMinimumSize(new Dimension((int) screenWidth, (int) screenHeight));
+        stage.setMaximumSize(new Dimension((int) screenWidth, (int) screenHeight));
 
         // SCORES
         JLabel greeting = new JLabel("");
@@ -266,9 +270,10 @@ public class SubPanels {
         roundOverPanel.add(background);
 
 
-        nextButton.addMouseListener(new MouseListener() {
+        nextButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                soundManager.playPressed();
                 roundOver = false;
                 roundOverPanel.setVisible(false);
                 updateScore(roundPanel.accessPanel.playerInUse);
@@ -288,19 +293,9 @@ public class SubPanels {
             }
 
             @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
             public void mouseEntered(MouseEvent e) {
+                soundManager.playHover();
                 nextButton.setIcon(new ImageIcon(nextButtonC));
-
             }
 
             @Override
@@ -309,9 +304,10 @@ public class SubPanels {
             }
         });
 
-        backButton.addMouseListener(new MouseListener() {
+        backButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                soundManager.playPressed();
                 roundOver = false;
                 roundOverPanel.setVisible(false);
                 updateScore(roundPanel.accessPanel.playerInUse);
@@ -328,17 +324,8 @@ public class SubPanels {
             }
 
             @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
             public void mouseEntered(MouseEvent e) {
+                soundManager.playHover();
                 backButton.setIcon(new ImageIcon(backButtonC));
 
             }
@@ -350,13 +337,40 @@ public class SubPanels {
             }
         });
 
+        retryButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                soundManager1.playPressed();
+                roundOver = false;
+                roundOverPanel.setVisible(false);
+                updateScore(roundPanel.accessPanel.playerInUse);
+                player.itemsCollected = 0;
+                updateRoundDetails();
+                player.caught = false;
+                double width = roundPanel.getWidth();
+                double height = roundPanel.getHeight();
+                new Thread(new GameLoop(new Game(new Size((int)width, (int)height),(int)width, (int)height, roundPanel))).start();
 
-        JButton nextRound = new JButton("Next Round");
-        JButton roundPanelButton = new JButton("Go Back");
-        nextRound.setSize(100, 50);
-        roundPanelButton.setSize(100, 50);
-        roundOverPanel.add(nextRound);
-        roundOverPanel.add(roundPanelButton);
+                roundOverPanel.setFocusable(false);
+                gamePanel.revalidate();
+                gamePanel.repaint();
+                game.isPaused = false;
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                soundManager.playHover();
+                retryButton.setIcon(new ImageIcon(retryButtonC));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                retryButton.setIcon(new ImageIcon(retryButtonNC));
+            }
+        });
+
+
         gamePanel.add(roundOverPanel);
 
         // Calculate the center position of the GamePanel

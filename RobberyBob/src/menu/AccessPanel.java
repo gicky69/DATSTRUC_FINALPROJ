@@ -38,9 +38,9 @@ public class AccessPanel extends JPanel {
         double screenWidth = screenSize.getWidth();
         double screenHeight = screenSize.getHeight();
 
-        Dimension textFieldSize = new Dimension(630, 55);
+        Dimension textFieldSize = new Dimension((int) (screenWidth/2.9), (int) (screenHeight*.055));
         usernameLabel = new JLabel("Username");
-        usernameLabel.setBounds((((int) screenWidth/2))-(textFieldSize.width/2),(int) screenHeight-800, textFieldSize.width, textFieldSize.height);
+        usernameLabel.setBounds((((int) screenWidth/2))-(textFieldSize.width/2),(int) (screenHeight/4) , textFieldSize.width, textFieldSize.height);
         Font userNameText = new Font("DePixel", Font.BOLD, 25);
         usernameLabel.setFont(userNameText);
         usernameLabel.setForeground(Color.WHITE);
@@ -49,7 +49,7 @@ public class AccessPanel extends JPanel {
         this.add(usernameLabel);
 
         usernameField = new JTextField("admin");
-        usernameField.setBounds((((int) screenWidth/2))-(textFieldSize.width/2),(int) screenHeight-730, textFieldSize.width, textFieldSize.height);
+        usernameField.setBounds((((int) screenWidth/2))-(textFieldSize.width/2),(int) (screenHeight/3.2), textFieldSize.width, textFieldSize.height);
         usernameField.setFont(new Font("DePixel", Font.PLAIN, 22));
         usernameField.setHorizontalAlignment(JTextField.LEFT);
         usernameField.setMinimumSize(textFieldSize);
@@ -57,7 +57,7 @@ public class AccessPanel extends JPanel {
         this.add(usernameField);
 
         passwordLabel = new JLabel("Password");
-        passwordLabel.setBounds((((int) screenWidth/2))-(textFieldSize.width/2),(int) screenHeight-620, textFieldSize.width, textFieldSize.height);
+        passwordLabel.setBounds((((int) screenWidth/2))-(textFieldSize.width/2),(int) (screenHeight/2.5), textFieldSize.width, textFieldSize.height);
         Font passwordText = new Font("DePixel", Font.BOLD, 25);
         passwordLabel.setFont(passwordText);
         passwordLabel.setForeground(Color.WHITE);
@@ -66,7 +66,7 @@ public class AccessPanel extends JPanel {
         this.add(passwordLabel);
 
         passwordField = new JPasswordField("admin");
-        passwordField.setBounds((((int) screenWidth/2))-(textFieldSize.width/2),(int) screenHeight-560, textFieldSize.width, textFieldSize.height);
+        passwordField.setBounds((((int) screenWidth/2))-(textFieldSize.width/2),(int) (screenHeight/2.2), textFieldSize.width, textFieldSize.height);
         passwordField.setFont(new Font("DePixel", Font.PLAIN, 22));
         passwordField.setHorizontalAlignment(JTextField.LEFT);
         passwordField.setMinimumSize(textFieldSize);
@@ -108,7 +108,6 @@ public class AccessPanel extends JPanel {
         registerButton.setMinimumSize(new Dimension((int) buttonLabelWidth, (int) buttonLabelHeight));
         registerButton.setMaximumSize(new Dimension((int) buttonLabelWidth, (int) buttonLabelHeight));
 
-
         loginBG = new JLabel();
         loginBGImg = new ImageIcon("RobberyBob/resources/images/AccessPanel/menuPanelBG.png");
         Image image = loginBGImg.getImage();
@@ -116,6 +115,8 @@ public class AccessPanel extends JPanel {
         ImageIcon scaledImageIcon = new ImageIcon(scaledImage);
         loginBG.setIcon(scaledImageIcon);
         loginBG.setBounds(0, 0,  (int) screenWidth, (int) screenHeight);
+        loginBG.setMinimumSize(new Dimension((int) screenWidth, (int) screenHeight));
+        loginBG.setMaximumSize(new Dimension((int) screenWidth, (int) screenHeight));
 
         loginButton.addMouseListener(new MouseAdapter() {
             @Override
