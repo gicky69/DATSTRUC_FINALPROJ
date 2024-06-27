@@ -18,6 +18,7 @@ import display.GamePanel;
 import map.GameMap;
 import menu.RoundPanel;
 
+import java.sql.SQLOutput;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -61,20 +62,10 @@ public class Game {
         aiManagers = new ArrayList<>();
 
 
-        AddPlayer(new Position(1500, 1000)); // This adds a player
+        AddPlayer(new Position(2841, 749)); // This adds a player
 
         // Set Enemy Position to a valid position
-        int x = 0, y = 0;
-        for (int i=0;i< 5;i++) {
-            do {
-                x = randomPositionX();
-                y = randomPositionY();
-                AddEnemy(new Position(x * 40, y * 40));
-            }
-            while ((getMap().map[y][x] == 0 || getMap().map[y][x] == 2)
-                    || x > 50 && x < 3150
-                    || y > 50 && y < 1500);
-        }
+        AddEnemy2(); // Ang galing talaga ng name
 
         // Add Items
         int x1 = 0, y1 = 0;
@@ -84,7 +75,12 @@ public class Game {
                 y1 = randomPositionY();
                 AddItem(new Position(x1 * 40, y1 * 40));
             }
-            while ((getMap().map[y1][x1] == 0 || getMap().map[y1][x1] == 2)
+            while ((getMap().map[y1][x1] == 0 || getMap().map[y1][x1] == 2
+                    || getMap().map[y1][x1] == 21 || getMap().map[y1][x1] == 9
+                    || getMap().map[y1][x1] == 8 || getMap().map[y1][x1] == 17
+                    || getMap().map[y1][x1] == 31 || getMap().map[y1][x1] == 33
+                    || getMap().map[y1][x1] == 34 || getMap().map[y1][x1] == 10
+                    || getMap().map[y1][x1] == 13 || getMap().map[y1][x1] == 14)
                     || x1 > 50 && x1 < 3150
                     || y1 > 50 && y1 < 1500);
         }
@@ -93,6 +89,34 @@ public class Game {
 //        AddObject(2, new Position(600, 500)); // This creates an object called wall (this is to test the linecast collision)
         addWalls();
         entityCollision = new EntityCollision(gamePanel);
+    }
+
+    private void AddEnemy2() {
+        int x = 0, y = 0;
+        System.out.println("Round Detail: " + roundPanel.roundDetail);
+        System.out.println("Max Enemy Count: " + (int) (roundPanel.roundDetail / 3));
+        int playerX = 2841 / 40; // Assuming player position is also in pixels
+        int playerY = 749 / 40;
+        int safeRadius = 10; // Safe radius in tiles around the player
+
+        for (int i=0; i <= (int) (roundPanel.roundDetail / 3); i++) {
+            do {
+                x = randomPositionX();
+                y = randomPositionY();
+            }
+            while ((getMap().map[y][x] == 0 || getMap().map[y][x] == 2
+                    || getMap().map[y][x] == 21 || getMap().map[y][x] == 9
+                    || getMap().map[y][x] == 8 || getMap().map[y][x] == 17
+                    || getMap().map[y][x] == 31 || getMap().map[y][x] == 33
+                    || getMap().map[y][x] == 34 || getMap().map[y][x] == 10
+                    || getMap().map[y][x] == 13 || getMap().map[y][x] == 14)
+                    || x > 50 && x < 3150
+                    || y > 50 && y < 1500
+                    || Math.sqrt(Math.pow(x - playerX, 2) + Math.pow(y - playerY, 2)) < safeRadius); // Check if within safe radius
+
+            AddEnemy(new Position(x * 40, y * 40));
+            System.out.println("Enemy count: " + i);
+        }
     }
 
     private int randomPositionY() {

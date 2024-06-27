@@ -96,6 +96,7 @@ public class Wander extends AIState {
 //            System.out.println("X: " + x + " Y: " + y);
 //            targetPosition = new Position((int)x, (int)y);
 //        } while (game.getMap().map[(int)y][(int)x] == 0 || game.getMap().map[(int)y][(int)x] == 2);
+
         Position startPosition = entity.getPosition();
 
         //System.out.println("Current Position: " + entity.getPosition().getfX() + ", " + entity.getPosition().getfY());

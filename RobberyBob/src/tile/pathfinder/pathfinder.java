@@ -46,7 +46,8 @@ public class pathfinder {
                         || gameMap.map[j][i] == 21 || gameMap.map[j][i] == 9
                         || gameMap.map[j][i] == 8 || gameMap.map[j][i] == 17
                         || gameMap.map[j][i] == 31 || gameMap.map[j][i] == 33
-                        || gameMap.map[j][i] == 34 || gameMap.map[j][i] == 10) {
+                        || gameMap.map[j][i] == 34 || gameMap.map[j][i] == 10
+                        || gameMap.map[j][i] == 14) {
                     totalCosts[i][j] = -1;
                 }
             }
