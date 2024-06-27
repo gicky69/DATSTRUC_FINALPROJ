@@ -1,6 +1,7 @@
 package menu;
 
 import javax.swing.*;
+import java.net.URL;
 
 public class Frame {
     public JFrame frame;
@@ -16,6 +17,11 @@ public class Frame {
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setVisible(true);
         frame.setFocusable(true);
+
+        URL iconURL = getClass().getResource("/images/icon.png");
+        // iconURL is null when not found
+        ImageIcon icon = new ImageIcon(iconURL);
+        frame.setIconImage(icon.getImage());
     }
 
     public void update() {
