@@ -39,6 +39,7 @@ public class Wander extends AIState {
         seen = seeing(game, entity);
         System.out.println("Seen: " + seen);
 
+        // If seen
         if (seen) {
             lastSeenPosition = game.getPlayer().getPosition();
             lastSeenTime = System.currentTimeMillis();
