@@ -64,7 +64,7 @@ public class Game {
         aiManagers = new ArrayList<>();
 
 
-        AddPlayer(new Position(2841, 749)); // This adds a player
+        AddPlayer(new Position(2841, 900)); // This adds a player
 
         // Set Enemy Position to a valid position
         AddEnemy2(); // Ang galing talaga ng name
@@ -97,7 +97,7 @@ public class Game {
         int x = 0, y = 0;
         System.out.println("Round Detail: " + roundPanel.roundDetail);
         System.out.println("Max Enemy Count: " + (int) (roundPanel.roundDetail / 3));
-        int playerX = 2841 / 40; // Assuming player position is also in pixels
+        int playerX = 2900 / 40; // Assuming player position is also in pixels
         int playerY = 749 / 40;
         int safeRadius = 10; // Safe radius in tiles around the player
 
