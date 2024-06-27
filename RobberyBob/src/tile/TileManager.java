@@ -75,7 +75,7 @@ public class TileManager {
                         } else {
                             loadedTiles.add(i);
                         }
-                        if (i == 1 || i == 4 || i == 5 || i == 3) { // floors
+                        if (i == 1 || i == 3 || i == 4 || i == 5 || i == 11 || i == 13 || i == 19 || i == 20 || i == 22 || i == 23 || i == 32) { // floors
                             tile[i].collision = false;
                         }
 
