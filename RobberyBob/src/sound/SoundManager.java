@@ -102,6 +102,7 @@ public class SoundManager {
         sfxSound.fx(sfxTracks.get(2));
     }
 
+
     public void setBGMVolume(float volume) {
         bgmSound.fadeVolume(volume, 1500);
 
