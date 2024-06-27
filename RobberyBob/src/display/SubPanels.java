@@ -25,7 +25,7 @@ public class SubPanels {
     public JPanel pausePanel, roundOverPanel;
     public boolean roundOver = false;
     int roundDetail;
-    // directory for sfx and bgm
+    private boolean soundPlayed = false;
 
     public void setRoundDetail(int roundDetail, RoundPanel roundPanel) {
         this.roundDetail = roundDetail;
@@ -50,8 +50,8 @@ public class SubPanels {
         double screenHeight = screenSize.getHeight();
 
         SoundManager soundManager = new SoundManager();
-        soundManager.importFX("RobberyBob/resources/sound/sfx/");
         soundManager.importBGM("RobberyBob/resources/sound/bgm/landingPage/");
+        soundManager.importFX("RobberyBob/resources/sound/sfx/game");
 
 //        JLabel pauseLB = new JLabel();
 //        pauseLB.setLayout(null);
@@ -169,7 +169,7 @@ public class SubPanels {
         this.roundPanel = roundPanel;
 
         SoundManager soundManager = new SoundManager();
-        soundManager.importFX("RobberyBob/resources/sound/sfx/");
+        soundManager.importFX("RobberyBob/resources/sound/sfx/game");
         soundManager.importBGM("RobberyBob/resources/sound/bgm/landingPage/");
 
         System.out.println("CALLING SETROUNDOVER");
@@ -184,6 +184,14 @@ public class SubPanels {
         roundOverPanel.setLayout(null);
         roundOverPanel.setSize(screenWidth, screenHeight);
         roundOverPanel.setVisible(false);
+
+        if (!player.caught && !soundPlayed) {
+            soundManager.playRoundWin();
+            soundPlayed = true;
+        } else if(!soundPlayed) {
+            soundManager.playRoundLose();
+            soundPlayed = true;
+        }
 
         JLabel background = new JLabel();
         Image bgWin = new ImageIcon("RobberyBob/resources/images/RoundOverPanel/backgroundWin.png"
@@ -261,7 +269,6 @@ public class SubPanels {
                 break;
         }
 
-        System.out.println(player.caught);
         // Check if player is caught
         if (player.caught) {
             background.setIcon(new ImageIcon(bgLose));
