@@ -10,7 +10,7 @@ import tile.TileManager;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
-
+import java.net.URL;
 
 
 public class GamePanel extends JFrame {
@@ -46,6 +46,11 @@ public class GamePanel extends JFrame {
         this.imageLoader = imageLoader;
         tileManager = new TileManager(this, subPanels, roundPanel);
         subPanels.setPausePanel(this, game, roundPanel);
+
+        URL iconURL = getClass().getResource("/images/icon.png");
+        // iconURL is null when not found
+        ImageIcon icon = new ImageIcon(iconURL);
+        this.setIconImage(icon.getImage());
 
         // frame settings
         this.setLayout(null);

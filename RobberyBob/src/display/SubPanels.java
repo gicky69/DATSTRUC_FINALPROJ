@@ -330,6 +330,7 @@ public class SubPanels {
                 new Thread(new GameLoop(new Game(new Size((int)width, (int)height),(int)width, (int)height, roundPanel))).start();
 
                 roundOverPanel.setFocusable(false);
+                gamePanel.setVisible(false);
                 gamePanel.revalidate();
                 gamePanel.repaint();
                 game.isPaused = false;
