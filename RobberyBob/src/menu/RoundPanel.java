@@ -1,7 +1,9 @@
 package menu;
 
 import core.Size;
+import display.GamePanel;
 import display.SubPanels;
+import entity.Player;
 import game.Game;
 import game.GameLoop;
 import sound.*;
@@ -19,6 +21,7 @@ public class RoundPanel extends  JPanel {
     public Frame mainFrame;
     public AccessPanel accessPanel;
     public SubPanels subPanels;
+    public GamePanel gamePanel;
     public int roundDetail;
     public int[] currentRound;
     public String currentDifficulty;
@@ -87,7 +90,6 @@ public class RoundPanel extends  JPanel {
         createDifficultyButtons(easyDifficulty, currentRound[0], ((int) screenWidth/2)/5, "easy");
         createDifficultyButtons(mediumDifficulty, currentRound[1], (int) ((screenWidth/2)-buttonLabelWidth/2), "medium");
         createDifficultyButtons(hardDifficulty, currentRound[2], ((int) screenWidth/2)+((int) screenWidth/2)/2, "hard");
-
 
         backButton = new JLabel();
         double backButtonWidth = screenWidth/6;
@@ -165,7 +167,8 @@ public class RoundPanel extends  JPanel {
         this.roundDetail = subPanels.getRoundDetail();
     }
 
-    public void updatePlayerRoundData(String playerID, int difficultyIndex) {
+    public void updatePlayerRoundData(String playerID, int difficultyIndex, GamePanel gamePanel) {
+        this.gamePanel = gamePanel;
         System.out.println("RUNNING updatePlayerRoundData()");
         String filePath = "RobberyBob/resources/Database/playerdata.txt";
         List<String> fileContent = new ArrayList<>();
@@ -188,11 +191,15 @@ public class RoundPanel extends  JPanel {
                     difficultyIndexMap.put("hard", 2);
 
                     // check conditions for updating the round data
-                    int difficultyIndexNum = difficultyIndexMap.get(currentDifficulty);
-                    if (roundData[difficultyIndexNum] >= currentRound[difficultyIndexNum] &&
-                            roundDetail % 10 == currentRound[difficultyIndexNum]
-                            && roundData[difficultyIndexNum] <= 5) {
-                        roundData[difficultyIndexNum] += 1;
+                    Player player = gamePanel.getPlayer();
+
+                    if (!player.caught) {
+                        int difficultyIndexNum = difficultyIndexMap.get(currentDifficulty);
+                        if (roundData[difficultyIndexNum] >= currentRound[difficultyIndexNum] &&
+                                roundDetail % 10 == currentRound[difficultyIndexNum]
+                                && roundData[difficultyIndexNum] <= 5) {
+                            roundData[difficultyIndexNum] += 1;
+                        }
                     }
 
                     StringBuilder sb = new StringBuilder();
@@ -255,32 +262,34 @@ public class RoundPanel extends  JPanel {
         roundButton.setMinimumSize(new Dimension((int) buttonLabelWidth, (int) buttonLabelHeight));
         roundButton.setMaximumSize(new Dimension((int) buttonLabelWidth, (int) buttonLabelHeight));
 
-        roundButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                soundManager.playPressed();
-                updateRoundDetail();
-                System.out.println("round button clicked");
-                subPanels.setRoundDetail(roundDetail, RoundPanel.this);
-                mainFrame.frame.getContentPane().setVisible(false);
-                mainFrame.frame.setVisible(false);
-                mainFrame.update();
-                currentDifficulty = difficulty;
-                new Thread(new GameLoop(new Game(new Size((int)screenWidth, (int)screenHeight),(int)screenWidth, (int)screenHeight, RoundPanel.this))).start();
-            }
+        if (roundButton.isEnabled()) {
+            roundButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    soundManager.playPressed();
+                    updateRoundDetail();
+                    System.out.println("round button clicked");
+                    subPanels.setRoundDetail(roundDetail, RoundPanel.this);
+                    mainFrame.frame.getContentPane().setVisible(false);
+                    mainFrame.frame.setVisible(false);
+                    mainFrame.update();
+                    currentDifficulty = difficulty;
+                    new Thread(new GameLoop(new Game(new Size((int) screenWidth, (int) screenHeight), (int) screenWidth, (int) screenHeight, RoundPanel.this))).start();
+                }
 
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                soundManager.playHover();
-                roundButton.setIcon(new ImageIcon(roundButtonImageC));
-                soundManager.playHover();
-            }
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    soundManager.playHover();
+                    roundButton.setIcon(new ImageIcon(roundButtonImageC));
+                    soundManager.playHover();
+                }
 
-            @Override
-            public void mouseExited(MouseEvent e) {
-                roundButton.setIcon(new ImageIcon(roundButtonImageNC));
-            }
-        });
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    roundButton.setIcon(new ImageIcon(roundButtonImageNC));
+                }
+            });
+        }
 
         return roundButton;
     }

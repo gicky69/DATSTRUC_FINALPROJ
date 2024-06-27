@@ -17,6 +17,8 @@ import input.KeyInputs;
 import display.GamePanel;
 import map.GameMap;
 import menu.RoundPanel;
+import sound.Sound;
+import sound.SoundManager;
 
 import java.sql.SQLOutput;
 import java.util.List;
@@ -49,10 +51,10 @@ public class Game {
 
     public Game(Size windowsSize, int width, int height, RoundPanel roundPanel) {
         this.roundPanel = roundPanel;
-        subPanels = new SubPanels();
         imageLoader = new ImageLoader();
         input = new KeyInputs();
         camera = new Camera(windowsSize);
+        subPanels = new SubPanels();
         gamePanel = new GamePanel(width, height, input, camera, this, subPanels, roundPanel, imageLoader);
         map = new GameMap(gamePanel.getTileManager());
         gameObjects = new ArrayList<>();
@@ -212,7 +214,6 @@ public class Game {
             entityCollision.tileChecker(gameObjects);
         }
         if (subPanels.roundOver && !isPaused) {
-            subPanels.roundOverPanel.setVisible(true);
             isPaused = !isPaused;
         }
     }
