@@ -270,7 +270,6 @@ public class RoundPanel extends  JPanel {
                     updateRoundDetail();
                     System.out.println("round button clicked");
                     subPanels.setRoundDetail(roundDetail, RoundPanel.this);
-                    mainFrame.frame.getContentPane().setVisible(false);
                     mainFrame.frame.setVisible(false);
                     mainFrame.update();
                     currentDifficulty = difficulty;
