@@ -33,6 +33,6 @@ public class footstep {
 
 
     public void draw(Graphics2D g2d, Position playerPosition, Game game) {
-        System.out.printf(":d");
+
     }
 }

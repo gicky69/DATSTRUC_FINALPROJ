@@ -75,22 +75,28 @@ public class Wander extends AIState {
 
     //#region AI Movement
     private void getRandomPosition(Game game, GameObject entity) {
-        double radius = 100.0; // Define your radius here
-        Position currentPos = entity.getPosition();
-
-        double angle, x, y;
+        int x, y;
         do {
-            angle = Math.random() * 2 * Math.PI;
-            double distance = Math.random() * radius;
-            x = currentPos.getfX() + distance * Math.cos(angle);
-            y = currentPos.getfY() + distance * Math.sin(angle);
+            x = (int) (Math.random() * 78);
+            y = (int) (Math.random() * 38);
 
-            System.out.println("Random Position: " + x + ", " + y);
-            targetPosition = new Position((int)x, (int)y);
-        } while ((game.getMap().map[(int)y/40][(int)x/40] == 0 || game.getMap().map[(int)y/40][(int)x/40] == 2)
-                || !(targetPosition.getfX() > 50 && targetPosition.getfX() < 3150)
-                || !(targetPosition.getfY() > 50 && targetPosition.getfY() < 1500));
-        //
+            targetPosition = new Position(x * 40, y * 40);
+        } while (game.getMap().map[y][x] == 0 || game.getMap().map[y][x] == 2);
+
+//        double radius = 50.0; // Define your radius here
+//        double angle, distance, x, y;
+//
+//        do {
+//            angle = Math.random() * 2 * Math.PI; // Random angle in radians
+//            distance = Math.random() * radius; // Random distance within radius
+//
+//            x = entity.getPosition().getX() + distance * Math.cos(angle);
+//            y = entity.getPosition().getY() + distance * Math.sin(angle);
+//
+//            System.out.println("X: " + x + " Y: " + y);
+//            targetPosition = new Position((int)x, (int)y);
+//        } while (game.getMap().map[(int)y][(int)x] == 0 || game.getMap().map[(int)y][(int)x] == 2);
+
         Position startPosition = entity.getPosition();
 
         //System.out.println("Current Position: " + entity.getPosition().getfX() + ", " + entity.getPosition().getfY());
